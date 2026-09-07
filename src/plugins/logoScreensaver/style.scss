@@ -1,5 +1,5 @@
 .logoScreenSaver {
-    background: #101010;
+    background: #000;
     position: fixed;
     top: 0;
     left: 0;
@@ -10,9 +10,12 @@
 }
 
 .logoScreenSaverImage {
+    content: url('../../assets/img/velaris/velaris-logo.svg');
+    width: 120px;
     height: 120px;
+    object-fit: contain;
     position: absolute;
     top: 50%;
     margin-top: -60px;
-    margin-left: -197px;
+    margin-left: -60px;
 }
