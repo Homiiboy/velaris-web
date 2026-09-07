@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.6</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.7</strong></p>
 
 ---
 
@@ -22,7 +22,25 @@ The design language combines useful ideas found across modern streaming services
 
 Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
 
-## V0.0.6 — Login, Profiles & Account Experience
+## V0.0.7 — Cinematic Details
+
+V0.0.7 transforms the viewer-facing title detail experience for Movies, Series, Anime and Anime Movies into a cinematic Velaris layout while retaining the existing server-backed detail and playback logic underneath.
+
+The milestone includes:
+
+- full-bleed backdrop presentation with layered cinematic scrims and support for title-logo artwork
+- a stronger streaming-style title hierarchy with cleaner metadata, genres, tagline and overview presentation
+- prominent Play, Resume, Restart and Trailer actions alongside restrained circular utility controls
+- refined media-version, video, audio and subtitle selectors in a dedicated glass surface
+- premium visual treatment for seasons, episodes, Next Up and other child-media sections
+- redesigned Cast & Crew, Collections and More Like This discovery rows
+- responsive detail layouts for desktop, mobile and TV with dedicated focus states
+- reduced-motion handling for detail-page transitions and microinteractions
+- one coherent detail architecture where Anime follows Series behavior and Anime Movies follow Movie behavior without duplicating playback logic
+
+Playback, resume state, trailers, favorites, watched state, downloads, media-source selection, subtitles, episode loading, cast data, collections, recommendations and Jellyfin server APIs remain unchanged. V0.0.7 is deliberately isolated in the Velaris presentation layer so the underlying media behavior stays compatible with upstream.
+
+## Previous milestone — V0.0.6
 
 V0.0.6 replaces the remaining viewer-facing account surfaces with a dedicated Velaris identity so entering, choosing and managing a profile feels like part of the streaming product rather than a server administration flow.
 
@@ -40,7 +58,7 @@ The milestone includes:
 
 Authentication, access tokens, permissions, Quick Connect and server APIs remain unchanged. V0.0.6 is a presentation and account-experience milestone rather than a replacement authentication system.
 
-## Previous milestone — V0.0.5
+## V0.0.5 — Home & Discovery
 
 V0.0.5 replaced the visible Jellyfin-style start-page hierarchy with the first full Velaris streaming home experience while keeping the proven server-backed home data underneath.
 

@@ -1,5 +1,48 @@
 # Velaris Web Changelog
 
+## V0.0.7 — 2026-09-07 — Cinematic Details
+
+### Added
+
+- dedicated Velaris cinematic detail styling for Movies, Series, Anime and Anime Movies
+- full-bleed title backdrops with layered cinematic scrims and title-logo artwork support
+- streaming-style Play, Resume, Restart and Trailer actions with restrained glass utility controls
+- refined metadata, genre, tagline and overview hierarchy
+- dedicated glass surface for media-version, video, audio and subtitle selectors
+- premium styling for seasons, episodes, Next Up and child-media sections
+- redesigned Cast & Crew, Collections and More Like This discovery rows
+- responsive desktop, mobile and TV layouts with dedicated focus treatment
+- reduced-motion handling for detail-page transitions and microinteractions
+- `details` module added to the Velaris style bundle
+- V0.0.7 implementation notes in `docs/V0.0.7.md`
+
+### Changed
+
+- title pages now prioritize cinematic artwork, playback and story information ahead of technical metadata
+- desktop poster artwork is visually deemphasized in favor of the backdrop, optional title logo and stronger title hierarchy
+- primary playback controls use a streaming-oriented visual hierarchy while existing action behavior remains intact
+- technical media selectors and detailed metadata remain available but are visually secondary to the viewer experience
+- episode, season and recommendation content now follows the same card/surface language as the Velaris Home experience
+- Anime reuses the Series detail architecture and Anime Movies reuse the Movie detail architecture so their library identity remains first-class without duplicating playback logic
+- V0.0.7 becomes the current completed Velaris milestone
+
+### Design direction
+
+- detail pages should feel like a title landing page from a modern streaming service rather than a media-server metadata screen
+- the backdrop and title information form one cinematic hero composition that fades naturally into episodes, cast and recommendations
+- controls remain restrained so the artwork and content hierarchy stay dominant
+- the layout is original to Velaris and combines cinematic backdrop emphasis with the existing reliable Jellyfin media behavior underneath
+
+### Validation
+
+- TypeScript, ESLint, Stylelint, unit tests and the production build are required by Velaris CI for the completed V0.0.7 state
+
+### Compatibility
+
+- playback, resume state, trailers, favorites, watched state, downloads, media-source selection, subtitles, episode loading, cast data, collections, recommendations and Jellyfin server APIs remain unchanged
+- V0.0.7 intentionally leaves the established detail controller responsible for data and behavior while Velaris controls the viewer-facing presentation
+- no new media metadata requirements are introduced; existing library artwork and title-logo images are used when available
+
 ## V0.0.6 — 2026-09-07 — Login, Profiles & Account Experience
 
 ### Added
