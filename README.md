@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.5</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.6</strong></p>
 
 ---
 
@@ -22,9 +22,27 @@ The design language combines useful ideas found across modern streaming services
 
 Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
 
-## V0.0.5 — Home & Discovery
+## V0.0.6 — Login, Profiles & Account Experience
 
-V0.0.5 replaces the visible Jellyfin-style start-page hierarchy with the first full Velaris streaming home experience while keeping the proven server-backed home data underneath.
+V0.0.6 replaces the remaining viewer-facing account surfaces with a dedicated Velaris identity so entering, choosing and managing a profile feels like part of the streaming product rather than a server administration flow.
+
+The milestone includes:
+
+- a dedicated near-black Velaris authentication shell with cyan, blue, violet and magenta ambient light instead of the previous splash-screen login presentation
+- a streaming-style profile picker using the public user profiles and profile images already provided by the connected server
+- circular profile artwork, stronger focus states and responsive profile grids for desktop, mobile and TV
+- a glass-style manual sign-in panel that keeps username, password and remember-me behavior intact
+- Velaris treatments for Quick Connect, password recovery, server selection and adding a server
+- a redesigned account popover with the active profile identity shown before profile, settings, administrative and sign-out actions
+- a cinematic user-profile page with a dedicated avatar hero, profile-image controls and a separated security/password surface
+- a new reusable `account` style module shared across authentication, profile and account-menu surfaces
+- restored V0.0.2 polish and microinteraction modules in the Velaris style bundle so later milestones retain the complete design foundation
+
+Authentication, access tokens, permissions, Quick Connect and server APIs remain unchanged. V0.0.6 is a presentation and account-experience milestone rather than a replacement authentication system.
+
+## Previous milestone — V0.0.5
+
+V0.0.5 replaced the visible Jellyfin-style start-page hierarchy with the first full Velaris streaming home experience while keeping the proven server-backed home data underneath.
 
 The milestone includes:
 
@@ -41,7 +59,7 @@ The milestone includes:
 
 The legacy Jellyfin home-section engine remains underneath for stable Continue Watching, Next Up, Recently Added and user-configurable sections, but its viewer-facing presentation is now controlled by the Velaris Home layer.
 
-## Previous milestone — V0.0.4
+## V0.0.4 — Dynamic Franchise Hubs
 
 V0.0.4 introduced the first Velaris-native universe and franchise layer. Hubs are generated from media that actually exists in the signed-in user's library, so empty franchise pages and empty sub-groups are never advertised in the normal viewer experience.
 

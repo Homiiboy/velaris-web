@@ -1,5 +1,45 @@
 # Velaris Web Changelog
 
+## V0.0.6 — 2026-09-07 — Login, Profiles & Account Experience
+
+### Added
+
+- dedicated Velaris account styling shared by authentication, profile selection, account menus and profile management
+- branded authentication shell with Velaris logo treatment and ambient cyan/violet lighting
+- streaming-style public-user profile picker with circular profile artwork and responsive desktop, mobile and TV layouts
+- Velaris manual sign-in panel while retaining the established username, password and remember-me controls
+- matching visual treatments for Quick Connect, password recovery, server selection and adding a server
+- active-profile identity header inside the application user menu
+- redesigned user-profile page with a cinematic avatar hero, image controls and dedicated security surface
+
+### Changed
+
+- the login route no longer relies on the previous splash-screen backdrop presentation
+- viewer-facing session pages now use the same Velaris visual language as Home, navigation and franchise hubs
+- profile cards receive dedicated focus, hover and reduced-motion-aware states instead of generic square library-card presentation
+- account-menu actions now sit beneath a clear current-profile identity instead of opening as an unbranded utility list
+- user-profile image and password management are visually grouped without changing their existing server behavior
+- the `polish` and `microinteractions` V0.0.2 modules are restored to the active Velaris style bundle
+- V0.0.6 becomes the current completed Velaris milestone
+
+### Design direction
+
+- entering Velaris should feel like entering a streaming service rather than administering a media server
+- profile selection is treated as a first-class viewer experience, especially for shared household use
+- technical server controls remain available when needed but are visually secondary to the profile and content experience
+- authentication screens use an original Velaris composition rather than reproducing a commercial streaming-service login layout
+
+### Validation
+
+- TypeScript, ESLint, Stylelint, unit tests and the production build are required by Velaris CI for the completed V0.0.6 state
+
+### Compatibility
+
+- username/password authentication, access tokens, Quick Connect, auto-login preferences, permissions and server APIs remain unchanged
+- public-user discovery continues to come from the connected server
+- profile-image upload/delete and password-management behavior continue to use the existing server-backed flows
+- no new authentication protocol or credential storage is introduced by V0.0.6
+
 ## V0.0.5 — 2026-09-07 — Home & Discovery
 
 ### Added
