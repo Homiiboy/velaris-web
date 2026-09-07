@@ -15,6 +15,7 @@ import LibraryIcon from 'apps/modern/components/LibraryIcon';
 import { MetaView } from 'apps/modern/constants/metaView';
 import { useAncestors } from 'apps/modern/features/libraries/hooks/api/useAncestors';
 import { isDetailsPath, isLibraryPath } from 'apps/modern/features/libraries/utils/path';
+import { sortVelarisLibraries } from 'apps/modern/utils/velarisNavigation';
 import { appRouter } from 'components/router/appRouter';
 import { useUserViews } from 'hooks/api/useUserViews';
 import { useApi } from 'hooks/useApi';
@@ -24,9 +25,9 @@ import globalize from 'lib/globalize';
 
 import UserViewsMenu from './UserViewsMenu';
 
-const MAX_USER_VIEWS_MD = 3;
-const MAX_USER_VIEWS_LG = 5;
-const MAX_USER_VIEWS_XL = 8;
+const MAX_USER_VIEWS_MD = 5;
+const MAX_USER_VIEWS_LG = 7;
+const MAX_USER_VIEWS_XL = 10;
 
 const OVERFLOW_MENU_ID = 'user-view-overflow-menu';
 
@@ -78,10 +79,15 @@ const UserViewNav = () => {
         isPending
     } = useUserViews({ userId: user?.Id });
 
+    const sortedUserViews = useMemo(
+        () => sortVelarisLibraries(userViews?.Items || []),
+        [ userViews ]
+    );
+
     const navItems = useMemo(() => [
-        ...(menuLinks || []),
-        ...(userViews?.Items || [])
-    ], [ menuLinks, userViews ]);
+        ...sortedUserViews,
+        ...(menuLinks || [])
+    ], [ menuLinks, sortedUserViews ]);
 
     const {
         data: ancestors
@@ -117,8 +123,8 @@ const UserViewNav = () => {
     }, []);
 
     const currentUserView = useMemo(() => (
-        getCurrentUserView(userViews?.Items, location.pathname, libraryId || ancestorLibraryId, collectionType, activeTab)
-    ), [ activeTab, collectionType, libraryId, ancestorLibraryId, location.pathname, userViews ]);
+        getCurrentUserView(sortedUserViews, location.pathname, libraryId || ancestorLibraryId, collectionType, activeTab)
+    ), [ activeTab, collectionType, libraryId, ancestorLibraryId, location.pathname, sortedUserViews ]);
 
     const isHomeSelected = location.pathname === HOME_PATH && activeTab === 0;
 

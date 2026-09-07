@@ -20,6 +20,8 @@ Velaris is designed as a standalone modern streaming experience, not as a visibl
 
 The design language combines useful ideas found across modern streaming services — content-first navigation, strong cinematic artwork, restrained chrome and responsive horizontal discovery — while keeping the resulting interface original to Velaris.
 
+Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
+
 ## V0.0.3 — Navigation & App Shell
 
 V0.0.3 introduces the first purpose-built Velaris application shell. The direction combines useful streaming-interface patterns without reproducing any one service: content-first horizontal navigation, strong brand hierarchy, immersive translucent chrome and a compact mobile drawer.
@@ -28,7 +30,10 @@ The current development scope includes:
 
 - an original translucent Velaris top navigation that visually blends into cinematic content
 - Velaris-first product branding without exposing server names or server versions in normal primary navigation
-- text-first desktop navigation for Home, Favorites, libraries and overflow items
+- text-first desktop navigation for Home, Favorites and streaming categories
+- priority placement for Movies, Series, Anime, Anime Movies and Collections when those libraries are available
+- larger desktop navigation capacity so those core destinations stay visible before falling into overflow
+- matching category order between the desktop navigation and mobile drawer
 - distinct active-section indicators based on the Velaris cyan-to-magenta gradient
 - a redesigned mobile drawer with clearer hierarchy and selected states
 - refined toolbar utility controls and responsive spacing

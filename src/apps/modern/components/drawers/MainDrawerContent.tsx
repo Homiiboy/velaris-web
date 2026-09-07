@@ -11,6 +11,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { sortVelarisLibraries } from 'apps/modern/utils/velarisNavigation';
 import ListItemLink from 'components/ListItemLink';
 import { appRouter } from 'components/router/appRouter';
 import { useUserViews } from 'hooks/api/useUserViews';
@@ -25,7 +26,7 @@ const MainDrawerContent = () => {
     const { user } = useApi();
     const location = useLocation();
     const { data: userViewsData } = useUserViews({ userId: user?.Id });
-    const userViews = userViewsData?.Items || [];
+    const userViews = sortVelarisLibraries(userViewsData?.Items || []);
     const webConfig = useWebConfig();
 
     const isHomeSelected = location.pathname === '/home' && (!location.search || location.search === '?tab=0');
@@ -55,33 +56,6 @@ const MainDrawerContent = () => {
                 </ListItem>
             </List>
 
-            {/* CUSTOM LINKS */}
-            {(!!webConfig.menuLinks && webConfig.menuLinks.length > 0) && (
-                <>
-                    <Divider />
-                    <List>
-                        {webConfig.menuLinks.map(menuLink => (
-                            <ListItem
-                                key={`${menuLink.name}_${menuLink.url}`}
-                                disablePadding
-                            >
-                                <ListItemButton
-                                    component='a'
-                                    href={menuLink.url}
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                >
-                                    <ListItemIcon>
-                                        <Icon>{menuLink.icon ?? 'link'}</Icon>
-                                    </ListItemIcon>
-                                    <ListItemText primary={menuLink.name} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
-                </>
-            )}
-
             {/* LIBRARY LINKS */}
             {userViews.length > 0 && (
                 <>
@@ -104,6 +78,33 @@ const MainDrawerContent = () => {
                                     </ListItemIcon>
                                     <ListItemText primary={view.Name} />
                                 </ListItemLink>
+                            </ListItem>
+                        ))}
+                    </List>
+                </>
+            )}
+
+            {/* CUSTOM LINKS */}
+            {(!!webConfig.menuLinks && webConfig.menuLinks.length > 0) && (
+                <>
+                    <Divider />
+                    <List>
+                        {webConfig.menuLinks.map(menuLink => (
+                            <ListItem
+                                key={`${menuLink.name}_${menuLink.url}`}
+                                disablePadding
+                            >
+                                <ListItemButton
+                                    component='a'
+                                    href={menuLink.url}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                >
+                                    <ListItemIcon>
+                                        <Icon>{menuLink.icon ?? 'link'}</Icon>
+                                    </ListItemIcon>
+                                    <ListItemText primary={menuLink.name} />
+                                </ListItemButton>
                             </ListItem>
                         ))}
                     </List>

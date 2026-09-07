@@ -10,6 +10,8 @@
 - dedicated mobile drawer treatment with stronger hierarchy and selected-state markers
 - app-shell classes that keep the new layout scoped to Velaris-specific styling
 - explicit Home destination in the desktop streaming navigation
+- Velaris-specific library ordering for Movies, Series, Anime, Anime Movies and Collections
+- shared library ordering between desktop navigation and the mobile drawer
 
 ### Changed
 
@@ -17,6 +19,8 @@
 - desktop navigation is now text-first with a restrained gradient active indicator instead of admin-style rounded controls
 - the Velaris brand mark now links directly to Home and receives a stronger streaming-service wordmark treatment
 - toolbar utility actions use lighter visual weight while the user avatar gets a subtle premium ring treatment
+- core media libraries are prioritized ahead of custom links so the main streaming destinations remain easy to reach
+- desktop navigation capacity was increased so Movies, Series, Anime, Anime Movies and Collections can remain visible on common desktop widths
 - mobile drawer sections use clearer spacing, stronger selected states and a cinematic black surface
 - the main application canvas now carries subtle cyan and violet ambient light from the Velaris palette
 
@@ -27,11 +31,13 @@
 - Paramount+ contributes the immersive relationship between navigation and cinematic content
 - Velaris combines those ideas into an original cyan/violet visual system rather than reproducing any service one-to-one
 - the normal viewer experience should feel like a standalone streaming service; Jellyfin terminology remains only where technically or legally appropriate
+- Movies, Series, Anime, Anime Movies and Collections are treated as first-class destinations in future home, discovery and detail layouts
 
 ### Compatibility
 
 - playback, authentication, Jellyfin server APIs and media handling remain unchanged
 - navigation behavior and route structure are preserved while the presentation layer is redesigned
+- library ordering recognizes common German and English names while preserving server order for unrelated custom libraries
 
 ## V0.0.2 — 2026-09-07 — Visual Foundation
 
