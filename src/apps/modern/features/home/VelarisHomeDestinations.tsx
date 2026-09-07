@@ -39,13 +39,13 @@ const VelarisHomeDestinations: FC = () => {
                     const category = getVelarisLibraryCategory(library);
                     const backdropTag = library.BackdropImageTags?.[0];
                     const primaryTag = library.ImageTags?.Primary;
-                    const artworkUrl = library.Id && __legacyApiClient__ && (backdropTag || primaryTag)
-                        ? __legacyApiClient__.getImageUrl(library.Id, {
+                    const artworkUrl = library.Id && __legacyApiClient__ && (backdropTag || primaryTag) ?
+                        __legacyApiClient__.getImageUrl(library.Id, {
                             type: backdropTag ? ImageType.Backdrop : ImageType.Primary,
                             tag: backdropTag || primaryTag,
                             maxWidth: 1000
-                        })
-                        : undefined;
+                        }) :
+                        undefined;
                     const route = toReactRoute(appRouter.getRouteUrl(library, {
                         context: library.CollectionType
                     }));

@@ -35,9 +35,9 @@ const getHeroMeta = (item: ItemDto) => {
     if (item.ProductionYear) values.push(String(item.ProductionYear));
     if (item.OfficialRating) values.push(item.OfficialRating);
 
-    const runtime = item.Type === BaseItemKind.Movie
-        ? formatRuntime(item.RunTimeTicks)
-        : undefined;
+    const runtime = item.Type === BaseItemKind.Movie ?
+        formatRuntime(item.RunTimeTicks) :
+        undefined;
     if (runtime) values.push(runtime);
 
     return values;
@@ -104,6 +104,11 @@ const VelarisHomeHero: FC = () => {
             serverId: activeItem.ServerId || __legacyApiClient__?.serverId()
         });
     }, [ __legacyApiClient__, activeItem ]);
+
+    const onIndicatorClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+        const index = Number(event.currentTarget.dataset.index);
+        if (Number.isInteger(index)) setActiveIndex(index);
+    }, []);
 
     if (query.isLoading || !activeItem) {
         return (
@@ -189,9 +194,10 @@ const VelarisHomeHero: FC = () => {
                             key={item.Id}
                             type='button'
                             className={`velaris-home-hero__indicator${index === activeIndex ? ' velaris-home-hero__indicator--active' : ''}`}
+                            data-index={index}
                             aria-label={`${item.Name} anzeigen`}
                             aria-current={index === activeIndex ? 'true' : undefined}
-                            onClick={() => setActiveIndex(index)}
+                            onClick={onIndicatorClick}
                         />
                     ))}
                 </div>
