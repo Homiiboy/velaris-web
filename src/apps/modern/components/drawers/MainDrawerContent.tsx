@@ -31,7 +31,7 @@ const MainDrawerContent = () => {
     const isHomeSelected = location.pathname === '/home' && (!location.search || location.search === '?tab=0');
 
     return (
-        <>
+        <div className='velaris-drawer-content'>
             {/* MAIN LINKS */}
             <List sx={{ paddingTop: 0 }}>
                 <ListItem disablePadding>
@@ -109,7 +109,7 @@ const MainDrawerContent = () => {
                     </List>
                 </>
             )}
-        </>
+        </div>
     );
 };
 

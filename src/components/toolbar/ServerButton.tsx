@@ -13,6 +13,7 @@ const ServerButton: FC = () => {
 
     return (
         <Button
+            className='velaris-brand-button'
             variant='text'
             size='large'
             color='inherit'

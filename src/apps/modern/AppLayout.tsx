@@ -34,6 +34,7 @@ export const Component = () => {
     return (
         <LibraryProvider>
             <Box
+                className='velaris-app-shell'
                 sx={{
                     position: 'relative',
                     display: 'flex',
@@ -42,7 +43,7 @@ export const Component = () => {
                 }}
             >
                 <StrictMode>
-                    <OffsetAppBar dense>
+                    <OffsetAppBar dense className='velaris-appbar'>
                         <AppToolbar
                             isDrawerAvailable={!isMediumScreen && isDrawerAvailable}
                             isDrawerOpen={isDrawerOpen}
@@ -64,6 +65,7 @@ export const Component = () => {
 
                 <Box
                     component='main'
+                    className='velaris-app-main'
                     sx={{
                         position: 'relative',
                         width: '100%',

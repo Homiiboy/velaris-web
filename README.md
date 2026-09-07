@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.2</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.3</strong></p>
 
 ---
 
@@ -14,22 +14,26 @@ Velaris Web is a customized frontend based on [Jellyfin Web](https://github.com/
 
 Velaris is an independent fork and is not an official Jellyfin project.
 
-## V0.0.2 — Visual Foundation
+## V0.0.3 — Navigation & App Shell
 
-V0.0.2 introduces the first native Velaris design system. The palette is derived directly from the Velaris emblem: cyan, electric blue, violet, magenta, pink and a warm amber accent on a near-black cinematic base.
+V0.0.3 introduces the first purpose-built Velaris application shell. The direction combines useful streaming-interface patterns without reproducing any one service: content-first horizontal navigation, strong brand hierarchy, immersive translucent chrome and a compact mobile drawer.
 
 The current development scope includes:
 
-- a native `velaris` theme and MUI color scheme
-- centralized design tokens for color, radii, shadows, motion and surfaces
-- consistent styling for legacy and modern Jellyfin Web components
-- Velaris surfaces, cards, buttons, forms, navigation, dialogs and focus states
-- reduced-motion support for accessibility
-- a structure intentionally isolated from upstream code where practical
+- an original translucent Velaris top navigation that visually blends into cinematic content
+- compact desktop navigation for the server, libraries, favorites and overflow items
+- distinct active-section indicators based on the Velaris cyan-to-magenta gradient
+- a redesigned mobile drawer with clearer hierarchy and selected states
+- refined toolbar utility controls and responsive spacing
+- scoped app-shell classes to keep upstream Jellyfin merge conflicts manageable
 
-The original Jellyfin themes remain available, but Velaris is now the default appearance of this fork.
+## Previous milestone — V0.0.2
 
-## Previous milestone — V0.0.1
+V0.0.2 introduced the native Velaris design system with centralized tokens, near-black surfaces, the cyan/blue/violet/magenta palette, unified buttons and forms, glass dialogs, polished cards and accessibility-focused motion/focus states.
+
+The original Jellyfin themes remain available, but Velaris is the default appearance of this fork.
+
+## V0.0.1 — Branding Foundation
 
 V0.0.1 established the native Velaris identity with the new logo, favicon, PWA metadata, splash screen, header branding and `Velaris Web` client name.
 

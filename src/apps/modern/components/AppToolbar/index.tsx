@@ -47,12 +47,13 @@ const AppToolbar: FC<AppToolbarProps> = ({
             onDrawerButtonClick={onDrawerButtonClick}
             isBackButtonAvailable={isBackButtonAvailable}
             isUserMenuAvailable={!isPublicPath}
-            className='padded-left padded-right'
+            className='velaris-app-toolbar padded-left padded-right'
         >
             {!isDrawerAvailable && (
                 <Stack
+                    className='velaris-primary-nav'
                     direction='row'
-                    spacing={0.5}
+                    spacing={0.25}
                 >
                     <ServerButton />
 

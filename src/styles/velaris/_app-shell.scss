@@ -1,0 +1,221 @@
+@use './tokens' as tokens;
+
+.velaris-app-shell {
+    position: relative;
+    isolation: isolate;
+    min-height: 100%;
+    background:
+        radial-gradient(circle at 18% -15%, rgba(69, 243, 255, 0.08), transparent 32rem),
+        radial-gradient(circle at 78% -22%, rgba(138, 54, 255, 0.1), transparent 36rem),
+        tokens.$background;
+}
+
+.velaris-app-shell::before {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: -1;
+    height: 18rem;
+    pointer-events: none;
+    content: '';
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.42), transparent 78%);
+}
+
+.velaris-appbar {
+    border-bottom: 1px solid rgba(145, 170, 210, 0.1);
+    background: linear-gradient(180deg, rgba(3, 4, 8, 0.9) 0%, rgba(5, 6, 10, 0.72) 68%, rgba(5, 6, 10, 0.28) 100%) !important;
+    box-shadow: none !important;
+    backdrop-filter: blur(18px) saturate(1.12);
+    transition: background-color tokens.$transition-standard, box-shadow tokens.$transition-standard, border-color tokens.$transition-standard;
+}
+
+.velaris-appbar.MuiPaper-elevation1 {
+    border-bottom-color: rgba(145, 170, 210, 0.16);
+    background: rgba(5, 6, 10, 0.93) !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.34) !important;
+}
+
+.velaris-app-toolbar {
+    min-height: 3.75rem !important;
+    gap: 0.45rem;
+    padding-inline: clamp(0.8rem, 2.4vw, 2.4rem) !important;
+}
+
+.velaris-app-toolbar > .MuiBox-root {
+    align-items: center;
+    gap: 0.15rem;
+}
+
+.velaris-primary-nav {
+    min-width: 0;
+    align-items: center;
+}
+
+.velaris-primary-nav .MuiButton-root {
+    position: relative;
+    min-width: auto;
+    min-height: 2.45rem;
+    padding-inline: 0.72rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: tokens.$text-secondary;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    transition: color tokens.$transition-fast, background-color tokens.$transition-fast, border-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-primary-nav .MuiButton-root .MuiButton-startIcon {
+    margin-right: 0.4rem;
+    color: currentColor;
+    opacity: 0.8;
+}
+
+.velaris-primary-nav .MuiButton-root .MuiButton-startIcon svg {
+    font-size: 1.08rem;
+}
+
+.velaris-primary-nav .MuiButton-colorPrimary {
+    border-color: rgba(69, 243, 255, 0.14);
+    background: linear-gradient(100deg, rgba(69, 243, 255, 0.1), rgba(138, 54, 255, 0.08));
+    color: tokens.$text-primary;
+}
+
+.velaris-primary-nav .MuiButton-colorPrimary::after {
+    position: absolute;
+    right: 0.72rem;
+    bottom: -0.18rem;
+    left: 0.72rem;
+    height: 2px;
+    border-radius: 999px;
+    content: '';
+    background: tokens.$accent-gradient;
+    box-shadow: 0 0 12px rgba(69, 243, 255, 0.24);
+}
+
+.velaris-brand-button {
+    margin-right: 0.25rem !important;
+    padding-inline: 0.55rem 0.8rem !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+    color: tokens.$text-primary !important;
+    font-weight: 700 !important;
+}
+
+.velaris-brand-button img {
+    border-radius: 0.3rem;
+    filter: drop-shadow(0 0 8px rgba(69, 243, 255, 0.18));
+}
+
+.velaris-app-toolbar .MuiIconButton-root {
+    border: 1px solid transparent;
+    background: transparent;
+    transition: color tokens.$transition-fast, background-color tokens.$transition-fast, border-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-app-main {
+    z-index: 0;
+    min-height: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.velaris-drawer-content {
+    min-height: 100%;
+    padding: 0.55rem 0.55rem 1.25rem;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(69, 243, 255, 0.08), transparent 15rem),
+        radial-gradient(circle at 90% 12%, rgba(212, 44, 255, 0.08), transparent 18rem),
+        linear-gradient(180deg, rgba(9, 12, 20, 0.96), tokens.$background);
+}
+
+.velaris-drawer-content .MuiList-root {
+    padding-block: 0.3rem;
+}
+
+.velaris-drawer-content .MuiListItemButton-root {
+    position: relative;
+    min-height: 3rem;
+    margin-block: 0.12rem;
+    border: 1px solid transparent;
+    border-radius: tokens.$radius-sm;
+    color: tokens.$text-secondary;
+    transition: color tokens.$transition-fast, background-color tokens.$transition-fast, border-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-drawer-content .MuiListItemButton-root.Mui-selected {
+    border-color: rgba(69, 243, 255, 0.13);
+    background: linear-gradient(100deg, rgba(69, 243, 255, 0.13), rgba(22, 135, 255, 0.08) 42%, rgba(138, 54, 255, 0.12)) !important;
+    color: tokens.$text-primary;
+}
+
+.velaris-drawer-content .MuiListItemButton-root.Mui-selected::before {
+    position: absolute;
+    top: 0.68rem;
+    bottom: 0.68rem;
+    left: 0.12rem;
+    width: 3px;
+    border-radius: 999px;
+    content: '';
+    background: tokens.$accent-gradient;
+    box-shadow: 0 0 12px rgba(69, 243, 255, 0.24);
+}
+
+.velaris-drawer-content .MuiListItemIcon-root {
+    min-width: 2.7rem;
+    color: currentColor;
+}
+
+.velaris-drawer-content .MuiDivider-root {
+    margin: 0.45rem 0.35rem;
+    border-color: rgba(145, 170, 210, 0.12);
+}
+
+.velaris-drawer-content .MuiListSubheader-root {
+    background: transparent;
+    color: tokens.$text-muted;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 2.4rem;
+    text-transform: uppercase;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .velaris-primary-nav .MuiButton-root:hover {
+        border-color: rgba(69, 243, 255, 0.1);
+        background: rgba(255, 255, 255, 0.055);
+        color: tokens.$text-primary;
+        transform: translateY(-1px);
+    }
+
+    .velaris-app-toolbar .MuiIconButton-root:hover {
+        border-color: rgba(69, 243, 255, 0.14);
+        background: rgba(69, 243, 255, 0.08);
+        color: tokens.$cyan;
+        transform: translateY(-1px);
+    }
+
+    .velaris-drawer-content .MuiListItemButton-root:hover {
+        border-color: rgba(69, 243, 255, 0.08);
+        background: rgba(69, 243, 255, 0.055);
+        color: tokens.$text-primary;
+        transform: translateX(2px);
+    }
+}
+
+@media (max-width: 899.98px) {
+    .velaris-appbar {
+        background: rgba(5, 6, 10, 0.84) !important;
+        backdrop-filter: blur(20px) saturate(1.12);
+    }
+
+    .velaris-app-toolbar {
+        min-height: 3.5rem !important;
+        gap: 0.2rem;
+        padding-inline: max(0.55rem, env(safe-area-inset-left)) max(0.55rem, env(safe-area-inset-right)) !important;
+    }
+
+    .velaris-app-toolbar .MuiIconButton-root {
+        padding: 0.58rem;
+    }
+}

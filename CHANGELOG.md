@@ -1,5 +1,34 @@
 # Velaris Web Changelog
 
+## V0.0.3 — 2026-09-07 — Navigation & App Shell (development)
+
+### Added
+
+- original Velaris app shell inspired by the strongest navigation patterns from major streaming services without copying a single service layout
+- immersive translucent top navigation with a cinematic edge fade into page content
+- dedicated desktop navigation treatment for server branding, libraries and active sections
+- dedicated mobile drawer treatment with stronger hierarchy and selected-state markers
+- app-shell classes that keep the new layout scoped to Velaris-specific styling
+
+### Changed
+
+- desktop navigation now uses compact rounded controls, restrained glass surfaces and a gradient active indicator
+- toolbar utility actions use lighter visual weight so content remains the focus
+- mobile drawer sections use clearer spacing, stronger selected states and a cinematic black surface
+- the main application canvas now carries subtle cyan and violet ambient light from the Velaris palette
+
+### Design direction
+
+- Netflix contributes the content-first horizontal navigation idea
+- Disney+ contributes clear brand-first hierarchy and restrained navigation density
+- Paramount+ contributes the immersive relationship between navigation and cinematic content
+- Velaris combines those ideas into an original cyan/violet visual system rather than reproducing any service one-to-one
+
+### Compatibility
+
+- playback, authentication, Jellyfin server APIs and media handling remain unchanged
+- navigation behavior and route structure are preserved while the presentation layer is redesigned
+
 ## V0.0.2 — 2026-09-07 — Visual Foundation
 
 ### Added
@@ -10,8 +39,6 @@
 - cyan → blue → violet → magenta → pink accent gradient system
 - dedicated MUI color scheme matching the legacy Jellyfin component palette
 - reduced-motion support and consistent keyboard focus treatment
-- final visual polish layer for card overlays, media badges, progress bars and surface depth
-- subtle microinteractions for cards, lists and controls
 
 ### Changed
 
@@ -19,14 +46,10 @@
 - dark surfaces use a near-black cinematic palette with subtle cyan and violet ambient lighting
 - cards, lists, dialogs and drawers use a consistent radius, border, shadow and glass treatment
 - form controls, interactive states and progress indicators now share the Velaris accent language
-- buttons now use more restrained glow, depth and active-state feedback
-- inputs now have refined hover, focus and placeholder states
-- cards now use subtler lift, image-edge highlights and focus rings
-- dialogs and toasts now use a more consistent glass surface and ambient violet glow
 
 ### Validation
 
-- V0.0.2 is validated by Velaris CI with TypeScript, ESLint, Stylelint, unit tests and a production build
+- V0.0.2 development commits are validated by Velaris CI with TypeScript, ESLint, Stylelint, unit tests and a production build
 
 ### Compatibility
 
