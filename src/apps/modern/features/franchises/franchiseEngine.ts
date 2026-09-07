@@ -40,13 +40,34 @@ const normalizeTag = (value: string | null | undefined) => (
         .trim()
 );
 
+const getItemKey = (item: ItemDto, index = 0) => (
+    item.Id || `${item.Type || 'Item'}:${item.Name || item.OriginalTitle || 'Unknown'}:${index}`
+);
+
+const getSearchableTitles = (item: ItemDto) => (
+    [
+        item.Name,
+        item.OriginalTitle,
+        item.SortName,
+        item.SeriesName
+    ]
+        .map(normalizeText)
+        .filter(Boolean)
+);
+
 const matchesType = (item: ItemDto, types: BaseItemKind[] | undefined) => (
     !types?.length || (item.Type ? types.includes(item.Type as BaseItemKind) : false)
 );
 
-const matchesYear = (item: ItemDto, matcher: FranchiseMatcher) => (
-    matcher.year == null || item.ProductionYear === matcher.year
-);
+const matchesYear = (item: ItemDto, matcher: FranchiseMatcher) => {
+    const year = item.ProductionYear;
+
+    if (matcher.year != null && year !== matcher.year) return false;
+    if (matcher.minYear != null && (!year || year < matcher.minYear)) return false;
+    if (matcher.maxYear != null && (!year || year > matcher.maxYear)) return false;
+
+    return true;
+};
 
 const getStudioNames = (item: ItemDto) => (
     (item.Studios || [])
@@ -67,27 +88,49 @@ const includesNormalizedValue = (values: string[], candidates: string[]) => (
     })
 );
 
+const matchesProviderIds = (
+    item: ItemDto,
+    providerIds: Record<string, string[]> | undefined
+) => {
+    if (!providerIds || Object.keys(providerIds).length === 0) return true;
+
+    const itemProviderIds = Object.entries(item.ProviderIds || {});
+
+    return Object.entries(providerIds).some(([ provider, acceptedIds ]) => {
+        const providerEntry = itemProviderIds.find(
+            ([ itemProvider ]) => itemProvider.toLocaleLowerCase() === provider.toLocaleLowerCase()
+        );
+        const providerId = providerEntry?.[1];
+        return Boolean(providerId && acceptedIds.includes(providerId));
+    });
+};
+
 const matchesMatcher = (item: ItemDto, matcher: FranchiseMatcher) => {
     if (!matchesType(item, matcher.types) || !matchesYear(item, matcher)) {
         return false;
     }
 
-    const title = normalizeText(item.Name);
+    const titles = getSearchableTitles(item);
     const hasTitleCriteria = Boolean(
         matcher.titles?.length
         || matcher.titleIncludes?.length
     );
     const hasStudioCriteria = Boolean(matcher.studios?.length);
     const hasTagCriteria = Boolean(matcher.tags?.length);
+    const hasProviderCriteria = Boolean(
+        matcher.providerIds && Object.keys(matcher.providerIds).length
+    );
 
     if (matcher.titles?.length) {
-        const titles = matcher.titles.map(normalizeText);
-        if (!titles.includes(title)) return false;
+        const expectedTitles = matcher.titles.map(normalizeText);
+        if (!expectedTitles.some(title => titles.includes(title))) return false;
     }
 
     if (matcher.titleIncludes?.length) {
-        const includes = matcher.titleIncludes.map(normalizeText);
-        if (!includes.some(value => title.includes(value))) return false;
+        const fragments = matcher.titleIncludes.map(normalizeText);
+        if (!fragments.some(fragment => titles.some(title => title.includes(fragment)))) {
+            return false;
+        }
     }
 
     if (matcher.studios?.length) {
@@ -99,7 +142,9 @@ const matchesMatcher = (item: ItemDto, matcher: FranchiseMatcher) => {
         if (!matcher.tags.some(tag => itemTags.includes(normalizeTag(tag)))) return false;
     }
 
-    return hasTitleCriteria || hasStudioCriteria || hasTagCriteria;
+    if (!matchesProviderIds(item, matcher.providerIds)) return false;
+
+    return hasTitleCriteria || hasStudioCriteria || hasTagCriteria || hasProviderCriteria;
 };
 
 const hasManualGroupTag = (item: ItemDto, groupId: string) => {
@@ -123,15 +168,66 @@ const uniqueItems = (items: ItemDto[]) => {
     const seen = new Set<string>();
 
     return items.filter((item, index) => {
-        const key = item.Id || `${item.Type || 'Item'}:${item.Name || 'Unknown'}:${index}`;
+        const key = getItemKey(item, index);
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
     });
 };
 
-const pickRepresentativeItem = (items: ItemDto[]) => (
-    items.find(item => item.BackdropImageTags?.length)
+const getCuratedSortIndex = (item: ItemDto, sortOrder: string[] | undefined) => {
+    if (!sortOrder?.length) return -1;
+
+    const titles = getSearchableTitles(item);
+    return sortOrder.findIndex(candidate => titles.includes(normalizeText(candidate)));
+};
+
+const sortGroupItems = (items: ItemDto[], group: FranchiseGroupDefinition) => (
+    [ ...items ].sort((a, b) => {
+        const aIndex = getCuratedSortIndex(a, group.sortOrder);
+        const bIndex = getCuratedSortIndex(b, group.sortOrder);
+
+        if (aIndex >= 0 || bIndex >= 0) {
+            if (aIndex < 0) return 1;
+            if (bIndex < 0) return -1;
+            if (aIndex !== bIndex) return aIndex - bIndex;
+        }
+
+        const aYear = a.ProductionYear || Number.MAX_SAFE_INTEGER;
+        const bYear = b.ProductionYear || Number.MAX_SAFE_INTEGER;
+        if (aYear !== bYear) return aYear - bYear;
+
+        return (a.SortName || a.Name || '').localeCompare(b.SortName || b.Name || '');
+    })
+);
+
+const findPreferredItem = (
+    items: ItemDto[],
+    heroTitles: string[] | undefined,
+    imagePredicate: (item: ItemDto) => boolean
+) => {
+    if (!heroTitles?.length) return undefined;
+
+    for (const heroTitle of heroTitles) {
+        const normalizedHeroTitle = normalizeText(heroTitle);
+        const item = items.find(candidate => (
+            imagePredicate(candidate)
+            && getSearchableTitles(candidate).includes(normalizedHeroTitle)
+        ));
+
+        if (item) return item;
+    }
+
+    return undefined;
+};
+
+const pickRepresentativeItem = (
+    items: ItemDto[],
+    heroTitles: string[] | undefined
+) => (
+    findPreferredItem(items, heroTitles, item => Boolean(item.BackdropImageTags?.length))
+    || findPreferredItem(items, heroTitles, item => Boolean(item.ImageTags?.Primary))
+    || items.find(item => item.BackdropImageTags?.length)
     || items.find(item => item.ImageTags?.Primary)
     || items[0]
 );
@@ -140,22 +236,40 @@ const resolveHub = (
     definition: FranchiseHubDefinition,
     items: ItemDto[]
 ): ResolvedFranchiseHub | undefined => {
-    const resolvedGroups = definition.groups
-        .map(group => ({
+    const resolvedGroups: ResolvedFranchiseGroup[] = [];
+    const previouslyMatched = new Set<string>();
+
+    definition.groups.forEach(group => {
+        let groupItems = uniqueItems(items.filter(item => matchesGroup(item, group)));
+
+        if (group.excludePreviouslyMatched) {
+            groupItems = groupItems.filter(
+                (item, index) => !previouslyMatched.has(getItemKey(item, index))
+            );
+        }
+
+        groupItems = sortGroupItems(groupItems, group);
+        if (groupItems.length === 0) return;
+
+        resolvedGroups.push({
             id: group.id,
             name: group.name,
-            items: uniqueItems(items.filter(item => matchesGroup(item, group)))
-        }))
-        .filter(group => group.items.length > 0);
+            items: groupItems
+        });
 
-    const groupedIds = new Set(
-        resolvedGroups.flatMap(group => group.items.map(item => item.Id).filter(Boolean))
+        groupItems.forEach((item, index) => previouslyMatched.add(getItemKey(item, index)));
+    });
+
+    const groupedKeys = new Set(
+        resolvedGroups.flatMap(group => group.items.map((item, index) => getItemKey(item, index)))
     );
 
     const manuallyAssignedItems = uniqueItems(
         items.filter(item => hasManualFranchiseTag(item, definition.id))
     );
-    const fallbackItems = manuallyAssignedItems.filter(item => !item.Id || !groupedIds.has(item.Id));
+    const fallbackItems = manuallyAssignedItems.filter(
+        (item, index) => !groupedKeys.has(getItemKey(item, index))
+    );
 
     if (fallbackItems.length > 0) {
         resolvedGroups.push({
@@ -179,7 +293,7 @@ const resolveHub = (
         description: definition.description,
         groups: resolvedGroups,
         items: hubItems,
-        representativeItem: pickRepresentativeItem(hubItems)
+        representativeItem: pickRepresentativeItem(hubItems, definition.heroTitles)
     };
 };
 
