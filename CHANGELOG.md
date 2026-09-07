@@ -1,6 +1,6 @@
 # Velaris Web Changelog
 
-## V0.0.2 — 2026-09-07 — Visual Foundation (development)
+## V0.0.2 — 2026-09-07 — Visual Foundation
 
 ### Added
 
@@ -10,6 +10,8 @@
 - cyan → blue → violet → magenta → pink accent gradient system
 - dedicated MUI color scheme matching the legacy Jellyfin component palette
 - reduced-motion support and consistent keyboard focus treatment
+- final visual polish layer for card overlays, media badges, progress bars and surface depth
+- subtle microinteractions for cards, lists and controls
 
 ### Changed
 
@@ -17,14 +19,17 @@
 - dark surfaces use a near-black cinematic palette with subtle cyan and violet ambient lighting
 - cards, lists, dialogs and drawers use a consistent radius, border, shadow and glass treatment
 - form controls, interactive states and progress indicators now share the Velaris accent language
+- buttons now use more restrained glow, depth and active-state feedback
+- inputs now have refined hover, focus and placeholder states
+- cards now use subtler lift, image-edge highlights and focus rings
+- dialogs and toasts now use a more consistent glass surface and ambient violet glow
 
 ### Validation
 
-- V0.0.2 development commits are validated by Velaris CI with TypeScript, ESLint, Stylelint, unit tests and a production build
+- V0.0.2 is validated by Velaris CI with TypeScript, ESLint, Stylelint, unit tests and a production build
 
 ### Compatibility
 
-- this version is still in development
 - playback, authentication, server APIs and media handling remain intentionally unchanged
 - the design system is isolated in Velaris-specific theme/style files to reduce upstream merge conflicts
 
