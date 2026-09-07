@@ -6,14 +6,17 @@
 
 - original Velaris app shell inspired by the strongest navigation patterns from major streaming services without copying a single service layout
 - immersive translucent top navigation with a cinematic edge fade into page content
-- dedicated desktop navigation treatment for server branding, libraries and active sections
+- dedicated desktop navigation treatment for Velaris branding, Home, Favorites, libraries and active sections
 - dedicated mobile drawer treatment with stronger hierarchy and selected-state markers
 - app-shell classes that keep the new layout scoped to Velaris-specific styling
+- explicit Home destination in the desktop streaming navigation
 
 ### Changed
 
-- desktop navigation now uses compact rounded controls, restrained glass surfaces and a gradient active indicator
-- toolbar utility actions use lighter visual weight so content remains the focus
+- normal navigation now presents the product as Velaris instead of exposing the Jellyfin server name or server version in primary chrome
+- desktop navigation is now text-first with a restrained gradient active indicator instead of admin-style rounded controls
+- the Velaris brand mark now links directly to Home and receives a stronger streaming-service wordmark treatment
+- toolbar utility actions use lighter visual weight while the user avatar gets a subtle premium ring treatment
 - mobile drawer sections use clearer spacing, stronger selected states and a cinematic black surface
 - the main application canvas now carries subtle cyan and violet ambient light from the Velaris palette
 
@@ -23,6 +26,7 @@
 - Disney+ contributes clear brand-first hierarchy and restrained navigation density
 - Paramount+ contributes the immersive relationship between navigation and cinematic content
 - Velaris combines those ideas into an original cyan/violet visual system rather than reproducing any service one-to-one
+- the normal viewer experience should feel like a standalone streaming service; Jellyfin terminology remains only where technically or legally appropriate
 
 ### Compatibility
 

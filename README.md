@@ -14,6 +14,12 @@ Velaris Web is a customized frontend based on [Jellyfin Web](https://github.com/
 
 Velaris is an independent fork and is not an official Jellyfin project.
 
+## Product direction
+
+Velaris is designed as a standalone modern streaming experience, not as a visible Jellyfin skin. Jellyfin remains the technical foundation for server APIs, playback and media management, while the normal viewer-facing interface is progressively replaced by Velaris-specific branding, navigation, layouts and interaction patterns.
+
+The design language combines useful ideas found across modern streaming services — content-first navigation, strong cinematic artwork, restrained chrome and responsive horizontal discovery — while keeping the resulting interface original to Velaris.
+
 ## V0.0.3 — Navigation & App Shell
 
 V0.0.3 introduces the first purpose-built Velaris application shell. The direction combines useful streaming-interface patterns without reproducing any one service: content-first horizontal navigation, strong brand hierarchy, immersive translucent chrome and a compact mobile drawer.
@@ -21,7 +27,8 @@ V0.0.3 introduces the first purpose-built Velaris application shell. The directi
 The current development scope includes:
 
 - an original translucent Velaris top navigation that visually blends into cinematic content
-- compact desktop navigation for the server, libraries, favorites and overflow items
+- Velaris-first product branding without exposing server names or server versions in normal primary navigation
+- text-first desktop navigation for Home, Favorites, libraries and overflow items
 - distinct active-section indicators based on the Velaris cyan-to-magenta gradient
 - a redesigned mobile drawer with clearer hierarchy and selected states
 - refined toolbar utility controls and responsive spacing

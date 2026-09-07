@@ -3,6 +3,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import { CollectionType } from '@jellyfin/sdk/lib/generated-client/models/collection-type';
 import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
 import Favorite from '@mui/icons-material/Favorite';
+import Home from '@mui/icons-material/Home';
 import Button from '@mui/material/Button/Button';
 import Icon from '@mui/material/Icon';
 import { Theme } from '@mui/material/styles';
@@ -119,10 +120,22 @@ const UserViewNav = () => {
         getCurrentUserView(userViews?.Items, location.pathname, libraryId || ancestorLibraryId, collectionType, activeTab)
     ), [ activeTab, collectionType, libraryId, ancestorLibraryId, location.pathname, userViews ]);
 
+    const isHomeSelected = location.pathname === HOME_PATH && activeTab === 0;
+
     if (isPending) return null;
 
     return (
         <>
+            <Button
+                variant='text'
+                color={isHomeSelected ? 'primary' : 'inherit'}
+                startIcon={<Home />}
+                component={Link}
+                to='/home'
+            >
+                {globalize.translate('Home')}
+            </Button>
+
             <Button
                 variant='text'
                 color={(currentUserView?.Id === MetaView.Favorites.Id) ? 'primary' : 'inherit'}
