@@ -1,0 +1,512 @@
+@use './tokens' as tokens;
+
+.skinHeader.velaris-home-active .headerTabs {
+    display: none !important;
+}
+
+.velaris-home-page {
+    min-height: 100%;
+    background: tokens.$background;
+}
+
+.velaris-home-tab {
+    padding-top: 0 !important;
+    background: tokens.$background;
+}
+
+.velaris-home-hero {
+    position: relative;
+    display: flex;
+    min-height: clamp(34rem, 72vh, 52rem);
+    box-sizing: border-box;
+    align-items: flex-end;
+    overflow: hidden;
+    padding: clamp(8rem, 15vh, 11rem) clamp(1rem, 5vw, 5rem) clamp(5rem, 10vh, 7.5rem);
+    background:
+        radial-gradient(circle at 78% 25%, rgba(138, 54, 255, 0.12), transparent 30rem),
+        radial-gradient(circle at 25% 18%, rgba(69, 243, 255, 0.08), transparent 26rem),
+        tokens.$surface-strong;
+    background-position: center top;
+    background-size: cover;
+}
+
+.velaris-home-hero::after {
+    position: absolute;
+    inset: auto 0 0;
+    height: 8rem;
+    content: '';
+    background: linear-gradient(180deg, transparent, tokens.$background);
+    pointer-events: none;
+}
+
+.velaris-home-hero__content {
+    position: relative;
+    z-index: 1;
+    width: min(46rem, 68vw);
+    animation: velaris-home-hero-enter 420ms tokens.$transition-standard;
+}
+
+.velaris-home-hero__eyebrow,
+.velaris-home-destinations__eyebrow {
+    display: inline-block;
+    color: tokens.$cyan;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.velaris-home-hero__title {
+    max-width: 44rem;
+    margin: 0.42rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(3rem, 7.3vw, 6.8rem);
+    font-weight: 850;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+    text-wrap: balance;
+}
+
+.velaris-home-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.7rem;
+    margin-top: 1.1rem;
+    color: tokens.$text-secondary;
+    font-size: 0.78rem;
+    font-weight: 760;
+    letter-spacing: 0.07em;
+}
+
+.velaris-home-hero__meta span:not(:last-child)::after {
+    margin-left: 0.7rem;
+    color: rgba(247, 251, 255, 0.26);
+    content: '•';
+}
+
+.velaris-home-hero__tagline {
+    margin: 1.05rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1rem, 1.5vw, 1.22rem);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+}
+
+.velaris-home-hero__overview {
+    display: -webkit-box;
+    max-width: 40rem;
+    margin: 0.7rem 0 0;
+    overflow: hidden;
+    color: tokens.$text-secondary;
+    font-size: clamp(0.94rem, 1.15vw, 1.08rem);
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+}
+
+.velaris-home-hero__genres {
+    margin: 0.85rem 0 0;
+    color: tokens.$text-muted;
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.velaris-home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.45rem;
+}
+
+.velaris-home-hero__button {
+    display: inline-flex;
+    min-height: 2.85rem;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.72rem 1.18rem;
+    border: 1px solid transparent;
+    border-radius: 0.72rem;
+    font-size: 0.94rem;
+    font-weight: 760;
+    line-height: 1;
+    text-decoration: none;
+    transition: transform tokens.$transition-fast, background-color tokens.$transition-fast, border-color tokens.$transition-fast, box-shadow tokens.$transition-fast;
+}
+
+.velaris-home-hero__button .material-icons {
+    font-size: 1.35rem;
+}
+
+.velaris-home-hero__button--primary {
+    background: rgba(247, 251, 255, 0.96);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.34);
+    color: #05060a;
+}
+
+.velaris-home-hero__button--secondary {
+    border-color: rgba(247, 251, 255, 0.15);
+    background: rgba(9, 12, 20, 0.62);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    color: tokens.$text-primary;
+    backdrop-filter: blur(18px) saturate(1.12);
+}
+
+.velaris-home-hero__indicators {
+    position: absolute;
+    z-index: 2;
+    right: clamp(1rem, 5vw, 5rem);
+    bottom: clamp(4.3rem, 8vh, 6.6rem);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.velaris-home-hero__indicator {
+    width: 1.45rem;
+    height: 0.22rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(247, 251, 255, 0.28);
+    cursor: pointer;
+    transition: width tokens.$transition-fast, background-color tokens.$transition-fast, box-shadow tokens.$transition-fast;
+}
+
+.velaris-home-hero__indicator--active {
+    width: 2.6rem;
+    background: tokens.$accent-gradient;
+    box-shadow: 0 0 18px rgba(69, 243, 255, 0.22);
+}
+
+.velaris-home-hero--loading {
+    background: tokens.$surface-strong;
+}
+
+.velaris-home-hero__skeleton {
+    width: min(40rem, 65vw);
+    height: 16rem;
+    border-radius: tokens.$radius-lg;
+    background: linear-gradient(105deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025));
+    background-size: 220% 100%;
+    animation: velaris-home-skeleton 1.8s linear infinite;
+}
+
+.velaris-home-destinations {
+    position: relative;
+    z-index: 3;
+    margin-top: -2rem;
+    padding-top: 0.5rem;
+}
+
+.velaris-home-destinations__heading {
+    padding-inline: clamp(1rem, 3vw, 3rem);
+}
+
+.velaris-home-destinations__heading h2 {
+    margin: 0.18rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1.45rem, 2.1vw, 2.15rem);
+    font-weight: 780;
+    letter-spacing: -0.03em;
+}
+
+.velaris-home-destinations__rail {
+    display: grid;
+    grid-auto-columns: clamp(13.5rem, 19vw, 18.5rem);
+    grid-auto-flow: column;
+    gap: 0.72rem;
+    margin-top: 1rem;
+    padding: 0.35rem clamp(1rem, 3vw, 3rem) 1.4rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+}
+
+.velaris-home-destination {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 16 / 7.6;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: tokens.$radius-md;
+    background:
+        radial-gradient(circle at 20% 10%, rgba(69, 243, 255, 0.15), transparent 60%),
+        linear-gradient(120deg, tokens.$surface-elevated, tokens.$surface-strong);
+    background-position: center;
+    background-size: cover;
+    box-shadow: tokens.$shadow-soft;
+    color: tokens.$text-primary;
+    scroll-snap-align: start;
+    text-decoration: none;
+    transform: translateZ(0);
+    transition: transform tokens.$transition-standard, border-color tokens.$transition-standard, box-shadow tokens.$transition-standard;
+}
+
+.velaris-home-destination::after {
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 0;
+    height: 2px;
+    content: '';
+    background: tokens.$accent-gradient;
+    opacity: 0.75;
+}
+
+.velaris-home-destination__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(90deg, rgba(3, 4, 8, 0.92), rgba(3, 4, 8, 0.5) 60%, rgba(3, 4, 8, 0.16)),
+        linear-gradient(0deg, rgba(3, 4, 8, 0.7), transparent 65%);
+}
+
+.velaris-home-destination__content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1rem;
+}
+
+.velaris-home-destination__label {
+    overflow: hidden;
+    font-size: clamp(1.1rem, 1.5vw, 1.45rem);
+    font-weight: 780;
+    letter-spacing: -0.025em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-home-destination__cta {
+    margin-top: 0.18rem;
+    color: tokens.$text-muted;
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.velaris-home-rows {
+    position: relative;
+    z-index: 2;
+    padding-top: 0.3rem;
+    background:
+        radial-gradient(circle at 8% 18%, rgba(69, 243, 255, 0.035), transparent 24rem),
+        radial-gradient(circle at 92% 42%, rgba(138, 54, 255, 0.045), transparent 28rem),
+        tokens.$background;
+}
+
+.velaris-home__legacy.homeSectionsContainer {
+    padding-bottom: 0.4rem;
+}
+
+.velaris-home__legacy .verticalSection {
+    margin-block: 1.4rem 2.2rem;
+}
+
+.velaris-home-tab .sectionTitleContainer {
+    min-height: 2.4rem;
+    box-sizing: border-box;
+    align-items: center;
+    padding-inline: clamp(1rem, 3vw, 3rem) !important;
+}
+
+.velaris-home-tab .sectionTitle,
+.velaris-home-tab .sectionTitleTextButton {
+    color: tokens.$text-primary;
+    font-size: clamp(1.25rem, 1.75vw, 1.65rem);
+    font-weight: 760;
+    letter-spacing: -0.025em;
+}
+
+.velaris-home-tab .sectionTitleTextButton {
+    border-radius: tokens.$radius-sm;
+}
+
+.velaris-home-tab .sectionTitleTextButton .material-icons {
+    color: tokens.$text-muted;
+}
+
+.velaris-home-tab .emby-scroller {
+    padding-block: 0.15rem 0.65rem;
+}
+
+.velaris-home-tab .card {
+    transition: transform tokens.$transition-standard, filter tokens.$transition-standard;
+}
+
+.velaris-home-tab .cardImageContainer {
+    border-radius: tokens.$radius-md;
+}
+
+.velaris-home-tab .homeLibraryButton {
+    border: 1px solid tokens.$divider;
+    border-radius: tokens.$radius-md;
+    background: linear-gradient(145deg, rgba(21, 26, 36, 0.94), rgba(9, 12, 20, 0.96));
+    box-shadow: tokens.$shadow-soft;
+    color: tokens.$text-primary;
+}
+
+.velaris-home-tab .homeLibraryIcon {
+    color: tokens.$cyan;
+}
+
+.velaris-home-tab .velaris-franchise-discovery {
+    margin-top: 2.2rem;
+}
+
+.velaris-favorites-tab {
+    padding-top: 1.5rem;
+    background: tokens.$background;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .velaris-home-hero__button:hover {
+        transform: translateY(-1px);
+    }
+
+    .velaris-home-hero__button--primary:hover {
+        background: #fff;
+        box-shadow: 0 12px 38px rgba(0, 0, 0, 0.4), 0 0 20px rgba(69, 243, 255, 0.09);
+    }
+
+    .velaris-home-hero__button--secondary:hover {
+        border-color: rgba(69, 243, 255, 0.24);
+        background: rgba(13, 16, 24, 0.78);
+    }
+
+    .velaris-home-destination:hover {
+        border-color: rgba(69, 243, 255, 0.22);
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42), 0 0 24px rgba(69, 243, 255, 0.07);
+        transform: translateY(-3px) scale(1.012);
+    }
+
+    .velaris-home-tab .card:hover {
+        filter: brightness(1.04) saturate(1.04);
+        transform: translateY(-2px);
+    }
+}
+
+@media (max-width: 899.98px) {
+    .velaris-home-hero {
+        min-height: 37rem;
+        padding: 7rem 1.2rem 5.5rem;
+        background-position: 62% top;
+    }
+
+    .velaris-home-hero__content {
+        width: min(100%, 37rem);
+    }
+
+    .velaris-home-hero__title {
+        font-size: clamp(2.65rem, 12vw, 4.7rem);
+    }
+
+    .velaris-home-hero__overview {
+        -webkit-line-clamp: 3;
+    }
+
+    .velaris-home-hero__indicators {
+        right: 1.2rem;
+        bottom: 4.2rem;
+    }
+
+    .velaris-home-destinations {
+        margin-top: -1.35rem;
+    }
+
+    .velaris-home-destinations__rail {
+        grid-auto-columns: min(68vw, 17rem);
+    }
+
+    .velaris-home__legacy .verticalSection {
+        margin-block: 1rem 1.8rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .velaris-home-hero {
+        min-height: 35rem;
+        padding-bottom: 4.9rem;
+    }
+
+    .velaris-home-hero__eyebrow {
+        font-size: 0.65rem;
+    }
+
+    .velaris-home-hero__overview {
+        font-size: 0.9rem;
+    }
+
+    .velaris-home-hero__genres {
+        display: none;
+    }
+
+    .velaris-home-hero__actions {
+        gap: 0.55rem;
+    }
+
+    .velaris-home-hero__button {
+        min-height: 2.65rem;
+        padding-inline: 0.92rem;
+        font-size: 0.86rem;
+    }
+
+    .velaris-home-hero__indicators {
+        display: none;
+    }
+
+    .velaris-home-destinations__rail {
+        grid-auto-columns: 72vw;
+    }
+}
+
+.layout-tv .velaris-home-hero {
+    min-height: 68vh;
+    padding-inline: 5vw;
+}
+
+.layout-tv .velaris-home-hero__button,
+.layout-tv .velaris-home-destination {
+    border-width: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-home-hero__content,
+    .velaris-home-hero__skeleton {
+        animation: none;
+    }
+
+    .velaris-home-hero__button,
+    .velaris-home-hero__indicator,
+    .velaris-home-destination,
+    .velaris-home-tab .card {
+        transition: none;
+    }
+}
+
+@keyframes velaris-home-hero-enter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes velaris-home-skeleton {
+    from {
+        background-position: 200% 0;
+    }
+
+    to {
+        background-position: -20% 0;
+    }
+}

@@ -1,5 +1,43 @@
 # Velaris Web Changelog
 
+## V0.0.5 — 2026-09-07 — Home & Discovery
+
+### Added
+
+- rotating Velaris Spotlight hero sourced from Movie and Series media available to the signed-in user
+- library-backed Spotlight artwork, metadata, genres, tagline and overview
+- direct Movie playback and item-detail actions from the Home hero
+- manual Spotlight selectors plus automatic rotation that respects reduced-motion preferences
+- dynamic “Deine Welten” discovery rail for available Movies, Series, Anime, Anime Movies and Collections libraries
+- shared Velaris library-category detection so Home and primary navigation use the same destination logic
+- dedicated Velaris Home styling module for hero, discovery destinations, legacy home rails, mobile layouts and TV layouts
+
+### Changed
+
+- the normal Home experience now starts with cinematic content instead of a Jellyfin-style section list
+- existing Continue Watching, Next Up, Recently Added and user-configurable home sections remain server-backed but receive Velaris-native spacing, typography, surfaces and interactions
+- redundant Home/Favorites header tabs are visually removed from the active Home shell because the Velaris top navigation already exposes those destinations
+- franchise discovery remains part of Home and visually follows the new streaming hierarchy
+- the Home route now owns a Velaris-specific shell class so visual changes stay isolated from unrelated Jellyfin pages
+- V0.0.5 becomes the current completed Velaris milestone
+
+### Design direction
+
+- Home is content-first: hero first, core destinations second, personalized rails after that
+- the new hero combines large cinematic artwork with restrained controls rather than reproducing any one commercial streaming-service layout
+- Movies, Series, Anime, Anime Movies and Collections appear only when corresponding libraries actually exist
+- Jellyfin continues to provide playback, resume state and home-section data while the viewer-facing hierarchy is progressively replaced by Velaris
+
+### Validation
+
+- TypeScript, ESLint, Stylelint, unit tests and the production build are required by Velaris CI for the completed V0.0.5 state
+
+### Compatibility
+
+- playback, authentication, user permissions and Jellyfin server APIs remain unchanged
+- the existing home-section engine is retained underneath the new presentation so Continue Watching, Next Up and Recently Added keep their established server behavior
+- no bundled third-party franchise or promotional artwork is required; Home artwork is sourced from the user's own available media
+
 ## V0.0.4 — 2026-09-07 — Dynamic Franchise Hubs
 
 ### Added

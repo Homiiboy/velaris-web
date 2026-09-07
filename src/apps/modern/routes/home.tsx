@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import VelarisFranchiseShelf from 'apps/modern/features/franchises/VelarisFranchiseShelf';
+import VelarisHomeDestinations from 'apps/modern/features/home/VelarisHomeDestinations';
+import VelarisHomeHero from 'apps/modern/features/home/VelarisHomeHero';
 import globalize from '../../../lib/globalize';
 import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
@@ -40,9 +42,9 @@ const Home = () => {
     const documentRef = useRef<Document>(document);
     const element = useRef<HTMLDivElement>(null);
 
-    const setTitle = async () => {
+    const setTitle = useCallback(async () => {
         (await libraryMenu).setTitle(null);
-    };
+    }, [ libraryMenu ]);
 
     const getTabs = () => {
         return [{
@@ -128,15 +130,19 @@ const Home = () => {
         } else if (currentTabController?.onResume) {
             currentTabController.onResume({});
         }
-        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.add('noHomeButtonHeader');
-    }, [ initialTabIndex, mainTabsManager ]);
+
+        const header = documentRef.current.querySelector('.skinHeader');
+        header?.classList.add('noHomeButtonHeader', 'velaris-home-active');
+    }, [ initialTabIndex, mainTabsManager, setTitle ]);
 
     const onPause = useCallback(() => {
         const currentTabController = tabController.current;
         if (currentTabController?.onPause) {
             currentTabController.onPause();
         }
-        (documentRef.current.querySelector('.skinHeader') as HTMLDivElement).classList.remove('noHomeButtonHeader');
+
+        const header = documentRef.current.querySelector('.skinHeader');
+        header?.classList.remove('noHomeButtonHeader', 'velaris-home-active');
     }, []);
 
     const renderHome = useCallback(() => {
@@ -152,7 +158,7 @@ const Home = () => {
         return () => {
             onPause();
         };
-    }, [onPause, renderHome]);
+    }, [ onPause, renderHome ]);
 
     useEffect(() => {
         const doc = documentRef.current;
@@ -167,7 +173,7 @@ const Home = () => {
         <div ref={element}>
             <Page
                 id='indexPage'
-                className='mainAnimatedPage homePage libraryPage allLibraryPage pageWithAbsoluteTabs withTabs'
+                className='mainAnimatedPage homePage libraryPage allLibraryPage pageWithAbsoluteTabs withTabs velaris-home-page'
                 isBackButtonEnabled={false}
                 backDropType={[
                     BaseItemKind.Movie,
@@ -175,11 +181,25 @@ const Home = () => {
                     BaseItemKind.Book
                 ]}
             >
-                <div className='tabContent pageTabContent' id='homeTab' data-index='0'>
-                    <div className='sections'></div>
-                    <VelarisFranchiseShelf />
+                <div
+                    className='tabContent pageTabContent velaris-home-tab'
+                    id='homeTab'
+                    data-index='0'
+                >
+                    <VelarisHomeHero />
+                    <VelarisHomeDestinations />
+
+                    <div className='velaris-home-rows'>
+                        <div className='sections velaris-home__legacy'></div>
+                        <VelarisFranchiseShelf />
+                    </div>
                 </div>
-                <div className='tabContent pageTabContent' id='favoritesTab' data-index='1'>
+
+                <div
+                    className='tabContent pageTabContent velaris-favorites-tab'
+                    id='favoritesTab'
+                    data-index='1'
+                >
                     <div className='sections'></div>
                 </div>
             </Page>

@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.4</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.5</strong></p>
 
 ---
 
@@ -22,9 +22,28 @@ The design language combines useful ideas found across modern streaming services
 
 Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
 
-## V0.0.4 — Dynamic Franchise Hubs
+## V0.0.5 — Home & Discovery
 
-V0.0.4 introduces the first Velaris-native universe and franchise layer. Hubs are generated from media that actually exists in the signed-in user's library, so empty franchise pages and empty sub-groups are never advertised in the normal viewer experience.
+V0.0.5 replaces the visible Jellyfin-style start-page hierarchy with the first full Velaris streaming home experience while keeping the proven server-backed home data underneath.
+
+The milestone includes:
+
+- a large rotating Velaris Spotlight hero driven by Movie and Series media already available to the signed-in user
+- library-sourced backdrop artwork, title, metadata, genres, tagline and overview inside the hero
+- direct playback for Movie Spotlight items and details navigation for Movie and Series items
+- reduced-motion-aware Spotlight rotation with manual selection controls
+- a dynamic “Deine Welten” discovery rail that only shows available core destinations such as Movies, Series, Anime, Anime Movies and Collections
+- shared category detection between the Home discovery rail and the Velaris application navigation
+- cinematic styling for existing Continue Watching, Next Up, Recently Added and library sections instead of exposing the old administrative home-page look
+- dynamic franchise discovery retained as a native Home section so universe hubs grow with the library
+- the redundant Jellyfin-style Home/Favorites header tabs hidden from the normal Home shell while the top Velaris navigation remains the primary navigation surface
+- responsive layouts for desktop, mobile and TV plus reduced-motion support
+
+The legacy Jellyfin home-section engine remains underneath for stable Continue Watching, Next Up, Recently Added and user-configurable sections, but its viewer-facing presentation is now controlled by the Velaris Home layer.
+
+## Previous milestone — V0.0.4
+
+V0.0.4 introduced the first Velaris-native universe and franchise layer. Hubs are generated from media that actually exists in the signed-in user's library, so empty franchise pages and empty sub-groups are never advertised in the normal viewer experience.
 
 The milestone includes:
 
@@ -43,7 +62,7 @@ The milestone includes:
 
 The franchise catalog is intentionally data-driven and extensible. Additional universes, timelines and aliases can be added without rebuilding the page architecture.
 
-## Previous milestone — V0.0.3
+## V0.0.3 — Navigation & App Shell
 
 V0.0.3 introduced the first purpose-built Velaris application shell. The direction combines useful streaming-interface patterns without reproducing any one service: content-first horizontal navigation, strong brand hierarchy, immersive translucent chrome and a compact mobile drawer.
 
