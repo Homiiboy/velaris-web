@@ -17,6 +17,7 @@
 - startup splash branding now uses the Velaris emblem on desktop, mobile and TV layouts
 - default header branding now stays on Velaris even when Jellyfin theme styles are active
 - modern toolbar and dashboard drawer fallbacks now use the Velaris emblem and Velaris name
+- web client now identifies itself to the server as `Velaris Web` while retaining the normal browser/device icon mapping
 - logo screensaver now renders the Velaris emblem on a black background
 - README rewritten for the Velaris Web fork and upstream workflow
 
