@@ -1,6 +1,41 @@
 # Velaris Web Changelog
 
-## V0.0.3 — 2026-09-07 — Navigation & App Shell (development)
+## V0.0.4 — 2026-09-07 — Dynamic Franchise Hubs (development)
+
+### Added
+
+- data-driven Velaris franchise catalog with nested universe and sub-group definitions
+- dynamic matching engine for Movie and Series items already available to the current user
+- automatic suppression of empty franchise hubs and empty sub-groups
+- Home discovery shelf for available universes and franchises
+- dedicated cinematic franchise route at `franchise/:hubId`
+- grouped horizontal media rows inside each franchise page
+- representative hub artwork sourced from matching media already present in the library
+- initial catalog coverage for Marvel, DC, Star Wars, Wizarding World, Middle-earth, The Walking Dead, Breaking Bad, Dragon Ball, Naruto and One Piece
+- initial DC sub-groups for DCU, DCEU, Arrowverse, Batman, Superman and Elseworlds
+- initial Marvel sub-groups for MCU, Spider-Man, X-Men and the Defenders Saga
+- optional manual assignment tags using `velaris:franchise:<id>`, `velaris:hub:<id>` and `velaris:group:<id>`
+
+### Changed
+
+- franchise and universe navigation is now content-driven instead of relying on pre-created empty pages
+- the same media item can participate in multiple useful franchise groups when appropriate
+- V0.0.3 navigation is treated as the completed previous milestone while V0.0.4 becomes the active development line
+
+### Design direction
+
+- franchise hubs behave like mini streaming worlds rather than folder listings
+- collections can combine movies and series inside the same branded universe
+- hubs grow automatically as new matching media enters the library
+- future manual overrides can extend the same engine without changing the viewer-facing layout
+
+### Compatibility
+
+- playback, authentication and Jellyfin server APIs remain unchanged
+- franchise detection is implemented in the Velaris presentation layer
+- empty hubs are never shown to the normal viewer
+
+## V0.0.3 — 2026-09-07 — Navigation & App Shell
 
 ### Added
 
