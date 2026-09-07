@@ -4,34 +4,36 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.1</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.2</strong></p>
 
 ---
 
 ## About Velaris
 
-Velaris Web is a customized frontend based on [Jellyfin Web](https://github.com/jellyfin/jellyfin-web). The goal is to keep Jellyfin's media platform and compatibility while evolving the web client into a distinct Velaris experience with its own branding, interface and features.
+Velaris Web is a customized frontend based on [Jellyfin Web](https://github.com/jellyfin/jellyfin-web). The goal is to preserve Jellyfin's media platform and compatibility while evolving the web client into a distinct Velaris experience with its own branding, interface and features.
 
 Velaris is an independent fork and is not an official Jellyfin project.
 
-## V0.0.1 — Branding Foundation
+## V0.0.2 — Visual Foundation
 
-V0.0.1 establishes the first native Velaris Web identity:
+V0.0.2 introduces the first native Velaris design system. The palette is derived directly from the Velaris emblem: cyan, electric blue, violet, magenta, pink and a warm amber accent on a near-black cinematic base.
 
-- new Velaris emblem with a black background and cyan, blue, violet, magenta and warm accent gradients
-- dedicated scalable Velaris favicon for browser tabs
-- scalable Velaris application/PWA icon
-- browser and application metadata renamed from Jellyfin to Velaris where appropriate
-- Velaris logo used for the startup splash and default header branding across desktop, mobile and TV layouts
-- Velaris branding used in the modern toolbar and dashboard drawer fallbacks
-- web sessions identify the client as `Velaris Web` while preserving the normal browser/device icon mapping
-- Velaris logo screensaver on a black background
-- dedicated `VELARIS_VERSION` version marker
-- updated project documentation for the Velaris fork
+The current development scope includes:
+
+- a native `velaris` theme and MUI color scheme
+- centralized design tokens for color, radii, shadows, motion and surfaces
+- consistent styling for legacy and modern Jellyfin Web components
+- Velaris surfaces, cards, buttons, forms, navigation, dialogs and focus states
+- reduced-motion support for accessibility
+- a structure intentionally isolated from upstream code where practical
+
+The original Jellyfin themes remain available, but Velaris is now the default appearance of this fork.
+
+## Previous milestone — V0.0.1
+
+V0.0.1 established the native Velaris identity with the new logo, favicon, PWA metadata, splash screen, header branding and `Velaris Web` client name.
 
 The visible client identity is Velaris. References to Jellyfin are intentionally retained where they describe the upstream server, API, SDK, protocol, license or original project attribution. This keeps the fork technically honest and easier to synchronize with upstream.
-
-This release intentionally keeps the underlying Jellyfin Web functionality close to upstream. Larger interface changes will be introduced incrementally in later Velaris versions.
 
 ## Branch strategy
 
@@ -79,6 +81,10 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
    ```sh
    npm run build:production
    ```
+
+## Validation
+
+The `velaris` branch includes a dedicated Velaris CI workflow that runs TypeScript checks, ESLint, Stylelint, unit tests and a production build.
 
 ## Versioning
 

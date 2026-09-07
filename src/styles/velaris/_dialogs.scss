@@ -1,0 +1,32 @@
+@use './tokens' as tokens;
+
+.dialog {
+    border: 1px solid tokens.$divider;
+    border-radius: tokens.$radius-lg;
+    background: tokens.$surface-overlay;
+    box-shadow: tokens.$shadow-surface;
+    backdrop-filter: blur(24px) saturate(1.1);
+}
+
+.formDialogHeader:not(.formDialogHeader-clear),
+.formDialogFooter:not(.formDialogFooter-clear) {
+    background: rgba(13, 16, 24, 0.92);
+}
+
+.actionSheetMenuItem {
+    border-radius: tokens.$radius-sm;
+    transition: background-color tokens.$transition-fast, color tokens.$transition-fast;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .actionSheetMenuItem:hover {
+        background: tokens.$hover;
+        color: tokens.$text-primary;
+    }
+}
+
+.toast {
+    border: 1px solid tokens.$divider;
+    border-radius: tokens.$radius-sm;
+    box-shadow: tokens.$shadow-surface;
+}

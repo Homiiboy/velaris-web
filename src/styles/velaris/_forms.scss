@@ -1,0 +1,39 @@
+@use './tokens' as tokens;
+
+.emby-input,
+.emby-textarea,
+.emby-select-withcolor {
+    border: 1px solid tokens.$divider;
+    border-radius: tokens.$radius-sm;
+    background: rgba(15, 19, 29, 0.92);
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, background-color tokens.$transition-fast;
+}
+
+.emby-input:focus,
+.emby-textarea:focus,
+.emby-select-withcolor:focus {
+    border-color: tokens.$cyan !important;
+    box-shadow: 0 0 0 3px rgba(69, 243, 255, 0.12), tokens.$shadow-cyan;
+    background: tokens.$surface-elevated;
+}
+
+.inputLabelFocused,
+.selectLabelFocused,
+.textareaLabelFocused {
+    color: tokens.$cyan;
+}
+
+.checkboxOutline {
+    border-radius: tokens.$radius-xs;
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, background-color tokens.$transition-fast;
+}
+
+.emby-checkbox:checked + span + .checkboxOutline {
+    background: tokens.$accent-gradient;
+    border-color: transparent;
+}
+
+.emby-checkbox:focus + span + .checkboxOutline {
+    border-color: tokens.$cyan;
+    box-shadow: 0 0 0 3px rgba(69, 243, 255, 0.12);
+}

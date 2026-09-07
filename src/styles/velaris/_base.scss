@@ -1,0 +1,74 @@
+@use './tokens' as tokens;
+
+:root {
+    --velaris-accent-cyan: #{tokens.$cyan};
+    --velaris-accent-blue: #{tokens.$blue};
+    --velaris-accent-violet: #{tokens.$violet};
+    --velaris-accent-magenta: #{tokens.$magenta};
+    --velaris-accent-pink: #{tokens.$pink};
+    --velaris-accent-amber: #{tokens.$amber};
+    --velaris-radius-sm: #{tokens.$radius-sm};
+    --velaris-radius-md: #{tokens.$radius-md};
+    --velaris-radius-lg: #{tokens.$radius-lg};
+}
+
+::selection {
+    background: rgba(69, 243, 255, 0.28);
+    color: tokens.$text-primary;
+}
+
+html,
+.backgroundContainer,
+.nowPlayingPlaylist {
+    color: tokens.$text-primary;
+}
+
+.itemName,
+.sectionTitle,
+.pageTitle,
+.dialogHeaderTitle,
+.formDialogHeaderTitle {
+    color: tokens.$text-primary;
+}
+
+.cardText-secondary,
+.fieldDescription,
+.listItem .secondary,
+.nowPlayingBarSecondaryText,
+.programSecondaryTitle,
+.secondaryText {
+    color: tokens.$text-secondary;
+}
+
+.defaultCardBackground1 {
+    background: linear-gradient(145deg, #103945, #0f1725);
+}
+
+.defaultCardBackground2 {
+    background: linear-gradient(145deg, #132d5d, #15162a);
+}
+
+.defaultCardBackground3 {
+    background: linear-gradient(145deg, #2b1657, #171326);
+}
+
+.defaultCardBackground4 {
+    background: linear-gradient(145deg, #4b174a, #211120);
+}
+
+.defaultCardBackground5 {
+    background: linear-gradient(145deg, #4a3120, #221713);
+}
+
+.itemProgressBarForeground,
+.playbackProgress > div {
+    background: tokens.$accent-gradient;
+}
+
+.countIndicator,
+.fullSyncIndicator,
+.mediaSourceIndicator,
+.playedIndicator {
+    background: tokens.$accent-gradient;
+    color: #fff;
+}

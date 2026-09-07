@@ -1,0 +1,49 @@
+@use './tokens' as tokens;
+
+.paperList,
+.visualCardBox,
+.collapseContent,
+.formDialogFooter:not(.formDialogFooter-clear),
+.formDialogHeader:not(.formDialogHeader-clear) {
+    border: 1px solid tokens.$divider;
+    box-shadow: tokens.$shadow-soft;
+}
+
+.paperList,
+.visualCardBox,
+.cardBox:not(.visualCardBox) .cardPadder,
+.cardContent,
+.cardImageContainer,
+.blurhash-canvas,
+.itemDetailImage,
+.cardOverlayContainer {
+    border-radius: tokens.$radius-md;
+}
+
+.cardBox {
+    transition: transform tokens.$transition-standard, filter tokens.$transition-standard;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .card:hover .cardBox {
+        filter: brightness(1.04);
+    }
+}
+
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable,
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
+    box-shadow: 0 0 0 2px tokens.$cyan, tokens.$shadow-cyan;
+}
+
+.listItem {
+    border-radius: tokens.$radius-sm;
+    transition: background-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .listItem:hover {
+        background-color: tokens.$hover;
+    }
+}

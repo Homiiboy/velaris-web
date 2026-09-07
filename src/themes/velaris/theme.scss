@@ -1,0 +1,36 @@
+@use '../../styles/velaris/tokens' as tokens;
+
+@use '../_base/theme' with (
+    $dark: true,
+    $rounded-person-cards: true,
+    $background-default: tokens.$background,
+    $background-defaultImage: tokens.$ambient-gradient,
+    $background-paper: tokens.$surface,
+    $primary-main: tokens.$primary-main,
+    $primary-dark: tokens.$primary-dark,
+    $primary-light: tokens.$primary-light,
+    $primary-hover: tokens.$primary-hover,
+    $primary-contrastText: tokens.$primary-contrast,
+    $secondary-main: tokens.$secondary-main,
+    $secondary-contrastText: tokens.$secondary-contrast,
+    $text-primary: tokens.$text-primary,
+    $text-secondary: tokens.$text-secondary,
+    $action-focus: tokens.$focus,
+    $action-hover: tokens.$hover,
+    $divider: tokens.$divider,
+    $appBar-defaultBg: tokens.$surface-strong,
+    $appBar-gradient: tokens.$header-gradient,
+    $appBar-transparentBg: tokens.$surface-glass,
+    $surface-overlay: tokens.$surface-overlay,
+    $filledInput-bg: rgba(15, 19, 29, 0.92),
+    $filledInput-borderColor: tokens.$divider,
+    $card-borderRadius: tokens.$radius-md,
+    $alert-infoFilledBg: tokens.$blue,
+    $alert-infoFilledColor: #fff,
+    $button-inheritContainedBg: tokens.$surface-elevated,
+    $button-inheritContainedHoverBg: #1d2635,
+    $snackbarContent-bg: tokens.$surface-elevated,
+    $snackbarContent-color: tokens.$text-primary
+);
+
+@use '../../styles/velaris/velaris';

@@ -1,0 +1,56 @@
+@use './tokens' as tokens;
+
+.skinHeader-withBackground {
+    border-bottom: 1px solid tokens.$divider;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+.skinHeader.semiTransparent {
+    background-color: tokens.$surface-glass;
+    backdrop-filter: blur(20px) saturate(1.15) !important;
+}
+
+.mainDrawer {
+    border-right: 1px solid tokens.$divider;
+    background: tokens.$surface-glass;
+    box-shadow: 18px 0 48px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(22px) saturate(1.12);
+}
+
+.drawer-open {
+    background-color: tokens.$background;
+}
+
+.navMenuOption {
+    margin: 0.12rem 0.45rem;
+    border-radius: tokens.$radius-sm;
+    transition: background-color tokens.$transition-fast, color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .navMenuOption:hover {
+        background: tokens.$hover;
+        color: tokens.$text-primary;
+        transform: translateX(2px);
+    }
+}
+
+.navMenuOption-selected {
+    background: linear-gradient(100deg, rgba(69, 243, 255, 0.18), rgba(22, 135, 255, 0.12) 38%, rgba(138, 54, 255, 0.16) 72%, rgba(212, 44, 255, 0.16)) !important;
+    box-shadow: inset 3px 0 0 tokens.$cyan;
+    color: tokens.$text-primary;
+}
+
+.emby-tab-button {
+    transition: color tokens.$transition-fast, background-color tokens.$transition-fast;
+}
+
+.emby-tab-button-active {
+    color: tokens.$text-primary;
+    text-shadow: 0 0 18px rgba(69, 243, 255, 0.18);
+}
+
+.emby-tab-button.show-focus:focus,
+.emby-tab-button:hover {
+    color: tokens.$cyan;
+}

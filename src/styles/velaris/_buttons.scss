@@ -1,0 +1,58 @@
+@use './tokens' as tokens;
+
+a[data-role='button'],
+.fab,
+.raised {
+    border: 1px solid tokens.$divider;
+    border-radius: tokens.$radius-sm;
+    box-shadow: tokens.$shadow-soft;
+    transition: transform tokens.$transition-fast, border-color tokens.$transition-fast, background-color tokens.$transition-fast, box-shadow tokens.$transition-fast;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    a[data-role='button']:hover,
+    .fab:hover,
+    .raised:hover {
+        border-color: rgba(69, 243, 255, 0.38);
+        transform: translateY(-1px);
+    }
+}
+
+.button-submit {
+    background: tokens.$accent-gradient;
+    border: 0;
+    border-radius: tokens.$radius-sm;
+    box-shadow: tokens.$shadow-cyan;
+    color: tokens.$primary-contrast;
+    font-weight: 700;
+    transition: filter tokens.$transition-fast, transform tokens.$transition-fast, box-shadow tokens.$transition-fast;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .button-submit:hover {
+        filter: brightness(1.08) saturate(1.06);
+        transform: translateY(-1px);
+    }
+}
+
+.button-submit:focus,
+.emby-button.show-focus:focus {
+    box-shadow: 0 0 0 3px tokens.$focus, tokens.$shadow-cyan;
+}
+
+.paper-icon-button-light {
+    border-radius: 50%;
+    transition: color tokens.$transition-fast, background-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .paper-icon-button-light:hover:not(:disabled) {
+        color: tokens.$cyan;
+        transform: translateY(-1px);
+    }
+}
+
+.button-link,
+.button-flat:hover {
+    color: tokens.$cyan;
+}
