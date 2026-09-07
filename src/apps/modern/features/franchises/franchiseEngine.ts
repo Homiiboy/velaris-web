@@ -249,15 +249,17 @@ const resolveHub = (
         }
 
         groupItems = sortGroupItems(groupItems, group);
-        if (groupItems.length === 0) return;
+        if (groupItems.length > 0) {
+            resolvedGroups.push({
+                id: group.id,
+                name: group.name,
+                items: groupItems
+            });
 
-        resolvedGroups.push({
-            id: group.id,
-            name: group.name,
-            items: groupItems
-        });
-
-        groupItems.forEach((item, index) => previouslyMatched.add(getItemKey(item, index)));
+            groupItems.forEach(
+                (item, index) => previouslyMatched.add(getItemKey(item, index))
+            );
+        }
     });
 
     const groupedKeys = new Set(
