@@ -39,8 +39,7 @@ const theme = buildCustomColorScheme({
             inheritContainedHoverBg: '#1d2635'
         },
         FilledInput: {
-            bg: 'rgba(15, 19, 29, 0.92)',
-            borderColor: 'rgba(145, 170, 210, 0.18)'
+            bg: 'rgba(15, 19, 29, 0.92)'
         },
         SnackbarContent: {
             bg: '#151a24',
