@@ -6,6 +6,7 @@ interface ListItemLinkProps extends ListItemButtonBaseProps {
     to: string
     includePaths?: string[]
     excludePaths?: string[]
+    className?: string
 }
 
 const isMatchingParams = (routeParams: URLSearchParams, currentParams: URLSearchParams) => {
