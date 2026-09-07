@@ -33,6 +33,134 @@ export interface FranchiseHubDefinition {
 const movies = [ BaseItemKind.Movie ];
 const series = [ BaseItemKind.Series ];
 
+const orderedTitleGroup = (
+    id: string,
+    name: string,
+    titles: string[],
+    types?: BaseItemKind[]
+): FranchiseGroupDefinition => ({
+    id,
+    name,
+    matchers: [ { titles, types } ],
+    sortOrder: titles
+});
+
+const mcuPhaseOne = [
+    'Iron Man',
+    'The Incredible Hulk',
+    'Iron Man 2',
+    'Thor',
+    'Captain America: The First Avenger',
+    'The Avengers'
+];
+
+const mcuPhaseTwo = [
+    'Iron Man 3',
+    'Thor: The Dark World',
+    'Captain America: The Winter Soldier',
+    'Guardians of the Galaxy',
+    'Avengers: Age of Ultron',
+    'Ant-Man'
+];
+
+const mcuPhaseThree = [
+    'Captain America: Civil War',
+    'Doctor Strange',
+    'Guardians of the Galaxy Vol. 2',
+    'Spider-Man: Homecoming',
+    'Thor: Ragnarok',
+    'Black Panther',
+    'Avengers: Infinity War',
+    'Ant-Man and the Wasp',
+    'Captain Marvel',
+    'Avengers: Endgame',
+    'Spider-Man: Far From Home'
+];
+
+const mcuPhaseFour = [
+    'Black Widow',
+    'Shang-Chi and the Legend of the Ten Rings',
+    'Eternals',
+    'Spider-Man: No Way Home',
+    'Doctor Strange in the Multiverse of Madness',
+    'Thor: Love and Thunder',
+    'Black Panther: Wakanda Forever'
+];
+
+const mcuSeries = [
+    'WandaVision',
+    'The Falcon and the Winter Soldier',
+    'Loki',
+    'What If...?',
+    'Hawkeye',
+    'Moon Knight',
+    'Ms. Marvel',
+    'She-Hulk: Attorney at Law',
+    'Secret Invasion',
+    'Echo',
+    'Agatha All Along',
+    'Daredevil: Born Again'
+];
+
+const dceu = [
+    'Man of Steel',
+    'Batman v Superman: Dawn of Justice',
+    'Suicide Squad',
+    'Wonder Woman',
+    'Justice League',
+    'Aquaman',
+    'Shazam!',
+    'Birds of Prey',
+    'Wonder Woman 1984',
+    "Zack Snyder's Justice League",
+    'The Suicide Squad',
+    'Black Adam',
+    'Shazam! Fury of the Gods',
+    'The Flash',
+    'Blue Beetle',
+    'Aquaman and the Lost Kingdom'
+];
+
+const arrowverse = [
+    'Arrow',
+    'The Flash',
+    'Constantine',
+    'Supergirl',
+    "DC's Legends of Tomorrow",
+    'Legends of Tomorrow',
+    'Black Lightning',
+    'Batwoman',
+    'Vixen',
+    'Freedom Fighters: The Ray',
+    'Superman & Lois'
+];
+
+const skywalkerSaga = [
+    'The Phantom Menace',
+    'Attack of the Clones',
+    'Revenge of the Sith',
+    'Star Wars',
+    'Star Wars: Episode IV - A New Hope',
+    'A New Hope',
+    'The Empire Strikes Back',
+    'Return of the Jedi',
+    'The Force Awakens',
+    'The Last Jedi',
+    'The Rise of Skywalker'
+];
+
+const harryPotter = [
+    "Harry Potter and the Philosopher's Stone",
+    "Harry Potter and the Sorcerer's Stone",
+    'Harry Potter and the Chamber of Secrets',
+    'Harry Potter and the Prisoner of Azkaban',
+    'Harry Potter and the Goblet of Fire',
+    'Harry Potter and the Order of the Phoenix',
+    'Harry Potter and the Half-Blood Prince',
+    'Harry Potter and the Deathly Hallows: Part 1',
+    'Harry Potter and the Deathly Hallows: Part 2'
+];
+
 export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
     {
         id: 'marvel',
@@ -42,145 +170,11 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         fallbackGroupName: 'Weitere Marvel-Titel',
         heroTitles: [ 'Avengers: Endgame', 'The Avengers', 'Iron Man', 'Black Panther' ],
         groups: [
-            {
-                id: 'mcu-phase-one',
-                name: 'MCU · Phase 1',
-                matchers: [ {
-                    types: movies,
-                    titles: [
-                        'Iron Man',
-                        'The Incredible Hulk',
-                        'Iron Man 2',
-                        'Thor',
-                        'Captain America: The First Avenger',
-                        'The Avengers'
-                    ]
-                } ],
-                sortOrder: [
-                    'Iron Man',
-                    'The Incredible Hulk',
-                    'Iron Man 2',
-                    'Thor',
-                    'Captain America: The First Avenger',
-                    'The Avengers'
-                ]
-            },
-            {
-                id: 'mcu-phase-two',
-                name: 'MCU · Phase 2',
-                matchers: [ {
-                    types: movies,
-                    titles: [
-                        'Iron Man 3',
-                        'Thor: The Dark World',
-                        'Captain America: The Winter Soldier',
-                        'Guardians of the Galaxy',
-                        'Avengers: Age of Ultron',
-                        'Ant-Man'
-                    ]
-                } ],
-                sortOrder: [
-                    'Iron Man 3',
-                    'Thor: The Dark World',
-                    'Captain America: The Winter Soldier',
-                    'Guardians of the Galaxy',
-                    'Avengers: Age of Ultron',
-                    'Ant-Man'
-                ]
-            },
-            {
-                id: 'mcu-phase-three',
-                name: 'MCU · Phase 3',
-                matchers: [ {
-                    types: movies,
-                    titles: [
-                        'Captain America: Civil War',
-                        'Doctor Strange',
-                        'Guardians of the Galaxy Vol. 2',
-                        'Spider-Man: Homecoming',
-                        'Thor: Ragnarok',
-                        'Black Panther',
-                        'Avengers: Infinity War',
-                        'Ant-Man and the Wasp',
-                        'Captain Marvel',
-                        'Avengers: Endgame',
-                        'Spider-Man: Far From Home'
-                    ]
-                } ],
-                sortOrder: [
-                    'Captain America: Civil War',
-                    'Doctor Strange',
-                    'Guardians of the Galaxy Vol. 2',
-                    'Spider-Man: Homecoming',
-                    'Thor: Ragnarok',
-                    'Black Panther',
-                    'Avengers: Infinity War',
-                    'Ant-Man and the Wasp',
-                    'Captain Marvel',
-                    'Avengers: Endgame',
-                    'Spider-Man: Far From Home'
-                ]
-            },
-            {
-                id: 'mcu-phase-four',
-                name: 'MCU · Phase 4',
-                matchers: [ {
-                    types: movies,
-                    titles: [
-                        'Black Widow',
-                        'Shang-Chi and the Legend of the Ten Rings',
-                        'Eternals',
-                        'Spider-Man: No Way Home',
-                        'Doctor Strange in the Multiverse of Madness',
-                        'Thor: Love and Thunder',
-                        'Black Panther: Wakanda Forever'
-                    ]
-                } ],
-                sortOrder: [
-                    'Black Widow',
-                    'Shang-Chi and the Legend of the Ten Rings',
-                    'Eternals',
-                    'Spider-Man: No Way Home',
-                    'Doctor Strange in the Multiverse of Madness',
-                    'Thor: Love and Thunder',
-                    'Black Panther: Wakanda Forever'
-                ]
-            },
-            {
-                id: 'mcu-series',
-                name: 'MCU · Serien',
-                matchers: [ {
-                    types: series,
-                    titles: [
-                        'WandaVision',
-                        'The Falcon and the Winter Soldier',
-                        'Loki',
-                        'What If...?',
-                        'Hawkeye',
-                        'Moon Knight',
-                        'Ms. Marvel',
-                        'She-Hulk: Attorney at Law',
-                        'Secret Invasion',
-                        'Echo',
-                        'Agatha All Along',
-                        'Daredevil: Born Again'
-                    ]
-                } ],
-                sortOrder: [
-                    'WandaVision',
-                    'The Falcon and the Winter Soldier',
-                    'Loki',
-                    'What If...?',
-                    'Hawkeye',
-                    'Moon Knight',
-                    'Ms. Marvel',
-                    'She-Hulk: Attorney at Law',
-                    'Secret Invasion',
-                    'Echo',
-                    'Agatha All Along',
-                    'Daredevil: Born Again'
-                ]
-            },
+            orderedTitleGroup('mcu-phase-one', 'MCU · Phase 1', mcuPhaseOne, movies),
+            orderedTitleGroup('mcu-phase-two', 'MCU · Phase 2', mcuPhaseTwo, movies),
+            orderedTitleGroup('mcu-phase-three', 'MCU · Phase 3', mcuPhaseThree, movies),
+            orderedTitleGroup('mcu-phase-four', 'MCU · Phase 4', mcuPhaseFour, movies),
+            orderedTitleGroup('mcu-series', 'MCU · Serien', mcuSeries, series),
             {
                 id: 'spider-man',
                 name: 'Spider-Man',
@@ -197,14 +191,12 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
                     { titles: [ 'Logan', 'The New Mutants' ] }
                 ]
             },
-            {
-                id: 'defenders',
-                name: 'Defenders Saga',
-                matchers: [
-                    { types: series, titles: [ 'Daredevil', 'Jessica Jones', 'Luke Cage', 'Iron Fist', 'The Defenders', 'The Punisher' ] }
-                ],
-                sortOrder: [ 'Daredevil', 'Jessica Jones', 'Luke Cage', 'Iron Fist', 'The Defenders', 'The Punisher' ]
-            },
+            orderedTitleGroup(
+                'defenders',
+                'Defenders Saga',
+                [ 'Daredevil', 'Jessica Jones', 'Luke Cage', 'Iron Fist', 'The Defenders', 'The Punisher' ],
+                series
+            ),
             {
                 id: 'mcu-other',
                 name: 'Weitere MCU-Titel',
@@ -231,86 +223,8 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
                 ],
                 sortOrder: [ 'Creature Commandos', 'Superman', 'Peacemaker' ]
             },
-            {
-                id: 'dceu',
-                name: 'DCEU',
-                matchers: [
-                    {
-                        types: movies,
-                        titles: [
-                            'Man of Steel',
-                            'Batman v Superman: Dawn of Justice',
-                            'Suicide Squad',
-                            'Wonder Woman',
-                            'Justice League',
-                            'Aquaman',
-                            'Shazam!',
-                            'Birds of Prey',
-                            'Wonder Woman 1984',
-                            "Zack Snyder's Justice League",
-                            'The Suicide Squad',
-                            'Black Adam',
-                            'Shazam! Fury of the Gods',
-                            'The Flash',
-                            'Blue Beetle',
-                            'Aquaman and the Lost Kingdom'
-                        ]
-                    }
-                ],
-                sortOrder: [
-                    'Man of Steel',
-                    'Batman v Superman: Dawn of Justice',
-                    'Suicide Squad',
-                    'Wonder Woman',
-                    'Justice League',
-                    'Aquaman',
-                    'Shazam!',
-                    'Birds of Prey',
-                    'Wonder Woman 1984',
-                    "Zack Snyder's Justice League",
-                    'The Suicide Squad',
-                    'Black Adam',
-                    'Shazam! Fury of the Gods',
-                    'The Flash',
-                    'Blue Beetle',
-                    'Aquaman and the Lost Kingdom'
-                ]
-            },
-            {
-                id: 'arrowverse',
-                name: 'Arrowverse',
-                matchers: [
-                    {
-                        types: series,
-                        titles: [
-                            'Arrow',
-                            'The Flash',
-                            'Constantine',
-                            'Supergirl',
-                            "DC's Legends of Tomorrow",
-                            'Legends of Tomorrow',
-                            'Black Lightning',
-                            'Batwoman',
-                            'Vixen',
-                            'Freedom Fighters: The Ray',
-                            'Superman & Lois'
-                        ]
-                    }
-                ],
-                sortOrder: [
-                    'Arrow',
-                    'The Flash',
-                    'Constantine',
-                    'Supergirl',
-                    "DC's Legends of Tomorrow",
-                    'Legends of Tomorrow',
-                    'Black Lightning',
-                    'Batwoman',
-                    'Vixen',
-                    'Freedom Fighters: The Ray',
-                    'Superman & Lois'
-                ]
-            },
+            orderedTitleGroup('dceu', 'DCEU', dceu, movies),
+            orderedTitleGroup('arrowverse', 'Arrowverse', arrowverse, series),
             {
                 id: 'batman',
                 name: 'Batman',
@@ -327,14 +241,11 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
                     { types: series, titles: [ 'Smallville', 'Lois & Clark: The New Adventures of Superman' ] }
                 ]
             },
-            {
-                id: 'elseworlds',
-                name: 'Elseworlds',
-                matchers: [
-                    { titles: [ 'The Batman', 'The Penguin', 'Joker', 'Joker: Folie à Deux' ] }
-                ],
-                sortOrder: [ 'Joker', 'The Batman', 'The Penguin', 'Joker: Folie à Deux' ]
-            }
+            orderedTitleGroup(
+                'elseworlds',
+                'Elseworlds',
+                [ 'Joker', 'The Batman', 'The Penguin', 'Joker: Folie à Deux' ]
+            )
         ]
     },
     {
@@ -345,70 +256,29 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         fallbackGroupName: 'Weitere Star-Wars-Titel',
         heroTitles: [ 'The Empire Strikes Back', 'A New Hope', 'Rogue One: A Star Wars Story', 'The Mandalorian' ],
         groups: [
-            {
-                id: 'skywalker-saga',
-                name: 'Skywalker Saga',
-                matchers: [ {
-                    types: movies,
-                    titles: [
-                        'Star Wars',
-                        'Star Wars: Episode IV - A New Hope',
-                        'A New Hope',
-                        'The Empire Strikes Back',
-                        'Return of the Jedi',
-                        'The Phantom Menace',
-                        'Attack of the Clones',
-                        'Revenge of the Sith',
-                        'The Force Awakens',
-                        'The Last Jedi',
-                        'The Rise of Skywalker'
-                    ]
-                } ],
-                sortOrder: [
-                    'The Phantom Menace',
-                    'Attack of the Clones',
-                    'Revenge of the Sith',
-                    'Star Wars',
-                    'Star Wars: Episode IV - A New Hope',
-                    'A New Hope',
-                    'The Empire Strikes Back',
-                    'Return of the Jedi',
-                    'The Force Awakens',
-                    'The Last Jedi',
-                    'The Rise of Skywalker'
-                ]
-            },
-            {
-                id: 'mandalorian-era',
-                name: 'Mandalorian Era',
-                matchers: [
-                    { types: series, titles: [ 'The Mandalorian', 'The Book of Boba Fett', 'Ahsoka' ] }
-                ],
-                sortOrder: [ 'The Mandalorian', 'The Book of Boba Fett', 'Ahsoka' ]
-            },
-            {
-                id: 'rebellion',
-                name: 'Rebellion',
-                matchers: [
-                    { titles: [ 'Andor', 'Star Wars Rebels', 'Rogue One: A Star Wars Story' ] }
-                ],
-                sortOrder: [ 'Andor', 'Star Wars Rebels', 'Rogue One: A Star Wars Story' ]
-            },
+            orderedTitleGroup('skywalker-saga', 'Skywalker Saga', skywalkerSaga, movies),
+            orderedTitleGroup(
+                'mandalorian-era',
+                'Mandalorian Era',
+                [ 'The Mandalorian', 'The Book of Boba Fett', 'Ahsoka' ],
+                series
+            ),
+            orderedTitleGroup(
+                'rebellion',
+                'Rebellion',
+                [ 'Andor', 'Star Wars Rebels', 'Rogue One: A Star Wars Story' ]
+            ),
             {
                 id: 'animation',
                 name: 'Animation',
-                matchers: [
-                    { titleIncludes: [ 'Clone Wars', 'The Bad Batch', 'Tales of the Jedi', 'Tales of the Empire' ] }
-                ]
+                matchers: [ { titleIncludes: [ 'Clone Wars', 'The Bad Batch', 'Tales of the Jedi', 'Tales of the Empire' ] } ]
             },
-            {
-                id: 'anthology',
-                name: 'Standalone Stories',
-                matchers: [
-                    { types: movies, titles: [ 'Rogue One: A Star Wars Story', 'Solo: A Star Wars Story' ] }
-                ],
-                sortOrder: [ 'Rogue One: A Star Wars Story', 'Solo: A Star Wars Story' ]
-            }
+            orderedTitleGroup(
+                'anthology',
+                'Standalone Stories',
+                [ 'Rogue One: A Star Wars Story', 'Solo: A Star Wars Story' ],
+                movies
+            )
         ]
     },
     {
@@ -417,23 +287,13 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         eyebrow: 'Wizarding World',
         description: 'Harry Potter und Fantastic Beasts in einem gemeinsamen magischen Hub.',
         fallbackGroupName: 'Weitere Wizarding-World-Titel',
-        heroTitles: [ 'Harry Potter and the Prisoner of Azkaban', 'Harry Potter and the Philosopher\'s Stone' ],
+        heroTitles: [ 'Harry Potter and the Prisoner of Azkaban', "Harry Potter and the Philosopher's Stone" ],
         groups: [
             {
                 id: 'harry-potter',
                 name: 'Harry Potter',
                 matchers: [ { titleIncludes: [ 'Harry Potter' ] } ],
-                sortOrder: [
-                    "Harry Potter and the Philosopher's Stone",
-                    "Harry Potter and the Sorcerer's Stone",
-                    'Harry Potter and the Chamber of Secrets',
-                    'Harry Potter and the Prisoner of Azkaban',
-                    'Harry Potter and the Goblet of Fire',
-                    'Harry Potter and the Order of the Phoenix',
-                    'Harry Potter and the Half-Blood Prince',
-                    'Harry Potter and the Deathly Hallows: Part 1',
-                    'Harry Potter and the Deathly Hallows: Part 2'
-                ]
+                sortOrder: harryPotter
             },
             {
                 id: 'fantastic-beasts',
@@ -475,11 +335,7 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
                     'The Hobbit: The Battle of the Five Armies'
                 ]
             },
-            {
-                id: 'rings-of-power',
-                name: 'The Rings of Power',
-                matchers: [ { titleIncludes: [ 'Rings of Power' ] } ]
-            }
+            { id: 'rings-of-power', name: 'The Rings of Power', matchers: [ { titleIncludes: [ 'Rings of Power' ] } ] }
         ]
     },
     {
@@ -490,7 +346,7 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         fallbackGroupName: 'Weitere Walking-Dead-Titel',
         heroTitles: [ 'The Walking Dead', 'The Walking Dead: Daryl Dixon', 'The Walking Dead: Dead City' ],
         groups: [
-            { id: 'main-series', name: 'The Walking Dead', matchers: [ { types: series, titles: [ 'The Walking Dead' ] } ] },
+            orderedTitleGroup('main-series', 'The Walking Dead', [ 'The Walking Dead' ], series),
             { id: 'fear', name: 'Fear the Walking Dead', matchers: [ { titleIncludes: [ 'Fear the Walking Dead' ] } ] },
             { id: 'daryl-dixon', name: 'Daryl Dixon', matchers: [ { titleIncludes: [ 'Daryl Dixon' ] } ] },
             { id: 'dead-city', name: 'Dead City', matchers: [ { titleIncludes: [ 'Dead City' ] } ] },
@@ -504,8 +360,8 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         description: 'Breaking Bad, Better Call Saul und El Camino zusammengeführt.',
         heroTitles: [ 'Breaking Bad', 'Better Call Saul', 'El Camino: A Breaking Bad Movie' ],
         groups: [
-            { id: 'breaking-bad', name: 'Breaking Bad', matchers: [ { titles: [ 'Breaking Bad' ] } ] },
-            { id: 'better-call-saul', name: 'Better Call Saul', matchers: [ { titles: [ 'Better Call Saul' ] } ] },
+            orderedTitleGroup('breaking-bad', 'Breaking Bad', [ 'Breaking Bad' ]),
+            orderedTitleGroup('better-call-saul', 'Better Call Saul', [ 'Better Call Saul' ]),
             { id: 'el-camino', name: 'El Camino', matchers: [ { titleIncludes: [ 'El Camino' ] } ] }
         ]
     },
@@ -517,14 +373,12 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         fallbackGroupName: 'Weitere Westeros-Titel',
         heroTitles: [ 'Game of Thrones', 'House of the Dragon' ],
         groups: [
-            {
-                id: 'westeros-series',
-                name: 'Westeros',
-                matchers: [
-                    { types: series, titles: [ 'Game of Thrones', 'House of the Dragon', 'A Knight of the Seven Kingdoms' ] }
-                ],
-                sortOrder: [ 'Game of Thrones', 'House of the Dragon', 'A Knight of the Seven Kingdoms' ]
-            }
+            orderedTitleGroup(
+                'westeros-series',
+                'Westeros',
+                [ 'Game of Thrones', 'House of the Dragon', 'A Knight of the Seven Kingdoms' ],
+                series
+            )
         ]
     },
     {
@@ -535,69 +389,38 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         fallbackGroupName: 'Weitere Star-Trek-Titel',
         heroTitles: [ 'Star Trek: The Next Generation', 'Star Trek', 'Star Trek: Strange New Worlds' ],
         groups: [
-            {
-                id: 'classic-series',
-                name: 'Classic Series',
-                matchers: [
-                    {
-                        types: series,
-                        titles: [
-                            'Star Trek',
-                            'Star Trek: The Animated Series',
-                            'Star Trek: The Next Generation',
-                            'Star Trek: Deep Space Nine',
-                            'Star Trek: Voyager',
-                            'Star Trek: Enterprise'
-                        ]
-                    }
-                ],
-                sortOrder: [
+            orderedTitleGroup(
+                'classic-series',
+                'Classic Series',
+                [
                     'Star Trek',
                     'Star Trek: The Animated Series',
                     'Star Trek: The Next Generation',
                     'Star Trek: Deep Space Nine',
                     'Star Trek: Voyager',
                     'Star Trek: Enterprise'
-                ]
-            },
-            {
-                id: 'modern-series',
-                name: 'Modern Series',
-                matchers: [
-                    {
-                        types: series,
-                        titles: [
-                            'Star Trek: Discovery',
-                            'Star Trek: Picard',
-                            'Star Trek: Lower Decks',
-                            'Star Trek: Prodigy',
-                            'Star Trek: Strange New Worlds'
-                        ]
-                    }
                 ],
-                sortOrder: [
+                series
+            ),
+            orderedTitleGroup(
+                'modern-series',
+                'Modern Series',
+                [
                     'Star Trek: Discovery',
                     'Star Trek: Picard',
                     'Star Trek: Lower Decks',
                     'Star Trek: Prodigy',
                     'Star Trek: Strange New Worlds'
-                ]
-            },
-            {
-                id: 'kelvin-timeline',
-                name: 'Kelvin Timeline',
-                matchers: [
-                    { types: movies, titles: [ 'Star Trek', 'Star Trek Into Darkness', 'Star Trek Beyond' ] }
                 ],
-                sortOrder: [ 'Star Trek', 'Star Trek Into Darkness', 'Star Trek Beyond' ]
-            },
-            {
-                id: 'star-trek-films',
-                name: 'Star Trek Films',
-                matchers: [
-                    { types: movies, titleIncludes: [ 'Star Trek' ] }
-                ]
-            }
+                series
+            ),
+            orderedTitleGroup(
+                'kelvin-timeline',
+                'Kelvin Timeline',
+                [ 'Star Trek', 'Star Trek Into Darkness', 'Star Trek Beyond' ],
+                movies
+            ),
+            { id: 'star-trek-films', name: 'Star Trek Films', matchers: [ { types: movies, titleIncludes: [ 'Star Trek' ] } ] }
         ]
     },
     {
@@ -608,29 +431,13 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
         fallbackGroupName: 'Weitere Alien-/Predator-Titel',
         heroTitles: [ 'Alien', 'Aliens', 'Predator', 'Prey' ],
         groups: [
-            {
-                id: 'alien',
-                name: 'Alien',
-                matchers: [
-                    { titles: [ 'Alien', 'Aliens', 'Alien 3', 'Alien Resurrection', 'Prometheus', 'Alien: Covenant', 'Alien: Romulus' ] }
-                ],
-                sortOrder: [ 'Alien', 'Aliens', 'Alien 3', 'Alien Resurrection', 'Prometheus', 'Alien: Covenant', 'Alien: Romulus' ]
-            },
-            {
-                id: 'predator',
-                name: 'Predator',
-                matchers: [
-                    { titles: [ 'Predator', 'Predator 2', 'Predators', 'The Predator', 'Prey' ] }
-                ],
-                sortOrder: [ 'Predator', 'Predator 2', 'Predators', 'The Predator', 'Prey' ]
-            },
-            {
-                id: 'avp',
-                name: 'Alien vs. Predator',
-                matchers: [
-                    { titleIncludes: [ 'Alien vs. Predator', 'Aliens vs. Predator' ] }
-                ]
-            }
+            orderedTitleGroup(
+                'alien',
+                'Alien',
+                [ 'Alien', 'Aliens', 'Alien 3', 'Alien Resurrection', 'Prometheus', 'Alien: Covenant', 'Alien: Romulus' ]
+            ),
+            orderedTitleGroup('predator', 'Predator', [ 'Predator', 'Predator 2', 'Predators', 'The Predator', 'Prey' ]),
+            { id: 'avp', name: 'Alien vs. Predator', matchers: [ { titleIncludes: [ 'Alien vs. Predator', 'Aliens vs. Predator' ] } ] }
         ]
     },
     {
@@ -674,11 +481,7 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
                 matchers: [ { titleIncludes: [ 'John Wick' ] } ],
                 sortOrder: [ 'John Wick', 'John Wick: Chapter 2', 'John Wick: Chapter 3 – Parabellum', 'John Wick: Chapter 4' ]
             },
-            {
-                id: 'john-wick-spinoffs',
-                name: 'Spin-offs',
-                matchers: [ { titles: [ 'The Continental', 'Ballerina', 'From the World of John Wick: Ballerina' ] } ]
-            }
+            { id: 'john-wick-spinoffs', name: 'Spin-offs', matchers: [ { titles: [ 'The Continental', 'Ballerina', 'From the World of John Wick: Ballerina' ] } ] }
         ]
     },
     {
@@ -719,7 +522,7 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
                 name: 'Fast Saga',
                 matchers: [
                     { titleIncludes: [ 'Fast & Furious', 'Fast and Furious' ] },
-                    { titles: [ 'The Fast and the Furious', '2 Fast 2 Furious', 'The Fast and the Furious: Tokyo Drift', 'Fast Five', 'Fast & Furious 6', 'Furious 7', 'The Fate of the Furious', 'F9', 'Fast X' ] }
+                    { titles: [ 'The Fast and the Furious', '2 Fast 2 Furious', 'The Fast and the Furious: Tokyo Drift', 'Fast Five', 'Furious 7', 'The Fate of the Furious', 'F9', 'Fast X' ] }
                 ],
                 sortOrder: [
                     'The Fast and the Furious',
@@ -734,11 +537,7 @@ export const VELARIS_FRANCHISE_CATALOG: FranchiseHubDefinition[] = [
                     'Fast X'
                 ]
             },
-            {
-                id: 'fast-spinoffs',
-                name: 'Spin-offs',
-                matchers: [ { titleIncludes: [ 'Hobbs & Shaw' ] } ]
-            }
+            { id: 'fast-spinoffs', name: 'Spin-offs', matchers: [ { titleIncludes: [ 'Hobbs & Shaw' ] } ] }
         ]
     },
     {
