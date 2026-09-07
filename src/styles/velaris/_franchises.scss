@@ -1,0 +1,245 @@
+@use './tokens' as tokens;
+
+.velaris-franchise-discovery {
+    margin-block: 1.8rem 3.6rem;
+}
+
+.velaris-franchise-discovery__heading {
+    padding-inline: clamp(1rem, 3vw, 3rem);
+}
+
+.velaris-franchise-discovery__eyebrow,
+.velaris-franchise-card__eyebrow,
+.velaris-franchise-hero__eyebrow,
+.velaris-franchise-empty__eyebrow {
+    display: inline-block;
+    color: tokens.$cyan;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.velaris-franchise-discovery__title {
+    margin: 0.18rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1.5rem, 2.2vw, 2.25rem);
+    font-weight: 760;
+    letter-spacing: -0.025em;
+}
+
+.velaris-franchise-discovery__subtitle {
+    max-width: 44rem;
+    margin: 0.38rem 0 0;
+    color: tokens.$text-muted;
+    font-size: 0.95rem;
+}
+
+.velaris-franchise-discovery__rail {
+    display: grid;
+    grid-auto-columns: clamp(17rem, 27vw, 25rem);
+    grid-auto-flow: column;
+    gap: 0.85rem;
+    margin-top: 1.15rem;
+    padding: 0.4rem clamp(1rem, 3vw, 3rem) 1.1rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+}
+
+.velaris-franchise-card {
+    position: relative;
+    isolation: isolate;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: tokens.$radius-lg;
+    background-color: tokens.$surface-strong;
+    background-position: center;
+    background-size: cover;
+    box-shadow: tokens.$shadow-soft;
+    color: tokens.$text-primary;
+    scroll-snap-align: start;
+    text-decoration: none;
+    transform: translateZ(0);
+    transition: transform tokens.$transition-standard, border-color tokens.$transition-standard, box-shadow tokens.$transition-standard;
+}
+
+.velaris-franchise-card::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: '';
+    background:
+        linear-gradient(90deg, rgba(3, 4, 8, 0.95) 0%, rgba(3, 4, 8, 0.65) 50%, rgba(3, 4, 8, 0.18) 100%),
+        linear-gradient(0deg, rgba(5, 6, 10, 0.78) 0%, transparent 52%);
+}
+
+.velaris-franchise-card::after {
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    content: '';
+    background: tokens.$accent-gradient;
+    opacity: 0.72;
+}
+
+.velaris-franchise-card__content {
+    display: flex;
+    height: 100%;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(1rem, 2.2vw, 1.55rem);
+}
+
+.velaris-franchise-card__eyebrow {
+    color: rgba(247, 251, 255, 0.72);
+}
+
+.velaris-franchise-card__title {
+    margin-top: 0.18rem;
+    font-size: clamp(1.55rem, 2.8vw, 2.55rem);
+    font-weight: 820;
+    letter-spacing: -0.035em;
+    line-height: 0.98;
+}
+
+.velaris-franchise-card__meta {
+    margin-top: 0.65rem;
+    color: tokens.$text-secondary;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+
+.velaris-franchise-page {
+    min-height: 100%;
+    background: tokens.$background;
+}
+
+.velaris-franchise-hero {
+    display: flex;
+    min-height: clamp(25rem, 62vh, 44rem);
+    box-sizing: border-box;
+    align-items: flex-end;
+    padding: clamp(7rem, 13vh, 10rem) clamp(1rem, 5vw, 5rem) clamp(5rem, 10vh, 8rem);
+    background-color: tokens.$surface-strong;
+    background-position: center top;
+    background-size: cover;
+}
+
+.velaris-franchise-hero__content {
+    max-width: 44rem;
+}
+
+.velaris-franchise-hero__title {
+    margin: 0.28rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 860;
+    letter-spacing: -0.055em;
+    line-height: 0.92;
+}
+
+.velaris-franchise-hero__description {
+    max-width: 38rem;
+    margin: 1rem 0 0;
+    color: tokens.$text-secondary;
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+    line-height: 1.55;
+}
+
+.velaris-franchise-hero__meta {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    color: tokens.$text-muted;
+    font-size: 0.9rem;
+    font-weight: 650;
+}
+
+.velaris-franchise-groups {
+    position: relative;
+    z-index: 1;
+    margin-top: -3rem;
+    padding-bottom: 5rem;
+}
+
+.velaris-franchise-group {
+    margin-bottom: 1.2rem;
+}
+
+.velaris-franchise-empty {
+    display: flex;
+    min-height: 70vh;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6rem clamp(1rem, 6vw, 6rem);
+    background:
+        radial-gradient(circle at 18% 20%, rgba(69, 243, 255, 0.1), transparent 25rem),
+        radial-gradient(circle at 82% 18%, rgba(138, 54, 255, 0.12), transparent 28rem),
+        tokens.$background;
+}
+
+.velaris-franchise-empty__title {
+    max-width: 46rem;
+    margin: 0.35rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+}
+
+.velaris-franchise-empty__text {
+    max-width: 38rem;
+    margin: 1rem 0 0;
+    color: tokens.$text-secondary;
+    line-height: 1.6;
+}
+
+.velaris-franchise-empty__link {
+    margin-top: 1.4rem;
+    padding: 0.75rem 1.1rem;
+    border: 1px solid rgba(69, 243, 255, 0.16);
+    border-radius: tokens.$radius-sm;
+    background: rgba(69, 243, 255, 0.08);
+    color: tokens.$text-primary;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .velaris-franchise-card:hover {
+        border-color: rgba(69, 243, 255, 0.24);
+        box-shadow: 0 20px 55px rgba(0, 0, 0, 0.46), 0 0 28px rgba(69, 243, 255, 0.08);
+        transform: translateY(-4px) scale(1.012);
+    }
+
+    .velaris-franchise-empty__link:hover {
+        border-color: rgba(69, 243, 255, 0.32);
+        background: rgba(69, 243, 255, 0.13);
+    }
+}
+
+@media (max-width: 899.98px) {
+    .velaris-franchise-discovery {
+        margin-block: 1.3rem 2.8rem;
+    }
+
+    .velaris-franchise-discovery__rail {
+        grid-auto-columns: min(82vw, 21rem);
+    }
+
+    .velaris-franchise-hero {
+        min-height: 34rem;
+        padding-inline: 1.2rem;
+        padding-bottom: 5rem;
+        background-position: 62% top;
+    }
+
+    .velaris-franchise-groups {
+        margin-top: -2rem;
+    }
+}
