@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import VelarisFranchiseShelf from 'apps/modern/features/franchises/VelarisFranchiseShelf';
 import globalize from '../../../lib/globalize';
 import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
@@ -176,6 +177,7 @@ const Home = () => {
             >
                 <div className='tabContent pageTabContent' id='homeTab' data-index='0'>
                     <div className='sections'></div>
+                    <VelarisFranchiseShelf />
                 </div>
                 <div className='tabContent pageTabContent' id='favoritesTab' data-index='1'>
                     <div className='sections'></div>
