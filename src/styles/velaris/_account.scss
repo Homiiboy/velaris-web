@@ -1,0 +1,581 @@
+@use './tokens' as tokens;
+
+.velaris-auth-page {
+    position: relative;
+    isolation: isolate;
+    min-height: calc(100vh - 3.75rem);
+    min-height: calc(100dvh - 3.75rem);
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 12% 8%, rgba(69, 243, 255, 0.14), transparent 28rem),
+        radial-gradient(circle at 88% 0%, rgba(138, 54, 255, 0.16), transparent 32rem),
+        radial-gradient(circle at 55% 100%, rgba(212, 44, 255, 0.08), transparent 36rem),
+        linear-gradient(180deg, #070912 0%, tokens.$background 52%, #030408 100%);
+}
+
+.velaris-auth-page::before,
+.velaris-auth-page::after {
+    position: fixed;
+    z-index: -1;
+    width: 22rem;
+    height: 22rem;
+    border-radius: 50%;
+    pointer-events: none;
+    content: '';
+    filter: blur(70px);
+    opacity: 0.18;
+}
+
+.velaris-auth-page::before {
+    top: 12%;
+    left: -9rem;
+    background: tokens.$cyan;
+}
+
+.velaris-auth-page::after {
+    right: -8rem;
+    bottom: 2%;
+    background: tokens.$magenta;
+}
+
+.velaris-auth-shell {
+    position: relative;
+    display: flex;
+    width: min(100%, 72rem);
+    min-height: calc(100vh - 3.75rem);
+    min-height: calc(100dvh - 3.75rem);
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 4vw, 3.5rem) 3rem;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.velaris-auth-brand {
+    display: inline-flex;
+    width: fit-content;
+    margin: 0 auto clamp(1.8rem, 4vw, 3.6rem);
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.velaris-auth-brand__mark {
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    background: url('../../assets/img/velaris/velaris-logo.svg') center / contain no-repeat;
+    filter: drop-shadow(0 0 18px rgba(69, 243, 255, 0.24));
+}
+
+.velaris-auth-brand__wordmark {
+    color: tokens.$text-primary;
+    font-size: clamp(1.1rem, 2vw, 1.45rem);
+    font-weight: 800;
+    letter-spacing: 0.22em;
+}
+
+.velaris-auth-content {
+    width: 100%;
+}
+
+.velaris-auth-heading {
+    margin-bottom: clamp(1.5rem, 3vw, 2.4rem);
+    text-align: center;
+}
+
+.velaris-auth-eyebrow,
+.velaris-profile-copy__eyebrow,
+.velaris-user-menu__eyebrow {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: tokens.$cyan;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.velaris-auth-title {
+    margin: 0;
+    color: tokens.$text-primary;
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-weight: 750;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+}
+
+.velaris-auth-panel,
+.velaris-server-panel {
+    width: min(100%, 30rem);
+    margin: 0 auto;
+    padding: clamp(1.35rem, 3vw, 2rem);
+    border: 1px solid rgba(145, 170, 210, 0.16);
+    border-radius: tokens.$radius-lg;
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018)),
+        rgba(7, 10, 17, 0.82);
+    box-shadow: tokens.$shadow-surface;
+    backdrop-filter: blur(26px) saturate(1.12);
+}
+
+.velaris-auth-panel .sectionTitle,
+.velaris-auth-panel h1,
+.velaris-server-panel .sectionTitle,
+.velaris-server-panel h1,
+.velaris-reset-form h2 {
+    margin-top: 0;
+    color: tokens.$text-primary;
+    text-align: center;
+}
+
+.velaris-auth-panel .checkboxContainer {
+    margin-block: 1rem 1.15rem;
+}
+
+.velaris-auth-panel .button-submit,
+.velaris-server-form .button-submit,
+.velaris-reset-form .submit {
+    min-height: 3rem;
+    border: 1px solid rgba(69, 243, 255, 0.22) !important;
+    border-radius: 999px !important;
+    background: linear-gradient(105deg, tokens.$cyan, tokens.$blue 42%, tokens.$violet 78%, tokens.$magenta) !important;
+    box-shadow: 0 12px 30px rgba(22, 135, 255, 0.18);
+    color: tokens.$primary-contrast !important;
+    font-weight: 800;
+}
+
+.velaris-profile-picker {
+    width: min(100%, 62rem);
+    margin: 0 auto;
+}
+
+.velaris-profile-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(7.8rem, 10rem));
+    gap: clamp(1rem, 2.6vw, 2.2rem);
+    justify-content: center;
+}
+
+.velaris-profile-card {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: tokens.$text-primary;
+}
+
+.velaris-profile-card__box {
+    margin: 0 !important;
+    transition: transform tokens.$transition-standard, filter tokens.$transition-standard;
+}
+
+.velaris-profile-card__content {
+    overflow: visible;
+}
+
+.velaris-profile-card__image,
+.velaris-profile-card .cardImageContainer,
+.velaris-profile-card .cardImage {
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    background-color: tokens.$surface-elevated;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, transform tokens.$transition-standard;
+}
+
+.velaris-profile-card .cardImageIcon {
+    color: tokens.$text-secondary;
+    font-size: clamp(2.6rem, 6vw, 4.8rem);
+}
+
+.velaris-profile-card__footer {
+    padding-top: 0.85rem;
+}
+
+.velaris-profile-card .cardText {
+    overflow: hidden;
+    color: tokens.$text-secondary;
+    font-size: 0.95rem;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color tokens.$transition-fast;
+}
+
+.velaris-auth-actions {
+    display: grid;
+    width: min(100%, 30rem);
+    margin: 1rem auto 0;
+    gap: 0.55rem;
+}
+
+.velaris-auth-actions .raised,
+.velaris-server-page .btnAddServer,
+.velaris-server-form .btnCancel,
+.velaris-reset-form .btnCancel {
+    min-height: 2.75rem;
+    border: 1px solid rgba(145, 170, 210, 0.14) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+    color: tokens.$text-secondary !important;
+    box-shadow: none !important;
+}
+
+.velaris-auth-actions .btnQuick {
+    border-color: rgba(69, 243, 255, 0.18) !important;
+    background: rgba(69, 243, 255, 0.07) !important;
+    color: tokens.$text-primary !important;
+}
+
+.velaris-auth-actions .btnForgotPassword {
+    border-color: transparent !important;
+    background: transparent !important;
+}
+
+.velaris-auth-actions .btnSelectServer {
+    margin-top: 0.25rem;
+}
+
+.velaris-auth-page .loginDisclaimerContainer {
+    margin-top: 1.25rem;
+}
+
+.velaris-auth-page .loginDisclaimer {
+    color: tokens.$text-muted;
+    font-size: 0.82rem;
+}
+
+.velaris-server-panel {
+    width: min(100%, 58rem);
+}
+
+.velaris-server-page .servers {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 12rem));
+    gap: 1.2rem;
+    justify-content: center;
+    padding: 1rem 0;
+}
+
+.velaris-server-page .loginSquareCard {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.velaris-server-page .loginSquareCard .cardBox {
+    margin: 0 !important;
+    padding: 0.75rem;
+    border: 1px solid rgba(145, 170, 210, 0.14);
+    border-radius: tokens.$radius-md;
+    background: rgba(255, 255, 255, 0.035);
+    transition: border-color tokens.$transition-fast, background-color tokens.$transition-fast, transform tokens.$transition-standard;
+}
+
+.velaris-server-page .loginSquareCard .cardImageContainer {
+    border-radius: tokens.$radius-md;
+    background: linear-gradient(145deg, rgba(69, 243, 255, 0.12), rgba(138, 54, 255, 0.14));
+}
+
+.velaris-server-page .loginSquareCard .cardImageIcon {
+    color: tokens.$cyan;
+}
+
+.velaris-server-page .loginSquareCard .cardText {
+    color: tokens.$text-primary;
+    font-weight: 650;
+}
+
+.velaris-server-page .btnAddServer {
+    min-width: 11rem;
+    padding-inline: 1.25rem;
+}
+
+.velaris-server-form,
+.velaris-reset-form {
+    width: min(100%, 30rem);
+    margin: 0 auto;
+}
+
+.velaris-server-form .fieldDescription {
+    color: tokens.$text-muted;
+}
+
+.velaris-user-menu-popover .MuiPaper-root {
+    min-width: 17rem;
+    margin-top: 0.65rem;
+    overflow: hidden;
+    border: 1px solid rgba(145, 170, 210, 0.16);
+    border-radius: tokens.$radius-md;
+    background:
+        radial-gradient(circle at 10% 0%, rgba(69, 243, 255, 0.08), transparent 12rem),
+        rgba(8, 11, 18, 0.96);
+    box-shadow: 0 22px 58px rgba(0, 0, 0, 0.48);
+    backdrop-filter: blur(24px) saturate(1.12);
+}
+
+.velaris-user-menu__profile {
+    display: flex;
+    padding: 1rem 1rem 0.9rem;
+    align-items: center;
+    gap: 0.8rem;
+    list-style: none;
+}
+
+.velaris-user-menu__profile .MuiAvatar-root {
+    border: 2px solid rgba(69, 243, 255, 0.28);
+    box-shadow: 0 0 0 3px rgba(138, 54, 255, 0.1);
+}
+
+.velaris-user-menu__identity {
+    min-width: 0;
+}
+
+.velaris-user-menu__eyebrow {
+    margin-bottom: 0.15rem;
+    font-size: 0.62rem;
+}
+
+.velaris-user-menu__name {
+    display: block;
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 1rem;
+    font-weight: 750;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-user-menu-popover .MuiDivider-root {
+    margin-block: 0.35rem;
+    border-color: rgba(145, 170, 210, 0.12);
+}
+
+.velaris-user-menu-popover .MuiMenuItem-root {
+    min-height: 2.85rem;
+    margin: 0.12rem 0.45rem;
+    border-radius: tokens.$radius-sm;
+    color: tokens.$text-secondary;
+    transition: color tokens.$transition-fast, background-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-user-menu-popover .MuiListItemIcon-root {
+    min-width: 2.4rem;
+    color: currentColor;
+}
+
+.velaris-user-profile-page {
+    min-height: 100%;
+    background:
+        radial-gradient(circle at 16% -8%, rgba(69, 243, 255, 0.09), transparent 30rem),
+        radial-gradient(circle at 86% 5%, rgba(138, 54, 255, 0.1), transparent 34rem),
+        tokens.$background;
+}
+
+.velaris-user-profile {
+    width: min(100%, 64rem);
+    margin: 0 auto;
+    padding: clamp(1.2rem, 3vw, 2.8rem) clamp(1rem, 3vw, 2.2rem) 4rem;
+}
+
+.velaris-profile-hero {
+    display: grid;
+    padding: clamp(1.25rem, 3vw, 2.2rem);
+    border: 1px solid rgba(145, 170, 210, 0.14);
+    border-radius: tokens.$radius-lg;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(1.25rem, 4vw, 2.8rem);
+    background:
+        linear-gradient(120deg, rgba(69, 243, 255, 0.07), transparent 34%, rgba(138, 54, 255, 0.08) 72%, rgba(212, 44, 255, 0.06)),
+        rgba(9, 12, 20, 0.84);
+    box-shadow: tokens.$shadow-surface;
+    backdrop-filter: blur(22px);
+}
+
+.velaris-profile-avatar-shell {
+    position: relative;
+    width: clamp(8.5rem, 18vw, 12.5rem);
+    height: clamp(8.5rem, 18vw, 12.5rem);
+    padding: 3px;
+    border-radius: 50%;
+    background: tokens.$accent-gradient;
+    box-shadow: 0 0 34px rgba(69, 243, 255, 0.14);
+}
+
+.velaris-profile-avatar {
+    width: 100%;
+    height: 100%;
+    border: 4px solid tokens.$background;
+    border-radius: 50%;
+    background-color: tokens.$surface-elevated;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.velaris-profile-image-input {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.velaris-profile-copy {
+    min-width: 0;
+}
+
+.velaris-profile-copy h1 {
+    margin: 0;
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 760;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+}
+
+.velaris-profile-copy__subtitle {
+    max-width: 38rem;
+    margin: 0.7rem 0 0;
+    color: tokens.$text-secondary;
+    line-height: 1.6;
+}
+
+.velaris-profile-actions {
+    display: flex;
+    margin-top: 1.25rem;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.velaris-profile-actions .raised {
+    min-height: 2.6rem;
+    margin: 0 !important;
+    padding-inline: 1rem;
+    border-radius: 999px !important;
+}
+
+.velaris-profile-security {
+    margin-top: 1.4rem;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid rgba(145, 170, 210, 0.14);
+    border-radius: tokens.$radius-lg;
+    background: rgba(9, 12, 20, 0.74);
+    box-shadow: tokens.$shadow-soft;
+}
+
+.velaris-profile-security h2,
+.velaris-profile-security h3 {
+    color: tokens.$text-primary;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .velaris-profile-card:hover .velaris-profile-card__box {
+        transform: translateY(-5px);
+    }
+
+    .velaris-profile-card:hover .velaris-profile-card__image,
+    .velaris-profile-card:hover .cardImageContainer,
+    .velaris-profile-card:hover .cardImage {
+        border-color: rgba(69, 243, 255, 0.52);
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.4), 0 0 28px rgba(69, 243, 255, 0.14);
+        transform: scale(1.025);
+    }
+
+    .velaris-profile-card:hover .cardText {
+        color: tokens.$text-primary;
+    }
+
+    .velaris-auth-actions .raised:hover,
+    .velaris-server-page .btnAddServer:hover,
+    .velaris-server-form .btnCancel:hover,
+    .velaris-reset-form .btnCancel:hover {
+        border-color: rgba(69, 243, 255, 0.2) !important;
+        background: rgba(69, 243, 255, 0.075) !important;
+        color: tokens.$text-primary !important;
+    }
+
+    .velaris-server-page .loginSquareCard:hover .cardBox {
+        border-color: rgba(69, 243, 255, 0.24);
+        background: rgba(69, 243, 255, 0.065);
+        transform: translateY(-3px);
+    }
+
+    .velaris-user-menu-popover .MuiMenuItem-root:hover {
+        background: rgba(69, 243, 255, 0.07);
+        color: tokens.$text-primary;
+        transform: translateX(2px);
+    }
+}
+
+@media (max-width: 700px) {
+    .velaris-auth-shell {
+        justify-content: flex-start;
+        padding-top: 1.4rem;
+    }
+
+    .velaris-auth-brand {
+        margin-bottom: 1.7rem;
+    }
+
+    .velaris-auth-title {
+        font-size: clamp(1.9rem, 9vw, 2.8rem);
+    }
+
+    .velaris-profile-grid {
+        grid-template-columns: repeat(2, minmax(0, 8.5rem));
+        gap: 1.1rem 0.85rem;
+    }
+
+    .velaris-auth-panel,
+    .velaris-server-panel {
+        padding: 1.15rem;
+    }
+
+    .velaris-profile-hero {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+    }
+
+    .velaris-profile-copy__subtitle {
+        margin-inline: auto;
+    }
+
+    .velaris-profile-actions {
+        justify-content: center;
+    }
+}
+
+.layout-tv .velaris-auth-shell {
+    width: min(100%, 80rem);
+    padding-inline: 4rem;
+}
+
+.layout-tv .velaris-profile-grid {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 12rem));
+    gap: 2.4rem;
+}
+
+.layout-tv .velaris-profile-card .cardText {
+    font-size: 1.2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-profile-card__box,
+    .velaris-profile-card__image,
+    .velaris-profile-card .cardImageContainer,
+    .velaris-profile-card .cardImage,
+    .velaris-server-page .loginSquareCard .cardBox,
+    .velaris-user-menu-popover .MuiMenuItem-root {
+        transition: none;
+    }
+}
