@@ -24,21 +24,24 @@ Velaris treats the core media destinations as first-class streaming categories. 
 
 ## V0.0.4 — Dynamic Franchise Hubs
 
-V0.0.4 introduces the first Velaris-native universe and franchise layer. Hubs are generated from media that actually exists in the signed-in user's library, so empty franchise pages are never advertised in the normal viewer experience.
+V0.0.4 introduces the first Velaris-native universe and franchise layer. Hubs are generated from media that actually exists in the signed-in user's library, so empty franchise pages and empty sub-groups are never advertised in the normal viewer experience.
 
-The current development scope includes:
+The milestone includes:
 
 - dynamic franchise discovery from Movies and Series already available to the current user
+- matching based on display titles, original titles, sort titles, release years, studios, tags and catalog-defined provider IDs
 - automatic suppression of empty hubs and empty sub-groups
-- a new Home shelf for available universes and franchises
-- dedicated cinematic franchise pages with grouped horizontal media rows
-- initial support for Marvel, DC, Star Wars, Wizarding World, Middle-earth, The Walking Dead, Breaking Bad, Dragon Ball, Naruto and One Piece
-- structured sub-groups such as MCU, DCEU, DCU, Arrowverse, Batman, Elseworlds and similar franchise-specific eras or story worlds
-- support for media appearing in multiple useful groups at the same time
+- a Home shelf that only appears when at least one franchise is actually available
+- dedicated cinematic franchise pages with library-sourced hero artwork, Spotlight actions and quick navigation between available groups
+- curated row ordering for structured universes, including MCU phases, the Arrowverse, DCEU, Star Wars and other sequential franchises
+- catalog coverage for Marvel, DC, Star Wars, Wizarding World, Middle-earth, The Walking Dead, Breaking Bad, Game of Thrones, Star Trek, Alien & Predator, Jurassic, The Matrix, John Wick, Mission: Impossible, Fast & Furious, Dragon Ball, Naruto and One Piece
+- structured sub-groups such as MCU phases, MCU series, DCU, DCEU, Arrowverse, Batman, Elseworlds, Skywalker Saga, Mandalorian Era and similar story worlds
+- support for media appearing in multiple useful groups at the same time while remainder rows avoid unnecessary duplicates
 - optional manual metadata tags such as `velaris:franchise:dc` or `velaris:group:arrowverse` when automatic matching needs help
-- representative artwork selected from media already present in the library rather than bundled franchise artwork
+- representative hero artwork selected from preferred matching titles already present in the library rather than bundled franchise artwork
+- automated tests for empty-hub suppression, localized title matching, curated ordering, manual assignment and duplicate prevention
 
-The franchise catalog is intentionally data-driven and extensible. Additional universes can be added without rebuilding the page architecture.
+The franchise catalog is intentionally data-driven and extensible. Additional universes, timelines and aliases can be added without rebuilding the page architecture.
 
 ## Previous milestone — V0.0.3
 
