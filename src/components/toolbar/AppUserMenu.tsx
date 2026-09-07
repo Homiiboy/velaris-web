@@ -8,6 +8,7 @@ import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
 import Settings from '@mui/icons-material/Settings';
 import Storage from '@mui/icons-material/Storage';
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,6 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import React, { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
+import UserAvatar from 'components/UserAvatar';
 import { appHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
 import { useApi } from 'hooks/useApi';
@@ -65,6 +67,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
     return (
         <Menu
+            className='velaris-user-menu-popover'
             anchorEl={anchorEl}
             anchorOrigin={{
                 vertical: 'bottom',
@@ -79,6 +82,20 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             open={open}
             onClose={onMenuClose}
         >
+            <Box
+                component='li'
+                role='presentation'
+                className='velaris-user-menu__profile'
+            >
+                <UserAvatar user={user} size={44} />
+                <Box className='velaris-user-menu__identity'>
+                    <span className='velaris-user-menu__eyebrow'>VELARIS PROFILE</span>
+                    <strong className='velaris-user-menu__name'>{user?.Name || 'Velaris'}</strong>
+                </Box>
+            </Box>
+
+            <Divider />
+
             <MenuItem
                 component={Link}
                 to={`/userprofile?userId=${user?.Id}`}

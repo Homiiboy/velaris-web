@@ -147,7 +147,7 @@ function loadUserList(context, apiClient, users) {
 
     for (const user of users) {
         // TODO move card creation code to Card component
-        let cssClass = 'card squareCard scalableCard squareCard-scalable';
+        let cssClass = 'card squareCard scalableCard squareCard-scalable velaris-profile-card';
 
         if (layoutManager.tv) {
             cssClass += ' show-focus';
@@ -157,12 +157,12 @@ function loadUserList(context, apiClient, users) {
             }
         }
 
-        const cardBoxCssClass = 'cardBox cardBox-bottompadded';
+        const cardBoxCssClass = 'cardBox cardBox-bottompadded velaris-profile-card__box';
         html += '<button type="button" class="' + cssClass + '">';
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += `<div class="cardContent" data-haspw="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
+        html += `<div class="cardContent velaris-profile-card__content" data-haspopup="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -172,16 +172,16 @@ function loadUserList(context, apiClient, users) {
                 type: 'Primary'
             });
 
-            html += '<div class="cardImageContainer coveredImage" style="background-image:url(\'' + imgUrl + "');\"></div>";
+            html += '<div class="cardImageContainer coveredImage velaris-profile-card__image" style="background-image:url(\'' + imgUrl + "');\"></div>";
         } else {
-            html += `<div class="cardImage flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
+            html += `<div class="cardImage velaris-profile-card__image flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
             html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
             html += '</div>';
         }
 
         html += '</div>';
         html += '</div>';
-        html += '<div class="cardFooter visualCardBox-cardFooter">';
+        html += '<div class="cardFooter visualCardBox-cardFooter velaris-profile-card__footer">';
         html += '<div class="cardText singleCardText cardTextCentered">' + user.Name + '</div>';
         html += '</div>';
         html += '</div>';
@@ -232,7 +232,7 @@ export default function (view, params) {
             const context = view;
             const id = cardContent.getAttribute('data-userid');
             const name = cardContent.getAttribute('data-username');
-            const haspw = cardContent.getAttribute('data-haspw');
+            const haspw = cardContent.getAttribute('data-haspopup');
 
             if (id === 'manual') {
                 context.querySelector('#txtManualName').value = '';
@@ -322,4 +322,3 @@ export default function (view, params) {
         libraryMenu.setTransparentMenu(false);
     });
 }
-

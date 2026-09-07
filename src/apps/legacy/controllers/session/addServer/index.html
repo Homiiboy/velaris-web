@@ -1,12 +1,21 @@
-<div data-role="page" class="page standalonePage">
-    <div class="padded-left padded-right padded-bottom-page">
-        <form class="addServerForm" style="margin: 0 auto;" novalidate>
-            <h1>${HeaderConnectToServer}</h1>
+<div data-role="page" class="page standalonePage velaris-auth-page">
+    <div class="velaris-auth-shell">
+        <div class="velaris-auth-brand" aria-label="Velaris">
+            <span class="velaris-auth-brand__mark" aria-hidden="true"></span>
+            <span class="velaris-auth-brand__wordmark">VELARIS</span>
+        </div>
+
+        <form class="addServerForm velaris-auth-panel velaris-server-form" novalidate>
+            <div class="velaris-auth-heading">
+                <span class="velaris-auth-eyebrow">VELARIS ACCESS</span>
+                <h1>${HeaderConnectToServer}</h1>
+            </div>
+
             <div class="inputContainer">
                 <input is="emby-input" type="url" id="txtServerHost" required="required" label="${LabelServerHost}"/>
                 <div class="fieldDescription">${LabelServerHostHelp}</div>
             </div>
-            <br />
+
             <button is="emby-button" type="submit" class="raised button-submit block">
                 <span>${Connect}</span>
             </button>

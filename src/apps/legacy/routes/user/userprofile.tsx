@@ -179,50 +179,47 @@ const UserProfile: FunctionComponent = () => {
         <Page
             id='userProfilePage'
             title={globalize.translate('Profile')}
-            className='mainAnimatedPage libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage'
+            className='mainAnimatedPage libraryPage userPreferencesPage userPasswordPage noSecondaryNavPage velaris-user-profile-page'
         >
-            <div ref={element} className='padded-left padded-right padded-bottom-page'>
-                <div
-                    className='readOnlyContent'
-                    style={{ margin: '0 auto', marginBottom: '1.8em', padding: '0 1em', display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-                >
-                    <div
-                        className='imagePlaceHolder'
-                        style={{ position: 'relative', display: 'inline-block', maxWidth: 200 }}
-                    >
+            <div ref={element} className='velaris-user-profile'>
+                <section className='velaris-profile-hero'>
+                    <div className='velaris-profile-avatar-shell'>
                         <input
                             id='uploadImage'
+                            className='velaris-profile-image-input'
                             type='file'
                             accept='image/*'
-                            style={{ position: 'absolute', right: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
                         />
-                        <div
-                            id='image'
-                            style={{ width: 200, height: 200, backgroundRepeat: 'no-repeat', backgroundPosition: 'center', borderRadius: '100%', backgroundSize: 'cover' }}
-                        />
+                        <div id='image' className='velaris-profile-avatar' />
                     </div>
-                    <div style={{ verticalAlign: 'top', margin: '1em 2em', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <h2 className='username' style={{ margin: 0, fontSize: 'xx-large' }}>
-                            {user?.Name}
-                        </h2>
-                        <br />
-                        <Button
-                            type='button'
-                            id='btnAddImage'
-                            className='raised button-submit hide'
-                            title={globalize.translate('ButtonAddImage')}
-                        />
-                        <Button
-                            type='button'
-                            id='btnDeleteImage'
-                            className='raised hide'
-                            title={globalize.translate('DeleteImage')}
-                        />
+
+                    <div className='velaris-profile-copy'>
+                        <span className='velaris-profile-copy__eyebrow'>VELARIS PROFILE</span>
+                        <h1 className='username'>{user.Name}</h1>
+                        <p className='velaris-profile-copy__subtitle'>
+                            Dein Profil, deine Wiedergabe und deine persönlichen Einstellungen an einem Ort.
+                        </p>
+
+                        <div className='velaris-profile-actions'>
+                            <Button
+                                type='button'
+                                id='btnAddImage'
+                                className='raised button-submit hide velaris-profile-action'
+                                title={globalize.translate('ButtonAddImage')}
+                            />
+                            <Button
+                                type='button'
+                                id='btnDeleteImage'
+                                className='raised hide velaris-profile-action'
+                                title={globalize.translate('DeleteImage')}
+                            />
+                        </div>
                     </div>
-                </div>
-                <UserPasswordForm
-                    user={user}
-                />
+                </section>
+
+                <section className='velaris-profile-security'>
+                    <UserPasswordForm user={user} />
+                </section>
             </div>
         </Page>
 
