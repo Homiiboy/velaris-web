@@ -256,9 +256,9 @@ const resolveHub = (
                 items: groupItems
             });
 
-            groupItems.forEach(
-                (item, index) => previouslyMatched.add(getItemKey(item, index))
-            );
+            groupItems.forEach((item, index) => {
+                previouslyMatched.add(getItemKey(item, index));
+            });
         }
     });
 
