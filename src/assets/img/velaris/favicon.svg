@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Velaris">
+  <defs>
+    <linearGradient id="l" x1="8" y1="12" x2="34" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#45f3ff"/><stop offset=".5" stop-color="#1687ff"/><stop offset="1" stop-color="#9138ff"/>
+    </linearGradient>
+    <linearGradient id="r" x1="55" y1="10" x2="30" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffc36b"/><stop offset=".22" stop-color="#ff5f9d"/><stop offset=".62" stop-color="#d42cff"/><stop offset="1" stop-color="#7135ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#000"/>
+  <path d="M14 16 C18 28 23 41 32 52" fill="none" stroke="url(#l)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M50 16 C46 28 41 41 32 52" fill="none" stroke="url(#r)" stroke-width="10" stroke-linecap="round"/>
+  <path d="M32 20 C33.2 25 35 26.8 40 28 C35 29.2 33.2 31 32 36 C30.8 31 29 29.2 24 28 C29 26.8 30.8 25 32 20Z" fill="#fff"/>
+</svg>

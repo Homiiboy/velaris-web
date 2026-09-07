@@ -1,74 +1,86 @@
-<h1 align="center">Jellyfin Web</h1>
-<h3 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h3>
+<p align="center">
+  <img src="src/assets/img/velaris/velaris-logo.svg" alt="Velaris logo" width="240" />
+</p>
+
+<h1 align="center">Velaris Web</h1>
+<p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.1</strong></p>
 
 ---
 
-<p align="center">
-<img alt="Logo Banner" src="https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/branding/SVG/banner-logo-solid.svg?sanitize=true"/>
-<br/>
-<br/>
-<a href="https://github.com/jellyfin/jellyfin-web">
-<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/jellyfin/jellyfin-web.svg"/>
-</a>
-<a href="https://github.com/jellyfin/jellyfin-web/releases">
-<img alt="Current Release" src="https://img.shields.io/github/release/jellyfin/jellyfin-web.svg"/>
-</a>
-<a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web/?utm_source=widget">
-<img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/svg-badge.svg" alt="Translation Status"/>
-</a>
-<br/>
-<a href="https://opencollective.com/jellyfin">
-<img alt="Donate" src="https://img.shields.io/opencollective/all/jellyfin.svg?label=backers"/>
-</a>
-<a href="https://features.jellyfin.org">
-<img alt="Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
-</a>
-<a href="https://matrix.to/#/+jellyfin:matrix.org">
-<img alt="Chat on Matrix" src="https://img.shields.io/matrix/jellyfin:matrix.org.svg?logo=matrix"/>
-</a>
-<a href="https://www.reddit.com/r/jellyfin">
-<img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fjellyfin-%23FF5700.svg"/>
-</a>
-</p>
+## About Velaris
 
-Jellyfin Web is the frontend used for most of the clients available for end users, such as desktop browsers, Android, and iOS. We welcome all contributions and pull requests! If you have a larger feature in mind please open an issue so we can discuss the implementation before you start. Translations can be improved very easily from our <a href="https://translate.jellyfin.org/projects/jellyfin/jellyfin-web">Weblate</a> instance. Look through the following graphic to see if your native language could use some work!
+Velaris Web is a customized frontend based on [Jellyfin Web](https://github.com/jellyfin/jellyfin-web). The goal is to keep Jellyfin's media platform and compatibility while evolving the web client into a distinct Velaris experience with its own branding, interface and features.
 
-<a href="https://translate.jellyfin.org/engage/jellyfin/?utm_source=widget">
-<img src="https://translate.jellyfin.org/widgets/jellyfin/-/jellyfin-web/multi-auto.svg" alt="Detailed Translation Status"/>
-</a>
+Velaris is an independent fork and is not an official Jellyfin project.
 
-## Build Process
+## V0.0.1 — Branding Foundation
+
+V0.0.1 establishes the first native Velaris Web identity:
+
+- new Velaris emblem with a black background and cyan, blue, violet, magenta and warm accent gradients
+- dedicated scalable Velaris favicon for browser tabs
+- scalable Velaris application/PWA icon
+- browser and application metadata renamed from Jellyfin to Velaris where appropriate
+- Velaris logo used for the initial splash and default header branding
+- dedicated `VELARIS_VERSION` version marker
+- updated project documentation for the Velaris fork
+
+This release intentionally keeps the underlying Jellyfin Web functionality close to upstream. Larger interface changes will be introduced incrementally in later Velaris versions.
+
+## Branch strategy
+
+- `master` — kept as close as practical to the upstream Jellyfin Web branch for easier syncing
+- `velaris` — active Velaris Web development branch
+
+Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-web)
+
+## Build process
 
 ### Dependencies
 
-- [Node.js](https://nodejs.org/en/download)
-- npm (included in Node.js)
+- [Node.js](https://nodejs.org/en/download) 24 or newer
+- npm 11 or newer
 
-### Getting Started
+### Getting started
 
-1. Clone or download this repository.
+1. Clone the Velaris development branch.
 
    ```sh
-   git clone https://github.com/jellyfin/jellyfin-web.git
-   cd jellyfin-web
+   git clone -b velaris https://github.com/Homiiboy/velaris-web.git
+   cd velaris-web
    ```
 
-2. Install build dependencies in the project directory.
+2. Install dependencies.
 
    ```sh
    npm install
    ```
 
-3. Run the web client with webpack for local development.
+3. Run the development server.
 
    ```sh
    npm start
    ```
 
-4. Build the client with sourcemaps available.
+4. Create a development build.
 
    ```sh
    npm run build:development
    ```
 
-Review the [Contributing Guide](./CONTRIBUTING.md) for more information on our process and tech stack.
+5. Create a production build.
+
+   ```sh
+   npm run build:production
+   ```
+
+## Versioning
+
+Velaris uses its own version line beginning with `V0.0.1`. The Jellyfin Web package version can remain aligned with the upstream codebase so upstream compatibility remains easier to track. The current Velaris version is stored in `VELARIS_VERSION`.
+
+## License and upstream attribution
+
+Velaris Web is derived from Jellyfin Web and remains licensed under the terms of the repository's [GPL-2.0-or-later license](LICENSE). Jellyfin and Jellyfin Web remain the work of the Jellyfin project and its contributors.
+
+The Velaris-specific branding and modifications are maintained in this fork.

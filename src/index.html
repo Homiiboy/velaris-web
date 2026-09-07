@@ -9,18 +9,18 @@
     <meta http-equiv="X-UA-Compatibility" content="IE=Edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Jellyfin">
+    <meta name="application-name" content="Velaris">
+    <meta name="apple-mobile-web-app-title" content="Velaris">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <meta name="referrer" content="no-referrer">
 
-    <meta id="themeColor" name="theme-color" content="#202020">
+    <meta id="themeColor" name="theme-color" content="#000000">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="../node_modules/@jellyfin/ux-web/favicons/touchicon.png">
-    <link rel="shortcut icon" href="../node_modules/@jellyfin/ux-web/favicons/favicon.ico">
-    <meta name="msapplication-TileImage" content="../node_modules/@jellyfin/ux-web/favicons/touchicon144.png">
-    <meta name="msapplication-TileColor" content="#333333">
+    <link rel="icon" type="image/svg+xml" href="assets/img/velaris/favicon.svg">
+    <link rel="shortcut icon" href="assets/img/velaris/favicon.svg">
+    <meta name="msapplication-TileColor" content="#000000">
 
-    <title>Jellyfin</title>
+    <title>Velaris</title>
 
     <style>
         .transparentDocument,
@@ -54,8 +54,23 @@
         }
 
         html {
-            background-color: #101010;
+            background-color: #000;
             color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Velaris V0.0.1 branding foundation */
+        .splashLogo,
+        .pageTitleWithDefaultLogo {
+            background-image: url("assets/img/velaris/velaris-logo.svg") !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
+        }
+
+        .splashLogo {
+            width: min(52vw, 22rem);
+            height: min(52vw, 22rem);
+            margin: 0 auto;
         }
 
         .hide,
