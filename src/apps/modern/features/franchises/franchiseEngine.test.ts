@@ -6,7 +6,7 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import { buildVelarisFranchiseHubs } from './franchiseEngine';
 
 const createItem = (overrides: Partial<ItemDto>): ItemDto => ({
-    Id: overrides.Id || overrides.Name || Math.random().toString(),
+    Id: overrides.Id || overrides.Name || 'velaris-test-item',
     Type: BaseItemKind.Movie,
     ...overrides
 } as ItemDto);
