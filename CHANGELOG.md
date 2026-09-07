@@ -1,39 +1,51 @@
 # Velaris Web Changelog
 
-## V0.0.4 — 2026-09-07 — Dynamic Franchise Hubs (development)
+## V0.0.4 — 2026-09-07 — Dynamic Franchise Hubs
 
 ### Added
 
 - data-driven Velaris franchise catalog with nested universe and sub-group definitions
 - dynamic matching engine for Movie and Series items already available to the current user
+- matching support for display titles, original titles, sort titles, release years, studios, tags and catalog-defined provider IDs
 - automatic suppression of empty franchise hubs and empty sub-groups
 - Home discovery shelf for available universes and franchises
 - dedicated cinematic franchise route at `franchise/:hubId`
 - grouped horizontal media rows inside each franchise page
-- representative hub artwork sourced from matching media already present in the library
-- initial catalog coverage for Marvel, DC, Star Wars, Wizarding World, Middle-earth, The Walking Dead, Breaking Bad, Dragon Ball, Naruto and One Piece
-- initial DC sub-groups for DCU, DCEU, Arrowverse, Batman, Superman and Elseworlds
-- initial Marvel sub-groups for MCU, Spider-Man, X-Men and the Defenders Saga
+- preferred hero-title selection so franchise artwork comes from strong matching media already present in the library
+- Spotlight and group-navigation actions inside franchise heroes
+- curated ordering for sequential franchise rows such as MCU phases, DCEU, Arrowverse and the Skywalker Saga
+- catalog coverage for Marvel, DC, Star Wars, Wizarding World, Middle-earth, The Walking Dead, Breaking Bad, Game of Thrones, Star Trek, Alien & Predator, Jurassic, The Matrix, John Wick, Mission: Impossible, Fast & Furious, Dragon Ball, Naruto and One Piece
+- DC sub-groups for DCU, DCEU, Arrowverse, Batman, Superman and Elseworlds
+- Marvel sub-groups for MCU phases, MCU series, Spider-Man, X-Men and the Defenders Saga
 - optional manual assignment tags using `velaris:franchise:<id>`, `velaris:hub:<id>` and `velaris:group:<id>`
+- automated franchise-engine tests for empty-hub suppression, localized-title matching, curated ordering, manual assignment and duplicate prevention
 
 ### Changed
 
-- franchise and universe navigation is now content-driven instead of relying on pre-created empty pages
-- the same media item can participate in multiple useful franchise groups when appropriate
-- V0.0.3 navigation is treated as the completed previous milestone while V0.0.4 becomes the active development line
+- franchise and universe navigation is content-driven instead of relying on pre-created empty pages
+- matching now uses original-title metadata in addition to the visible localized title, improving recognition across library languages
+- franchise metadata requests explicitly include OriginalTitle, ProviderIds, SortName, Studios and Tags
+- remainder groups can exclude media that already appeared in curated groups while intentional cross-group appearances remain supported
+- hub pages now expose quick navigation only for groups that actually exist in the current library
+- V0.0.4 is finalized as the current Velaris milestone
 
 ### Design direction
 
 - franchise hubs behave like mini streaming worlds rather than folder listings
 - collections can combine movies and series inside the same branded universe
 - hubs grow automatically as new matching media enters the library
-- future manual overrides can extend the same engine without changing the viewer-facing layout
+- curated timelines and eras remain data-driven so future universes can reuse the same page architecture
+
+### Validation
+
+- TypeScript, ESLint, Stylelint, unit tests and the production build are required by Velaris CI for the completed V0.0.4 state
 
 ### Compatibility
 
 - playback, authentication and Jellyfin server APIs remain unchanged
 - franchise detection is implemented in the Velaris presentation layer
 - empty hubs are never shown to the normal viewer
+- manual tags are optional and only needed when library metadata does not provide a reliable automatic match
 
 ## V0.0.3 — 2026-09-07 — Navigation & App Shell
 
