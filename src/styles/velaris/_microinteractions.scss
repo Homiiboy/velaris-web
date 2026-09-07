@@ -1,0 +1,31 @@
+@use './tokens' as tokens;
+
+/* Subtle state changes that make Velaris feel responsive without becoming busy. */
+@media (hover: hover) and (pointer: fine) {
+    .card:hover .cardBox {
+        transform: translateY(-2px);
+    }
+
+    .listItem:hover {
+        transform: translateX(2px);
+    }
+}
+
+.card:active .cardBox,
+.raised:active,
+a[data-role='button']:active {
+    transform: translateY(0);
+}
+
+button:disabled,
+.emby-button:disabled,
+.paper-icon-button-light:disabled {
+    filter: saturate(0.35);
+    opacity: 0.46;
+}
+
+.itemProgressBarForeground,
+.playedIndicator,
+.countIndicator {
+    transition: filter tokens.$transition-fast, box-shadow tokens.$transition-fast;
+}
