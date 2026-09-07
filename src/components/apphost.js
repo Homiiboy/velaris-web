@@ -79,13 +79,11 @@ function getDeviceProfile(item) {
 
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
                 if (transcodingProfile.Type === 'Video') {
-                    profile.TranscodingProfiles.forEach((transcodingProfile) => {
-                        if (transcodingProfile.Type === 'Video') {
-                            const profileConditions = (transcodingProfile.Conditions || []).filter((condition) => condition.Property !== 'Width');
-                            profileConditions.push(conditionWidth);
-                            transcodingProfile.Conditions = profileConditions;
-                        }
+                    transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition) => {
+                        return condition.Property !== 'Width';
                     });
+
+                    transcodingProfile.Conditions.push(conditionWidth);
                 }
             });
         }
