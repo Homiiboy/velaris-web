@@ -18,6 +18,10 @@
 - cards, lists, dialogs and drawers use a consistent radius, border, shadow and glass treatment
 - form controls, interactive states and progress indicators now share the Velaris accent language
 
+### Validation
+
+- V0.0.2 development commits are validated by Velaris CI with TypeScript, ESLint, Stylelint, unit tests and a production build
+
 ### Compatibility
 
 - this version is still in development
