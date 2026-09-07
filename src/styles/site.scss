@@ -18,7 +18,7 @@
     animation: fadein 0.5s;
     width: 30%;
     height: 30%;
-    background-image: url(@jellyfin/ux-web/icon-transparent.png);
+    background-image: url('../assets/img/velaris/velaris-logo.svg');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -31,8 +31,13 @@
 @media screen
     and (min-device-width: 992px) {
     .splashLogo {
-        background-image: url(@jellyfin/ux-web/banner-light.png);
+        background-image: url('../assets/img/velaris/velaris-logo.svg');
     }
+}
+
+/* Velaris owns the default client branding even when a Jellyfin theme is active. */
+.pageTitleWithDefaultLogo {
+    background-image: url('../assets/img/velaris/velaris-logo.svg') !important;
 }
 
 html {
