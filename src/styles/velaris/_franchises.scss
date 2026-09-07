@@ -129,7 +129,21 @@
 }
 
 .velaris-franchise-hero__content {
-    max-width: 44rem;
+    max-width: 54rem;
+}
+
+.velaris-franchise-hero__back {
+    display: inline-flex;
+    margin-bottom: 1.2rem;
+    color: tokens.$text-secondary;
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-franchise-hero__eyebrow {
+    display: block;
 }
 
 .velaris-franchise-hero__title {
@@ -151,6 +165,7 @@
 
 .velaris-franchise-hero__meta {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.6rem;
     margin-top: 1rem;
     color: tokens.$text-muted;
@@ -158,11 +173,88 @@
     font-weight: 650;
 }
 
+.velaris-franchise-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: 1.4rem;
+}
+
+.velaris-franchise-hero__action {
+    display: inline-flex;
+    min-height: 2.7rem;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 0.72rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: tokens.$radius-sm;
+    font-size: 0.9rem;
+    font-weight: 760;
+    text-decoration: none;
+    transition: border-color tokens.$transition-fast, background tokens.$transition-fast, box-shadow tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-franchise-hero__action--primary {
+    background: tokens.$accent-gradient;
+    box-shadow: 0 12px 34px rgba(22, 135, 255, 0.16);
+    color: #02050a;
+}
+
+.velaris-franchise-hero__action--secondary {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(8, 11, 18, 0.58);
+    color: tokens.$text-primary;
+    backdrop-filter: blur(14px);
+}
+
+.velaris-franchise-hero__quicknav {
+    display: flex;
+    max-width: 100%;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding-bottom: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.velaris-franchise-hero__quicknav-item {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.52rem 0.72rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(6, 8, 14, 0.58);
+    color: tokens.$text-secondary;
+    font-size: 0.78rem;
+    font-weight: 680;
+    text-decoration: none;
+    backdrop-filter: blur(12px);
+    transition: border-color tokens.$transition-fast, background tokens.$transition-fast, color tokens.$transition-fast;
+}
+
+.velaris-franchise-hero__quicknav-count {
+    display: inline-grid;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    place-items: center;
+    border-radius: 999px;
+    background: rgba(69, 243, 255, 0.1);
+    color: tokens.$cyan;
+    font-size: 0.7rem;
+}
+
 .velaris-franchise-groups {
     position: relative;
     z-index: 1;
     margin-top: -3rem;
     padding-bottom: 5rem;
+}
+
+.velaris-franchise-group-anchor {
+    scroll-margin-top: 7rem;
 }
 
 .velaris-franchise-group {
@@ -210,11 +302,40 @@
     text-decoration: none;
 }
 
+.velaris-franchise-card:focus-visible,
+.velaris-franchise-hero__back:focus-visible,
+.velaris-franchise-hero__action:focus-visible,
+.velaris-franchise-hero__quicknav-item:focus-visible,
+.velaris-franchise-empty__link:focus-visible {
+    outline: 2px solid tokens.$cyan;
+    outline-offset: 3px;
+}
+
 @media (hover: hover) and (pointer: fine) {
     .velaris-franchise-card:hover {
         border-color: rgba(69, 243, 255, 0.24);
         box-shadow: 0 20px 55px rgba(0, 0, 0, 0.46), 0 0 28px rgba(69, 243, 255, 0.08);
         transform: translateY(-4px) scale(1.012);
+    }
+
+    .velaris-franchise-hero__back:hover {
+        color: tokens.$text-primary;
+        transform: translateX(-2px);
+    }
+
+    .velaris-franchise-hero__action:hover {
+        transform: translateY(-2px);
+    }
+
+    .velaris-franchise-hero__action--primary:hover {
+        box-shadow: 0 16px 38px rgba(22, 135, 255, 0.22), 0 0 24px rgba(138, 54, 255, 0.12);
+    }
+
+    .velaris-franchise-hero__action--secondary:hover,
+    .velaris-franchise-hero__quicknav-item:hover {
+        border-color: rgba(69, 243, 255, 0.26);
+        background: rgba(69, 243, 255, 0.08);
+        color: tokens.$text-primary;
     }
 
     .velaris-franchise-empty__link:hover {
@@ -233,10 +354,19 @@
     }
 
     .velaris-franchise-hero {
-        min-height: 34rem;
+        min-height: 36rem;
         padding-inline: 1.2rem;
         padding-bottom: 5rem;
         background-position: 62% top;
+    }
+
+    .velaris-franchise-hero__meta {
+        max-width: 32rem;
+    }
+
+    .velaris-franchise-hero__quicknav {
+        margin-right: -1.2rem;
+        padding-right: 1.2rem;
     }
 
     .velaris-franchise-groups {
