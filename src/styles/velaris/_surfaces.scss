@@ -6,7 +6,7 @@
 .formDialogFooter:not(.formDialogFooter-clear),
 .formDialogHeader:not(.formDialogHeader-clear) {
     border: 1px solid tokens.$divider;
-    box-shadow: tokens.$shadow-soft;
+    box-shadow: tokens.$shadow-soft, inset 0 1px 0 rgba(255, 255, 255, 0.025);
 }
 
 .paperList,
@@ -21,12 +21,21 @@
 }
 
 .cardBox {
-    transition: transform tokens.$transition-standard, filter tokens.$transition-standard;
+    transition: transform tokens.$transition-standard, filter tokens.$transition-standard, box-shadow tokens.$transition-standard;
+}
+
+.cardImageContainer,
+.itemDetailImage {
+    transition: box-shadow tokens.$transition-standard, filter tokens.$transition-standard;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .card:hover .cardBox {
-        filter: brightness(1.04);
+        filter: brightness(1.045) saturate(1.02);
+    }
+
+    .card:hover .cardImageContainer {
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(69, 243, 255, 0.11);
     }
 }
 
@@ -34,16 +43,17 @@
 .card:focus .cardBox:not(.visualCardBox) .cardScalable,
 .card.show-focus:not(.show-animation) .cardBox.visualCardBox,
 .card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable {
-    box-shadow: 0 0 0 2px tokens.$cyan, tokens.$shadow-cyan;
+    box-shadow: 0 0 0 2px tokens.$cyan, 0 0 24px rgba(69, 243, 255, 0.22);
 }
 
 .listItem {
     border-radius: tokens.$radius-sm;
-    transition: background-color tokens.$transition-fast, transform tokens.$transition-fast;
+    transition: background-color tokens.$transition-fast, transform tokens.$transition-fast, box-shadow tokens.$transition-fast;
 }
 
 @media (hover: hover) and (pointer: fine) {
     .listItem:hover {
         background-color: tokens.$hover;
+        box-shadow: inset 2px 0 0 rgba(69, 243, 255, 0.22);
     }
 }
