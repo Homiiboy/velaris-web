@@ -8,7 +8,7 @@ import profileBuilder from '../scripts/browserDeviceProfile';
 import { AppFeature } from 'constants/appFeature';
 import { LayoutMode } from 'constants/layoutMode';
 
-const appName = 'Jellyfin Web';
+const appName = 'Velaris Web';
 
 const BrowserName = {
     tizen: 'Samsung Smart TV',
@@ -79,11 +79,13 @@ function getDeviceProfile(item) {
 
             profile.TranscodingProfiles.forEach((transcodingProfile) => {
                 if (transcodingProfile.Type === 'Video') {
-                    transcodingProfile.Conditions = (transcodingProfile.Conditions || []).filter((condition) => {
-                        return condition.Property !== 'Width';
+                    profile.TranscodingProfiles.forEach((transcodingProfile) => {
+                        if (transcodingProfile.Type === 'Video') {
+                            const profileConditions = (transcodingProfile.Conditions || []).filter((condition) => condition.Property !== 'Width');
+                            profileConditions.push(conditionWidth);
+                            transcodingProfile.Conditions = profileConditions;
+                        }
                     });
-
-                    transcodingProfile.Conditions.push(conditionWidth);
                 }
             });
         }
