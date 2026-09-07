@@ -85,6 +85,10 @@
     transition: color tokens.$transition-fast, opacity tokens.$transition-fast, transform tokens.$transition-fast;
 }
 
+.velaris-brand-button .MuiButton-startIcon {
+    margin-right: 0.55rem;
+}
+
 .velaris-primary-nav .MuiButton-root .MuiButton-startIcon {
     display: none;
 }
@@ -118,10 +122,6 @@
     font-weight: 800 !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-}
-
-.velaris-brand-button .MuiButton-startIcon {
-    margin-right: 0.55rem;
 }
 
 .velaris-brand-button img {
