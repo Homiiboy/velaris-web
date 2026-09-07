@@ -6,14 +6,30 @@
     border: 1px solid tokens.$divider;
     border-radius: tokens.$radius-sm;
     background: rgba(15, 19, 29, 0.92);
-    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, background-color tokens.$transition-fast;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, background-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.emby-input::placeholder,
+.emby-textarea::placeholder {
+    color: tokens.$text-muted;
+    opacity: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .emby-input:hover,
+    .emby-textarea:hover,
+    .emby-select-withcolor:hover {
+        border-color: rgba(145, 170, 210, 0.3);
+        background: rgba(18, 23, 34, 0.94);
+    }
 }
 
 .emby-input:focus,
 .emby-textarea:focus,
 .emby-select-withcolor:focus {
     border-color: tokens.$cyan !important;
-    box-shadow: 0 0 0 3px rgba(69, 243, 255, 0.12), tokens.$shadow-cyan;
+    box-shadow: 0 0 0 3px rgba(69, 243, 255, 0.1), 0 0 22px rgba(69, 243, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.04);
     background: tokens.$surface-elevated;
 }
 
@@ -21,16 +37,18 @@
 .selectLabelFocused,
 .textareaLabelFocused {
     color: tokens.$cyan;
+    text-shadow: 0 0 16px rgba(69, 243, 255, 0.14);
 }
 
 .checkboxOutline {
     border-radius: tokens.$radius-xs;
-    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, background-color tokens.$transition-fast;
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, background-color tokens.$transition-fast, transform tokens.$transition-fast;
 }
 
 .emby-checkbox:checked + span + .checkboxOutline {
     background: tokens.$accent-gradient;
     border-color: transparent;
+    box-shadow: 0 0 14px rgba(69, 243, 255, 0.12);
 }
 
 .emby-checkbox:focus + span + .checkboxOutline {
