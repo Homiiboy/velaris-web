@@ -14,7 +14,10 @@ export const useVelarisFranchiseHubs = () => {
         recursive: true,
         includeItemTypes: [ BaseItemKind.Movie, BaseItemKind.Series ],
         fields: [
+            ItemFields.OriginalTitle,
             ItemFields.PrimaryImageAspectRatio,
+            ItemFields.ProviderIds,
+            ItemFields.SortName,
             ItemFields.Studios,
             ItemFields.Tags
         ],
