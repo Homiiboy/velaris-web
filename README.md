@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.3</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.4</strong></p>
 
 ---
 
@@ -22,11 +22,29 @@ The design language combines useful ideas found across modern streaming services
 
 Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
 
-## V0.0.3 — Navigation & App Shell
+## V0.0.4 — Dynamic Franchise Hubs
 
-V0.0.3 introduces the first purpose-built Velaris application shell. The direction combines useful streaming-interface patterns without reproducing any one service: content-first horizontal navigation, strong brand hierarchy, immersive translucent chrome and a compact mobile drawer.
+V0.0.4 introduces the first Velaris-native universe and franchise layer. Hubs are generated from media that actually exists in the signed-in user's library, so empty franchise pages are never advertised in the normal viewer experience.
 
 The current development scope includes:
+
+- dynamic franchise discovery from Movies and Series already available to the current user
+- automatic suppression of empty hubs and empty sub-groups
+- a new Home shelf for available universes and franchises
+- dedicated cinematic franchise pages with grouped horizontal media rows
+- initial support for Marvel, DC, Star Wars, Wizarding World, Middle-earth, The Walking Dead, Breaking Bad, Dragon Ball, Naruto and One Piece
+- structured sub-groups such as MCU, DCEU, DCU, Arrowverse, Batman, Elseworlds and similar franchise-specific eras or story worlds
+- support for media appearing in multiple useful groups at the same time
+- optional manual metadata tags such as `velaris:franchise:dc` or `velaris:group:arrowverse` when automatic matching needs help
+- representative artwork selected from media already present in the library rather than bundled franchise artwork
+
+The franchise catalog is intentionally data-driven and extensible. Additional universes can be added without rebuilding the page architecture.
+
+## Previous milestone — V0.0.3
+
+V0.0.3 introduced the first purpose-built Velaris application shell. The direction combines useful streaming-interface patterns without reproducing any one service: content-first horizontal navigation, strong brand hierarchy, immersive translucent chrome and a compact mobile drawer.
+
+The milestone includes:
 
 - an original translucent Velaris top navigation that visually blends into cinematic content
 - Velaris-first product branding without exposing server names or server versions in normal primary navigation
@@ -39,7 +57,7 @@ The current development scope includes:
 - refined toolbar utility controls and responsive spacing
 - scoped app-shell classes to keep upstream Jellyfin merge conflicts manageable
 
-## Previous milestone — V0.0.2
+## V0.0.2 — Visual Foundation
 
 V0.0.2 introduced the native Velaris design system with centralized tokens, near-black surfaces, the cyan/blue/violet/magenta palette, unified buttons and forms, glass dialogs, polished cards and accessibility-focused motion/focus states.
 
