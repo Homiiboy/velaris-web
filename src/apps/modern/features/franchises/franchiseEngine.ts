@@ -44,15 +44,9 @@ const matchesType = (item: ItemDto, types: BaseItemKind[] | undefined) => (
     !types?.length || (item.Type ? types.includes(item.Type as BaseItemKind) : false)
 );
 
-const matchesYear = (item: ItemDto, matcher: FranchiseMatcher) => {
-    const year = item.ProductionYear;
-
-    if (matcher.year != null && year !== matcher.year) return false;
-    if (matcher.minYear != null && (!year || year < matcher.minYear)) return false;
-    if (matcher.maxYear != null && (!year || year > matcher.maxYear)) return false;
-
-    return true;
-};
+const matchesYear = (item: ItemDto, matcher: FranchiseMatcher) => (
+    matcher.year == null || item.ProductionYear === matcher.year
+);
 
 const getStudioNames = (item: ItemDto) => (
     (item.Studios || [])
@@ -82,7 +76,6 @@ const matchesMatcher = (item: ItemDto, matcher: FranchiseMatcher) => {
     const hasTitleCriteria = Boolean(
         matcher.titles?.length
         || matcher.titleIncludes?.length
-        || matcher.titlePatterns?.length
     );
     const hasStudioCriteria = Boolean(matcher.studios?.length);
     const hasTagCriteria = Boolean(matcher.tags?.length);
@@ -95,10 +88,6 @@ const matchesMatcher = (item: ItemDto, matcher: FranchiseMatcher) => {
     if (matcher.titleIncludes?.length) {
         const includes = matcher.titleIncludes.map(normalizeText);
         if (!includes.some(value => title.includes(value))) return false;
-    }
-
-    if (matcher.titlePatterns?.length) {
-        if (!matcher.titlePatterns.some(pattern => pattern.test(title))) return false;
     }
 
     if (matcher.studios?.length) {
