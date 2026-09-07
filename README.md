@@ -22,9 +22,13 @@ V0.0.1 establishes the first native Velaris Web identity:
 - dedicated scalable Velaris favicon for browser tabs
 - scalable Velaris application/PWA icon
 - browser and application metadata renamed from Jellyfin to Velaris where appropriate
-- Velaris logo used for the initial splash and default header branding
+- Velaris logo used for the startup splash and default header branding across desktop, mobile and TV layouts
+- Velaris branding used in the modern toolbar and dashboard drawer fallbacks
+- Velaris logo screensaver on a black background
 - dedicated `VELARIS_VERSION` version marker
 - updated project documentation for the Velaris fork
+
+The visible client identity is Velaris. References to Jellyfin are intentionally retained where they describe the upstream server, API, SDK, protocol, license or original project attribution. This keeps the fork technically honest and easier to synchronize with upstream.
 
 This release intentionally keeps the underlying Jellyfin Web functionality close to upstream. Larger interface changes will be introduced incrementally in later Velaris versions.
 
