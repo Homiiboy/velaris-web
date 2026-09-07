@@ -1,0 +1,415 @@
+@use './tokens' as tokens;
+
+#itemDetailPage.itemDetailPage {
+    min-height: 100%;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 82% 5%, rgba(138, 54, 255, 0.07), transparent 32rem),
+        radial-gradient(circle at 12% 45%, rgba(69, 243, 255, 0.035), transparent 30rem),
+        tokens.$background;
+    color: tokens.$text-primary;
+}
+
+#itemDetailPage .itemBackdrop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: clamp(34rem, 76vh, 58rem);
+    background-position: center 18%;
+    background-size: cover;
+    opacity: 0.98;
+    mask-image: linear-gradient(180deg, #000 0%, #000 52%, rgba(0, 0, 0, 0.82) 68%, transparent 100%);
+}
+
+#itemDetailPage .itemBackdrop::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background:
+        linear-gradient(90deg, rgba(3, 4, 8, 0.93) 0%, rgba(3, 4, 8, 0.62) 34%, rgba(3, 4, 8, 0.14) 67%, rgba(3, 4, 8, 0.3) 100%),
+        linear-gradient(180deg, rgba(3, 4, 8, 0.12) 0%, rgba(3, 4, 8, 0.08) 48%, tokens.$background 100%);
+    pointer-events: none;
+}
+
+#itemDetailPage .detailLogo {
+    position: absolute;
+    z-index: 2;
+    top: clamp(7rem, 13vh, 10rem);
+    left: clamp(1.2rem, 5vw, 5rem);
+    width: min(31rem, 40vw);
+    height: clamp(6rem, 13vw, 11rem);
+    margin: 0;
+    background-position: left center;
+    background-size: contain;
+    filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.42));
+}
+
+#itemDetailPage .detailPageWrapperContainer {
+    position: relative;
+    z-index: 1;
+    min-height: 100%;
+    background: transparent;
+}
+
+#itemDetailPage .detailPagePrimaryContainer {
+    position: relative;
+    min-height: clamp(38rem, 82vh, 60rem);
+    box-sizing: border-box;
+    padding-top: clamp(23rem, 48vh, 36rem);
+    background: transparent;
+}
+
+#itemDetailPage .detailPagePrimaryContainer > .detailImageContainer.hide-mobile {
+    display: none !important;
+}
+
+#itemDetailPage .detailRibbon {
+    position: relative;
+    display: flex;
+    width: min(94rem, 100%);
+    box-sizing: border-box;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: clamp(1.2rem, 3vw, 3rem);
+    margin: 0 auto;
+    padding: 0 clamp(1.2rem, 5vw, 5rem) 1.6rem !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+#itemDetailPage .infoWrapper {
+    width: min(48rem, 62vw);
+    max-width: none;
+    margin: 0;
+    color: tokens.$text-primary;
+}
+
+#itemDetailPage .nameContainer h1,
+#itemDetailPage .nameContainer .itemName {
+    max-width: 48rem;
+    margin: 0;
+    color: tokens.$text-primary;
+    font-size: clamp(2.8rem, 6.1vw, 6.2rem);
+    font-weight: 850;
+    letter-spacing: -0.055em;
+    line-height: 0.94;
+    text-wrap: balance;
+    text-shadow: 0 12px 34px rgba(0, 0, 0, 0.48);
+}
+
+#itemDetailPage .itemMiscInfo {
+    color: tokens.$text-secondary;
+    font-size: 0.82rem;
+    font-weight: 720;
+    letter-spacing: 0.035em;
+}
+
+#itemDetailPage .mainDetailButtons {
+    display: flex;
+    max-width: 31rem;
+    flex: 0 1 auto;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.58rem;
+    margin: 0 0 0.2rem;
+}
+
+#itemDetailPage .mainDetailButtons .detailButton {
+    display: inline-flex;
+    width: 2.85rem;
+    min-width: 2.85rem;
+    height: 2.85rem;
+    min-height: 2.85rem;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(247, 251, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(9, 12, 20, 0.62);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+    color: tokens.$text-primary;
+    backdrop-filter: blur(16px) saturate(1.12);
+    transition: transform tokens.$transition-fast, background-color tokens.$transition-fast, border-color tokens.$transition-fast, box-shadow tokens.$transition-fast;
+}
+
+#itemDetailPage .mainDetailButtons .detailButton-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.48rem;
+}
+
+#itemDetailPage .mainDetailButtons .detailButton-icon {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+#itemDetailPage .mainDetailButtons .btnPlay,
+#itemDetailPage .mainDetailButtons .btnReplay,
+#itemDetailPage .mainDetailButtons .btnPlayTrailer {
+    width: auto;
+    min-width: 7.5rem;
+    padding-inline: 1rem;
+    border-radius: 0.72rem;
+}
+
+#itemDetailPage .mainDetailButtons .btnPlay {
+    border-color: transparent;
+    background: rgba(247, 251, 255, 0.97);
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.34);
+    color: #05060a;
+}
+
+#itemDetailPage .mainDetailButtons .btnPlay::after,
+#itemDetailPage .mainDetailButtons .btnReplay::after,
+#itemDetailPage .mainDetailButtons .btnPlayTrailer::after {
+    overflow: hidden;
+    content: attr(title);
+    font-size: 0.9rem;
+    font-weight: 760;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#itemDetailPage .mainDetailButtons .btnReplay,
+#itemDetailPage .mainDetailButtons .btnPlayTrailer {
+    background: rgba(13, 16, 24, 0.7);
+}
+
+#itemDetailPage .detailPagePrimaryContent {
+    width: min(94rem, 100%);
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 clamp(1.2rem, 5vw, 5rem) !important;
+}
+
+#itemDetailPage .detailPagePrimaryContent .detailSection {
+    width: min(52rem, 72%);
+}
+
+#itemDetailPage .itemGenres {
+    margin: 0 0 0.78rem;
+    color: tokens.$cyan;
+    font-size: 0.82rem;
+    font-weight: 720;
+    letter-spacing: 0.025em;
+}
+
+#itemDetailPage .tagline {
+    margin: 0 0 0.7rem;
+    color: tokens.$text-primary;
+    font-size: clamp(1rem, 1.5vw, 1.22rem);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+}
+
+#itemDetailPage .overview {
+    max-width: 49rem;
+    margin: 0;
+    color: tokens.$text-secondary;
+    font-size: clamp(0.96rem, 1.18vw, 1.08rem);
+    line-height: 1.65;
+}
+
+#itemDetailPage .overview-expand {
+    display: inline-flex;
+    margin-top: 0.55rem;
+    color: tokens.$cyan;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+#itemDetailPage .trackSelections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin: 0 0 1.35rem;
+    padding: 0.8rem;
+    border: 1px solid rgba(145, 170, 210, 0.12);
+    border-radius: tokens.$radius-md;
+    background: rgba(9, 12, 20, 0.62);
+    backdrop-filter: blur(18px) saturate(1.1);
+}
+
+#itemDetailPage .trackSelectionFieldContainer {
+    min-width: min(14rem, 100%);
+    flex: 1 1 12rem;
+    margin: 0;
+}
+
+#itemDetailPage .itemDetailsGroup {
+    margin-top: 1.35rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(145, 170, 210, 0.1);
+    color: tokens.$text-secondary;
+}
+
+#itemDetailPage .detailPageSecondaryContainer {
+    position: relative;
+    z-index: 2;
+    width: min(100rem, 100%);
+    box-sizing: border-box;
+    margin: 1.8rem auto 0;
+    padding: 0 clamp(1.2rem, 4vw, 4rem) 5rem !important;
+    background:
+        radial-gradient(circle at 12% 10%, rgba(69, 243, 255, 0.025), transparent 24rem),
+        radial-gradient(circle at 88% 42%, rgba(138, 54, 255, 0.035), transparent 28rem),
+        tokens.$background;
+}
+
+#itemDetailPage .detailVerticalSection {
+    margin-block: 1.6rem 2.7rem;
+}
+
+#itemDetailPage .detailVerticalSection .sectionTitle {
+    margin-bottom: 0.3rem;
+    color: tokens.$text-primary;
+    font-size: clamp(1.28rem, 1.9vw, 1.8rem);
+    font-weight: 780;
+    letter-spacing: -0.028em;
+}
+
+#itemDetailPage .detailVerticalSection .card {
+    transition: transform tokens.$transition-standard, filter tokens.$transition-standard;
+}
+
+#itemDetailPage .detailVerticalSection .cardImageContainer {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: tokens.$radius-md;
+    box-shadow: tokens.$shadow-soft;
+}
+
+#itemDetailPage #childrenCollapsible .listItem,
+#itemDetailPage #listChildrenCollapsible .listItem,
+#itemDetailPage .nextUpSection .listItem {
+    overflow: hidden;
+    margin-block: 0.35rem;
+    border: 1px solid rgba(145, 170, 210, 0.11);
+    border-radius: tokens.$radius-md;
+    background: linear-gradient(110deg, rgba(21, 26, 36, 0.82), rgba(9, 12, 20, 0.82));
+    box-shadow: tokens.$shadow-soft;
+}
+
+#itemDetailPage #collectionsCollapsible::before,
+#itemDetailPage #similarCollapsible::before {
+    display: block;
+    height: 1px;
+    margin-bottom: 1rem;
+    content: '';
+    background: linear-gradient(90deg, transparent, rgba(145, 170, 210, 0.14), transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #itemDetailPage .mainDetailButtons .detailButton:hover {
+        border-color: rgba(69, 243, 255, 0.24);
+        background: rgba(21, 26, 36, 0.86);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.36), 0 0 18px rgba(69, 243, 255, 0.07);
+        transform: translateY(-2px);
+    }
+
+    #itemDetailPage .mainDetailButtons .btnPlay:hover {
+        border-color: transparent;
+        background: #fff;
+        color: #05060a;
+    }
+
+    #itemDetailPage .detailVerticalSection .card:hover {
+        filter: brightness(1.045) saturate(1.035);
+        transform: translateY(-3px) scale(1.008);
+    }
+}
+
+@media (max-width: 899.98px) {
+    #itemDetailPage .itemBackdrop {
+        height: 34rem;
+        background-position: 64% top;
+    }
+
+    #itemDetailPage .detailLogo {
+        top: 6.5rem;
+        left: 1.2rem;
+        width: min(21rem, 72vw);
+        height: 7rem;
+    }
+
+    #itemDetailPage .detailPagePrimaryContainer {
+        min-height: 0;
+        padding-top: 22rem;
+    }
+
+    #itemDetailPage .detailRibbon {
+        display: block;
+        padding: 0 1.2rem 1rem !important;
+    }
+
+    #itemDetailPage .infoWrapper,
+    #itemDetailPage .detailPagePrimaryContent .detailSection {
+        width: 100%;
+    }
+
+    #itemDetailPage .infoWrapper .detailImageContainer.hide-desktop {
+        display: none !important;
+    }
+
+    #itemDetailPage .nameContainer h1,
+    #itemDetailPage .nameContainer .itemName {
+        font-size: clamp(2.45rem, 12vw, 4.4rem);
+    }
+
+    #itemDetailPage .mainDetailButtons {
+        max-width: none;
+        justify-content: flex-start;
+        margin-top: 1.05rem;
+    }
+
+    #itemDetailPage .detailPagePrimaryContent,
+    #itemDetailPage .detailPageSecondaryContainer {
+        padding-inline: 1.2rem !important;
+    }
+}
+
+@media (max-width: 520px) {
+    #itemDetailPage .itemBackdrop {
+        height: 30rem;
+    }
+
+    #itemDetailPage .detailPagePrimaryContainer {
+        padding-top: 19rem;
+    }
+
+    #itemDetailPage .nameContainer h1,
+    #itemDetailPage .nameContainer .itemName {
+        font-size: clamp(2.15rem, 11vw, 3.5rem);
+    }
+
+    #itemDetailPage .mainDetailButtons .btnPlay,
+    #itemDetailPage .mainDetailButtons .btnReplay,
+    #itemDetailPage .mainDetailButtons .btnPlayTrailer {
+        min-width: 6.8rem;
+        padding-inline: 0.8rem;
+    }
+
+    #itemDetailPage .overview {
+        font-size: 0.93rem;
+        line-height: 1.6;
+    }
+}
+
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton:focus,
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.show-focus {
+    border-color: rgba(69, 243, 255, 0.62);
+    box-shadow: 0 0 0 3px rgba(69, 243, 255, 0.2), 0 0 28px rgba(69, 243, 255, 0.15);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #itemDetailPage .mainDetailButtons .detailButton,
+    #itemDetailPage .detailVerticalSection .card {
+        transition: none;
+    }
+}
