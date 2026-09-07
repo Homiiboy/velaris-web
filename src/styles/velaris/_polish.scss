@@ -1,0 +1,42 @@
+@use './tokens' as tokens;
+
+/* Final V0.0.2 polish shared across legacy Jellyfin surfaces. */
+.cardImageContainer,
+.itemDetailImage {
+    overflow: hidden;
+}
+
+.cardOverlayContainer {
+    background: linear-gradient(180deg, transparent 38%, rgba(3, 4, 8, 0.82) 100%);
+}
+
+.cardText:first-child,
+.listItemBodyText:first-child {
+    letter-spacing: 0.005em;
+}
+
+.itemProgressBar {
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.itemProgressBarForeground {
+    box-shadow: 0 0 12px rgba(69, 243, 255, 0.28);
+}
+
+.mediaInfoText {
+    border-color: tokens.$divider;
+    border-radius: tokens.$radius-xs;
+    background: rgba(13, 16, 24, 0.72);
+}
+
+.toast {
+    backdrop-filter: blur(18px) saturate(1.08);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .card:hover .cardImageContainer {
+        box-shadow: inset 0 0 0 1px rgba(69, 243, 255, 0.16);
+    }
+}
