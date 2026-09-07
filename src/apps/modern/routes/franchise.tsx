@@ -48,9 +48,7 @@ const Franchise: FC = () => {
         hub.representativeItem,
         1800
     );
-    const spotlightUrl = hub.representativeItem
-        ? appRouter.getRouteUrl(hub.representativeItem)
-        : undefined;
+    const spotlightUrl = hub.representativeItem ? appRouter.getRouteUrl(hub.representativeItem) : undefined;
     const firstGroupId = hub.groups[0]?.id;
 
     return (
