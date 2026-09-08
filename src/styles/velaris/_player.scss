@@ -27,8 +27,7 @@
 #videoOsdPage .velaris-player-controls {
     box-sizing: border-box;
     padding: 9rem max(1.25rem, env(safe-area-inset-right)) max(1.5rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
-    background:
-        linear-gradient(180deg, transparent 0%, rgba(2, 3, 7, 0.18) 22%, rgba(2, 3, 7, 0.78) 58%, rgba(2, 3, 7, 0.97) 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(2, 3, 7, 0.18) 22%, rgba(2, 3, 7, 0.78) 58%, rgba(2, 3, 7, 0.97) 100%);
 }
 
 #videoOsdPage .velaris-player-control-surface {
