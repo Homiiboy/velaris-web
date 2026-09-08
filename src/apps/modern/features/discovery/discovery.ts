@@ -345,16 +345,18 @@ export const buildDiscoverySmartLists = (
     return lists.filter(list => list.items.length > 0);
 };
 
+const normalizeRandomValue = (value: number) => {
+    if (!Number.isFinite(value)) return 0;
+    return Math.max(0, Math.min(0.9999999999999999, value));
+};
+
 export const pickDiscoverySurprise = (
     items: ItemDto[],
     random = Math.random
 ) => {
     if (items.length === 0) return undefined;
 
-    const randomValue = random();
-    const safeRandom = Number.isFinite(randomValue)
-        ? Math.max(0, Math.min(0.9999999999999999, randomValue))
-        : 0;
+    const safeRandom = normalizeRandomValue(random());
     return items[Math.floor(safeRandom * items.length)];
 };
 

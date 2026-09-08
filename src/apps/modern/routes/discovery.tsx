@@ -3,7 +3,6 @@ import React, {
     type FC,
     type FormEvent,
     useCallback,
-    useEffect,
     useMemo,
     useState
 } from 'react';
@@ -38,6 +37,12 @@ const RESULT_BATCH_SIZE = 60;
 const WATCHLIST_ID = 'watchlist';
 
 const getDetailsUrl = (item: ItemDto) => toReactRoute(appRouter.getRouteUrl(item));
+
+const getHeadingEyebrow = (savedListName?: string, smartListName?: string) => {
+    if (savedListName) return 'DEINE LISTE';
+    if (smartListName) return 'SMART LIST';
+    return 'DISCOVERY';
+};
 
 const formatRuntime = (item: ItemDto) => {
     const minutes = getDiscoveryRuntimeMinutes(item);
@@ -157,11 +162,10 @@ const Discovery = () => {
         if (activeSavedList === WATCHLIST_ID) return store.watchlist;
         return store.customLists.find(list => list.id === activeSavedList)?.itemIds;
     }, [ activeSavedList, store.customLists, store.watchlist ]);
-    const sourceItems = useMemo(() => (
-        activeSavedListIds
-            ? resolveDiscoveryListItems(activeSavedListIds, items)
-            : items
-    ), [ activeSavedListIds, items ]);
+    const sourceItems = useMemo(() => {
+        if (!activeSavedListIds) return items;
+        return resolveDiscoveryListItems(activeSavedListIds, items);
+    }, [ activeSavedListIds, items ]);
     const genres = useMemo(() => [ ...new Set(items.flatMap(item => item.Genres || [])) ]
         .sort((a, b) => a.localeCompare(b)), [ items ]);
     const filteredItems = useMemo(
@@ -190,11 +194,11 @@ const Discovery = () => {
         [ activeSmartList, smartLists ]
     );
 
-    useEffect(() => {
-        setResultLimit(RESULT_BATCH_SIZE);
-    }, [ activeSavedList, activeSmartList, filters ]);
-
-    const clearSmartList = useCallback(() => setActiveSmartList(null), []);
+    const resetResultLimit = useCallback(() => setResultLimit(RESULT_BATCH_SIZE), []);
+    const clearSmartList = useCallback(() => {
+        setActiveSmartList(null);
+        resetResultLimit();
+    }, [ resetResultLimit ]);
     const onSearchChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setFilters(current => ({ ...current, query: event.target.value }));
         clearSmartList();
@@ -239,13 +243,15 @@ const Discovery = () => {
         if (!smartListId) return;
         setActiveSavedList(null);
         setActiveSmartList(current => current === smartListId ? null : smartListId);
-    }, []);
+        resetResultLimit();
+    }, [ resetResultLimit ]);
     const onSavedListClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         const listId = event.currentTarget.dataset.savedListId;
         if (!listId) return;
         setActiveSmartList(null);
         setActiveSavedList(current => current === listId ? null : listId);
-    }, []);
+        resetResultLimit();
+    }, [ resetResultLimit ]);
     const onSurprise = useCallback(() => {
         const item = pickDiscoverySurprise(visibleItems);
         if (item) navigate(getDetailsUrl(item));
@@ -275,7 +281,8 @@ const Discovery = () => {
 
         setStore(current => removeDiscoveryList(current, listId));
         setActiveSavedList(current => current === listId ? null : current);
-    }, [ setStore ]);
+        resetResultLimit();
+    }, [ resetResultLimit, setStore ]);
 
     if (isPending) {
         return (
@@ -286,7 +293,7 @@ const Discovery = () => {
     }
 
     const headingName = activeSavedListName || activeSmartListName || 'Ergebnisse';
-    const headingEyebrow = activeSavedListName ? 'DEINE LISTE' : activeSmartListName ? 'SMART LIST' : 'DISCOVERY';
+    const headingEyebrow = getHeadingEyebrow(activeSavedListName, activeSmartListName);
     const hasLoadWarning = isPartial || (isError && items.length > 0);
 
     return (
