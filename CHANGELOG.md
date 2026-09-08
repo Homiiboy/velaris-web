@@ -1,5 +1,46 @@
 # Velaris Web Changelog
 
+## V0.0.8 — 2026-09-08 — Libraries, Collections & Search
+
+### Added
+
+- dedicated Velaris styling for modern library pages across Movies, Series, Anime, Anime Movies, Collections and additional server libraries
+- redesigned library toolbar with explicit Velaris classes for view selection, item counts, playback actions, filters, sorting and layout controls
+- premium grid and list surfaces with unified card depth, typography, spacing and focus behavior
+- dedicated Collections/BoxSets visual treatment that coexists with dynamic Velaris Franchise Hubs
+- refined genre, alphabet-picker, pagination and empty-state presentation
+- dedicated Velaris Search landing composition with branded hero and large glass search field
+- streaming-style search suggestions and horizontal result rows
+- responsive desktop, mobile and TV library/search behavior plus reduced-motion support
+- reusable `libraries` and `search` style modules added to the Velaris theme bundle
+- implementation notes in `docs/V0.0.8.md`
+
+### Changed
+
+- library browsing now uses the same near-black cinematic canvas and cyan/violet ambient light language as Home and title details
+- the library toolbar is visually grouped by content-view identity, item count, playback actions and browse controls instead of appearing as a generic utility row
+- ordinary server Collections are presented as premium content destinations while remaining distinct from the data-driven Franchise Hub layer
+- search now opens as a dedicated Velaris discovery surface rather than an unbranded input at the top of a generic library page
+- search results retain the established server query logic but receive Velaris-native spacing, card treatment and interaction states
+- V0.0.8 becomes the current completed Velaris milestone
+
+### Design direction
+
+- browsing should feel like moving through a streaming catalog rather than administering a media library
+- toolbar controls stay available without visually overpowering the artwork
+- Collections should look valuable enough to function as franchise/universe entry points even when they are ordinary Jellyfin BoxSets
+- search should feel fast, focused and content-first while preserving the existing reliable search backend
+
+### Validation
+
+- TypeScript, ESLint, Stylelint, unit tests and the production build are required by Velaris CI for the completed V0.0.8 state
+
+### Compatibility
+
+- library queries, permissions, pagination, filters, sorting, view settings, collection management, search endpoints and playback actions remain server-backed
+- no separate media index, collection database or search backend is introduced
+- existing routes and Jellyfin-compatible APIs remain responsible for data and behavior while Velaris controls presentation
+
 ## V0.0.7 — 2026-09-07 — Cinematic Details
 
 ### Added
