@@ -20,7 +20,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
 | V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
-| V0.4.0 | Discovery, Watchlists & Smart Lists | 🚧 In progress |
+| V0.4.0 | Discovery, Watchlists & Smart Lists | ✅ Complete |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |
 | V0.7.0 | TV Mode & App Experience | ⏳ Planned |
@@ -66,33 +66,31 @@ Velaris Web is being developed in feature phases toward the first stable release
 - defensive profile-scoped persistence and regression coverage
 - completed full validation in Velaris CI Run #81 and final documentation CI Run #82
 
-## Active feature phase
-
 ### V0.4.0 — Discovery, Watchlists & Smart Lists
 
-Goal: make Velaris useful for deciding what to watch, not only browsing known libraries.
+- dedicated Discovery Center with first-class desktop/mobile navigation
+- mixed Movie/Series discovery from real server library data
+- free-text title/genre search and filters for type, genre, watched state, runtime, year and rating
+- reliable Anime and Anime Movie classification derived from library context and actual media type
+- “Surprise me” action based on the complete active result set
+- Smart Lists for unseen titles, short movies, highly rated titles and recently added media
+- profile-scoped Watchlist and custom named lists
+- direct list add/remove controls on media cards
+- full Watchlist/custom-list browsing in the Discovery result area
+- versioned defensive local persistence and cross-tab synchronization
+- paged server loading per library instead of a fixed 500-title ceiling
+- deterministic cross-library deduplication and newest-first ordering
+- bounded incremental rendering for large result sets
+- partial-library failure/truncation warnings while keeping already loaded media usable
+- defensive handling for missing runtime/year/rating/date metadata
+- expanded regression coverage for Anime classification, paging, metadata edge cases, persistence and bounded Surprise Me behavior
+- Continue Watching mutations intentionally remain owned by the V0.2.0 Smart Home flow instead of being duplicated in Discovery
+- cross-user list sharing intentionally remains out of scope until it can be mapped to a safe server-backed permission model
+- complete implementation validation in Velaris CI Run #88
 
-Current implementation scope:
+Detailed release notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
 
-- ✅ dedicated Discovery Center route
-- ✅ desktop and mobile navigation entry
-- ✅ mixed Movie/Series discovery from real server library data
-- ✅ free-text title/genre search
-- ✅ filters for content type, genre, watched/unwatched state, runtime, production year and rating
-- ✅ “Surprise me” action using the active result set
-- ✅ Smart Lists for unseen titles, short movies, highly rated titles and recently added media
-- ✅ profile-scoped Watchlist
-- ✅ custom named lists
-- ✅ add/remove list actions directly on media cards
-- ✅ versioned defensive local persistence and cross-tab synchronization
-- ✅ initial regression tests for filters, list storage, Smart Lists and Surprise Me
-- 🚧 CI hardening, performance/large-library checks and practical edge-case validation
-- ⏳ deeper Continue Watching management if it adds value beyond V0.2.0
-- ⏳ list sharing/visibility only where it can be implemented safely with the existing user/server model
-
-Detailed active notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
-
-## Planned phases
+## Next planned feature phase
 
 ### V0.5.0 — Profiles 2.0
 
@@ -103,6 +101,8 @@ Detailed active notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
 - avatars and profile accent colors
 - saved language/audio/subtitle preferences
 - safer profile switching and session state
+
+## Later planned phases
 
 ### V0.6.0 — Advanced Player
 

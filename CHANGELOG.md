@@ -2,6 +2,64 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V0.4.0 — 2026-09-08 — Discovery, Watchlists & Smart Lists
+
+### Added
+
+- dedicated `/discovery` decision-making route with desktop/mobile navigation
+- mixed Movie/Series discovery from real connected libraries
+- title, original-title and genre search
+- filters for Movies, Series, Anime, Anime Movies, genre, watched state, runtime, production year and community rating
+- context-aware Anime/Anime Movie classification from library context and actual media type
+- “Surprise me” selection from the complete active result set
+- Smart Lists for unseen media, short movies, highly rated titles and recently added media
+- profile-scoped Watchlist and custom named lists
+- direct Watchlist/custom-list membership controls on Discovery cards
+- full saved-list browsing in the main Discovery result grid
+- custom-list creation and deletion
+- versioned defensive browser persistence with same-session and cross-tab synchronization
+- paged per-library media loading to remove the original fixed 500-title ceiling
+- incremental 60-title result rendering for large libraries
+- partial-library/truncation warnings that preserve already loaded media
+- regression coverage for persistence repair, filtering, Smart Lists, Anime classification, paging boundaries, ordering, missing metadata and bounded Surprise Me behavior
+
+### Changed
+
+- Discovery now deduplicates media across library queries and sorts the combined candidate set newest-first with deterministic fallbacks
+- custom/other user libraries can contribute valid Movie/Series media instead of depending entirely on conventional library names
+- malformed list state is bounded and repaired, including list-name length, custom-list count and stored item-ID count
+- missing runtime/year/rating/date metadata fails constrained filters safely instead of producing misleading matches
+- Watchlist/custom-list previews can now be opened as complete filtered result views
+
+### Scope decisions
+
+- deeper Continue Watching mutation controls remain in V0.2.0 Smart Home to avoid maintaining two competing playback-state management paths
+- cross-user list sharing remains deferred because V0.4.0 does not have a safe server-backed ownership/permission model for shared lists
+
+### Fixed during validation
+
+- Smart List toggle comparison flagged by Sonar type analysis
+- Discovery stylesheet selector-specificity and indentation conflicts
+- operator-linebreak formatting in defensive result-selection logic
+- nested Discovery heading-state ternary expressions rejected by repository lint rules
+
+### Validation
+
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- code-complete implementation validated by Velaris CI Run #88
+
+### Compatibility
+
+- Discovery continues to use existing Jellyfin-compatible library/user APIs
+- Watchlist/custom-list state does not rewrite server metadata or media files
+- authentication, playback, transcoding, permissions and media storage remain unchanged
+
 ## V0.3.0 — 2026-09-08 — Franchise Studio & Watch Orders
 
 ### Added

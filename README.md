@@ -16,26 +16,33 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.4.0 — Discovery, Watchlists & Smart Lists is in active development.**
+**V0.4.0 — Discovery, Watchlists & Smart Lists is complete and validated.**
 
-V0.3.0 — Franchise Studio & Watch Orders is complete and validated. V0.4.0 now adds the next product layer: a dedicated Discovery Center plus profile-scoped lists that help users decide what to watch instead of only browsing libraries manually.
+V0.4.0 adds a dedicated decision-making layer to Velaris: users can discover media across their libraries, filter it deeply, maintain personal lists and use automatically generated Smart Lists without changing server metadata or the existing playback stack.
 
-The first V0.4.0 implementation pass includes:
+The completed V0.4.0 scope includes:
 
 - dedicated `/discovery` route and first-class desktop/mobile navigation entry
-- mixed Movie and Series discovery backed by the connected media library
-- title/genre search
+- mixed Movie and Series discovery backed by the connected media libraries
+- reliable Anime and Anime Movie filtering derived from library context and media type
+- title/original-title/genre search
 - filters for content type, genre, watched state, runtime, production year and community rating
-- “Surprise me” action that selects from the currently filtered result set
-- automatically maintained Smart Lists for unseen media, short movies, highly rated titles and recently added media
-- profile-scoped Watchlist
-- profile-scoped custom named lists
+- “Surprise me” action using the complete active result set
+- Smart Lists for unseen media, short movies, highly rated titles and recently added media
+- profile-scoped Watchlist and custom named lists
 - add/remove controls directly on Discovery cards
+- full Watchlist/custom-list browsing in the main result area
 - defensive versioned browser-storage persistence and cross-tab synchronization
-- responsive Discovery layout with Velaris styling, focus states and reduced-motion support
-- automated regression tests for list persistence, filtering, Smart Lists and Surprise Me
+- paged per-library loading instead of a fixed 500-title ceiling
+- deterministic cross-library deduplication and newest-first ordering
+- incremental 60-title rendering batches for large result sets
+- graceful partial-library warnings that preserve already loaded media
+- defensive handling for missing or invalid runtime/year/rating/date metadata
+- expanded regression tests for paging, Anime classification, metadata edge cases, list storage, Smart Lists and Surprise Me
 
-Detailed active-development notes are available in [`docs/V0.4.0.md`](docs/V0.4.0.md).
+The code-complete V0.4.0 implementation passed the full Velaris CI pipeline in Run #88. Detailed release notes are available in [`docs/V0.4.0.md`](docs/V0.4.0.md).
+
+V0.5.0 — Profiles 2.0 is the next planned feature phase.
 
 ## Roadmap to V1.0.0
 
@@ -49,7 +56,7 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
 | V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
-| V0.4.0 | Discovery, Watchlists & Smart Lists | 🚧 In progress |
+| V0.4.0 | Discovery, Watchlists & Smart Lists | ✅ Complete |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |
 | V0.7.0 | TV Mode & App Experience | ⏳ Planned |
@@ -59,7 +66,7 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 
 ## What is already in Velaris
 
-The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, profile/login/account surfaces, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, Smart Home personalization, and the V0.3.0 Franchise Studio with editable universes and Watch Orders.
+The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, profile/login/account surfaces, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, and the V0.4.0 Discovery Center with Watchlists and Smart Lists.
 
 The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise, Smart Home and Discovery surfaces are data-driven and avoid fake promotional media.
 
