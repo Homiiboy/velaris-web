@@ -12,6 +12,7 @@ import { useApi } from 'hooks/useApi';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
+import { useVelarisProfilePreferences } from './features/profiles/useVelarisProfilePreferences';
 import LibraryToolbar from './features/libraries/components/LibraryToolbar';
 import { LibraryProvider } from './features/libraries/hooks/useLibrary';
 import { isLibraryPath } from './features/libraries/utils/path';
@@ -22,6 +23,7 @@ export const Component = () => {
     const [ isDrawerActive, setIsDrawerActive ] = useState(false);
     const { user } = useApi();
     const location = useLocation();
+    useVelarisProfilePreferences();
 
     const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
     const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user) && !isMediumScreen;
