@@ -3,190 +3,79 @@
 </p>
 
 <h1 align="center">Velaris Web</h1>
-<p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.1.0</strong></p>
+<p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
+<p align="center">Current Velaris version: <strong>V0.2.0</strong></p>
 
 ---
 
 ## About Velaris
 
-Velaris Web is a customized frontend based on [Jellyfin Web](https://github.com/jellyfin/jellyfin-web). The goal is to preserve Jellyfin's media platform and compatibility while evolving the web client into a distinct Velaris experience with its own branding, interface and features.
+Velaris Web is a customized frontend based on [Jellyfin Web](https://github.com/jellyfin/jellyfin-web). The goal is to preserve Jellyfin's proven media platform, server APIs, playback stack and compatibility while evolving the viewer experience into a distinct Velaris product with its own branding, interface and features.
 
 Velaris is an independent fork and is not an official Jellyfin project.
 
+## Current status
+
+**V0.2.0 — Smart Home & Personalization is complete.**
+
+V0.2.0 is the first feature phase after the hardened V0.1.0 foundation. Home now contains profile-aware Velaris recommendation rows and native Continue Watching controls while continuing to use the existing Jellyfin-compatible library and user-data APIs underneath.
+
+The current milestone includes:
+
+- profile-scoped Smart Home preferences
+- configurable Smart Home row order and visibility
+- Velaris-native Continue Watching with Resume
+- reset/remove progress and mark-as-watched actions
+- recent-viewing genre signals for recommendations
+- “Because you watched …” personalized discovery
+- “For tonight” movie suggestions
+- “Short & good” short-movie discovery
+- unseen-media recommendations
+- automatic empty-row suppression
+- cross-row recommendation deduplication
+- recommendation priority that follows the configured row order
+- responsive desktop/mobile/TV behavior and reduced-motion support
+- automated tests for preference repair, ordering, visibility, runtime classification, personalization and deduplication
+
+V0.2.0 passed the complete Velaris CI pipeline: TypeScript, repository ESLint, zero-warning Velaris strict lint, Stylelint, unit tests, production build and generated-bundle ES compatibility validation.
+
+Detailed notes are available in [`docs/V0.2.0.md`](docs/V0.2.0.md).
+
+## Roadmap to V1.0.0
+
+Velaris is being developed through feature phases. **V1.0.0 will be the first officially stable release.** V0.x builds remain development milestones until the feature-complete and stabilization phases are finished.
+
+The full roadmap, including every completed milestone and all planned feature phases, lives in [`ROADMAP.md`](ROADMAP.md).
+
+| Version | Phase | Status |
+| --- | --- | --- |
+| V0.0.1–V0.0.9 | Visual/product foundation | ✅ Complete |
+| V0.1.0 | Foundation Hardening | ✅ Complete |
+| V0.2.0 | Smart Home & Personalization | ✅ Complete |
+| V0.3.0 | Franchise Studio & Watch Orders | ⏳ Planned |
+| V0.4.0 | Discovery, Watchlists & Smart Lists | ⏳ Planned |
+| V0.5.0 | Profiles 2.0 | ⏳ Planned |
+| V0.6.0 | Advanced Player | ⏳ Planned |
+| V0.7.0 | TV Mode & App Experience | ⏳ Planned |
+| V0.8.0 | Control Center & Customization | ⏳ Planned |
+| V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
+| V1.0.0 | First Stable Release | 🎯 Target |
+
+## What is already in Velaris
+
+The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, profile/login/account surfaces, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, and the V0.2.0 Smart Home personalization layer.
+
+The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise and Smart Home surfaces are data-driven and disappear cleanly when no relevant media is available.
+
 ## Product direction
 
-Velaris is designed as a standalone modern streaming experience, not as a visible Jellyfin skin. Jellyfin remains the technical foundation for server APIs, playback and media management, while the normal viewer-facing interface is progressively replaced by Velaris-specific branding, navigation, layouts and interaction patterns.
+Velaris is designed as a standalone modern streaming experience, not as a visible Jellyfin skin. Jellyfin remains the technical foundation for server APIs, authentication, playback, transcoding and media management, while the normal viewer-facing interface is progressively replaced by Velaris-specific branding, navigation, layouts and interaction patterns.
 
-The design language combines useful ideas found across modern streaming services — content-first navigation, strong cinematic artwork, restrained chrome and responsive horizontal discovery — while keeping the resulting interface original to Velaris.
-
-Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
-
-## V0.1.0 — Release Hardening
-
-V0.1.0 is the first cohesive stabilization release after the V0.0.1–V0.0.9 feature milestones. It focuses on failure handling, route safety, regression coverage and generated-bundle compatibility instead of introducing another large visual surface.
-
-The milestone includes:
-
-- Home Spotlight states that distinguish loading, settled-empty and request-error conditions so the hero cannot remain on an endless skeleton
-- defensive Home/Favorites tab parsing that prevents malformed query parameters from loading invalid legacy controllers
-- one shared legacy-to-modern route normalizer used by Home, desktop navigation, overflow navigation, the mobile drawer and Franchise Spotlight links
-- franchise pending/error/empty-state separation plus in-page quick navigation that no longer mutates the application hash
-- defensive franchise matcher normalization so accidental blank matcher values cannot create broad false-positive hubs
-- escaped public-profile names/IDs and corrected public-profile card markup on the login screen
-- manual-login fallback when public-user discovery fails and handled optional login-branding failures
-- hardened profile-image upload/delete flows that always release the global loading state, report failures and support the current-user fallback ID
-- account-menu protection against transient `userId=undefined` profile links
-- focused route and library-category unit tests, including stable non-mutating library ordering
-- a zero-warning strict ESLint pass over Velaris-owned critical paths in addition to the repository-wide lint pass
-- generated production-bundle ES compatibility validation using the repository's existing `.escheckrc`
-
-The established Jellyfin-compatible APIs, authentication protocols, playback stack, transcoding and media storage remain unchanged. Detailed stabilization notes are documented in `docs/V0.1.0.md`.
-
-## Previous milestone — V0.0.9
-
-V0.0.9 brings the full-screen video player into the same Velaris design system as Home, details, libraries and search while deliberately keeping the proven playback engine and media pipeline intact.
-
-The milestone includes:
-
-- a dedicated full-screen Velaris player shell with a subtle viewer-facing brand treatment
-- a cinematic bottom scrim and centered translucent control surface that keeps the video dominant
-- stronger title, secondary media information and playback-status hierarchy
-- a clearer cyan-accented timeline with compact elapsed and remaining-duration labels
-- a visually dominant Play/Pause control separated from rewind, fast-forward and secondary utilities
-- refined subtitles, audio, volume, settings, AirPlay, picture-in-picture and fullscreen controls
-- premium treatments for Up Next and SyncPlay surfaces
-- responsive desktop, mobile and TV layouts with keyboard/remote focus states
-- reduced-motion handling for player interaction transitions
-- a reusable `player` style module in the Velaris theme bundle
-
-Play/pause, seeking, chapter navigation, next/previous media, audio and subtitle tracks, volume, settings, casting, picture-in-picture, fullscreen, SyncPlay, Up Next and the underlying Jellyfin-compatible playback stack remain unchanged. V0.0.9 is a presentation-layer milestone rather than a replacement decoder, transcoder or streaming backend.
-
-## V0.0.8 — Libraries, Collections & Search
-
-V0.0.8 redesigns the remaining browse and search surfaces so moving through a library feels like part of the same streaming product as Home and cinematic title details.
-
-The milestone includes:
-
-- a dedicated Velaris library canvas for Movies, Series, Anime, Anime Movies, Collections and additional server libraries
-- a redesigned two-level library toolbar with strong view hierarchy, compact item counts and grouped playback, filtering, sorting and layout controls
-- premium grid and list treatments with consistent card depth, typography, spacing and focus behavior
-- a distinct Collections/BoxSets presentation that supports ordinary server collections alongside the dynamic Franchise Hubs introduced in V0.0.4
-- refined genre, alphabet, pagination and empty states so browsing no longer falls back to an administrative media-server look
-- a dedicated Velaris Search landing page with a large glass search surface and stronger visual hierarchy
-- streaming-style search suggestions and horizontal result rows that reuse the Velaris card language
-- responsive desktop, mobile and TV behavior with reduced-motion support
-
-Library queries, view settings, filtering, sorting, pagination, search endpoints, permissions and playback actions remain backed by the existing Jellyfin-compatible logic. V0.0.8 changes the viewer-facing hierarchy without creating a separate media database or search backend.
-
-## V0.0.7 — Cinematic Details
-
-V0.0.7 transforms the viewer-facing title detail experience for Movies, Series, Anime and Anime Movies into a cinematic Velaris layout while retaining the existing server-backed detail and playback logic underneath.
-
-The milestone includes:
-
-- full-bleed backdrop presentation with layered cinematic scrims and support for title-logo artwork
-- a stronger streaming-style title hierarchy with cleaner metadata, genres, tagline and overview presentation
-- prominent Play, Resume, Restart and Trailer actions alongside restrained circular utility controls
-- refined media-version, video, audio and subtitle selectors in a dedicated glass surface
-- premium visual treatment for seasons, episodes, Next Up and other child-media sections
-- redesigned Cast & Crew, Collections and More Like This discovery rows
-- responsive detail layouts for desktop, mobile and TV with dedicated focus states
-- reduced-motion handling for detail-page transitions and microinteractions
-- one coherent detail architecture where Anime follows Series behavior and Anime Movies follow Movie behavior without duplicating playback logic
-
-Playback, resume state, trailers, favorites, watched state, downloads, media-source selection, subtitles, episode loading, cast data, collections, recommendations and Jellyfin server APIs remain unchanged. V0.0.7 is deliberately isolated in the Velaris presentation layer so the underlying media behavior stays compatible with upstream.
-
-## V0.0.6 — Login, Profiles & Account Experience
-
-V0.0.6 replaces the remaining viewer-facing account surfaces with a dedicated Velaris identity so entering, choosing and managing a profile feels like part of the streaming product rather than a server administration flow.
-
-The milestone includes:
-
-- a dedicated near-black Velaris authentication shell with cyan, blue, violet and magenta ambient light instead of the previous splash-screen login presentation
-- a streaming-style profile picker using the public user profiles and profile images already provided by the connected server
-- circular profile artwork, stronger focus states and responsive profile grids for desktop, mobile and TV
-- a glass-style manual sign-in panel that keeps username, password and remember-me behavior intact
-- Velaris treatments for Quick Connect, password recovery, server selection and adding a server
-- a redesigned account popover with the active profile identity shown before profile, settings, administrative and sign-out actions
-- a cinematic user-profile page with a dedicated avatar hero, profile-image controls and a separated security/password surface
-- a new reusable `account` style module shared across authentication, profile and account-menu surfaces
-- restored V0.0.2 polish and microinteraction modules in the Velaris style bundle so later milestones retain the complete design foundation
-
-Authentication, access tokens, permissions, Quick Connect and server APIs remain unchanged. V0.0.6 is a presentation and account-experience milestone rather than a replacement authentication system.
-
-## V0.0.5 — Home & Discovery
-
-V0.0.5 replaced the visible Jellyfin-style start-page hierarchy with the first full Velaris streaming home experience while keeping the proven server-backed home data underneath.
-
-The milestone includes:
-
-- a large rotating Velaris Spotlight hero driven by Movie and Series media already available to the signed-in user
-- library-sourced backdrop artwork, title, metadata, genres, tagline and overview inside the hero
-- direct playback for Movie Spotlight items and details navigation for Movie and Series items
-- reduced-motion-aware Spotlight rotation with manual selection controls
-- a dynamic “Deine Welten” discovery rail that only shows available core destinations such as Movies, Series, Anime, Anime Movies and Collections
-- shared category detection between the Home discovery rail and the Velaris application navigation
-- cinematic styling for existing Continue Watching, Next Up, Recently Added and library sections instead of exposing the old administrative home-page look
-- dynamic franchise discovery retained as a native Home section so universe hubs grow with the library
-- the redundant Jellyfin-style Home/Favorites header tabs hidden from the normal Home shell while the top Velaris navigation remains the primary navigation surface
-- responsive layouts for desktop, mobile and TV plus reduced-motion support
-
-The legacy Jellyfin home-section engine remains underneath for stable Continue Watching, Next Up, Recently Added and user-configurable sections, but its viewer-facing presentation is now controlled by the Velaris Home layer.
-
-## V0.0.4 — Dynamic Franchise Hubs
-
-V0.0.4 introduced the first Velaris-native universe and franchise layer. Hubs are generated from media that actually exists in the signed-in user's library, so empty franchise pages and empty sub-groups are never advertised in the normal viewer experience.
-
-The milestone includes:
-
-- dynamic franchise discovery from Movies and Series already available to the current user
-- matching based on display titles, original titles, sort titles, release years, studios, tags and catalog-defined provider IDs
-- automatic suppression of empty hubs and empty sub-groups
-- a Home shelf that only appears when at least one franchise is actually available
-- dedicated cinematic franchise pages with library-sourced hero artwork, Spotlight actions and quick navigation between available groups
-- curated row ordering for structured universes, including MCU phases, the Arrowverse, DCEU, Star Wars and other sequential franchises
-- catalog coverage for Marvel, DC, Star Wars, Wizarding World, Middle-earth, The Walking Dead, Breaking Bad, Game of Thrones, Star Trek, Alien & Predator, Jurassic, The Matrix, John Wick, Mission: Impossible, Fast & Furious, Dragon Ball, Naruto and One Piece
-- structured sub-groups such as MCU phases, MCU series, DCU, DCEU, Arrowverse, Batman, Elseworlds, Skywalker Saga, Mandalorian Era and similar story worlds
-- support for media appearing in multiple useful groups at the same time while remainder rows avoid unnecessary duplicates
-- optional manual metadata tags such as `velaris:franchise:dc` or `velaris:group:arrowverse` when automatic matching needs help
-- representative hero artwork selected from preferred matching titles already present in the library rather than bundled franchise artwork
-- automated tests for empty-hub suppression, localized title matching, curated ordering, manual assignment and duplicate prevention
-
-The franchise catalog is intentionally data-driven and extensible. Additional universes, timelines and aliases can be added without rebuilding the page architecture.
-
-## V0.0.3 — Navigation & App Shell
-
-V0.0.3 introduced the first purpose-built Velaris application shell. The direction combines useful streaming-interface patterns without reproducing any one service: content-first horizontal navigation, strong brand hierarchy, immersive translucent chrome and a compact mobile drawer.
-
-The milestone includes:
-
-- an original translucent Velaris top navigation that visually blends into cinematic content
-- Velaris-first product branding without exposing server names or server versions in normal primary navigation
-- text-first desktop navigation for Home, Favorites and streaming categories
-- priority placement for Movies, Series, Anime, Anime Movies and Collections when those libraries are available
-- larger desktop navigation capacity so those core destinations stay visible before falling into overflow
-- matching category order between the desktop navigation and mobile drawer
-- distinct active-section indicators based on the Velaris cyan-to-magenta gradient
-- a redesigned mobile drawer with clearer hierarchy and selected states
-- refined toolbar utility controls and responsive spacing
-- scoped app-shell classes to keep upstream Jellyfin merge conflicts manageable
-
-## V0.0.2 — Visual Foundation
-
-V0.0.2 introduced the native Velaris design system with centralized tokens, near-black surfaces, the cyan/blue/violet/magenta palette, unified buttons and forms, glass dialogs, polished cards and accessibility-focused motion/focus states.
-
-The original Jellyfin themes remain available, but Velaris is the default appearance of this fork.
-
-## V0.0.1 — Branding Foundation
-
-V0.0.1 established the native Velaris identity with the new logo, favicon, PWA metadata, splash screen, header branding and `Velaris Web` client name.
-
-The visible client identity is Velaris. References to Jellyfin are intentionally retained where they describe the upstream server, API, SDK, protocol, license or original project attribution. This keeps the fork technically honest and easier to synchronize with upstream.
+The design language combines useful ideas found across modern streaming services — content-first navigation, cinematic artwork, restrained chrome and responsive horizontal discovery — while keeping the resulting interface original to Velaris.
 
 ## Branch strategy
 
-- `master` — kept as close as practical to the upstream Jellyfin Web branch for easier syncing
+- `master` — kept as close as practical to upstream Jellyfin Web for easier syncing
 - `velaris` — active Velaris Web development branch
 
 Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-web)
@@ -233,11 +122,25 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
 
 ## Validation
 
-The `velaris` branch includes a dedicated Velaris CI workflow that runs TypeScript checks, repository ESLint, a strict zero-warning lint pass over critical Velaris paths, Stylelint, unit tests, a production build and an ES compatibility scan of the generated bundle.
+The `velaris` branch includes a dedicated Velaris CI workflow that runs:
 
-## Versioning
+- TypeScript checks
+- repository ESLint
+- strict zero-warning lint over critical Velaris paths
+- Stylelint
+- unit tests
+- production build
+- ES compatibility scan of the generated bundle
 
-Velaris uses its own version line beginning with `V0.0.1`. The Jellyfin Web package version can remain aligned with the upstream codebase so upstream compatibility remains easier to track. The current Velaris version is stored in `VELARIS_VERSION`.
+A feature phase is not considered complete until the complete validation pipeline passes.
+
+## Versioning and release policy
+
+Velaris uses its own release line, stored in `VELARIS_VERSION`, while the Jellyfin Web package version can remain aligned with the upstream codebase for easier compatibility tracking.
+
+- `V0.x` — feature development and pre-stable milestones
+- `V0.9.0` — planned Feature Complete milestone
+- `V1.0.0` — first Stable release after a dedicated final hardening phase
 
 ## License and upstream attribution
 
