@@ -417,7 +417,7 @@
     cursor: pointer;
 }
 
-.velaris-studio-group__controls button:disabled {
+.velaris-studio-group__controls :where(button:disabled) {
     opacity: 0.28;
     cursor: default;
 }
