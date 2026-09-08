@@ -15,12 +15,14 @@ import UserPasswordForm from 'components/dashboard/users/UserPasswordForm';
 import Page from 'components/Page';
 import Loading from 'components/loading/LoadingComponent';
 import Button from 'elements/emby-button/Button';
+import VelarisProfileSettings from 'apps/modern/features/profiles/VelarisProfileSettings';
 
 const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId') || undefined;
     const { data: user, isPending: isUserPending } = useUser({ userId });
     const effectiveUserId = userId || user?.Id;
+    const isCurrentProfile = Boolean(effectiveUserId && effectiveUserId === window.ApiClient.getCurrentUserId());
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
@@ -232,6 +234,8 @@ const UserProfile: FunctionComponent = () => {
                         </div>
                     </div>
                 </section>
+
+                {isCurrentProfile && <VelarisProfileSettings user={user} />}
 
                 <section className='velaris-profile-security'>
                     <UserPasswordForm user={user} />
