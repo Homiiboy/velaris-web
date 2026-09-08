@@ -6,6 +6,7 @@ import VelarisFranchiseShelf from 'apps/modern/features/franchises/VelarisFranch
 import VelarisHomeDestinations from 'apps/modern/features/home/VelarisHomeDestinations';
 import VelarisHomeHero from 'apps/modern/features/home/VelarisHomeHero';
 import VelarisSmartHome from 'apps/modern/features/home/VelarisSmartHome';
+import VelarisProfileGate from 'apps/modern/features/profiles/VelarisProfileGate';
 import {
     isVelarisHomeTabIndex,
     parseVelarisHomeTabIndex,
@@ -176,6 +177,7 @@ const Home = () => {
 
     return (
         <div ref={element}>
+            <VelarisProfileGate />
             <Page
                 id='indexPage'
                 className='mainAnimatedPage homePage libraryPage allLibraryPage pageWithAbsoluteTabs withTabs velaris-home-page'
