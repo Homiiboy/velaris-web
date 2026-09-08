@@ -1,4 +1,4 @@
-import React, { type FC, useEffect, useMemo, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { CardShape } from 'components/cardbuilder/utils/shape';
 import SectionContainer from 'components/common/SectionContainer';
@@ -36,14 +36,14 @@ const FranchiseWatchOrders: FC<FranchiseWatchOrdersProps> = ({ hub, config }) =>
         }
     }, [ activeOrderId, orders ]);
 
+    const onOrderClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+        const orderId = event.currentTarget.dataset.orderId;
+        if (orderId) setActiveOrderId(orderId);
+    }, []);
+
     if (orders.length === 0) return null;
 
     const activeOrder = orders.find(order => order.id === activeOrderId) || orders[0];
-
-    const onOrderClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        const orderId = event.currentTarget.dataset.orderId;
-        if (orderId && orders.some(order => order.id === orderId)) setActiveOrderId(orderId);
-    };
 
     return (
         <section className='velaris-watch-orders' aria-labelledby={`velaris-watch-orders-${hub.id}`}>
