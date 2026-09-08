@@ -9,7 +9,6 @@ import React, {
 import { Link, useSearchParams } from 'react-router-dom';
 
 import { VELARIS_FRANCHISE_CATALOG } from 'apps/modern/features/franchises/catalog';
-import type { ResolvedFranchiseHub } from 'apps/modern/features/franchises/franchiseEngine';
 import {
     addFranchiseStudioGroup,
     addFranchiseStudioWatchItem,
@@ -73,6 +72,7 @@ const StudioItemCard: FC<StudioItemCardProps> = ({
 
     const onDrop = useCallback((event: React.DragEvent<HTMLElement>) => {
         event.preventDefault();
+        event.stopPropagation();
         const itemId = event.dataTransfer.getData('text/plain');
         if (itemId && item.Id && itemId !== item.Id) onAssign(itemId, groupId, item.Id);
     }, [ groupId, item.Id, onAssign ]);
@@ -319,7 +319,7 @@ const WatchOrderEditor: FC<WatchOrderEditorProps> = ({
             <div className='velaris-studio-watch-editor__add'>
                 <select value={addItemId} onChange={onAddSelectChange} aria-label={`Titel zu ${order.name} hinzufügen`}>
                     <option value=''>Titel auswählen …</option>
-                    {available.map(item => <option key={item.Id} value={item.Id}>{item.Name}</option>)}
+                    {available.map(item => <option key={item.Id} value={item.Id || ''}>{item.Name}</option>)}
                 </select>
                 <button type='button' onClick={onAddClick} disabled={!addItemId}>Hinzufügen</button>
             </div>
