@@ -162,7 +162,7 @@ const VelarisProfileGate: FC = () => {
                                 <span className='velaris-profile-gate__badges'>
                                     {preferences.kidsMode && <span>KIDS</span>}
                                     {profile.HasPassword && (
-                                        <span><span className='material-icons' aria-hidden='true'>lock</span> PIN</span>
+                                        <span><span className='material-icons' aria-hidden='true'>lock</span> GESCHÜTZT</span>
                                     )}
                                     {profileId === currentUserId && <span>AKTIV</span>}
                                 </span>
@@ -177,7 +177,6 @@ const VelarisProfileGate: FC = () => {
                         <span>Gib den Profil-PIN oder das Jellyfin-Passwort ein.</span>
                         <input
                             type='password'
-                            inputMode='numeric'
                             value={credential}
                             onChange={event => setCredential(event.target.value)}
                             autoComplete='current-password'
