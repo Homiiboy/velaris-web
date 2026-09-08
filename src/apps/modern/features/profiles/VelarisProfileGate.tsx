@@ -1,7 +1,9 @@
 import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
 
+import viewContainer from 'components/viewContainer';
 import { useApi } from 'hooks/useApi';
 import Dashboard from 'utils/dashboard';
+import { queryClient } from 'utils/query/queryClient';
 
 import {
     getChosenVelarisProfileId,
@@ -17,6 +19,10 @@ const VelarisProfileGate: FC = () => {
     const serverId = __legacyApiClient__?.serverId();
     const [ profiles, setProfiles ] = useState<VelarisPublicProfile[] | null>(null);
     const [ dismissed, setDismissed ] = useState(false);
+    const [ pendingProfile, setPendingProfile ] = useState<VelarisPublicProfile | null>(null);
+    const [ credential, setCredential ] = useState('');
+    const [ errorMessage, setErrorMessage ] = useState('');
+    const [ isSwitching, setIsSwitching ] = useState(false);
 
     useEffect(() => {
         if (!currentUserId || !serverId || !__legacyApiClient__) return;
@@ -48,22 +54,73 @@ const VelarisProfileGate: FC = () => {
         shouldShowVelarisProfilePicker(profiles, currentUserId, chosenProfileId)
     );
 
-    const chooseProfile = useCallback((profileId: string) => {
-        if (!serverId || !currentUserId) return;
+    const authenticateProfile = useCallback(async (
+        profile: VelarisPublicProfile,
+        password: string
+    ) => {
+        if (!profile.Id || !profile.Name || !serverId || !__legacyApiClient__) return;
 
-        if (profileId === currentUserId) {
+        setIsSwitching(true);
+        setErrorMessage('');
+        try {
+            const result = await __legacyApiClient__.authenticateUserByName(profile.Name, password);
+            if (!result?.User?.Id || !result.AccessToken) {
+                throw new Error('Profile authentication returned an incomplete response');
+            }
+
+            queryClient.clear();
+            viewContainer.reset();
+            Dashboard.onServerChanged(result.User.Id, result.AccessToken, __legacyApiClient__);
+            markVelarisProfileChosen(window.sessionStorage, serverId, result.User.Id);
+            setPendingProfile(null);
+            setCredential('');
+            setDismissed(true);
+            Dashboard.navigate('home');
+        } catch (error) {
+            console.warn('[VelarisProfiles] profile switch authentication failed', error);
+            setErrorMessage(profile.HasPassword ?
+                'PIN oder Passwort ist nicht korrekt.' :
+                'Dieses Profil konnte nicht geöffnet werden.');
+        } finally {
+            setIsSwitching(false);
+        }
+    }, [ __legacyApiClient__, serverId ]);
+
+    const chooseProfile = useCallback((profile: VelarisPublicProfile) => {
+        if (!serverId || !currentUserId || !profile.Id) return;
+
+        if (profile.Id === currentUserId) {
             markVelarisProfileChosen(window.sessionStorage, serverId, currentUserId);
             setDismissed(true);
             return;
         }
 
-        Dashboard.switchProfile(profileId);
-    }, [ currentUserId, serverId ]);
+        if (profile.HasPassword) {
+            setCredential('');
+            setErrorMessage('');
+            setPendingProfile(profile);
+            return;
+        }
+
+        void authenticateProfile(profile, '');
+    }, [ authenticateProfile, currentUserId, serverId ]);
 
     const onProfileClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         const profileId = event.currentTarget.dataset.profileId;
-        if (profileId) chooseProfile(profileId);
-    }, [ chooseProfile ]);
+        const profile = profiles?.find(candidate => candidate.Id === profileId);
+        if (profile) chooseProfile(profile);
+    }, [ chooseProfile, profiles ]);
+
+    const onCredentialSubmit = useCallback((event: React.FormEvent) => {
+        event.preventDefault();
+        if (pendingProfile) void authenticateProfile(pendingProfile, credential);
+    }, [ authenticateProfile, credential, pendingProfile ]);
+
+    const onCredentialCancel = useCallback(() => {
+        setPendingProfile(null);
+        setCredential('');
+        setErrorMessage('');
+    }, []);
 
     if (!isOpen || !profiles || !serverId || !__legacyApiClient__) return null;
 
@@ -93,6 +150,7 @@ const VelarisProfileGate: FC = () => {
                                 data-profile-id={profileId}
                                 data-accent={preferences.accent}
                                 onClick={onProfileClick}
+                                disabled={isSwitching}
                             >
                                 <span
                                     className='velaris-profile-gate__avatar'
@@ -112,6 +170,27 @@ const VelarisProfileGate: FC = () => {
                         );
                     })}
                 </div>
+
+                {pendingProfile && (
+                    <form className='velaris-profile-gate__credential' onSubmit={onCredentialSubmit}>
+                        <strong>{pendingProfile.Name} entsperren</strong>
+                        <span>Gib den Profil-PIN oder das Jellyfin-Passwort ein.</span>
+                        <input
+                            type='password'
+                            inputMode='numeric'
+                            value={credential}
+                            onChange={event => setCredential(event.target.value)}
+                            autoComplete='current-password'
+                            autoFocus
+                            aria-label={`PIN oder Passwort für ${pendingProfile.Name}`}
+                        />
+                        {errorMessage && <span className='velaris-profile-gate__error' role='alert'>{errorMessage}</span>}
+                        <div>
+                            <button type='button' className='raised cancel' onClick={onCredentialCancel} disabled={isSwitching}>Zurück</button>
+                            <button type='submit' className='raised button-submit' disabled={isSwitching || !credential}>Öffnen</button>
+                        </div>
+                    </form>
+                )}
             </div>
         </div>
     );
