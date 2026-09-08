@@ -6,11 +6,10 @@ import {
     getVelarisLibraryCategory,
     sortVelarisLibraries
 } from 'apps/modern/utils/velarisNavigation';
+import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import { appRouter } from 'components/router/appRouter';
 import { useUserViews } from 'hooks/api/useUserViews';
 import { useApi } from 'hooks/useApi';
-
-const toReactRoute = (url: string) => url.startsWith('#') ? url.substring(1) : url;
 
 const VelarisHomeDestinations: FC = () => {
     const { user, __legacyApiClient__ } = useApi();

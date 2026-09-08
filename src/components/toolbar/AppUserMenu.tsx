@@ -96,18 +96,20 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
             <Divider />
 
-            <MenuItem
-                component={Link}
-                to={`/userprofile?userId=${user?.Id}`}
-                onClick={onMenuClose}
-            >
-                <ListItemIcon>
-                    <AccountCircle />
-                </ListItemIcon>
-                <ListItemText>
-                    {globalize.translate('Profile')}
-                </ListItemText>
-            </MenuItem>
+            {user?.Id && (
+                <MenuItem
+                    component={Link}
+                    to={`/userprofile?userId=${encodeURIComponent(user.Id)}`}
+                    onClick={onMenuClose}
+                >
+                    <ListItemIcon>
+                        <AccountCircle />
+                    </ListItemIcon>
+                    <ListItemText>
+                        {globalize.translate('Profile')}
+                    </ListItemText>
+                </MenuItem>
+            )}
             <MenuItem
                 component={Link}
                 to='/mypreferencesmenu'

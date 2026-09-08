@@ -8,6 +8,7 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import LibraryIcon from 'apps/modern/components/LibraryIcon';
+import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import { appRouter } from 'components/router/appRouter';
 import type { MenuLink } from 'types/webConfig';
 
@@ -55,7 +56,7 @@ const UserViewsMenu: FC<UserViewsMenuProps> = ({
                     <MenuItem
                         key={navItem.Id}
                         component={Link}
-                        to={appRouter.getRouteUrl(navItem, { context: navItem.CollectionType }).substring(1)}
+                        to={toReactRoute(appRouter.getRouteUrl(navItem, { context: navItem.CollectionType }))}
                         onClick={onMenuClose}
                         selected={navItem.Id === selectedId}
                     >

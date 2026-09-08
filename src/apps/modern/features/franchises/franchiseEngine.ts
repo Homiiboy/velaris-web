@@ -40,6 +40,12 @@ const normalizeTag = (value: string | null | undefined) => (
         .trim()
 );
 
+const normalizeMatcherValues = (values: string[] | undefined) => (
+    (values || [])
+        .map(normalizeText)
+        .filter(Boolean)
+);
+
 const getItemKey = (item: ItemDto, index = 0) => (
     item.Id || `${item.Type || 'Item'}:${item.Name || item.OriginalTitle || 'Unknown'}:${index}`
 );
@@ -81,12 +87,14 @@ const getTags = (item: ItemDto) => (
         .filter(Boolean)
 );
 
-const includesNormalizedValue = (values: string[], candidates: string[]) => (
-    candidates.some(candidate => {
-        const normalizedCandidate = normalizeText(candidate);
-        return values.some(value => value.includes(normalizedCandidate));
-    })
-);
+const includesNormalizedValue = (values: string[], candidates: string[]) => {
+    const normalizedCandidates = normalizeMatcherValues(candidates);
+    if (normalizedCandidates.length === 0) return false;
+
+    return normalizedCandidates.some(candidate => (
+        values.some(value => value.includes(candidate))
+    ));
+};
 
 const matchesProviderIds = (
     item: ItemDto,
@@ -111,10 +119,9 @@ const matchesMatcher = (item: ItemDto, matcher: FranchiseMatcher) => {
     }
 
     const titles = getSearchableTitles(item);
-    const hasTitleCriteria = Boolean(
-        matcher.titles?.length
-        || matcher.titleIncludes?.length
-    );
+    const expectedTitles = normalizeMatcherValues(matcher.titles);
+    const fragments = normalizeMatcherValues(matcher.titleIncludes);
+    const hasTitleCriteria = expectedTitles.length > 0 || fragments.length > 0;
     const hasStudioCriteria = Boolean(matcher.studios?.length);
     const hasTagCriteria = Boolean(matcher.tags?.length);
     const hasProviderCriteria = Boolean(
@@ -122,13 +129,16 @@ const matchesMatcher = (item: ItemDto, matcher: FranchiseMatcher) => {
     );
 
     if (matcher.titles?.length) {
-        const expectedTitles = matcher.titles.map(normalizeText);
-        if (!expectedTitles.some(title => titles.includes(title))) return false;
+        if (expectedTitles.length === 0 || !expectedTitles.some(title => titles.includes(title))) {
+            return false;
+        }
     }
 
     if (matcher.titleIncludes?.length) {
-        const fragments = matcher.titleIncludes.map(normalizeText);
-        if (!fragments.some(fragment => titles.some(title => title.includes(fragment)))) {
+        if (
+            fragments.length === 0
+            || !fragments.some(fragment => titles.some(title => title.includes(fragment)))
+        ) {
             return false;
         }
     }
@@ -139,7 +149,10 @@ const matchesMatcher = (item: ItemDto, matcher: FranchiseMatcher) => {
 
     if (matcher.tags?.length) {
         const itemTags = getTags(item);
-        if (!matcher.tags.some(tag => itemTags.includes(normalizeTag(tag)))) return false;
+        if (!matcher.tags.some(tag => {
+            const normalizedTag = normalizeTag(tag);
+            return Boolean(normalizedTag && itemTags.includes(normalizedTag));
+        })) return false;
     }
 
     if (!matchesProviderIds(item, matcher.providerIds)) return false;
@@ -210,6 +223,8 @@ const findPreferredItem = (
 
     for (const heroTitle of heroTitles) {
         const normalizedHeroTitle = normalizeText(heroTitle);
+        if (!normalizedHeroTitle) continue;
+
         const item = items.find(candidate => (
             imagePredicate(candidate)
             && getSearchableTitles(candidate).includes(normalizedHeroTitle)

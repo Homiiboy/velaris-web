@@ -9,9 +9,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 import { sortVelarisLibraries } from 'apps/modern/utils/velarisNavigation';
+import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import ListItemLink from 'components/ListItemLink';
 import { appRouter } from 'components/router/appRouter';
 import { useUserViews } from 'hooks/api/useUserViews';
@@ -25,11 +26,13 @@ import DrawerHeaderLink from './DrawerHeaderLink';
 const MainDrawerContent = () => {
     const { user } = useApi();
     const location = useLocation();
+    const [ searchParams ] = useSearchParams();
     const { data: userViewsData } = useUserViews({ userId: user?.Id });
     const userViews = sortVelarisLibraries(userViewsData?.Items || []);
     const webConfig = useWebConfig();
 
-    const isHomeSelected = location.pathname === '/home' && (!location.search || location.search === '?tab=0');
+    const isFavoritesSelected = location.pathname === '/home' && searchParams.get('tab') === '1';
+    const isHomeSelected = location.pathname === '/home' && !isFavoritesSelected;
 
     return (
         <div className='velaris-drawer-content'>
@@ -47,7 +50,7 @@ const MainDrawerContent = () => {
                     </ListItemLink>
                 </ListItem>
                 <ListItem disablePadding>
-                    <ListItemLink to='/home?tab=1'>
+                    <ListItemLink to='/home?tab=1' selected={isFavoritesSelected}>
                         <ListItemIcon>
                             <Favorite />
                         </ListItemIcon>
@@ -71,7 +74,7 @@ const MainDrawerContent = () => {
                         {userViews.map(view => (
                             <ListItem key={view.Id} disablePadding>
                                 <ListItemLink
-                                    to={appRouter.getRouteUrl(view, { context: view.CollectionType }).substring(1)}
+                                    to={toReactRoute(appRouter.getRouteUrl(view, { context: view.CollectionType }))}
                                 >
                                     <ListItemIcon>
                                         <LibraryIcon item={view} />

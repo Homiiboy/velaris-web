@@ -37,6 +37,24 @@ jobs:
       - name: ESLint
         run: npm run lint
 
+      - name: Velaris strict lint
+        run: >-
+          npx eslint
+          src/apps/legacy/controllers/session/login/index.js
+          src/apps/modern/features/franchises
+          src/apps/modern/features/home
+          src/apps/modern/utils/velarisNavigation.ts
+          src/apps/modern/utils/velarisNavigation.test.ts
+          src/apps/modern/utils/velarisRouting.ts
+          src/apps/modern/utils/velarisRouting.test.ts
+          src/apps/modern/routes/franchise.tsx
+          src/apps/modern/routes/home.tsx
+          src/apps/modern/components/AppToolbar/userViews/UserViewNav.tsx
+          src/apps/modern/components/AppToolbar/userViews/UserViewsMenu.tsx
+          src/apps/modern/components/drawers/MainDrawerContent.tsx
+          src/components/toolbar/AppUserMenu.tsx
+          --max-warnings=0
+
       - name: Stylelint
         run: npm run stylelint
 
@@ -45,3 +63,6 @@ jobs:
 
       - name: Production build
         run: npm run build:production
+
+      - name: ES compatibility check
+        run: npm run escheck

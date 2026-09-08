@@ -16,6 +16,7 @@ import { MetaView } from 'apps/modern/constants/metaView';
 import { useAncestors } from 'apps/modern/features/libraries/hooks/api/useAncestors';
 import { isDetailsPath, isLibraryPath } from 'apps/modern/features/libraries/utils/path';
 import { sortVelarisLibraries } from 'apps/modern/utils/velarisNavigation';
+import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import { appRouter } from 'components/router/appRouter';
 import { useUserViews } from 'hooks/api/useUserViews';
 import { useApi } from 'hooks/useApi';
@@ -177,7 +178,7 @@ const UserViewNav = () => {
                         color={(navItem.Id === currentUserView?.Id) ? 'primary' : 'inherit'}
                         startIcon={<LibraryIcon item={navItem} />}
                         component={Link}
-                        to={appRouter.getRouteUrl(navItem, { context: navItem.CollectionType }).substring(1)}
+                        to={toReactRoute(appRouter.getRouteUrl(navItem, { context: navItem.CollectionType }))}
                     >
                         {navItem.Name}
                     </Button>

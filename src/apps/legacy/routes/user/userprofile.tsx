@@ -20,6 +20,7 @@ const UserProfile: FunctionComponent = () => {
     const [ searchParams ] = useSearchParams();
     const userId = searchParams.get('userId') || undefined;
     const { data: user, isPending: isUserPending } = useUser({ userId });
+    const effectiveUserId = userId || user?.Id;
     const libraryMenu = useMemo(async () => ((await import('../../../../scripts/libraryMenu')).default), []);
 
     const element = useRef<HTMLDivElement>(null);
@@ -33,7 +34,8 @@ const UserProfile: FunctionComponent = () => {
         }
 
         if (!user?.Name || !user?.Id) {
-            throw new Error('Unexpected null user name or id');
+            console.error('[userprofile] missing user name or id');
+            return;
         }
 
         void libraryMenu.then(menu => menu.setTitle(user.Name));
@@ -50,7 +52,8 @@ const UserProfile: FunctionComponent = () => {
 
         Dashboard.getCurrentUser().then(function (loggedInUser: UserDto) {
             if (!user.Policy) {
-                throw new Error('Unexpected null user.Policy');
+                console.error('[userprofile] missing user policy');
+                return;
             }
 
             if (user.PrimaryImageTag) {
@@ -66,6 +69,8 @@ const UserProfile: FunctionComponent = () => {
     }, [user, libraryMenu]);
 
     useEffect(() => {
+        if (isUserPending || !user) return;
+
         const page = element.current;
 
         if (!page) {
@@ -106,28 +111,35 @@ const UserProfile: FunctionComponent = () => {
             const reader: FileReader = new FileReader();
             reader.onerror = onFileReaderError;
             reader.onabort = onFileReaderAbort;
-            reader.onload = () => {
-                if (!userId) {
+            reader.onload = async () => {
+                if (!effectiveUserId) {
+                    loading.hide();
                     console.error('[userprofile] missing user id');
                     return;
                 }
 
                 userImage.style.backgroundImage = 'url(' + reader.result + ')';
-                window.ApiClient.uploadUserImage(userId, ImageType.Primary, file).then(function () {
-                    loading.hide();
-                    void queryClient.invalidateQueries({
+
+                try {
+                    await window.ApiClient.uploadUserImage(effectiveUserId, ImageType.Primary, file);
+                    await queryClient.invalidateQueries({
                         queryKey: ['User']
                     });
-                }).catch(err => {
+                } catch (err) {
                     console.error('[userprofile] failed to upload image', err);
-                });
+                    toast(globalize.translate('HeaderError'));
+                    reloadUser();
+                } finally {
+                    loading.hide();
+                }
             };
 
+            loading.show();
             reader.readAsDataURL(file);
         };
 
         const onDeleteImageClick = function () {
-            if (!userId) {
+            if (!effectiveUserId) {
                 console.error('[userprofile] missing user id');
                 return;
             }
@@ -135,16 +147,20 @@ const UserProfile: FunctionComponent = () => {
             confirm(
                 globalize.translate('DeleteImageConfirmation'),
                 globalize.translate('DeleteImage')
-            ).then(function () {
+            ).then(async function () {
                 loading.show();
-                window.ApiClient.deleteUserImage(userId, ImageType.Primary).then(function () {
-                    loading.hide();
-                    void queryClient.invalidateQueries({
+
+                try {
+                    await window.ApiClient.deleteUserImage(effectiveUserId, ImageType.Primary);
+                    await queryClient.invalidateQueries({
                         queryKey: ['User']
                     });
-                }).catch(err => {
+                } catch (err) {
                     console.error('[userprofile] failed to delete image', err);
-                });
+                    toast(globalize.translate('HeaderError'));
+                } finally {
+                    loading.hide();
+                }
             }).catch(() => {
                 // confirm dialog closed
             });
@@ -169,7 +185,7 @@ const UserProfile: FunctionComponent = () => {
             (page.querySelector('#btnAddImage') as HTMLButtonElement).removeEventListener('click', addImageClick);
             (page.querySelector('#uploadImage') as HTMLInputElement).removeEventListener('change', onUploadImage);
         };
-    }, [reloadUser, user, userId]);
+    }, [effectiveUserId, isUserPending, reloadUser, user]);
 
     if (isUserPending || !user) {
         return <Loading />;

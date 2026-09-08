@@ -1,4 +1,5 @@
 import createDOMPurify from 'dompurify';
+import escapeHtml from 'escape-html';
 import markdownIt from 'markdown-it';
 
 import { AppFeature } from 'constants/appFeature';
@@ -146,6 +147,11 @@ function loadUserList(context, apiClient, users) {
     let html = '';
 
     for (const user of users) {
+        if (!user?.Id || !user?.Name) {
+            console.warn('[LoginPage] ignoring malformed public user entry');
+            continue;
+        }
+
         // TODO move card creation code to Card component
         let cssClass = 'card squareCard scalableCard squareCard-scalable velaris-profile-card';
 
@@ -157,12 +163,14 @@ function loadUserList(context, apiClient, users) {
             }
         }
 
+        const escapedName = escapeHtml(user.Name);
+        const escapedId = escapeHtml(user.Id);
         const cardBoxCssClass = 'cardBox cardBox-bottompadded velaris-profile-card__box';
         html += '<button type="button" class="' + cssClass + '">';
         html += '<div class="' + cardBoxCssClass + '">';
         html += '<div class="cardScalable">';
         html += '<div class="cardPadder cardPadder-square"></div>';
-        html += `<div class="cardContent velaris-profile-card__content" data-haspopup="${user.HasPassword}" data-username="${user.Name}" data-userid="${user.Id}">`;
+        html += `<div class="cardContent velaris-profile-card__content" data-haspopup="${user.HasPassword === true}" data-username="${escapedName}" data-userid="${escapedId}">`;
         let imgUrl;
 
         if (user.PrimaryImageTag) {
@@ -172,7 +180,7 @@ function loadUserList(context, apiClient, users) {
                 type: 'Primary'
             });
 
-            html += '<div class="cardImageContainer coveredImage velaris-profile-card__image" style="background-image:url(\'' + imgUrl + "');\"></div>";
+            html += `<div class="cardImageContainer coveredImage velaris-profile-card__image" style="background-image:url('${imgUrl}');"></div>`;
         } else {
             html += `<div class="cardImage velaris-profile-card__image flex align-items-center justify-content-center ${getDefaultBackgroundClass()}">`;
             html += '<span class="material-icons cardImageIcon person" aria-hidden="true"></span>';
@@ -182,7 +190,7 @@ function loadUserList(context, apiClient, users) {
         html += '</div>';
         html += '</div>';
         html += '<div class="cardFooter visualCardBox-cardFooter velaris-profile-card__footer">';
-        html += '<div class="cardText singleCardText cardTextCentered">' + user.Name + '</div>';
+        html += '<div class="cardText singleCardText cardTextCentered">' + escapedName + '</div>';
         html += '</div>';
         html += '</div>';
         html += '</button>';
@@ -277,6 +285,7 @@ export default function (view, params) {
         }
 
         const apiClient = getApiClient();
+        view.querySelector('.btnQuick').classList.add('hide');
 
         apiClient.getQuickConnect('Enabled')
             .then(enabled => {
@@ -296,9 +305,14 @@ export default function (view, params) {
                 view.querySelector('#txtManualName').value = '';
                 showManualForm(view, false, false);
             }
-        }).catch().then(function () {
+        }).catch(err => {
+            console.error('[LoginPage] failed to load public users', err);
+            view.querySelector('#txtManualName').value = '';
+            showManualForm(view, false, false);
+        }).then(function () {
             loading.hide();
         });
+
         apiClient.getJSON(apiClient.getUrl('Branding/Configuration')).then(function (options) {
             const loginDisclaimer = view.querySelector('.loginDisclaimer');
 
@@ -316,6 +330,8 @@ export default function (view, params) {
                     elem.tabIndex = -1;
                 }
             }
+        }).catch(err => {
+            console.debug('[LoginPage] failed to load login disclaimer', err);
         });
     });
     view.addEventListener('viewhide', function () {

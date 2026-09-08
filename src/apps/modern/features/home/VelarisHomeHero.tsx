@@ -6,6 +6,7 @@ import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react
 import { Link } from 'react-router-dom';
 
 import { getVelarisFranchiseArtworkUrl } from 'apps/modern/features/franchises/franchiseArtwork';
+import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
@@ -14,8 +15,6 @@ import type { ItemDto } from 'types/base/models/item-dto';
 
 const HERO_ROTATION_INTERVAL = 12000;
 const MAX_HERO_ITEMS = 6;
-
-const toReactRoute = (url: string) => url.startsWith('#') ? url.substring(1) : url;
 
 const formatRuntime = (runTimeTicks: number | null | undefined) => {
     if (!runTimeTicks) return undefined;
@@ -80,12 +79,17 @@ const VelarisHomeHero: FC = () => {
     );
 
     useEffect(() => {
-        if (activeIndex >= heroItems.length) setActiveIndex(0);
+        if (heroItems.length > 0 && activeIndex >= heroItems.length) {
+            setActiveIndex(0);
+        }
     }, [ activeIndex, heroItems.length ]);
 
     useEffect(() => {
         if (heroItems.length <= 1) return undefined;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+        if (
+            typeof window.matchMedia === 'function'
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) return undefined;
 
         const interval = window.setInterval(() => {
             setActiveIndex(index => (index + 1) % heroItems.length);
@@ -94,7 +98,7 @@ const VelarisHomeHero: FC = () => {
         return () => window.clearInterval(interval);
     }, [ heroItems.length ]);
 
-    const activeItem = heroItems[activeIndex];
+    const activeItem = heroItems[activeIndex] || heroItems[0];
 
     const onPlay = useCallback(() => {
         if (!activeItem?.Id || activeItem.Type !== BaseItemKind.Movie) return;
@@ -107,16 +111,24 @@ const VelarisHomeHero: FC = () => {
 
     const onIndicatorClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         const index = Number(event.currentTarget.dataset.index);
-        if (Number.isInteger(index)) setActiveIndex(index);
-    }, []);
+        if (
+            Number.isInteger(index)
+            && index >= 0
+            && index < heroItems.length
+        ) {
+            setActiveIndex(index);
+        }
+    }, [ heroItems.length ]);
 
-    if (query.isLoading || !activeItem) {
+    if (query.isPending) {
         return (
             <section className='velaris-home-hero velaris-home-hero--loading' aria-hidden='true'>
                 <div className='velaris-home-hero__skeleton'></div>
             </section>
         );
     }
+
+    if (query.isError || !activeItem) return null;
 
     const artworkUrl = getVelarisFranchiseArtworkUrl(
         __legacyApiClient__,

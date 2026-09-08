@@ -5,6 +5,11 @@ import { useSearchParams } from 'react-router-dom';
 import VelarisFranchiseShelf from 'apps/modern/features/franchises/VelarisFranchiseShelf';
 import VelarisHomeDestinations from 'apps/modern/features/home/VelarisHomeDestinations';
 import VelarisHomeHero from 'apps/modern/features/home/VelarisHomeHero';
+import {
+    isVelarisHomeTabIndex,
+    parseVelarisHomeTabIndex,
+    type VelarisHomeTabIndex
+} from 'apps/modern/utils/velarisRouting';
 import globalize from '../../../lib/globalize';
 import { clearBackdrop } from '../../../components/backdrop/backdrop';
 import layoutManager from '../../../components/layoutManager';
@@ -32,7 +37,7 @@ type ControllerProps = {
 
 const Home = () => {
     const [ searchParams ] = useSearchParams();
-    const initialTabIndex = parseInt(searchParams.get('tab') ?? '0', 10);
+    const initialTabIndex = parseVelarisHomeTabIndex(searchParams.get('tab'));
 
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
     const mainTabsManager = useMemo(() => import('../../../components/maintabsmanager'), []);
@@ -58,27 +63,18 @@ const Home = () => {
         return element.current?.querySelectorAll('.tabContent');
     };
 
-    const getTabController = useCallback((index: number) => {
-        if (index == null) {
-            throw new Error('index cannot be null');
-        }
-
-        let depends = '';
-
-        switch (index) {
-            case 0:
-                depends = 'hometab';
-                break;
-
-            case 1:
-                depends = 'favorites';
-        }
+    const getTabController = useCallback((index: VelarisHomeTabIndex) => {
+        const depends = index === 0 ? 'hometab' : 'favorites';
 
         return import(/* webpackChunkName: "[request]" */ `../../../apps/legacy/controllers/${depends}`).then(({ default: ControllerFactory }) => {
             let controller = tabControllers[index];
 
             if (!controller) {
                 const tabContent = element.current?.querySelector(".tabContent[data-index='" + index + "']");
+                if (!tabContent) {
+                    throw new Error(`[Home] missing tab container for index ${index}`);
+                }
+
                 controller = new ControllerFactory(tabContent, null);
                 tabControllers[index] = controller;
             }
@@ -87,7 +83,7 @@ const Home = () => {
         });
     }, [ tabControllers ]);
 
-    const loadTab = useCallback((index: number, previousIndex: number | null) => {
+    const loadTab = useCallback((index: VelarisHomeTabIndex, previousIndex: VelarisHomeTabIndex | null) => {
         getTabController(index).then((controller) => {
             const refresh = !controller.refreshed;
 
@@ -105,14 +101,22 @@ const Home = () => {
 
     const onTabChange = useCallback((e: { detail: { selectedTabIndex: string; previousIndex: number | null }; }) => {
         const newIndex = parseInt(e.detail.selectedTabIndex, 10);
-        const previousIndex = e.detail.previousIndex;
+        if (!isVelarisHomeTabIndex(newIndex)) {
+            console.warn('[Home] ignoring unsupported tab index', e.detail.selectedTabIndex);
+            return;
+        }
 
-        const previousTabController = previousIndex == null ? null : tabControllers[previousIndex];
+        const previousIndex = e.detail.previousIndex;
+        const validPreviousIndex = previousIndex != null && isVelarisHomeTabIndex(previousIndex) ?
+            previousIndex :
+            null;
+
+        const previousTabController = validPreviousIndex == null ? null : tabControllers[validPreviousIndex];
         if (previousTabController?.onPause) {
             previousTabController.onPause();
         }
 
-        loadTab(newIndex, previousIndex);
+        loadTab(newIndex, validPreviousIndex);
     }, [ loadTab, tabControllers ]);
 
     const onSetTabs = useCallback(async () => {

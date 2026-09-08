@@ -8,9 +8,9 @@ import { useVelarisFranchiseHubs } from './useVelarisFranchiseHubs';
 
 const VelarisFranchiseShelf: FC = () => {
     const { __legacyApiClient__ } = useApi();
-    const { hubs, isLoading } = useVelarisFranchiseHubs();
+    const { hubs, isPending, isError } = useVelarisFranchiseHubs();
 
-    if (isLoading || hubs.length === 0) return null;
+    if (isPending || isError || hubs.length === 0) return null;
 
     return (
         <section
