@@ -191,7 +191,8 @@ const Discovery = () => {
     }, []);
     const onSmartListClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         const smartListId = event.currentTarget.dataset.smartListId as DiscoverySmartListId | undefined;
-        setActiveSmartList(current => current === smartListId ? null : smartListId || null);
+        if (!smartListId) return;
+        setActiveSmartList(current => current === smartListId ? null : smartListId);
     }, []);
     const onSurprise = useCallback(() => {
         const item = pickDiscoverySurprise(visibleItems);
