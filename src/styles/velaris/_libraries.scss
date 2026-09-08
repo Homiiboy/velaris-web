@@ -79,13 +79,13 @@
     box-shadow: none;
 }
 
+.velaris-library-view-actions .MuiButton-root {
+    background: transparent;
+}
+
 .velaris-library-primary-actions .MuiButton-root:first-child {
     background: rgba(247, 251, 255, 0.96);
     color: #05060a;
-}
-
-.velaris-library-view-actions .MuiButton-root {
-    background: transparent;
 }
 
 .velaris-library-page {
