@@ -157,6 +157,46 @@
             font-size: 0.8rem;
         }
     }
+
+    &__credential {
+        display: grid;
+        gap: 0.8rem;
+        width: min(28rem, 100%);
+        box-sizing: border-box;
+        margin: 2rem auto 0;
+        padding: 1.2rem;
+        text-align: left;
+        border: 1px solid v.$divider;
+        border-radius: v.$radius-lg;
+        background: v.$surface-glass;
+        box-shadow: v.$shadow-surface;
+
+        > span {
+            color: v.$text-secondary;
+            font-size: 0.88rem;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            min-height: 3rem;
+            padding: 0.7rem 0.9rem;
+            color: v.$text-primary;
+            border: 1px solid v.$divider;
+            border-radius: v.$radius-sm;
+            background: v.$surface;
+        }
+
+        > div {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.6rem;
+        }
+    }
+
+    &__error {
+        color: v.$pink !important;
+    }
 }
 
 .velaris-profile-2-settings {
@@ -281,11 +321,8 @@
     min-height: 2.8rem;
 }
 
-.velaris-kids-mode {
-    .velaris-user-menu__advanced,
-    .velaris-franchise-studio-entry {
-        display: none !important;
-    }
+.velaris-kids-mode .velaris-smart-home__settings-button {
+    display: none;
 }
 
 @media (max-width: 720px) {
