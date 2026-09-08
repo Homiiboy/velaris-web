@@ -1,5 +1,46 @@
 # Velaris Web Changelog
 
+## V0.0.9 — 2026-09-08 — Player Experience
+
+### Added
+
+- dedicated full-screen Velaris player shell for the existing video OSD
+- subtle Velaris brand treatment while player controls are visible
+- cinematic bottom scrim and centered translucent control surface
+- stronger title, secondary media information and playback-status hierarchy
+- cyan-accented playback timeline with compact elapsed/duration labels
+- visually dominant Play/Pause action separated from rewind, fast-forward and secondary controls
+- refined visual treatment for subtitles, audio, volume, settings, AirPlay, picture-in-picture and fullscreen controls
+- premium Up Next and SyncPlay surfaces
+- responsive desktop, mobile and TV player layouts with keyboard/remote focus states
+- reduced-motion support for player interaction transitions
+- `player` module added to the Velaris style bundle
+- V0.0.9 implementation notes in `docs/V0.0.9.md`
+
+### Changed
+
+- full-screen playback now follows the same near-black, restrained-glass and cyan/violet visual language as Home, details, libraries and search
+- playback controls are grouped around a clearer content-first hierarchy instead of the generic media-server OSD presentation
+- the central Play/Pause control receives the strongest visual emphasis while technical utilities remain available but secondary
+- Up Next and SyncPlay feedback now share the same premium surface language as the rest of Velaris
+- V0.0.9 becomes the current completed Velaris milestone
+
+### Design direction
+
+- the video remains visually dominant and the control chrome should disappear into the content when not needed
+- controls should feel familiar and low-friction without reproducing any single commercial streaming-service player
+- viewer-facing playback should feel native to Velaris while preserving stable backend behavior
+
+### Validation
+
+- TypeScript, ESLint, Stylelint, unit tests and the production build are required by Velaris CI for the completed V0.0.9 state
+
+### Compatibility
+
+- play/pause, seeking, chapters, next/previous media, subtitles, audio tracks, volume, settings, AirPlay, picture-in-picture, fullscreen, SyncPlay and Up Next remain controlled by the existing playback controller
+- media decoding, transcoding, streaming protocols and Jellyfin-compatible playback APIs are unchanged
+- V0.0.9 is a presentation-layer milestone and introduces no replacement playback backend
+
 ## V0.0.8 — 2026-09-08 — Libraries, Collections & Search
 
 ### Added
