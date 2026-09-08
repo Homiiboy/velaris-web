@@ -48,10 +48,10 @@ const VelarisProfileGate: FC = () => {
     }, [ serverId ]);
 
     const isOpen = Boolean(
-        !dismissed &&
-        profiles &&
-        currentUserId &&
-        shouldShowVelarisProfilePicker(profiles, currentUserId, chosenProfileId)
+        !dismissed
+        && profiles
+        && currentUserId
+        && shouldShowVelarisProfilePicker(profiles, currentUserId, chosenProfileId)
     );
 
     const authenticateProfile = useCallback(async (
@@ -75,7 +75,7 @@ const VelarisProfileGate: FC = () => {
             setPendingProfile(null);
             setCredential('');
             setDismissed(true);
-            Dashboard.navigate('home');
+            void Dashboard.navigate('home');
         } catch (error) {
             console.warn('[VelarisProfiles] profile switch authentication failed', error);
             setErrorMessage(profile.HasPassword ?
@@ -110,6 +110,10 @@ const VelarisProfileGate: FC = () => {
         const profile = profiles?.find(candidate => candidate.Id === profileId);
         if (profile) chooseProfile(profile);
     }, [ chooseProfile, profiles ]);
+
+    const onCredentialChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setCredential(event.target.value);
+    }, []);
 
     const onCredentialSubmit = useCallback((event: React.FormEvent) => {
         event.preventDefault();
@@ -178,9 +182,8 @@ const VelarisProfileGate: FC = () => {
                         <input
                             type='password'
                             value={credential}
-                            onChange={event => setCredential(event.target.value)}
+                            onChange={onCredentialChange}
                             autoComplete='current-password'
-                            autoFocus
                             aria-label={`PIN oder Passwort für ${pendingProfile.Name}`}
                         />
                         {errorMessage && <span className='velaris-profile-gate__error' role='alert'>{errorMessage}</span>}
