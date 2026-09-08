@@ -3,9 +3,11 @@ import React, { type FC, useCallback, useEffect, useState } from 'react';
 
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
+import Dashboard from 'utils/dashboard';
 import { queryClient } from 'utils/query/queryClient';
 
 import {
+    clearVelarisProfileChoice,
     isValidVelarisProfilePin,
     VELARIS_PROFILE_ACCENTS,
     type VelarisProfileAccent
@@ -37,7 +39,7 @@ const SUBTITLE_MODE_OPTIONS: { value: SubtitleMode; label: string }[] = [
 ];
 
 const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
-    const { preferences, patchPreferences } = useVelarisProfilePreferences();
+    const { preferences, patchPreferences, serverId } = useVelarisProfilePreferences();
     const [ audioLanguage, setAudioLanguage ] = useState('');
     const [ subtitleLanguage, setSubtitleLanguage ] = useState('');
     const [ subtitleMode, setSubtitleMode ] = useState<SubtitleMode>('Default');
@@ -61,6 +63,13 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
     const onKidsModeChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         patchPreferences({ kidsMode: event.target.checked });
     }, [ patchPreferences ]);
+
+    const onSwitchProfile = useCallback(() => {
+        if (!serverId) return;
+
+        clearVelarisProfileChoice(window.sessionStorage, serverId);
+        Dashboard.navigate('home');
+    }, [ serverId ]);
 
     const savePlaybackPreferences = useCallback(async () => {
         if (!user.Id || !user.Configuration) return;
@@ -155,6 +164,14 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                 </article>
 
                 <article className='velaris-profile-2-card velaris-profile-2-card--wide'>
+                    <h3>Profil wechseln</h3>
+                    <p>Öffne die Velaris-Profilwahl erneut, ohne Server oder App zu verlassen.</p>
+                    <button type='button' className='raised' onClick={onSwitchProfile} disabled={!serverId}>
+                        Wer schaut gerade?
+                    </button>
+                </article>
+
+                <article className='velaris-profile-2-card velaris-profile-2-card--wide'>
                     <h3>Audio & Untertitel</h3>
                     <p>Diese Einstellungen werden serverseitig im Jellyfin-Profil gespeichert und bei der Wiedergabe verwendet.</p>
                     <div className='velaris-profile-playback-grid'>
@@ -229,9 +246,9 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                 <article className='velaris-profile-2-card velaris-profile-2-card--wide'>
                     <h3>Home & Empfehlungen</h3>
                     <p>
-                        Reihenfolge und Sichtbarkeit deiner Smart-Home-Bereiche sind bereits profilbezogen. Mit Profiles 2.0
-                        wird dieser Zustand zusätzlich an Server und User gebunden, damit gleichnamige User auf mehreren Servern
-                        keine Einstellungen miteinander teilen.
+                        Reihenfolge und Sichtbarkeit deiner Smart-Home-Bereiche werden bereits pro Jellyfin-Profil gespeichert.
+                        Empfehlungen werden weiterhin aus den für dieses Profil sichtbaren Servermedien und seinem individuellen
+                        Wiedergabeverlauf erzeugt.
                     </p>
                 </article>
             </div>
