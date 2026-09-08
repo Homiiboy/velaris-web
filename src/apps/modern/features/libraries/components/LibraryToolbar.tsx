@@ -96,7 +96,7 @@ const LibraryToolbar: FC = () => {
     return (
         <Toolbar
             variant='dense'
-            className='padded-left padded-right'
+            className='velaris-library-toolbar padded-left padded-right'
             sx={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -107,6 +107,7 @@ const LibraryToolbar: FC = () => {
 
             {!MENU_ONLY_VIEWS.includes(viewType) && (
                 <Box
+                    className='velaris-library-count-wrap'
                     sx={{
                         display: 'flex',
                         flexGrow: {
@@ -117,12 +118,13 @@ const LibraryToolbar: FC = () => {
                         marginLeft: 1
                     }}
                 >
-                    <Chip label={itemCountDisplay} />
+                    <Chip className='velaris-library-count' label={itemCountDisplay} />
                 </Box>
             )}
 
             {!MENU_ONLY_VIEWS.includes(viewType) && (
                 <Stack
+                    className='velaris-library-actions'
                     direction='row'
                     spacing={1}
                     sx={{
@@ -143,6 +145,7 @@ const LibraryToolbar: FC = () => {
                     }}
                 >
                     <Box
+                        className='velaris-library-playback-actions'
                         sx={{
                             display: 'flex',
                             alignItems: 'center',
@@ -153,6 +156,7 @@ const LibraryToolbar: FC = () => {
                         }}
                     >
                         <ButtonGroup
+                            className='velaris-library-primary-actions'
                             variant='contained'
                             size={isSmallScreen ? undefined : 'small'}
                         >
@@ -199,6 +203,7 @@ const LibraryToolbar: FC = () => {
                     </Box>
 
                     <ButtonGroup
+                        className='velaris-library-view-actions'
                         color='inherit'
                         variant='text'
                         size={isSmallScreen ? undefined : 'small'}

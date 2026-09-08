@@ -1,0 +1,284 @@
+@use './tokens' as tokens;
+
+#searchPage.velaris-search-page {
+    min-height: 100%;
+    box-sizing: border-box;
+    padding-top: clamp(2.4rem, 6vh, 4.8rem);
+    background:
+        radial-gradient(circle at 14% 0%, rgba(69, 243, 255, 0.075), transparent 30rem),
+        radial-gradient(circle at 88% 2%, rgba(212, 44, 255, 0.07), transparent 32rem),
+        linear-gradient(180deg, rgba(9, 12, 20, 0.86), tokens.$background 24rem);
+    color: tokens.$text-primary;
+}
+
+.velaris-search-hero {
+    width: min(72rem, 100%);
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3vw, 3rem) 1rem;
+    text-align: center;
+}
+
+.velaris-search-hero__eyebrow {
+    display: inline-block;
+    color: tokens.$cyan;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.velaris-search-hero__title {
+    margin: 0.28rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(2.35rem, 5.5vw, 4.9rem);
+    font-weight: 840;
+    letter-spacing: -0.05em;
+    line-height: 0.98;
+    text-wrap: balance;
+}
+
+#searchPage .searchFields {
+    width: min(72rem, 100%);
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 3vw, 3rem) 1.5rem !important;
+}
+
+#searchPage .searchFieldsInner {
+    max-width: 58rem;
+    min-height: 4rem;
+    box-sizing: border-box;
+    gap: 0.6rem;
+    margin: 0 auto;
+    padding: 0.35rem 0.8rem 0.35rem 1rem;
+    border: 1px solid rgba(145, 170, 210, 0.17);
+    border-radius: 1rem;
+    background: rgba(9, 12, 20, 0.72);
+    box-shadow: 0 18px 54px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(22px) saturate(1.12);
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+#searchPage .searchfields-icon {
+    align-self: center;
+    margin: 0;
+    color: tokens.$cyan;
+    font-size: 1.65rem;
+    opacity: 0.88;
+}
+
+#searchPage .searchFieldsInner .inputContainer {
+    min-width: 0;
+}
+
+#searchPage .searchfields-txtSearch {
+    min-height: 3rem;
+    margin: 0;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: tokens.$text-primary !important;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 600;
+    letter-spacing: -0.012em;
+}
+
+#searchPage .searchfields-txtSearch::placeholder {
+    color: tokens.$text-muted;
+    opacity: 1;
+}
+
+#searchPage .searchSuggestions {
+    width: min(72rem, 100%);
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 1rem 0 4rem;
+}
+
+#searchPage .searchSuggestions .sectionTitle {
+    margin: 0 0 1rem;
+    color: tokens.$text-secondary;
+    font-size: 0.78rem;
+    font-weight: 780;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+#searchPage .searchSuggestionsList {
+    display: flex;
+    max-width: 56rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.55rem;
+    margin: 0 auto;
+}
+
+#searchPage .searchSuggestionsList > div {
+    display: contents;
+}
+
+#searchPage .searchSuggestionsList .button-link {
+    display: inline-flex !important;
+    min-height: 2.55rem;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 0.58rem 0.9rem !important;
+    border: 1px solid rgba(145, 170, 210, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    color: tokens.$text-secondary;
+    font-size: 0.86rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: border-color tokens.$transition-fast, background-color tokens.$transition-fast, color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+#searchPage .searchResults {
+    position: relative;
+    padding-top: 0.65rem !important;
+    background:
+        radial-gradient(circle at 5% 18%, rgba(69, 243, 255, 0.03), transparent 22rem),
+        tokens.$background;
+}
+
+#searchPage .searchResults .verticalSection {
+    margin-block: 1rem 2.35rem;
+}
+
+#searchPage .searchResults .sectionTitle {
+    color: tokens.$text-primary;
+    font-size: clamp(1.2rem, 1.8vw, 1.7rem);
+    font-weight: 770;
+    letter-spacing: -0.028em;
+}
+
+#searchPage .searchResults .card {
+    transition: filter tokens.$transition-standard, transform tokens.$transition-standard;
+}
+
+#searchPage .searchResults .cardImageContainer {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: tokens.$radius-md;
+    background: tokens.$surface;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+}
+
+#searchPage .searchResults .cardText {
+    color: tokens.$text-primary;
+    font-weight: 650;
+}
+
+#searchPage .noItemsMessage {
+    width: min(38rem, calc(100% - 2rem));
+    box-sizing: border-box;
+    margin: 3rem auto;
+    padding: 2rem;
+    border: 1px solid rgba(145, 170, 210, 0.12);
+    border-radius: tokens.$radius-lg;
+    background: rgba(9, 12, 20, 0.7);
+    box-shadow: tokens.$shadow-soft;
+    color: tokens.$text-secondary;
+    backdrop-filter: blur(18px) saturate(1.1);
+}
+
+#searchPage .noItemsMessage .emby-button {
+    display: inline-flex;
+    min-height: 2.6rem;
+    align-items: center;
+    margin-top: 1rem;
+    padding-inline: 1rem;
+    border: 1px solid rgba(69, 243, 255, 0.16);
+    border-radius: 0.72rem;
+    background: rgba(69, 243, 255, 0.08);
+    color: tokens.$text-primary;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    #searchPage .searchFieldsInner:hover {
+        border-color: rgba(69, 243, 255, 0.26);
+        box-shadow: 0 20px 58px rgba(0, 0, 0, 0.34), 0 0 24px rgba(69, 243, 255, 0.055);
+        transform: translateY(-1px);
+    }
+
+    #searchPage .searchSuggestionsList .button-link:hover {
+        border-color: rgba(69, 243, 255, 0.2);
+        background: rgba(69, 243, 255, 0.08);
+        color: tokens.$text-primary;
+        transform: translateY(-1px);
+    }
+
+    #searchPage .searchResults .card:hover {
+        filter: brightness(1.045) saturate(1.04);
+        transform: translateY(-3px) scale(1.008);
+    }
+}
+
+#searchPage .searchFieldsInner:focus-within {
+    border-color: rgba(69, 243, 255, 0.48);
+    box-shadow: 0 20px 58px rgba(0, 0, 0, 0.34), 0 0 0 3px rgba(69, 243, 255, 0.09), 0 0 30px rgba(69, 243, 255, 0.08);
+}
+
+@media (max-width: 899.98px) {
+    #searchPage.velaris-search-page {
+        padding-top: 2.2rem;
+    }
+
+    .velaris-search-hero {
+        padding-bottom: 0.8rem;
+    }
+
+    #searchPage .searchFieldsInner {
+        min-height: 3.5rem;
+        border-radius: 0.85rem;
+    }
+
+    #searchPage .searchfields-txtSearch {
+        min-height: 2.65rem;
+    }
+}
+
+@media (max-width: 520px) {
+    #searchPage.velaris-search-page {
+        padding-top: 1.5rem;
+    }
+
+    .velaris-search-hero__title {
+        font-size: clamp(2.1rem, 13vw, 3.25rem);
+    }
+
+    #searchPage .searchFields {
+        padding-inline: 0.8rem !important;
+    }
+
+    #searchPage .searchFieldsInner {
+        gap: 0.4rem;
+        padding-inline: 0.75rem 0.55rem;
+    }
+
+    #searchPage .searchfields-icon {
+        font-size: 1.4rem;
+    }
+
+    #searchPage .searchSuggestionsList {
+        justify-content: flex-start;
+        padding-inline: 0.8rem !important;
+    }
+}
+
+.layout-tv #searchPage .searchFieldsInner:focus-within {
+    border-color: rgba(69, 243, 255, 0.7);
+    box-shadow: 0 0 0 4px rgba(69, 243, 255, 0.18), 0 0 30px rgba(69, 243, 255, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #searchPage .searchFieldsInner,
+    #searchPage .searchSuggestionsList .button-link,
+    #searchPage .searchResults .card {
+        transition: none;
+    }
+}

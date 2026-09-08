@@ -1,0 +1,306 @@
+@use './tokens' as tokens;
+
+.velaris-library-toolbar {
+    min-height: 3.6rem !important;
+    gap: 0.45rem;
+    padding: 0.4rem clamp(0.8rem, 2.6vw, 2.8rem) 0.55rem !important;
+    border-top: 1px solid rgba(145, 170, 210, 0.08);
+    border-bottom: 1px solid rgba(145, 170, 210, 0.11);
+    background: linear-gradient(180deg, rgba(5, 6, 10, 0.28), rgba(5, 6, 10, 0.78));
+    backdrop-filter: blur(18px) saturate(1.12);
+}
+
+.velaris-library-toolbar > .MuiButton-root {
+    min-width: auto;
+    min-height: 2.5rem;
+    padding: 0.35rem 0.35rem 0.35rem 0;
+    color: tokens.$text-primary;
+    text-transform: none;
+}
+
+.velaris-library-toolbar > .MuiButton-root .MuiTypography-root {
+    color: tokens.$text-primary;
+    font-size: clamp(1.05rem, 1.6vw, 1.42rem);
+    font-weight: 780;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+}
+
+.velaris-library-toolbar > .MuiButton-root .MuiButton-endIcon {
+    margin-left: 0.2rem;
+    color: tokens.$text-muted;
+}
+
+.velaris-library-count-wrap {
+    align-items: center;
+}
+
+.velaris-library-count.MuiChip-root {
+    height: 1.8rem;
+    border: 1px solid rgba(145, 170, 210, 0.13);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.035);
+    color: tokens.$text-muted;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.velaris-library-actions {
+    min-width: 0;
+    align-items: center;
+}
+
+.velaris-library-playback-actions {
+    gap: 0.4rem;
+}
+
+.velaris-library-primary-actions.MuiButtonGroup-root,
+.velaris-library-view-actions.MuiButtonGroup-root {
+    overflow: hidden;
+    border: 1px solid rgba(145, 170, 210, 0.11);
+    border-radius: 0.75rem;
+    background: rgba(9, 12, 20, 0.48);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.velaris-library-primary-actions .MuiButton-root,
+.velaris-library-view-actions .MuiButton-root {
+    min-height: 2.55rem;
+    border-color: rgba(145, 170, 210, 0.08) !important;
+    color: tokens.$text-secondary;
+    font-weight: 680;
+    text-transform: none;
+    transition: background-color tokens.$transition-fast, color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-library-primary-actions .MuiButton-root {
+    background: rgba(255, 255, 255, 0.045);
+    box-shadow: none;
+}
+
+.velaris-library-primary-actions .MuiButton-root:first-child {
+    background: rgba(247, 251, 255, 0.96);
+    color: #05060a;
+}
+
+.velaris-library-view-actions .MuiButton-root {
+    background: transparent;
+}
+
+.velaris-library-page {
+    position: relative;
+    min-height: 100%;
+    padding-top: 0.35rem;
+    background:
+        radial-gradient(circle at 12% 0%, rgba(69, 243, 255, 0.055), transparent 28rem),
+        radial-gradient(circle at 88% 2%, rgba(138, 54, 255, 0.06), transparent 32rem),
+        linear-gradient(180deg, rgba(9, 12, 20, 0.72), tokens.$background 18rem);
+    color: tokens.$text-primary;
+}
+
+.velaris-library-page .padded-left {
+    padding-left: clamp(1rem, 3vw, 3rem) !important;
+}
+
+.velaris-library-page .padded-right {
+    padding-right: clamp(1rem, 3vw, 3rem) !important;
+}
+
+.velaris-library-page .verticalSection {
+    margin-block: 1.25rem 2.35rem;
+}
+
+.velaris-library-page .sectionTitleContainer {
+    min-height: 2.6rem;
+    align-items: center;
+}
+
+.velaris-library-page .sectionTitle,
+.velaris-library-page .sectionTitleTextButton {
+    color: tokens.$text-primary;
+    font-size: clamp(1.25rem, 1.8vw, 1.75rem);
+    font-weight: 770;
+    letter-spacing: -0.028em;
+}
+
+.velaris-library-page .itemsContainer.vertical-wrap {
+    row-gap: 0.8rem;
+}
+
+.velaris-library-page .card {
+    transition: filter tokens.$transition-standard, transform tokens.$transition-standard;
+}
+
+.velaris-library-page .cardImageContainer {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: tokens.$radius-md;
+    background: tokens.$surface;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+}
+
+.velaris-library-page .cardText {
+    color: tokens.$text-primary;
+    font-weight: 650;
+    letter-spacing: -0.012em;
+}
+
+.velaris-library-page .cardText-secondary,
+.velaris-library-page .cardText-secondary .button-link {
+    color: tokens.$text-muted;
+}
+
+.velaris-library-page .listItem {
+    overflow: hidden;
+    margin-block: 0.24rem;
+    border: 1px solid rgba(145, 170, 210, 0.1);
+    border-radius: tokens.$radius-md;
+    background: linear-gradient(110deg, rgba(21, 26, 36, 0.8), rgba(9, 12, 20, 0.82));
+    box-shadow: 0 9px 28px rgba(0, 0, 0, 0.2);
+    transition: border-color tokens.$transition-fast, background-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-library-page .alphaPicker {
+    color: tokens.$text-muted;
+}
+
+.velaris-library-page .alphaPickerButton {
+    border-radius: 999px;
+    transition: background-color tokens.$transition-fast, color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-library-page .alphaPickerButton-selected {
+    background: rgba(69, 243, 255, 0.12);
+    color: tokens.$cyan;
+}
+
+.velaris-library-page .noItemsMessage,
+.velaris-library-page .centerMessage {
+    max-width: 38rem;
+    margin: 4rem auto;
+    padding: 2rem;
+    border: 1px solid rgba(145, 170, 210, 0.11);
+    border-radius: tokens.$radius-lg;
+    background: rgba(9, 12, 20, 0.68);
+    color: tokens.$text-secondary;
+    text-align: center;
+    backdrop-filter: blur(18px) saturate(1.1);
+}
+
+#boxsetsPage.velaris-library-page .cardImageContainer {
+    border-color: rgba(138, 54, 255, 0.18);
+    background:
+        radial-gradient(circle at 18% 0%, rgba(69, 243, 255, 0.08), transparent 55%),
+        linear-gradient(145deg, rgba(21, 26, 36, 0.96), rgba(9, 12, 20, 0.98));
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.32), 0 0 20px rgba(138, 54, 255, 0.04);
+}
+
+#boxsetsPage.velaris-library-page .cardText {
+    font-weight: 720;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .velaris-library-toolbar > .MuiButton-root:hover {
+        background: rgba(69, 243, 255, 0.055);
+        color: tokens.$cyan;
+    }
+
+    .velaris-library-primary-actions .MuiButton-root:hover,
+    .velaris-library-view-actions .MuiButton-root:hover {
+        background: rgba(69, 243, 255, 0.08);
+        color: tokens.$text-primary;
+        transform: translateY(-1px);
+    }
+
+    .velaris-library-primary-actions .MuiButton-root:first-child:hover {
+        background: #fff;
+        color: #05060a;
+    }
+
+    .velaris-library-page .card:hover {
+        filter: brightness(1.045) saturate(1.04);
+        transform: translateY(-3px) scale(1.008);
+    }
+
+    .velaris-library-page .listItem:hover {
+        border-color: rgba(69, 243, 255, 0.16);
+        background: rgba(21, 26, 36, 0.92);
+        transform: translateY(-1px);
+    }
+
+    .velaris-library-page .alphaPickerButton:hover {
+        background: rgba(69, 243, 255, 0.07);
+        color: tokens.$text-primary;
+        transform: scale(1.04);
+    }
+}
+
+@media (max-width: 899.98px) {
+    .velaris-library-toolbar {
+        min-height: 3.25rem !important;
+        gap: 0.25rem;
+        padding: 0.3rem 0.7rem 0.45rem !important;
+    }
+
+    .velaris-library-toolbar > .MuiButton-root .MuiTypography-root {
+        font-size: 1.08rem;
+    }
+
+    .velaris-library-actions {
+        width: 100%;
+        gap: 0.35rem !important;
+        overflow-x: auto;
+        padding-bottom: 0.05rem;
+        scrollbar-width: none;
+    }
+
+    .velaris-library-actions::-webkit-scrollbar {
+        display: none;
+    }
+
+    .velaris-library-primary-actions .MuiButton-root,
+    .velaris-library-view-actions .MuiButton-root {
+        min-width: 2.55rem;
+        min-height: 2.4rem;
+    }
+
+    .velaris-library-page {
+        padding-top: 0.15rem;
+    }
+}
+
+@media (max-width: 520px) {
+    .velaris-library-count.MuiChip-root {
+        height: 1.65rem;
+        font-size: 0.66rem;
+    }
+
+    .velaris-library-page .padded-left {
+        padding-left: 0.8rem !important;
+    }
+
+    .velaris-library-page .padded-right {
+        padding-right: 0.8rem !important;
+    }
+
+    .velaris-library-page .sectionTitle,
+    .velaris-library-page .sectionTitleTextButton {
+        font-size: 1.18rem;
+    }
+}
+
+.layout-tv .velaris-library-toolbar .MuiButton-root:focus,
+.layout-tv .velaris-library-toolbar .MuiButton-root.Mui-focusVisible {
+    box-shadow: 0 0 0 3px rgba(69, 243, 255, 0.2), 0 0 24px rgba(69, 243, 255, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-library-primary-actions .MuiButton-root,
+    .velaris-library-view-actions .MuiButton-root,
+    .velaris-library-page .card,
+    .velaris-library-page .listItem,
+    .velaris-library-page .alphaPickerButton {
+        transition: none;
+    }
+}

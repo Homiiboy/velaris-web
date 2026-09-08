@@ -47,7 +47,7 @@ const LibraryPage: FC<LibraryPageProps> = ({
     return (
         <Page
             id={PAGE_IDS[type]}
-            className={'mainAnimatedPage libraryPage pageWithAbsoluteTabs withTabs'}
+            className='mainAnimatedPage libraryPage pageWithAbsoluteTabs withTabs velaris-library-page'
             backDropType={PAGE_BACKDROPS[type]}
         >
             <PageTabContent

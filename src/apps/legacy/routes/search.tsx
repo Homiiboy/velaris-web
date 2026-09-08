@@ -25,8 +25,14 @@ const Search: FC = () => {
         <Page
             id='searchPage'
             title={globalize.translate('Search')}
-            className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage'
+            className='mainAnimatedPage libraryPage allLibraryPage noSecondaryNavPage velaris-search-page'
         >
+            <header className='velaris-search-hero'>
+                <span className='velaris-search-hero__eyebrow'>Velaris</span>
+                <h1 className='velaris-search-hero__title'>
+                    {globalize.translate('Search')}
+                </h1>
+            </header>
             <SearchFields query={query} onSearch={setQuery} />
             {!debouncedQuery ? (
                 <SearchSuggestions
