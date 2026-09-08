@@ -142,6 +142,8 @@ function loadSection(page, apiClient, user, userSettings, userViews, section, in
     const elem = page.querySelector('.section' + index);
     const options = { enableOverflow: enableScrollX() };
 
+    elem.dataset.homeSection = section;
+
     switch (section) {
         case HomeSectionType.ActiveRecordings:
             loadRecordings(elem, true, apiClient, options);

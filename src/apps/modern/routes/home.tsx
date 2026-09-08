@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import VelarisFranchiseShelf from 'apps/modern/features/franchises/VelarisFranchiseShelf';
 import VelarisHomeDestinations from 'apps/modern/features/home/VelarisHomeDestinations';
 import VelarisHomeHero from 'apps/modern/features/home/VelarisHomeHero';
+import VelarisSmartHome from 'apps/modern/features/home/VelarisSmartHome';
 import {
     isVelarisHomeTabIndex,
     parseVelarisHomeTabIndex,
@@ -194,6 +195,7 @@ const Home = () => {
                     <VelarisHomeDestinations />
 
                     <div className='velaris-home-rows'>
+                        <VelarisSmartHome />
                         <div className='sections velaris-home__legacy'></div>
                         <VelarisFranchiseShelf />
                     </div>

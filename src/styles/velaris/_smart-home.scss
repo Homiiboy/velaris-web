@@ -1,0 +1,523 @@
+@use './tokens' as tokens;
+
+.velaris-smart-home {
+    position: relative;
+    padding: 0 0 1.5rem;
+}
+
+.velaris-smart-home__toolbar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 clamp(1rem, 4vw, 4rem) 1.25rem;
+}
+
+.velaris-smart-home__toolbar h2 {
+    margin: 0.2rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1.65rem, 2.5vw, 2.35rem);
+    letter-spacing: -0.035em;
+}
+
+.velaris-smart-home__eyebrow {
+    color: tokens.$cyan;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+}
+
+.velaris-smart-home__settings-button,
+.velaris-smart-settings__reset {
+    display: inline-flex;
+    min-height: 2.55rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: tokens.$radius-sm;
+    background: rgba(10, 13, 21, 0.74);
+    color: tokens.$text-primary;
+    font: inherit;
+    font-size: 0.84rem;
+    font-weight: 720;
+    cursor: pointer;
+    backdrop-filter: blur(14px);
+    transition: border-color tokens.$transition-fast, background tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-smart-home__settings-button .material-icons {
+    font-size: 1.15rem;
+}
+
+.velaris-smart-settings {
+    margin: 0 clamp(1rem, 4vw, 4rem) 2rem;
+    padding: 1rem;
+    border: 1px solid rgba(145, 170, 210, 0.16);
+    border-radius: tokens.$radius-lg;
+    background: linear-gradient(135deg, rgba(13, 16, 24, 0.94), rgba(9, 12, 20, 0.88));
+    box-shadow: tokens.$shadow-soft;
+    backdrop-filter: blur(20px);
+}
+
+.velaris-smart-settings__header,
+.velaris-smart-settings__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.velaris-smart-settings__header {
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid tokens.$divider;
+}
+
+.velaris-smart-settings__header strong,
+.velaris-smart-settings__header span {
+    display: block;
+}
+
+.velaris-smart-settings__header strong {
+    color: tokens.$text-primary;
+    font-size: 1rem;
+}
+
+.velaris-smart-settings__header span {
+    margin-top: 0.2rem;
+    color: tokens.$text-muted;
+    font-size: 0.8rem;
+}
+
+.velaris-smart-settings__reset {
+    min-height: 2.2rem;
+    padding: 0.45rem 0.72rem;
+}
+
+.velaris-smart-settings__rows {
+    display: grid;
+    gap: 0.35rem;
+    padding-top: 0.7rem;
+}
+
+.velaris-smart-settings__row {
+    min-height: 3rem;
+    padding: 0.35rem 0.4rem 0.35rem 0.7rem;
+    border-radius: tokens.$radius-sm;
+    color: tokens.$text-secondary;
+}
+
+.velaris-smart-settings__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.velaris-smart-settings__actions button {
+    display: inline-flex;
+    min-width: 2.25rem;
+    min-height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.55rem;
+    border: 0;
+    border-radius: tokens.$radius-xs;
+    background: rgba(255, 255, 255, 0.055);
+    color: tokens.$text-secondary;
+    font: inherit;
+    font-size: 0.75rem;
+    cursor: pointer;
+}
+
+.velaris-smart-settings__actions button:disabled {
+    opacity: 0.3;
+    cursor: default;
+}
+
+.velaris-smart-settings__actions .material-icons {
+    font-size: 1.15rem;
+}
+
+.velaris-smart-row {
+    margin: 0 0 2.2rem;
+}
+
+.velaris-smart-row__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 0 clamp(1rem, 4vw, 4rem) 0.8rem;
+}
+
+.velaris-smart-row__title {
+    margin: 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1.2rem, 1.8vw, 1.55rem);
+    font-weight: 760;
+    letter-spacing: -0.02em;
+}
+
+.velaris-smart-row__subtitle {
+    margin: 0.2rem 0 0;
+    color: tokens.$text-muted;
+    font-size: 0.82rem;
+}
+
+.velaris-smart-row__rail {
+    display: grid;
+    grid-auto-columns: minmax(12.5rem, 19vw);
+    grid-auto-flow: column;
+    gap: 0.85rem;
+    padding: 0.45rem clamp(1rem, 4vw, 4rem) 0.8rem;
+    overflow-x: auto;
+    scroll-padding-inline: clamp(1rem, 4vw, 4rem);
+    scrollbar-width: thin;
+    overscroll-behavior-inline: contain;
+}
+
+.velaris-smart-row__rail--continue {
+    grid-auto-columns: minmax(16rem, 25vw);
+}
+
+.velaris-smart-card {
+    display: block;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.velaris-smart-card__artwork,
+.velaris-continue-card__artwork {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: tokens.$radius-md;
+    background: tokens.$surface-elevated center / cover no-repeat;
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28);
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-standard, transform tokens.$transition-standard;
+}
+
+.velaris-smart-card__artwork {
+    aspect-ratio: 16 / 9;
+}
+
+.velaris-smart-card__artwork::after,
+.velaris-continue-card__artwork::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 48%, rgba(2, 4, 8, 0.7) 100%);
+    content: '';
+    pointer-events: none;
+}
+
+.velaris-smart-card__fallback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: rgba(255, 255, 255, 0.26);
+    font-size: 3rem;
+    transform: translate(-50%, -50%);
+}
+
+.velaris-smart-card__details-icon {
+    position: absolute;
+    right: 0.7rem;
+    bottom: 0.65rem;
+    z-index: 1;
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 999px;
+    background: rgba(4, 6, 10, 0.72);
+    color: tokens.$text-primary;
+    font-size: 1rem;
+    opacity: 0;
+    transform: translateX(-0.25rem);
+    transition: opacity tokens.$transition-fast, transform tokens.$transition-fast;
+    backdrop-filter: blur(10px);
+}
+
+.velaris-smart-card__title {
+    display: block;
+    margin-top: 0.62rem;
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 0.9rem;
+    font-weight: 690;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-smart-card__meta {
+    display: block;
+    margin-top: 0.18rem;
+    overflow: hidden;
+    color: tokens.$text-muted;
+    font-size: 0.74rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-continue-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.075);
+    border-radius: tokens.$radius-md;
+    background: rgba(13, 16, 24, 0.78);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.24);
+}
+
+.velaris-continue-card__artwork {
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.velaris-continue-card__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: grid;
+    width: 3.2rem;
+    height: 3.2rem;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(247, 251, 255, 0.94);
+    color: #05060a;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: box-shadow tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-continue-card__play .material-icons {
+    font-size: 1.65rem;
+}
+
+.velaris-continue-card__progress {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    height: 0.24rem;
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.velaris-continue-card__progress span {
+    display: block;
+    height: 100%;
+    background: tokens.$accent-gradient;
+}
+
+.velaris-continue-card__body {
+    padding: 0.72rem 0.8rem 0.78rem;
+}
+
+.velaris-continue-card__parent {
+    display: block;
+    margin-bottom: 0.12rem;
+    overflow: hidden;
+    color: tokens.$cyan;
+    font-size: 0.68rem;
+    font-weight: 760;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-continue-card__title {
+    display: block;
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 0.9rem;
+    font-weight: 720;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-continue-card__actions {
+    display: flex;
+    gap: 0.45rem;
+    margin-top: 0.65rem;
+}
+
+.velaris-continue-card__action {
+    display: inline-flex;
+    min-height: 2rem;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: tokens.$radius-xs;
+    background: rgba(255, 255, 255, 0.045);
+    color: tokens.$text-secondary;
+    font: inherit;
+    font-size: 0.68rem;
+    font-weight: 650;
+    cursor: pointer;
+}
+
+.velaris-continue-card__action .material-icons {
+    font-size: 1rem;
+}
+
+.velaris-continue-card__action:disabled {
+    opacity: 0.45;
+    cursor: wait;
+}
+
+.velaris-smart-home__empty {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin: 0 clamp(1rem, 4vw, 4rem) 2rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid tokens.$divider;
+    border-radius: tokens.$radius-md;
+    background: rgba(13, 16, 24, 0.7);
+    color: tokens.$text-secondary;
+}
+
+.velaris-smart-home__empty > .material-icons {
+    color: tokens.$cyan;
+    font-size: 1.7rem;
+}
+
+.velaris-smart-home__empty strong,
+.velaris-smart-home__empty span {
+    display: block;
+}
+
+.velaris-smart-home__empty span {
+    margin-top: 0.15rem;
+    color: tokens.$text-muted;
+    font-size: 0.78rem;
+}
+
+.velaris-smart-home__skeleton {
+    height: 15rem;
+    margin: 0 clamp(1rem, 4vw, 4rem) 2rem;
+    border-radius: tokens.$radius-lg;
+    background: linear-gradient(100deg, rgba(255, 255, 255, 0.025) 30%, rgba(69, 243, 255, 0.07) 48%, rgba(255, 255, 255, 0.025) 66%);
+    background-size: 220% 100%;
+    animation: velaris-smart-home-shimmer 1.8s linear infinite;
+}
+
+.velaris-home-page .velaris-home__legacy [data-home-section='resume'] {
+    display: none;
+}
+
+.velaris-smart-home__settings-button:focus-visible,
+.velaris-smart-settings button:focus-visible,
+.velaris-smart-card:focus-visible,
+.velaris-continue-card__play:focus-visible,
+.velaris-continue-card__title:focus-visible,
+.velaris-continue-card__action:focus-visible {
+    outline: 2px solid tokens.$cyan;
+    outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .velaris-smart-home__settings-button:hover,
+    .velaris-smart-settings__reset:hover {
+        border-color: rgba(69, 243, 255, 0.3);
+        background: rgba(69, 243, 255, 0.08);
+        transform: translateY(-1px);
+    }
+
+    .velaris-smart-settings__actions button:not(:disabled):hover,
+    .velaris-continue-card__action:not(:disabled):hover {
+        background: rgba(69, 243, 255, 0.09);
+        color: tokens.$text-primary;
+    }
+
+    .velaris-smart-card:hover .velaris-smart-card__artwork {
+        border-color: rgba(69, 243, 255, 0.2);
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38), 0 0 22px rgba(69, 243, 255, 0.07);
+        transform: translateY(-3px) scale(1.012);
+    }
+
+    .velaris-smart-card:hover .velaris-smart-card__details-icon {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .velaris-continue-card__play:hover {
+        box-shadow: 0 0 0 0.35rem rgba(69, 243, 255, 0.16);
+        transform: translate(-50%, -50%) scale(1.06);
+    }
+}
+
+@media (max-width: 899.98px) {
+    .velaris-smart-home__toolbar {
+        align-items: center;
+    }
+
+    .velaris-smart-row__rail {
+        grid-auto-columns: minmax(12rem, 68vw);
+    }
+
+    .velaris-smart-row__rail--continue {
+        grid-auto-columns: minmax(16rem, 82vw);
+    }
+}
+
+@media (max-width: 599.98px) {
+    .velaris-smart-home__toolbar {
+        align-items: flex-start;
+    }
+
+    .velaris-smart-home__settings-button {
+        min-width: 2.7rem;
+        padding-inline: 0.65rem;
+        font-size: 0;
+    }
+
+    .velaris-smart-home__settings-button .material-icons {
+        font-size: 1.2rem;
+    }
+
+    .velaris-smart-settings__row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .velaris-smart-settings__actions {
+        width: 100%;
+    }
+
+    .velaris-smart-settings__actions button:last-child {
+        margin-left: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-smart-home__skeleton {
+        animation: none;
+    }
+
+    .velaris-smart-card__artwork,
+    .velaris-continue-card__artwork,
+    .velaris-continue-card__play,
+    .velaris-smart-home__settings-button {
+        transition: none;
+    }
+}
+
+@keyframes velaris-smart-home-shimmer {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: -100% 0;
+    }
+}
