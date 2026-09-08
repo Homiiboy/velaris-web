@@ -20,6 +20,10 @@ interface VelarisProfileSettingsProps {
 
 type SubtitleMode = 'Default' | 'Smart' | 'OnlyForced' | 'Always' | 'None';
 
+type PasswordAwareUser = UserDto & {
+    HasConfiguredPassword?: boolean
+};
+
 const LANGUAGE_OPTIONS = [
     { value: '', label: 'Serverstandard' },
     { value: 'deu', label: 'Deutsch' },
@@ -48,6 +52,7 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
     const [ pinConfirmation, setPinConfirmation ] = useState('');
     const [ savingPlayback, setSavingPlayback ] = useState(false);
     const [ savingPin, setSavingPin ] = useState(false);
+    const hasConfiguredPassword = Boolean((user as PasswordAwareUser).HasConfiguredPassword);
 
     useEffect(() => {
         setAudioLanguage(user.Configuration?.AudioLanguagePreference || '');
@@ -68,8 +73,32 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
         if (!serverId) return;
 
         clearVelarisProfileChoice(window.sessionStorage, serverId);
-        Dashboard.navigate('home');
+        void Dashboard.navigate('home');
     }, [ serverId ]);
+
+    const onAudioLanguageChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+        setAudioLanguage(event.target.value);
+    }, []);
+
+    const onSubtitleLanguageChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSubtitleLanguage(event.target.value);
+    }, []);
+
+    const onSubtitleModeChange = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSubtitleMode(event.target.value as SubtitleMode);
+    }, []);
+
+    const onCurrentCredentialChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setCurrentCredential(event.target.value);
+    }, []);
+
+    const onPinChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setPin(event.target.value);
+    }, []);
+
+    const onPinConfirmationChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setPinConfirmation(event.target.value);
+    }, []);
 
     const savePlaybackPreferences = useCallback(async () => {
         if (!user.Id || !user.Configuration) return;
@@ -177,19 +206,19 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                     <div className='velaris-profile-playback-grid'>
                         <label>
                             <span>Bevorzugte Audiosprache</span>
-                            <select value={audioLanguage} onChange={event => setAudioLanguage(event.target.value)}>
+                            <select value={audioLanguage} onChange={onAudioLanguageChange}>
                                 {LANGUAGE_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
                             </select>
                         </label>
                         <label>
                             <span>Bevorzugte Untertitelsprache</span>
-                            <select value={subtitleLanguage} onChange={event => setSubtitleLanguage(event.target.value)}>
+                            <select value={subtitleLanguage} onChange={onSubtitleLanguageChange}>
                                 {LANGUAGE_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
                             </select>
                         </label>
                         <label>
                             <span>Untertitelmodus</span>
-                            <select value={subtitleMode} onChange={event => setSubtitleMode(event.target.value as SubtitleMode)}>
+                            <select value={subtitleMode} onChange={onSubtitleModeChange}>
                                 {SUBTITLE_MODE_OPTIONS.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}
                             </select>
                         </label>
@@ -206,13 +235,13 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                         und wird bei einem Profilwechsel vom Server geprüft.
                     </p>
                     <form className='velaris-profile-pin-form' onSubmit={savePin}>
-                        {user.HasConfiguredPassword && (
+                        {hasConfiguredPassword && (
                             <label>
                                 <span>Aktuelles Passwort / aktueller PIN</span>
                                 <input
                                     type='password'
                                     value={currentCredential}
-                                    onChange={event => setCurrentCredential(event.target.value)}
+                                    onChange={onCurrentCredentialChange}
                                     autoComplete='current-password'
                                 />
                             </label>
@@ -224,7 +253,7 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                                 inputMode='numeric'
                                 pattern='[0-9]{4,8}'
                                 value={pin}
-                                onChange={event => setPin(event.target.value)}
+                                onChange={onPinChange}
                                 autoComplete='new-password'
                             />
                         </label>
@@ -235,7 +264,7 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                                 inputMode='numeric'
                                 pattern='[0-9]{4,8}'
                                 value={pinConfirmation}
-                                onChange={event => setPinConfirmation(event.target.value)}
+                                onChange={onPinConfirmationChange}
                                 autoComplete='new-password'
                             />
                         </label>
