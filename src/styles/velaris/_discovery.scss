@@ -16,10 +16,12 @@
     border-bottom: 1px solid tokens.$divider;
 }
 
-.velaris-discovery-hero > span,
-.velaris-discovery-smart > div > span,
-.velaris-discovery-section-heading > div > span,
-.velaris-discovery-lists__heading > span {
+:where(
+    .velaris-discovery-hero > span,
+    .velaris-discovery-smart > div > span,
+    .velaris-discovery-section-heading > div > span,
+    .velaris-discovery-lists__heading > span
+) {
     color: tokens.$cyan;
     font-size: 0.7rem;
     font-weight: 800;
@@ -60,12 +62,6 @@
     font-size: 0.8rem;
     font-weight: 720;
     cursor: pointer;
-}
-
-.velaris-discovery-hero button:disabled,
-.velaris-discovery-list-create button:disabled {
-    opacity: 0.4;
-    cursor: default;
 }
 
 .velaris-discovery-controls {
@@ -226,7 +222,7 @@
     color: tokens.$text-muted;
 }
 
-.velaris-discovery-card__artwork > .material-icons:not(.velaris-discovery-card__watched) {
+:where(.velaris-discovery-card__artwork > .material-icons:not(.velaris-discovery-card__watched)) {
     font-size: 2.2rem;
 }
 
@@ -334,6 +330,12 @@
 
 .velaris-discovery-card__lists button {
     justify-content: flex-start;
+}
+
+.velaris-discovery-hero button:disabled,
+.velaris-discovery-list-create button:disabled {
+    opacity: 0.4;
+    cursor: default;
 }
 
 .velaris-discovery-empty {
