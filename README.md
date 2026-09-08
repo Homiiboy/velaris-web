@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.8</strong></p>
+<p align="center">Current Velaris version: <strong>V0.0.9</strong></p>
 
 ---
 
@@ -22,7 +22,26 @@ The design language combines useful ideas found across modern streaming services
 
 Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
 
-## V0.0.8 — Libraries, Collections & Search
+## V0.0.9 — Player Experience
+
+V0.0.9 brings the full-screen video player into the same Velaris design system as Home, details, libraries and search while deliberately keeping the proven playback engine and media pipeline intact.
+
+The milestone includes:
+
+- a dedicated full-screen Velaris player shell with a subtle viewer-facing brand treatment
+- a cinematic bottom scrim and centered translucent control surface that keeps the video dominant
+- stronger title, secondary media information and playback-status hierarchy
+- a clearer cyan-accented timeline with compact elapsed and remaining-duration labels
+- a visually dominant Play/Pause control separated from rewind, fast-forward and secondary utilities
+- refined subtitles, audio, volume, settings, AirPlay, picture-in-picture and fullscreen controls
+- premium treatments for Up Next and SyncPlay surfaces
+- responsive desktop, mobile and TV layouts with keyboard/remote focus states
+- reduced-motion handling for player interaction transitions
+- a reusable `player` style module in the Velaris theme bundle
+
+Play/pause, seeking, chapter navigation, next/previous media, audio and subtitle tracks, volume, settings, casting, picture-in-picture, fullscreen, SyncPlay, Up Next and the underlying Jellyfin-compatible playback stack remain unchanged. V0.0.9 is a presentation-layer milestone rather than a replacement decoder, transcoder or streaming backend.
+
+## Previous milestone — V0.0.8
 
 V0.0.8 redesigns the remaining browse and search surfaces so moving through a library feels like part of the same streaming product as Home and cinematic title details.
 
@@ -39,7 +58,7 @@ The milestone includes:
 
 Library queries, view settings, filtering, sorting, pagination, search endpoints, permissions and playback actions remain backed by the existing Jellyfin-compatible logic. V0.0.8 changes the viewer-facing hierarchy without creating a separate media database or search backend.
 
-## Previous milestone — V0.0.7
+## V0.0.7 — Cinematic Details
 
 V0.0.7 transforms the viewer-facing title detail experience for Movies, Series, Anime and Anime Movies into a cinematic Velaris layout while retaining the existing server-backed detail and playback logic underneath.
 
