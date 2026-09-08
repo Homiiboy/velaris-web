@@ -1,4 +1,5 @@
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import AccountTree from '@mui/icons-material/AccountTree';
 import AppSettingsAlt from '@mui/icons-material/AppSettingsAlt';
 import Close from '@mui/icons-material/Close';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -120,6 +121,18 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemIcon>
                 <ListItemText>
                     {globalize.translate('Settings')}
+                </ListItemText>
+            </MenuItem>
+            <MenuItem
+                component={Link}
+                to='/franchise-studio'
+                onClick={onMenuClose}
+            >
+                <ListItemIcon>
+                    <AccountTree />
+                </ListItemIcon>
+                <ListItemText>
+                    Franchise Studio
                 </ListItemText>
             </MenuItem>
 

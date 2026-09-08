@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import React, { type FC } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+import FranchiseWatchOrders from 'apps/modern/features/franchises/FranchiseWatchOrders';
 import { getVelarisFranchiseArtworkUrl } from 'apps/modern/features/franchises/franchiseArtwork';
 import { useVelarisFranchiseHubs } from 'apps/modern/features/franchises/useVelarisFranchiseHubs';
 import { toReactRoute } from 'apps/modern/utils/velarisRouting';
@@ -26,7 +27,7 @@ const onGroupAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
 const Franchise: FC = () => {
     const { hubId } = useParams();
     const { __legacyApiClient__ } = useApi();
-    const { hubs, isPending, isError } = useVelarisFranchiseHubs();
+    const { hubs, studioConfig, isPending, isError } = useVelarisFranchiseHubs();
     const hub = hubs.find(candidate => candidate.id === hubId);
 
     if (isPending) {
@@ -63,11 +64,18 @@ const Franchise: FC = () => {
                     <span className='velaris-franchise-empty__eyebrow'>VELARIS</span>
                     <h1 className='velaris-franchise-empty__title'>Dieses Universum ist noch leer.</h1>
                     <p className='velaris-franchise-empty__text'>
-                        Der Hub erscheint automatisch, sobald passende Filme oder Serien in deiner Mediathek vorhanden sind.
+                        Der Hub erscheint automatisch, sobald passende Filme oder Serien in deiner Mediathek vorhanden sind oder du ihn im Franchise Studio manuell befüllst.
                     </p>
-                    <Link to='/home' className='velaris-franchise-empty__link'>
-                        Zurück zu Home
-                    </Link>
+                    <div className='velaris-franchise-empty__actions'>
+                        <Link to='/home' className='velaris-franchise-empty__link'>
+                            Zurück zu Home
+                        </Link>
+                        {hubId && (
+                            <Link to={`/franchise-studio?hub=${encodeURIComponent(hubId)}`} className='velaris-franchise-empty__link'>
+                                Franchise Studio öffnen
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </Page>
         );
@@ -113,7 +121,7 @@ const Franchise: FC = () => {
                         <span aria-hidden='true'>•</span>
                         <span>{hub.groups.length} Bereiche</span>
                         <span aria-hidden='true'>•</span>
-                        <span>Dynamisch aus deiner Mediathek</span>
+                        <span>Dynamisch + Franchise Studio</span>
                     </div>
 
                     <div className='velaris-franchise-hero__actions'>
@@ -135,6 +143,12 @@ const Franchise: FC = () => {
                                 Bereiche ansehen
                             </a>
                         )}
+                        <Link
+                            to={`/franchise-studio?hub=${encodeURIComponent(hub.id)}`}
+                            className='velaris-franchise-hero__action velaris-franchise-hero__action--secondary'
+                        >
+                            Franchise Studio
+                        </Link>
                     </div>
 
                     {hub.groups.length > 1 && (
@@ -162,6 +176,8 @@ const Franchise: FC = () => {
             </header>
 
             <main className='velaris-franchise-groups'>
+                <FranchiseWatchOrders hub={hub} config={studioConfig} />
+
                 {hub.groups.map(group => (
                     <section
                         key={group.id}

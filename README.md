@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.2.0</strong></p>
+<p align="center">Current development version: <strong>V0.3.0</strong></p>
 
 ---
 
@@ -16,30 +16,28 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.2.0 — Smart Home & Personalization is complete.**
+**V0.3.0 — Franchise Studio & Watch Orders is in active development.**
 
-V0.2.0 is the first feature phase after the hardened V0.1.0 foundation. Home now contains profile-aware Velaris recommendation rows and native Continue Watching controls while continuing to use the existing Jellyfin-compatible library and user-data APIs underneath.
+The V0.2.0 Smart Home & Personalization milestone is complete and validated. V0.3.0 is now extending the existing Dynamic Franchise Hubs into an editable Velaris feature layer.
 
-The current milestone includes:
+The first V0.3.0 implementation pass includes:
 
-- profile-scoped Smart Home preferences
-- configurable Smart Home row order and visibility
-- Velaris-native Continue Watching with Resume
-- reset/remove progress and mark-as-watched actions
-- recent-viewing genre signals for recommendations
-- “Because you watched …” personalized discovery
-- “For tonight” movie suggestions
-- “Short & good” short-movie discovery
-- unseen-media recommendations
-- automatic empty-row suppression
-- cross-row recommendation deduplication
-- recommendation priority that follows the configured row order
-- responsive desktop/mobile/TV behavior and reduced-motion support
-- automated tests for preference repair, ordering, visibility, runtime classification, personalization and deduplication
+- dedicated Franchise Studio management route
+- profile-scoped Franchise Studio configuration
+- manual include/exclude rules without editing server metadata tags
+- manual group assignment layered over automatic franchise detection
+- custom groups for phases, eras, timelines and sub-universes
+- custom universes/franchises built from real library media
+- drag-and-drop title assignment and ordering
+- explicit group reordering
+- library search and accessible non-drag assignment controls
+- custom Watch Orders
+- viewer-facing release, chronological and custom Watch Order views
+- curated reusable MCU, Star Wars and Arrowverse order definitions
+- filtering so missing library titles never appear in viewer Watch Orders
+- automated regression tests for Studio configuration, overrides and Watch Orders
 
-V0.2.0 passed the complete Velaris CI pipeline: TypeScript, repository ESLint, zero-warning Velaris strict lint, Stylelint, unit tests, production build and generated-bundle ES compatibility validation.
-
-Detailed notes are available in [`docs/V0.2.0.md`](docs/V0.2.0.md).
+Detailed active-development notes are available in [`docs/V0.3.0.md`](docs/V0.3.0.md).
 
 ## Roadmap to V1.0.0
 
@@ -52,7 +50,7 @@ The full roadmap, including every completed milestone and all planned feature ph
 | V0.0.1–V0.0.9 | Visual/product foundation | ✅ Complete |
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
-| V0.3.0 | Franchise Studio & Watch Orders | ⏳ Planned |
+| V0.3.0 | Franchise Studio & Watch Orders | 🚧 In progress |
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ⏳ Planned |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |

@@ -6,8 +6,11 @@ import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order'
 import { useMemo } from 'react';
 
 import { useGetItems } from 'hooks/useFetchItems';
+import type { ItemDto } from 'types/base/models/item-dto';
 
 import { buildVelarisFranchiseHubs } from './franchiseEngine';
+import { applyFranchiseStudioConfig } from './franchiseStudioResolver';
+import { useFranchiseStudioConfig } from './useFranchiseStudioConfig';
 
 export const useVelarisFranchiseHubs = () => {
     const request = useMemo(() => ({
@@ -29,13 +32,25 @@ export const useVelarisFranchiseHubs = () => {
     }), []);
 
     const query = useGetItems(request);
-    const hubs = useMemo(
-        () => buildVelarisFranchiseHubs(query.data?.Items || []),
+    const { config: studioConfig } = useFranchiseStudioConfig();
+    const libraryItems = useMemo(
+        () => (query.data?.Items || []) as ItemDto[],
         [ query.data?.Items ]
+    );
+    const baseHubs = useMemo(
+        () => buildVelarisFranchiseHubs(libraryItems),
+        [ libraryItems ]
+    );
+    const hubs = useMemo(
+        () => applyFranchiseStudioConfig(baseHubs, libraryItems, studioConfig),
+        [ baseHubs, libraryItems, studioConfig ]
     );
 
     return {
         ...query,
-        hubs
+        hubs,
+        baseHubs,
+        libraryItems,
+        studioConfig
     };
 };

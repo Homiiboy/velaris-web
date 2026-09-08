@@ -19,7 +19,7 @@ Velaris Web is being developed in feature phases from the current pre-1.0 founda
 | V0.0.9 | Player Experience | ✅ Complete |
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
-| V0.3.0 | Franchise Studio & Watch Orders | ⏳ Planned |
+| V0.3.0 | Franchise Studio & Watch Orders | 🚧 In progress |
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ⏳ Planned |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |
@@ -130,24 +130,33 @@ Velaris Web is being developed in feature phases from the current pre-1.0 founda
 - configurable row priority used by the recommendation engine
 - tests for preferences, runtime classification, personalization and deduplication
 
-## Planned feature phases
+## Active feature phase
 
 ### V0.3.0 — Franchise Studio & Watch Orders
 
 Turn the existing automatic franchise layer into a full Velaris management feature.
 
-Planned scope:
+Current implementation scope:
 
-- Franchise Studio management UI
-- create custom universes, franchises, eras and sub-groups
-- drag-and-drop title assignment and ordering
-- edit automatic matches without manually editing metadata tags
-- explicit manual include/exclude rules
-- release-order views
-- chronological-order views
-- custom Watch Orders
-- reusable Watch Order definitions for MCU, Star Wars, Arrowverse and other curated universes
-- validation that only media actually present in the library is shown
+- ✅ Franchise Studio management UI and dedicated route
+- ✅ create custom universes/franchises and sub-groups
+- ✅ custom groups usable as phases, eras, timelines or other structures
+- ✅ drag-and-drop title assignment and ordering
+- ✅ edit automatic matches without manually editing metadata tags
+- ✅ explicit manual include/exclude rules
+- ✅ group reordering
+- ✅ release-order views
+- ✅ chronological-order views where explicitly curated
+- ✅ custom Watch Orders
+- ✅ reusable curated definitions for MCU, Star Wars and Arrowverse
+- ✅ viewer-facing Watch Order switcher on franchise pages
+- ✅ only media actually present in the library is resolved into viewer hubs/orders
+- ✅ profile-scoped, versioned Studio preferences with defensive sanitization
+- 🚧 CI hardening and practical edge-case validation before V0.3.0 completion
+
+Detailed active notes are maintained in [`docs/V0.3.0.md`](docs/V0.3.0.md).
+
+## Planned feature phases
 
 ### V0.4.0 — Discovery, Watchlists & Smart Lists
 

@@ -48,6 +48,7 @@ jobs:
           src/apps/modern/utils/velarisRouting.ts
           src/apps/modern/utils/velarisRouting.test.ts
           src/apps/modern/routes/franchise.tsx
+          src/apps/modern/routes/franchiseStudio.tsx
           src/apps/modern/routes/home.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewNav.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewsMenu.tsx

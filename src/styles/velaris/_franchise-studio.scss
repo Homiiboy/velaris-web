@@ -1,0 +1,735 @@
+@use './tokens' as tokens;
+
+.velaris-watch-orders {
+    margin: 0 0 3rem;
+    padding: 0 clamp(1rem, 4vw, 4rem);
+}
+
+.velaris-watch-orders__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.velaris-watch-orders__heading h2 {
+    margin: 0.18rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1.45rem, 2.4vw, 2rem);
+    letter-spacing: -0.03em;
+}
+
+.velaris-watch-orders__heading p {
+    max-width: 48rem;
+    margin: 0.35rem 0 0;
+    color: tokens.$text-muted;
+    font-size: 0.86rem;
+}
+
+.velaris-watch-orders__eyebrow,
+.velaris-studio-hero__eyebrow,
+.velaris-studio-section-heading > div > span,
+.velaris-studio-selected > div > span {
+    color: tokens.$cyan;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+}
+
+.velaris-watch-orders__tabs {
+    display: flex;
+    gap: 0.65rem;
+    padding: 0.2rem 0 0.85rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.velaris-watch-orders__tab {
+    display: grid;
+    min-width: 12rem;
+    gap: 0.15rem;
+    padding: 0.72rem 0.9rem;
+    border: 1px solid rgba(145, 170, 210, 0.16);
+    border-radius: tokens.$radius-sm;
+    background: rgba(13, 16, 24, 0.72);
+    color: tokens.$text-secondary;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    backdrop-filter: blur(14px);
+    transition: border-color tokens.$transition-fast, background tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-watch-orders__tab span {
+    color: tokens.$text-primary;
+    font-size: 0.88rem;
+    font-weight: 730;
+}
+
+.velaris-watch-orders__tab small {
+    color: tokens.$text-muted;
+    font-size: 0.67rem;
+}
+
+.velaris-watch-orders__tab--active {
+    border-color: rgba(69, 243, 255, 0.5);
+    background: linear-gradient(135deg, rgba(69, 243, 255, 0.12), rgba(138, 54, 255, 0.09));
+    box-shadow: tokens.$shadow-cyan;
+}
+
+.velaris-watch-orders__description {
+    margin: 0 0 0.8rem;
+    color: tokens.$text-secondary;
+    font-size: 0.82rem;
+}
+
+.velaris-watch-orders__row {
+    margin-inline: 0;
+}
+
+.velaris-franchise-studio-page {
+    min-height: 100%;
+    background:
+        radial-gradient(circle at 8% 0%, rgba(69, 243, 255, 0.09), transparent 28rem),
+        radial-gradient(circle at 92% 5%, rgba(138, 54, 255, 0.1), transparent 30rem),
+        tokens.$background;
+}
+
+.velaris-studio-hero {
+    padding: clamp(5.5rem, 10vw, 8rem) clamp(1rem, 4vw, 4rem) 2.2rem;
+    border-bottom: 1px solid rgba(145, 170, 210, 0.12);
+}
+
+.velaris-studio-hero > div {
+    max-width: 72rem;
+}
+
+.velaris-studio-hero__back {
+    display: inline-flex;
+    margin-bottom: 1.4rem;
+    color: tokens.$text-secondary;
+    font-size: 0.82rem;
+    font-weight: 650;
+    text-decoration: none;
+}
+
+.velaris-studio-hero h1 {
+    max-width: 54rem;
+    margin: 0.32rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
+}
+
+.velaris-studio-hero p {
+    max-width: 48rem;
+    margin: 0.9rem 0 0;
+    color: tokens.$text-secondary;
+    font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+    line-height: 1.55;
+}
+
+.velaris-studio-layout {
+    display: grid;
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1.5rem clamp(1rem, 3vw, 3rem) 4rem;
+}
+
+.velaris-studio-sidebar {
+    position: sticky;
+    top: 5.5rem;
+    align-self: start;
+    overflow: hidden;
+    border: 1px solid rgba(145, 170, 210, 0.14);
+    border-radius: tokens.$radius-lg;
+    background: rgba(9, 12, 20, 0.82);
+    box-shadow: tokens.$shadow-soft;
+    backdrop-filter: blur(20px);
+}
+
+.velaris-studio-sidebar__heading {
+    padding: 1rem 1rem 0.85rem;
+    border-bottom: 1px solid tokens.$divider;
+}
+
+.velaris-studio-sidebar__heading strong,
+.velaris-studio-sidebar__heading span {
+    display: block;
+}
+
+.velaris-studio-sidebar__heading strong {
+    color: tokens.$text-primary;
+    font-size: 0.95rem;
+}
+
+.velaris-studio-sidebar__heading span {
+    margin-top: 0.15rem;
+    color: tokens.$text-muted;
+    font-size: 0.72rem;
+}
+
+.velaris-studio-sidebar__list {
+    display: grid;
+    max-height: min(54vh, 38rem);
+    gap: 0.22rem;
+    padding: 0.55rem;
+    overflow-y: auto;
+}
+
+.velaris-studio-sidebar__item {
+    display: flex;
+    min-height: 2.8rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid transparent;
+    border-radius: tokens.$radius-xs;
+    background: transparent;
+    color: tokens.$text-secondary;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.velaris-studio-sidebar__item span {
+    overflow: hidden;
+    font-size: 0.82rem;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-studio-sidebar__item small {
+    color: tokens.$text-muted;
+    font-size: 0.61rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.velaris-studio-sidebar__item--active {
+    border-color: rgba(69, 243, 255, 0.28);
+    background: linear-gradient(100deg, rgba(69, 243, 255, 0.11), rgba(138, 54, 255, 0.07));
+    color: tokens.$text-primary;
+}
+
+.velaris-studio-sidebar__create {
+    display: grid;
+    gap: 0.45rem;
+    padding: 0.7rem;
+    border-top: 1px solid tokens.$divider;
+}
+
+.velaris-studio-sidebar__create input,
+.velaris-studio-section-heading input,
+.velaris-studio-library__filters input,
+.velaris-studio-library__filters select,
+.velaris-studio-watch-editor__add select {
+    min-width: 0;
+    min-height: 2.5rem;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid rgba(145, 170, 210, 0.18);
+    border-radius: tokens.$radius-xs;
+    outline: 0;
+    background: rgba(5, 7, 12, 0.78);
+    color: tokens.$text-primary;
+    font: inherit;
+    font-size: 0.78rem;
+}
+
+.velaris-studio-sidebar__create button,
+.velaris-studio-section-heading form button,
+.velaris-studio-library-item button,
+.velaris-studio-selected__actions a,
+.velaris-studio-selected__actions button,
+.velaris-studio-watch-editor header button,
+.velaris-studio-watch-editor__add button {
+    display: inline-flex;
+    min-height: 2.35rem;
+    align-items: center;
+    justify-content: center;
+    padding: 0.48rem 0.72rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: tokens.$radius-xs;
+    background: rgba(255, 255, 255, 0.055);
+    color: tokens.$text-primary;
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 680;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.velaris-studio-sidebar__create button:disabled,
+.velaris-studio-section-heading form button:disabled,
+.velaris-studio-library-item button:disabled,
+.velaris-studio-watch-editor__add button:disabled {
+    opacity: 0.38;
+    cursor: default;
+}
+
+.velaris-studio-main {
+    min-width: 0;
+}
+
+.velaris-studio-selected,
+.velaris-studio-groups-section,
+.velaris-studio-library,
+.velaris-studio-watch-orders {
+    margin-bottom: 1.25rem;
+    border: 1px solid rgba(145, 170, 210, 0.13);
+    border-radius: tokens.$radius-lg;
+    background: linear-gradient(135deg, rgba(13, 16, 24, 0.91), rgba(7, 9, 15, 0.82));
+    box-shadow: tokens.$shadow-soft;
+    backdrop-filter: blur(18px);
+}
+
+.velaris-studio-selected {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.2rem;
+}
+
+.velaris-studio-selected h2,
+.velaris-studio-section-heading h2 {
+    margin: 0.22rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+    letter-spacing: -0.025em;
+}
+
+.velaris-studio-selected p,
+.velaris-studio-section-heading p {
+    max-width: 54rem;
+    margin: 0.35rem 0 0;
+    color: tokens.$text-muted;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.velaris-studio-selected__actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 0.5rem;
+}
+
+.velaris-studio-selected__actions a {
+    border-color: rgba(69, 243, 255, 0.25);
+    background: rgba(69, 243, 255, 0.08);
+}
+
+.velaris-studio-section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 1.2rem;
+    border-bottom: 1px solid tokens.$divider;
+}
+
+.velaris-studio-section-heading form,
+.velaris-studio-library__filters {
+    display: flex;
+    flex: 0 1 30rem;
+    gap: 0.45rem;
+}
+
+.velaris-studio-section-heading form input,
+.velaris-studio-library__filters input {
+    flex: 1 1 12rem;
+}
+
+.velaris-studio-groups {
+    display: grid;
+    grid-auto-columns: minmax(18rem, 25rem);
+    grid-auto-flow: column;
+    gap: 0.8rem;
+    padding: 1rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1rem;
+}
+
+.velaris-studio-groups__empty,
+.velaris-studio-watch-orders__empty {
+    padding: 1rem;
+    color: tokens.$text-muted;
+    font-size: 0.8rem;
+}
+
+.velaris-studio-group {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(145, 170, 210, 0.14);
+    border-radius: tokens.$radius-md;
+    background: rgba(5, 7, 12, 0.6);
+}
+
+.velaris-studio-group__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.65rem;
+    padding: 0.7rem 0.75rem;
+    border-bottom: 1px solid tokens.$divider;
+}
+
+.velaris-studio-group__header strong,
+.velaris-studio-group__header span {
+    display: block;
+}
+
+.velaris-studio-group__header strong {
+    color: tokens.$text-primary;
+    font-size: 0.82rem;
+}
+
+.velaris-studio-group__header span {
+    margin-top: 0.08rem;
+    color: tokens.$text-muted;
+    font-size: 0.65rem;
+}
+
+.velaris-studio-group__controls {
+    display: flex;
+    gap: 0.22rem;
+}
+
+.velaris-studio-group__controls button,
+.velaris-studio-item__actions button,
+.velaris-studio-watch-row button {
+    display: inline-grid;
+    min-width: 2rem;
+    min-height: 2rem;
+    place-items: center;
+    padding: 0.3rem 0.42rem;
+    border: 0;
+    border-radius: tokens.$radius-xs;
+    background: rgba(255, 255, 255, 0.05);
+    color: tokens.$text-secondary;
+    font: inherit;
+    font-size: 0.66rem;
+    cursor: pointer;
+}
+
+.velaris-studio-group__controls button:disabled {
+    opacity: 0.28;
+    cursor: default;
+}
+
+.velaris-studio-group__controls .material-icons,
+.velaris-studio-watch-row .material-icons {
+    font-size: 1rem;
+}
+
+.velaris-studio-group__dropzone {
+    display: grid;
+    min-height: 9rem;
+    gap: 0.45rem;
+    padding: 0.6rem;
+}
+
+.velaris-studio-group__dropzone--empty {
+    place-items: center;
+    border: 1px dashed rgba(69, 243, 255, 0.2);
+    border-radius: 0 0 tokens.$radius-md tokens.$radius-md;
+    color: tokens.$text-muted;
+    font-size: 0.76rem;
+}
+
+.velaris-studio-item {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 0.55rem;
+    padding: 0.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: tokens.$radius-sm;
+    background: rgba(13, 16, 24, 0.82);
+    cursor: grab;
+    transition: border-color tokens.$transition-fast, transform tokens.$transition-fast;
+}
+
+.velaris-studio-item__artwork {
+    display: grid;
+    aspect-ratio: 16 / 9;
+    place-items: center;
+    align-self: center;
+    border-radius: tokens.$radius-xs;
+    background: tokens.$surface-elevated center / cover no-repeat;
+    color: tokens.$text-muted;
+}
+
+.velaris-studio-item__artwork .material-icons {
+    font-size: 1.4rem;
+}
+
+.velaris-studio-item__body {
+    min-width: 0;
+    align-self: center;
+}
+
+.velaris-studio-item__body strong,
+.velaris-studio-item__body span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-studio-item__body strong {
+    color: tokens.$text-primary;
+    font-size: 0.76rem;
+}
+
+.velaris-studio-item__body span {
+    margin-top: 0.12rem;
+    color: tokens.$text-muted;
+    font-size: 0.63rem;
+}
+
+.velaris-studio-item__actions {
+    display: flex;
+    grid-column: 1 / -1;
+    gap: 0.3rem;
+}
+
+.velaris-studio-item__actions button {
+    display: inline-flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.velaris-studio-library__filters select {
+    flex: 0 1 12rem;
+}
+
+.velaris-studio-library__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+    gap: 0.45rem;
+    max-height: 28rem;
+    padding: 0.85rem;
+    overflow-y: auto;
+}
+
+.velaris-studio-library-item {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.55rem;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-radius: tokens.$radius-sm;
+    background: rgba(8, 10, 16, 0.66);
+    cursor: grab;
+}
+
+.velaris-studio-library-item > div {
+    min-width: 0;
+}
+
+.velaris-studio-library-item strong,
+.velaris-studio-library-item span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-studio-library-item strong {
+    color: tokens.$text-primary;
+    font-size: 0.73rem;
+}
+
+.velaris-studio-library-item span {
+    margin-top: 0.08rem;
+    color: tokens.$text-muted;
+    font-size: 0.61rem;
+}
+
+.velaris-studio-library-item button {
+    min-height: 2rem;
+    flex: 0 0 auto;
+    padding: 0.35rem 0.5rem;
+}
+
+.velaris-studio-library-item--excluded {
+    border-color: rgba(255, 95, 157, 0.22);
+    opacity: 0.72;
+}
+
+.velaris-studio-watch-orders__list {
+    display: grid;
+    gap: 0.7rem;
+    padding: 0.85rem;
+}
+
+.velaris-studio-watch-editor {
+    overflow: hidden;
+    border: 1px solid rgba(145, 170, 210, 0.13);
+    border-radius: tokens.$radius-md;
+    background: rgba(5, 7, 12, 0.58);
+}
+
+.velaris-studio-watch-editor > header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    padding: 0.7rem 0.75rem;
+    border-bottom: 1px solid tokens.$divider;
+}
+
+.velaris-studio-watch-editor > header strong,
+.velaris-studio-watch-editor > header span {
+    display: block;
+}
+
+.velaris-studio-watch-editor > header strong {
+    color: tokens.$text-primary;
+    font-size: 0.82rem;
+}
+
+.velaris-studio-watch-editor > header span {
+    margin-top: 0.08rem;
+    color: tokens.$text-muted;
+    font-size: 0.64rem;
+}
+
+.velaris-studio-watch-editor > header button {
+    min-height: 2rem;
+}
+
+.velaris-studio-watch-editor__items {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.65rem;
+}
+
+.velaris-studio-watch-editor__empty {
+    color: tokens.$text-muted;
+    font-size: 0.74rem;
+}
+
+.velaris-studio-watch-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.7rem;
+    padding: 0.38rem 0.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: tokens.$radius-xs;
+    background: rgba(13, 16, 24, 0.72);
+    color: tokens.$text-secondary;
+    cursor: grab;
+}
+
+.velaris-studio-watch-row strong {
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 0.74rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-studio-watch-row > span:not(.material-icons) {
+    color: tokens.$text-muted;
+    font-size: 0.64rem;
+}
+
+.velaris-studio-watch-editor__add {
+    display: flex;
+    gap: 0.45rem;
+    padding: 0.65rem;
+    border-top: 1px solid tokens.$divider;
+}
+
+.velaris-studio-watch-editor__add select {
+    flex: 1 1 auto;
+}
+
+.velaris-watch-orders__tab:hover,
+.velaris-studio-sidebar__item:hover,
+.velaris-studio-library-item:hover,
+.velaris-studio-item:hover {
+    border-color: rgba(69, 243, 255, 0.28);
+}
+
+.velaris-watch-orders__tab:focus-visible,
+.velaris-studio-sidebar button:focus-visible,
+.velaris-studio-main button:focus-visible,
+.velaris-studio-main a:focus-visible,
+.velaris-studio-main input:focus-visible,
+.velaris-studio-main select:focus-visible {
+    outline: 2px solid tokens.$cyan;
+    outline-offset: 2px;
+}
+
+@media (max-width: 72rem) {
+    .velaris-studio-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .velaris-studio-sidebar {
+        position: static;
+    }
+
+    .velaris-studio-sidebar__list {
+        grid-auto-columns: minmax(10rem, 15rem);
+        grid-auto-flow: column;
+        max-height: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .velaris-studio-sidebar__create {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+}
+
+@media (max-width: 48rem) {
+    .velaris-studio-hero {
+        padding-top: 4.8rem;
+    }
+
+    .velaris-studio-selected,
+    .velaris-studio-section-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .velaris-studio-selected__actions,
+    .velaris-studio-section-heading form,
+    .velaris-studio-library__filters {
+        width: 100%;
+    }
+
+    .velaris-studio-section-heading form,
+    .velaris-studio-library__filters,
+    .velaris-studio-watch-editor__add {
+        flex-direction: column;
+    }
+
+    .velaris-studio-groups {
+        grid-auto-columns: minmax(16rem, 82vw);
+    }
+
+    .velaris-watch-orders {
+        padding-inline: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-watch-orders__tab,
+    .velaris-studio-item {
+        transition: none;
+    }
+}
