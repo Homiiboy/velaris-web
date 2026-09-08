@@ -29,8 +29,8 @@
 
 .velaris-watch-orders__eyebrow,
 .velaris-studio-hero__eyebrow,
-.velaris-studio-section-heading > div > span,
-.velaris-studio-selected > div > span {
+.velaris-studio-section-heading > :where(div) > :where(span),
+.velaris-studio-selected > :where(div) > :where(span) {
     color: tokens.$cyan;
     font-size: 0.68rem;
     font-weight: 800;
@@ -241,11 +241,11 @@
 }
 
 .velaris-studio-sidebar__create button,
-.velaris-studio-section-heading form button,
+.velaris-studio-section-heading :where(form button),
 .velaris-studio-library-item button,
 .velaris-studio-selected__actions a,
 .velaris-studio-selected__actions button,
-.velaris-studio-watch-editor header button,
+.velaris-studio-watch-editor :where(header button),
 .velaris-studio-watch-editor__add button {
     display: inline-flex;
     min-height: 2.35rem;
@@ -263,10 +263,10 @@
     cursor: pointer;
 }
 
-.velaris-studio-sidebar__create button:disabled,
-.velaris-studio-section-heading form button:disabled,
-.velaris-studio-library-item button:disabled,
-.velaris-studio-watch-editor__add button:disabled {
+.velaris-studio-sidebar__create :where(button:disabled),
+.velaris-studio-section-heading :where(form button:disabled),
+.velaris-studio-library-item :where(button:disabled),
+.velaris-studio-watch-editor__add :where(button:disabled) {
     opacity: 0.38;
     cursor: default;
 }
@@ -339,7 +339,7 @@
     gap: 0.45rem;
 }
 
-.velaris-studio-section-heading form input,
+.velaris-studio-section-heading :where(form input),
 .velaris-studio-library__filters input {
     flex: 1 1 12rem;
 }
@@ -587,23 +587,23 @@
     border-bottom: 1px solid tokens.$divider;
 }
 
-.velaris-studio-watch-editor > header strong,
-.velaris-studio-watch-editor > header span {
+.velaris-studio-watch-editor :where(header strong),
+.velaris-studio-watch-editor :where(header span) {
     display: block;
 }
 
-.velaris-studio-watch-editor > header strong {
+.velaris-studio-watch-editor :where(header strong) {
     color: tokens.$text-primary;
     font-size: 0.82rem;
 }
 
-.velaris-studio-watch-editor > header span {
+.velaris-studio-watch-editor :where(header span) {
     margin-top: 0.08rem;
     color: tokens.$text-muted;
     font-size: 0.64rem;
 }
 
-.velaris-studio-watch-editor > header button {
+.velaris-studio-watch-editor :where(header button) {
     min-height: 2rem;
 }
 
