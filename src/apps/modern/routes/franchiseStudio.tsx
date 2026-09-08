@@ -25,6 +25,7 @@ import {
     reorderFranchiseStudioWatchItem,
     type FranchiseStudioConfig,
     type FranchiseStudioGroup,
+    type FranchiseStudioHubEditorState,
     type FranchiseStudioWatchOrder
 } from 'apps/modern/features/franchises/franchiseStudio';
 import { getVelarisFranchiseArtworkUrl } from 'apps/modern/features/franchises/franchiseArtwork';
@@ -432,9 +433,14 @@ const FranchiseStudio: FC = () => {
         () => selectedOption ? getEditorGroups(selectedOption.id, config) : [],
         [ config, selectedOption ]
     );
-    const currentState = isCustomHub ?
-        config.customHubs.find(hub => hub.id === selectedOption?.id) :
-        (selectedOption ? config.overrides[selectedOption.id] : undefined);
+    let currentState: FranchiseStudioHubEditorState | undefined;
+    if (selectedOption) {
+        if (isCustomHub) {
+            currentState = config.customHubs.find(hub => hub.id === selectedOption.id);
+        } else {
+            currentState = config.overrides[selectedOption.id];
+        }
+    }
     const assignments = currentState?.assignments || {};
     const excludedItemIds = currentState?.excludedItemIds || [];
     const customGroupIds = new Set(currentState?.groups.map(group => group.id) || []);
