@@ -55,10 +55,36 @@ const uniqueStrings = (values: unknown): string[] => {
     )).map(value => value.trim())) ];
 };
 
-const sanitizeId = (value: unknown) => (
-    typeof value === 'string' ? value.trim().toLocaleLowerCase().replace(/[^a-z0-9_-]+/g, '-')
-        .replace(/^-+|-+$/g, '') : ''
-);
+const sanitizeId = (value: unknown) => {
+    if (typeof value !== 'string') return '';
+
+    const normalized = value.trim().toLocaleLowerCase();
+    let result = '';
+    let separatorPending = false;
+
+    for (const character of normalized) {
+        const code = character.charCodeAt(0);
+        const isDigit = code >= 48 && code <= 57;
+        const isLowercaseAscii = code >= 97 && code <= 122;
+        const isAllowedSymbol = character === '_' || character === '-';
+
+        if (isDigit || isLowercaseAscii || isAllowedSymbol) {
+            if (separatorPending && result && character !== '-' && !result.endsWith('-')) {
+                result += '-';
+            }
+            separatorPending = false;
+            result += character;
+        } else if (result) {
+            separatorPending = true;
+        }
+    }
+
+    let start = 0;
+    let end = result.length;
+    while (start < end && result[start] === '-') start += 1;
+    while (end > start && result[end - 1] === '-') end -= 1;
+    return result.slice(start, end);
+};
 
 const sanitizeName = (value: unknown, fallback = '') => (
     typeof value === 'string' && value.trim() ? value.trim() : fallback
