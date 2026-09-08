@@ -3,12 +3,12 @@ import React, {
     type FC,
     type FormEvent,
     useCallback,
+    useEffect,
     useMemo,
     useState
 } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { getVelarisSmartHomeArtworkUrl } from 'apps/modern/features/home/smartHomeArtwork';
 import {
     buildDiscoverySmartLists,
     createDiscoveryList,
@@ -26,12 +26,16 @@ import {
 } from 'apps/modern/features/discovery/discovery';
 import { useVelarisDiscovery } from 'apps/modern/features/discovery/useVelarisDiscovery';
 import { useVelarisDiscoveryStore } from 'apps/modern/features/discovery/useVelarisDiscoveryStore';
+import { getVelarisSmartHomeArtworkUrl } from 'apps/modern/features/home/smartHomeArtwork';
 import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import Loading from 'components/loading/LoadingComponent';
 import Page from 'components/Page';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import type { ItemDto } from 'types/base/models/item-dto';
+
+const RESULT_BATCH_SIZE = 60;
+const WATCHLIST_ID = 'watchlist';
 
 const getDetailsUrl = (item: ItemDto) => toReactRoute(appRouter.getRouteUrl(item));
 
@@ -134,70 +138,121 @@ const DiscoveryCard: FC<DiscoveryCardProps> = ({
 
 const Discovery = () => {
     const navigate = useNavigate();
-    const { items, isPending, isError } = useVelarisDiscovery();
+    const {
+        items,
+        categoryByItemId,
+        libraryCount,
+        isPending,
+        isError,
+        isPartial
+    } = useVelarisDiscovery();
     const { store, setStore } = useVelarisDiscoveryStore();
     const [ filters, setFilters ] = useState<DiscoveryFilters>(DEFAULT_DISCOVERY_FILTERS);
     const [ activeSmartList, setActiveSmartList ] = useState<DiscoverySmartListId | null>(null);
+    const [ activeSavedList, setActiveSavedList ] = useState<string | null>(null);
+    const [ resultLimit, setResultLimit ] = useState(RESULT_BATCH_SIZE);
     const [ newListName, setNewListName ] = useState('');
 
+    const activeSavedListIds = useMemo(() => {
+        if (activeSavedList === WATCHLIST_ID) return store.watchlist;
+        return store.customLists.find(list => list.id === activeSavedList)?.itemIds;
+    }, [ activeSavedList, store.customLists, store.watchlist ]);
+    const sourceItems = useMemo(() => (
+        activeSavedListIds
+            ? resolveDiscoveryListItems(activeSavedListIds, items)
+            : items
+    ), [ activeSavedListIds, items ]);
     const genres = useMemo(() => [ ...new Set(items.flatMap(item => item.Genres || [])) ]
         .sort((a, b) => a.localeCompare(b)), [ items ]);
-    const filteredItems = useMemo(() => filterDiscoveryItems(items, filters), [ filters, items ]);
+    const filteredItems = useMemo(
+        () => filterDiscoveryItems(sourceItems, filters, categoryByItemId),
+        [ categoryByItemId, filters, sourceItems ]
+    );
     const smartLists = useMemo(() => buildDiscoverySmartLists(filteredItems), [ filteredItems ]);
     const visibleItems = useMemo(() => {
         if (!activeSmartList) return filteredItems;
         return smartLists.find(list => list.id === activeSmartList)?.items || [];
     }, [ activeSmartList, filteredItems, smartLists ]);
-    const watchlistItems = useMemo(() => resolveDiscoveryListItems(store.watchlist, items), [ items, store.watchlist ]);
+    const renderedItems = useMemo(
+        () => visibleItems.slice(0, resultLimit),
+        [ resultLimit, visibleItems ]
+    );
+    const watchlistItems = useMemo(
+        () => resolveDiscoveryListItems(store.watchlist, items),
+        [ items, store.watchlist ]
+    );
+    const activeSavedListName = useMemo(() => {
+        if (activeSavedList === WATCHLIST_ID) return 'Watchlist';
+        return store.customLists.find(list => list.id === activeSavedList)?.name;
+    }, [ activeSavedList, store.customLists ]);
+    const activeSmartListName = useMemo(
+        () => smartLists.find(list => list.id === activeSmartList)?.name,
+        [ activeSmartList, smartLists ]
+    );
 
+    useEffect(() => {
+        setResultLimit(RESULT_BATCH_SIZE);
+    }, [ activeSavedList, activeSmartList, filters ]);
+
+    const clearSmartList = useCallback(() => setActiveSmartList(null), []);
     const onSearchChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         setFilters(current => ({ ...current, query: event.target.value }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onContentKindChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         setFilters(current => ({ ...current, contentKind: event.target.value as DiscoveryFilters['contentKind'] }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onGenreChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         setFilters(current => ({ ...current, genre: event.target.value }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onWatchStateChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         setFilters(current => ({ ...current, watchState: event.target.value as DiscoveryFilters['watchState'] }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onRuntimeChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         setFilters(current => ({ ...current, runtime: event.target.value as DiscoveryFilters['runtime'] }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onMinYearChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value ? Number(event.target.value) : undefined;
         setFilters(current => ({ ...current, minYear: value }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onMaxYearChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value ? Number(event.target.value) : undefined;
         setFilters(current => ({ ...current, maxYear: value }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onRatingChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value ? Number(event.target.value) : undefined;
         setFilters(current => ({ ...current, minRating: value }));
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onResetFilters = useCallback(() => {
         setFilters(DEFAULT_DISCOVERY_FILTERS);
-        setActiveSmartList(null);
-    }, []);
+        clearSmartList();
+    }, [ clearSmartList ]);
     const onSmartListClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         const smartListId = event.currentTarget.dataset.smartListId as DiscoverySmartListId | undefined;
         if (!smartListId) return;
+        setActiveSavedList(null);
         setActiveSmartList(current => current === smartListId ? null : smartListId);
+    }, []);
+    const onSavedListClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+        const listId = event.currentTarget.dataset.savedListId;
+        if (!listId) return;
+        setActiveSmartList(null);
+        setActiveSavedList(current => current === listId ? null : listId);
     }, []);
     const onSurprise = useCallback(() => {
         const item = pickDiscoverySurprise(visibleItems);
         if (item) navigate(getDetailsUrl(item));
     }, [ navigate, visibleItems ]);
+    const onLoadMore = useCallback(() => {
+        setResultLimit(current => current + RESULT_BATCH_SIZE);
+    }, []);
     const onToggleWatchlist = useCallback((itemId: string) => {
         setStore(current => toggleDiscoveryWatchlistItem(current, itemId));
     }, [ setStore ]);
@@ -216,7 +271,10 @@ const Discovery = () => {
     }, [ newListName, setStore ]);
     const onDeleteList = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         const listId = event.currentTarget.dataset.listId;
-        if (listId) setStore(current => removeDiscoveryList(current, listId));
+        if (!listId) return;
+
+        setStore(current => removeDiscoveryList(current, listId));
+        setActiveSavedList(current => current === listId ? null : current);
     }, [ setStore ]);
 
     if (isPending) {
@@ -226,6 +284,10 @@ const Discovery = () => {
             </Page>
         );
     }
+
+    const headingName = activeSavedListName || activeSmartListName || 'Ergebnisse';
+    const headingEyebrow = activeSavedListName ? 'DEINE LISTE' : activeSmartListName ? 'SMART LIST' : 'DISCOVERY';
+    const hasLoadWarning = isPartial || (isError && items.length > 0);
 
     return (
         <Page id='velarisDiscoveryPage' className='mainAnimatedPage velaris-discovery-page' isBackButtonEnabled={false}>
@@ -248,6 +310,8 @@ const Discovery = () => {
                     <option value='all'>Filme & Serien</option>
                     <option value='movies'>Filme</option>
                     <option value='series'>Serien</option>
+                    <option value='anime'>Anime</option>
+                    <option value='anime-movies'>Anime Filme</option>
                 </select>
                 <select value={filters.genre} onChange={onGenreChange} aria-label='Genre'>
                     <option value=''>Alle Genres</option>
@@ -303,21 +367,24 @@ const Discovery = () => {
                 <main className='velaris-discovery-results'>
                     <div className='velaris-discovery-section-heading'>
                         <div>
-                            <span>{activeSmartList ? 'SMART LIST' : 'DISCOVERY'}</span>
-                            <h2>{activeSmartList ? smartLists.find(list => list.id === activeSmartList)?.name : 'Ergebnisse'}</h2>
+                            <span>{headingEyebrow}</span>
+                            <h2>{headingName}</h2>
                         </div>
-                        <strong>{visibleItems.length} Titel</strong>
+                        <strong>{visibleItems.length} Titel · {libraryCount} Mediatheken</strong>
                     </div>
 
-                    {isError && visibleItems.length === 0 && (
-                        <div className='velaris-discovery-empty'>Die Mediathek konnte nicht vollständig geladen werden.</div>
+                    {hasLoadWarning && (
+                        <div className='velaris-discovery-empty'>Ein Teil der Mediathek konnte nicht vollständig geladen werden. Bereits geladene Titel bleiben verfügbar.</div>
+                    )}
+                    {isError && items.length === 0 && (
+                        <div className='velaris-discovery-empty'>Die Mediathek konnte nicht geladen werden.</div>
                     )}
                     {!isError && visibleItems.length === 0 && (
-                        <div className='velaris-discovery-empty'>Keine Titel passen zu diesen Filtern.</div>
+                        <div className='velaris-discovery-empty'>Keine Titel passen zu diesen Filtern oder dieser Liste.</div>
                     )}
 
                     <div className='velaris-discovery-grid'>
-                        {visibleItems.map(item => (
+                        {renderedItems.map(item => (
                             <DiscoveryCard
                                 key={item.Id}
                                 item={item}
@@ -328,6 +395,14 @@ const Discovery = () => {
                             />
                         ))}
                     </div>
+
+                    {renderedItems.length < visibleItems.length && (
+                        <div className='velaris-discovery-list-create'>
+                            <button type='button' onClick={onLoadMore}>
+                                Mehr anzeigen ({visibleItems.length - renderedItems.length} verbleibend)
+                            </button>
+                        </div>
+                    )}
                 </main>
 
                 <aside className='velaris-discovery-lists'>
@@ -340,9 +415,16 @@ const Discovery = () => {
                         <header>
                             <div>
                                 <strong>Watchlist</strong>
-                                <span>{watchlistItems.length} geladene Titel</span>
+                                <span>{watchlistItems.length} verfügbare Titel</span>
                             </div>
-                            <span className='material-icons' aria-hidden='true'>bookmark</span>
+                            <button
+                                type='button'
+                                data-saved-list-id={WATCHLIST_ID}
+                                onClick={onSavedListClick}
+                                aria-pressed={activeSavedList === WATCHLIST_ID}
+                            >
+                                <span className='material-icons' aria-hidden='true'>bookmark</span>
+                            </button>
                         </header>
                         <div className='velaris-discovery-list-card__items'>
                             {watchlistItems.slice(0, 8).map(item => (
@@ -359,8 +441,17 @@ const Discovery = () => {
                                 <header>
                                     <div>
                                         <strong>{list.name}</strong>
-                                        <span>{listItems.length} geladene Titel</span>
+                                        <span>{listItems.length} verfügbare Titel</span>
                                     </div>
+                                    <button
+                                        type='button'
+                                        data-saved-list-id={list.id}
+                                        onClick={onSavedListClick}
+                                        aria-pressed={activeSavedList === list.id}
+                                        aria-label={`${list.name} anzeigen`}
+                                    >
+                                        <span className='material-icons' aria-hidden='true'>visibility</span>
+                                    </button>
                                     <button type='button' data-list-id={list.id} onClick={onDeleteList} aria-label={`${list.name} löschen`}>
                                         <span className='material-icons' aria-hidden='true'>delete</span>
                                     </button>

@@ -9,7 +9,10 @@ import {
     EMPTY_DISCOVERY_STORE,
     filterDiscoveryItems,
     pickDiscoverySurprise,
+    resolveDiscoveryItemCategory,
     sanitizeDiscoveryStore,
+    shouldFetchNextDiscoveryPage,
+    sortDiscoveryItems,
     toggleDiscoveryCustomListItem,
     toggleDiscoveryWatchlistItem
 } from './discovery';
@@ -52,6 +55,11 @@ describe('Velaris Discovery store', () => {
         expect(store.watchlist).toEqual([ 'movie' ]);
         expect(store.customLists[0].itemIds).toEqual([ 'movie' ]);
         expect(toggleDiscoveryWatchlistItem(store, 'movie').watchlist).toEqual([]);
+    });
+
+    it('caps user-controlled list names defensively', () => {
+        const store = createDiscoveryList(EMPTY_DISCOVERY_STORE, 'x'.repeat(100));
+        expect(store.customLists[0].name).toHaveLength(48);
     });
 });
 
@@ -96,6 +104,44 @@ describe('Velaris Discovery filtering and Smart Lists', () => {
         expect(filtered.map(item => item.Id)).toEqual([ 'short' ]);
     });
 
+    it('classifies anime series and anime movies from their library context', () => {
+        const animeSeries = createItem('anime-series', { Type: BaseItemKind.Series });
+        const animeMovie = createItem('anime-movie');
+        const categories = {
+            'anime-series': resolveDiscoveryItemCategory(animeSeries, 'anime'),
+            'anime-movie': resolveDiscoveryItemCategory(animeMovie, 'anime')
+        };
+
+        expect(categories['anime-series']).toBe('anime');
+        expect(categories['anime-movie']).toBe('anime-movies');
+        expect(filterDiscoveryItems([ animeSeries, animeMovie ], {
+            ...EMPTY_FILTERS,
+            contentKind: 'anime'
+        }, { 'anime-series': 'anime', 'anime-movie': 'anime-movies' }).map(item => item.Id)).toEqual([ 'anime-series' ]);
+        expect(filterDiscoveryItems([ animeSeries, animeMovie ], {
+            ...EMPTY_FILTERS,
+            contentKind: 'anime-movies'
+        }, { 'anime-series': 'anime', 'anime-movie': 'anime-movies' }).map(item => item.Id)).toEqual([ 'anime-movie' ]);
+    });
+
+    it('handles missing or invalid metadata without matching constrained filters', () => {
+        const unknown = createItem('unknown', {
+            Name: 'Unknown',
+            DateCreated: 'not-a-date'
+        });
+
+        expect(filterDiscoveryItems([ unknown ], {
+            ...EMPTY_FILTERS,
+            runtime: 'short'
+        })).toEqual([]);
+        expect(filterDiscoveryItems([ unknown ], {
+            ...EMPTY_FILTERS,
+            minYear: 2020
+        })).toEqual([]);
+        expect(buildDiscoverySmartLists([ unknown ], Date.parse('2026-09-08T00:00:00Z'))
+            .find(list => list.id === 'recent')).toBeUndefined();
+    });
+
     it('builds automatic lists from library metadata and user state', () => {
         const smartLists = buildDiscoverySmartLists(items, Date.parse('2026-09-08T00:00:00Z'));
 
@@ -104,8 +150,37 @@ describe('Velaris Discovery filtering and Smart Lists', () => {
         expect(smartLists.find(list => list.id === 'recent')?.items.map(item => item.Id)).toEqual([ 'short' ]);
     });
 
-    it('selects a deterministic surprise item when a random source is supplied', () => {
+    it('sorts new media first while keeping invalid dates deterministic', () => {
+        const sorted = sortDiscoveryItems([
+            createItem('old', { DateCreated: '2025-01-01T00:00:00Z' }),
+            createItem('unknown', { DateCreated: 'bad', SortName: 'A' }),
+            createItem('new', { DateCreated: '2026-01-01T00:00:00Z' })
+        ]);
+
+        expect(sorted.map(item => item.Id)).toEqual([ 'new', 'old', 'unknown' ]);
+    });
+
+    it('selects a bounded deterministic surprise item', () => {
         expect(pickDiscoverySurprise(items, () => 0.5)?.Id).toBe('long');
+        expect(pickDiscoverySurprise(items, () => 2)?.Id).toBe('series');
+        expect(pickDiscoverySurprise(items, () => -1)?.Id).toBe('short');
         expect(pickDiscoverySurprise([], () => 0)).toBeUndefined();
     });
 });
+
+describe('Velaris Discovery paging', () => {
+    it('continues full pages until the server total is reached', () => {
+        expect(shouldFetchNextDiscoveryPage(250, 250, 700, 250)).toBe(true);
+        expect(shouldFetchNextDiscoveryPage(250, 750, 700, 250)).toBe(false);
+        expect(shouldFetchNextDiscoveryPage(100, 600, undefined, 250)).toBe(false);
+        expect(shouldFetchNextDiscoveryPage(0, 0, undefined, 250)).toBe(false);
+    });
+});
+
+const EMPTY_FILTERS = {
+    query: '',
+    contentKind: 'all' as const,
+    genre: '',
+    watchState: 'all' as const,
+    runtime: 'all' as const
+};
