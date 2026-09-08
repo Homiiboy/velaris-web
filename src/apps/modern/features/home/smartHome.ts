@@ -40,6 +40,14 @@ export const SMART_HOME_ROW_LABELS: Record<SmartHomeRowId, string> = {
 const MAX_ROW_ITEMS = 12;
 const TICKS_PER_MINUTE = 600000000;
 
+type RecommendationRowId = Exclude<SmartHomeRowId, 'continue'>;
+
+interface SmartHomeRowCandidateSet {
+    title: string
+    subtitle: string
+    candidates: ItemDto[]
+}
+
 const isSmartHomeRowId = (value: unknown): value is SmartHomeRowId => (
     typeof value === 'string' && SMART_HOME_ROW_IDS.includes(value as SmartHomeRowId)
 );
@@ -152,34 +160,16 @@ const takeUnique = (
     return selected;
 };
 
-export const buildSmartHomeRows = (
-    unplayedItems: ItemDto[],
+const buildCandidateSets = (
+    candidates: ItemDto[],
     recentlyWatchedItems: ItemDto[],
-    preferences: SmartHomePreferences
-): SmartHomeRow[] => {
-    const sanitizedPreferences = sanitizeSmartHomePreferences(preferences);
-    const genreWeights = getGenreWeights(recentlyWatchedItems);
+    genreWeights: Map<string, number>
+) => {
     const compareByPreference = compareCandidates(genreWeights);
-    const candidates = unplayedItems.filter(item => (
-        item.Type === BaseItemKind.Movie || item.Type === BaseItemKind.Series
-    ));
-    const used = new Set<string>();
-    const rows = new Map<Exclude<SmartHomeRowId, 'continue'>, SmartHomeRow>();
-
+    const referenceTitle = recentlyWatchedItems.find(item => item.Name)?.Name;
     const personalizedCandidates = candidates
         .filter(item => getGenreScore(item, genreWeights) > 0)
         .sort(compareByPreference);
-    const becauseItems = takeUnique(personalizedCandidates, used);
-    const referenceTitle = recentlyWatchedItems.find(item => item.Name)?.Name;
-    if (becauseItems.length > 0) {
-        rows.set('because', {
-            id: 'because',
-            title: referenceTitle ? `Weil du „${referenceTitle}“ gesehen hast` : 'Für dich ausgewählt',
-            subtitle: 'Passend zu deinen zuletzt gesehenen Genres.',
-            items: becauseItems
-        });
-    }
-
     const tonightCandidates = candidates
         .filter(item => {
             if (item.Type !== BaseItemKind.Movie) return false;
@@ -187,16 +177,6 @@ export const buildSmartHomeRows = (
             return runtime != null && runtime >= 80 && runtime <= 150;
         })
         .sort(compareByPreference);
-    const tonightItems = takeUnique(tonightCandidates, used);
-    if (tonightItems.length > 0) {
-        rows.set('tonight', {
-            id: 'tonight',
-            title: 'Für heute Abend',
-            subtitle: 'Filme mit einer angenehmen Abend-Laufzeit.',
-            items: tonightItems
-        });
-    }
-
     const shortCandidates = candidates
         .filter(item => {
             if (item.Type !== BaseItemKind.Movie) return false;
@@ -204,29 +184,61 @@ export const buildSmartHomeRows = (
             return runtime != null && runtime >= 20 && runtime <= 100;
         })
         .sort(compareByPreference);
-    const shortItems = takeUnique(shortCandidates, used);
-    if (shortItems.length > 0) {
-        rows.set('short', {
-            id: 'short',
+
+    return new Map<RecommendationRowId, SmartHomeRowCandidateSet>([
+        [ 'because', {
+            title: referenceTitle ? `Weil du „${referenceTitle}“ gesehen hast` : 'Für dich ausgewählt',
+            subtitle: 'Passend zu deinen zuletzt gesehenen Genres.',
+            candidates: personalizedCandidates
+        } ],
+        [ 'tonight', {
+            title: 'Für heute Abend',
+            subtitle: 'Filme mit einer angenehmen Abend-Laufzeit.',
+            candidates: tonightCandidates
+        } ],
+        [ 'short', {
             title: 'Kurz & gut',
             subtitle: 'Filme bis ungefähr 100 Minuten.',
-            items: shortItems
-        });
-    }
-
-    const unwatchedItems = takeUnique([ ...candidates ].sort(compareByPreference), used);
-    if (unwatchedItems.length > 0) {
-        rows.set('unwatched', {
-            id: 'unwatched',
+            candidates: shortCandidates
+        } ],
+        [ 'unwatched', {
             title: 'Noch nicht gesehen',
             subtitle: 'Ungesehene Titel aus deiner Mediathek.',
-            items: unwatchedItems
+            candidates: [ ...candidates ].sort(compareByPreference)
+        } ]
+    ]);
+};
+
+export const buildSmartHomeRows = (
+    unplayedItems: ItemDto[],
+    recentlyWatchedItems: ItemDto[],
+    preferences: SmartHomePreferences
+): SmartHomeRow[] => {
+    const sanitizedPreferences = sanitizeSmartHomePreferences(preferences);
+    const genreWeights = getGenreWeights(recentlyWatchedItems);
+    const candidates = unplayedItems.filter(item => (
+        item.Type === BaseItemKind.Movie || item.Type === BaseItemKind.Series
+    ));
+    const candidateSets = buildCandidateSets(candidates, recentlyWatchedItems, genreWeights);
+    const used = new Set<string>();
+    const rows: SmartHomeRow[] = [];
+
+    for (const rowId of sanitizedPreferences.order) {
+        if (rowId === 'continue' || sanitizedPreferences.disabled.includes(rowId)) continue;
+
+        const candidateSet = candidateSets.get(rowId);
+        if (!candidateSet) continue;
+
+        const items = takeUnique(candidateSet.candidates, used);
+        if (items.length === 0) continue;
+
+        rows.push({
+            id: rowId,
+            title: candidateSet.title,
+            subtitle: candidateSet.subtitle,
+            items
         });
     }
 
-    return sanitizedPreferences.order
-        .filter((rowId): rowId is Exclude<SmartHomeRowId, 'continue'> => rowId !== 'continue')
-        .filter(rowId => !sanitizedPreferences.disabled.includes(rowId))
-        .map(rowId => rows.get(rowId))
-        .filter((row): row is SmartHomeRow => Boolean(row));
+    return rows;
 };
