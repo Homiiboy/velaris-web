@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic Jellyfin Web fork with its own visual identity.</strong></p>
-<p align="center">Current Velaris version: <strong>V0.0.9</strong></p>
+<p align="center">Current Velaris version: <strong>V0.1.0</strong></p>
 
 ---
 
@@ -22,7 +22,28 @@ The design language combines useful ideas found across modern streaming services
 
 Velaris treats the core media destinations as first-class streaming categories. The intended primary order is Movies, Series, Anime, Anime Movies and Collections, followed by any additional custom libraries. The interface does not require those exact names to exist, but it recognizes common German and English variants and prioritizes them when present.
 
-## V0.0.9 — Player Experience
+## V0.1.0 — Release Hardening
+
+V0.1.0 is the first cohesive stabilization release after the V0.0.1–V0.0.9 feature milestones. It focuses on failure handling, route safety, regression coverage and generated-bundle compatibility instead of introducing another large visual surface.
+
+The milestone includes:
+
+- Home Spotlight states that distinguish loading, settled-empty and request-error conditions so the hero cannot remain on an endless skeleton
+- defensive Home/Favorites tab parsing that prevents malformed query parameters from loading invalid legacy controllers
+- one shared legacy-to-modern route normalizer used by Home, desktop navigation, overflow navigation, the mobile drawer and Franchise Spotlight links
+- franchise pending/error/empty-state separation plus in-page quick navigation that no longer mutates the application hash
+- defensive franchise matcher normalization so accidental blank matcher values cannot create broad false-positive hubs
+- escaped public-profile names/IDs and corrected public-profile card markup on the login screen
+- manual-login fallback when public-user discovery fails and handled optional login-branding failures
+- hardened profile-image upload/delete flows that always release the global loading state, report failures and support the current-user fallback ID
+- account-menu protection against transient `userId=undefined` profile links
+- focused route and library-category unit tests, including stable non-mutating library ordering
+- a zero-warning strict ESLint pass over Velaris-owned critical paths in addition to the repository-wide lint pass
+- generated production-bundle ES compatibility validation using the repository's existing `.escheckrc`
+
+The established Jellyfin-compatible APIs, authentication protocols, playback stack, transcoding and media storage remain unchanged. Detailed stabilization notes are documented in `docs/V0.1.0.md`.
+
+## Previous milestone — V0.0.9
 
 V0.0.9 brings the full-screen video player into the same Velaris design system as Home, details, libraries and search while deliberately keeping the proven playback engine and media pipeline intact.
 
@@ -41,7 +62,7 @@ The milestone includes:
 
 Play/pause, seeking, chapter navigation, next/previous media, audio and subtitle tracks, volume, settings, casting, picture-in-picture, fullscreen, SyncPlay, Up Next and the underlying Jellyfin-compatible playback stack remain unchanged. V0.0.9 is a presentation-layer milestone rather than a replacement decoder, transcoder or streaming backend.
 
-## Previous milestone — V0.0.8
+## V0.0.8 — Libraries, Collections & Search
 
 V0.0.8 redesigns the remaining browse and search surfaces so moving through a library feels like part of the same streaming product as Home and cinematic title details.
 
@@ -212,7 +233,7 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
 
 ## Validation
 
-The `velaris` branch includes a dedicated Velaris CI workflow that runs TypeScript checks, ESLint, Stylelint, unit tests and a production build.
+The `velaris` branch includes a dedicated Velaris CI workflow that runs TypeScript checks, repository ESLint, a strict zero-warning lint pass over critical Velaris paths, Stylelint, unit tests, a production build and an ES compatibility scan of the generated bundle.
 
 ## Versioning
 

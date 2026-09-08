@@ -14,11 +14,12 @@ import { useApi } from 'hooks/useApi';
 
 const getGroupAnchorId = (groupId: string) => `velaris-franchise-group-${groupId}`;
 
-const onGroupAnchorClick = (
-    event: React.MouseEvent<HTMLAnchorElement>,
-    groupId: string
-) => {
+const onGroupAnchorClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
+
+    const groupId = event.currentTarget.dataset.groupId;
+    if (!groupId) return;
+
     document.getElementById(getGroupAnchorId(groupId))?.scrollIntoView(true);
 };
 
@@ -128,7 +129,8 @@ const Franchise: FC = () => {
                             <a
                                 href={`#${getGroupAnchorId(firstGroupId)}`}
                                 className='velaris-franchise-hero__action velaris-franchise-hero__action--secondary'
-                                onClick={event => onGroupAnchorClick(event, firstGroupId)}
+                                data-group-id={firstGroupId}
+                                onClick={onGroupAnchorClick}
                             >
                                 Bereiche ansehen
                             </a>
@@ -145,7 +147,8 @@ const Franchise: FC = () => {
                                     key={group.id}
                                     href={`#${getGroupAnchorId(group.id)}`}
                                     className='velaris-franchise-hero__quicknav-item'
-                                    onClick={event => onGroupAnchorClick(event, group.id)}
+                                    data-group-id={group.id}
+                                    onClick={onGroupAnchorClick}
                                 >
                                     <span>{group.name}</span>
                                     <span className='velaris-franchise-hero__quicknav-count'>
