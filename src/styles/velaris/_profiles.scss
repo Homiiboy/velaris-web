@@ -1,0 +1,305 @@
+@use './tokens' as v;
+
+@mixin profile-accent($color) {
+    --velaris-profile-accent: #{$color};
+}
+
+:root,
+[data-velaris-profile-accent='cyan'] {
+    @include profile-accent(v.$cyan);
+}
+
+[data-velaris-profile-accent='blue'],
+[data-accent='blue'] {
+    @include profile-accent(v.$blue);
+}
+
+[data-velaris-profile-accent='violet'],
+[data-accent='violet'] {
+    @include profile-accent(v.$violet);
+}
+
+[data-velaris-profile-accent='magenta'],
+[data-accent='magenta'] {
+    @include profile-accent(v.$magenta);
+}
+
+[data-velaris-profile-accent='pink'],
+[data-accent='pink'] {
+    @include profile-accent(v.$pink);
+}
+
+[data-accent='cyan'] {
+    @include profile-accent(v.$cyan);
+}
+
+.velaris-profile-gate {
+    position: fixed;
+    z-index: 100000;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    overflow: auto;
+    padding: clamp(1.5rem, 5vw, 5rem);
+    color: v.$text-primary;
+    background: rgba(3, 4, 8, 0.96);
+
+    &__ambient {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: v.$ambient-gradient;
+        opacity: 0.8;
+    }
+
+    &__panel {
+        position: relative;
+        width: min(72rem, 100%);
+        text-align: center;
+    }
+
+    &__eyebrow {
+        color: v.$cyan;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+    }
+
+    h1 {
+        margin: 0.5rem 0 0.6rem;
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        letter-spacing: -0.045em;
+    }
+
+    p {
+        max-width: 42rem;
+        margin: 0 auto;
+        color: v.$text-secondary;
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+        gap: clamp(1rem, 2vw, 2rem);
+        max-width: 58rem;
+        margin: clamp(2rem, 5vw, 4rem) auto 0;
+    }
+
+    &__profile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+        min-width: 0;
+        padding: 1.2rem 0.8rem;
+        color: inherit;
+        border: 1px solid transparent;
+        border-radius: v.$radius-lg;
+        background: transparent;
+        cursor: pointer;
+        transition: transform v.$transition-standard, border-color v.$transition-standard, background v.$transition-standard;
+
+        &:hover,
+        &:focus-visible {
+            border-color: var(--velaris-profile-accent, #{v.$cyan});
+            background: rgba(255, 255, 255, 0.045);
+            transform: translateY(-0.35rem);
+            outline: none;
+        }
+
+        strong {
+            max-width: 100%;
+            overflow: hidden;
+            font-size: 1.08rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    &__avatar {
+        display: grid;
+        width: clamp(6.5rem, 12vw, 9rem);
+        aspect-ratio: 1;
+        place-items: center;
+        overflow: hidden;
+        border: 0.2rem solid var(--velaris-profile-accent, #{v.$cyan});
+        border-radius: 50%;
+        background: v.$surface-elevated center / cover no-repeat;
+        box-shadow: 0 0 2rem color-mix(in srgb, var(--velaris-profile-accent, #{v.$cyan}) 22%, transparent);
+
+        .material-icons {
+            color: v.$text-muted;
+            font-size: 3.2rem;
+        }
+    }
+
+    &__badges {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.35rem;
+        min-height: 1.5rem;
+
+        > span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            padding: 0.2rem 0.45rem;
+            color: v.$text-secondary;
+            border: 1px solid v.$divider;
+            border-radius: 999px;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .material-icons {
+            font-size: 0.8rem;
+        }
+    }
+}
+
+.velaris-profile-2-settings {
+    max-width: 72rem;
+    margin: 0 auto 3rem;
+
+    &__heading {
+        margin-bottom: 1.4rem;
+
+        > span {
+            color: var(--velaris-profile-accent, #{v.$cyan});
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+        }
+
+        h2 {
+            margin: 0.35rem 0;
+            font-size: clamp(1.7rem, 3vw, 2.6rem);
+        }
+
+        p {
+            margin: 0;
+            color: v.$text-secondary;
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+    }
+}
+
+.velaris-profile-2-card {
+    padding: 1.35rem;
+    border: 1px solid v.$divider;
+    border-radius: v.$radius-lg;
+    background: v.$surface-glass;
+    box-shadow: v.$shadow-soft;
+
+    &--wide {
+        grid-column: 1 / -1;
+    }
+
+    h3 {
+        margin: 0 0 0.45rem;
+        font-size: 1.1rem;
+    }
+
+    p {
+        margin: 0 0 1rem;
+        color: v.$text-secondary;
+        line-height: 1.55;
+    }
+}
+
+.velaris-profile-accents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+}
+
+.velaris-profile-accent {
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0;
+    border: 0.18rem solid transparent;
+    border-radius: 50%;
+    background: var(--velaris-profile-accent, #{v.$cyan});
+    box-shadow: inset 0 0 0 0.22rem v.$surface;
+    cursor: pointer;
+
+    &[data-selected='true'] {
+        border-color: v.$text-primary;
+        box-shadow: inset 0 0 0 0.18rem v.$surface, 0 0 1.2rem var(--velaris-profile-accent, #{v.$cyan});
+    }
+}
+
+.velaris-profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+}
+
+.velaris-profile-2-note {
+    margin-top: 0.8rem !important;
+    font-size: 0.88rem;
+}
+
+.velaris-profile-playback-grid,
+.velaris-profile-pin-form {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+
+    label {
+        display: grid;
+        gap: 0.35rem;
+        color: v.$text-secondary;
+        font-size: 0.84rem;
+        font-weight: 700;
+    }
+
+    select,
+    input {
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 2.8rem;
+        padding: 0.65rem 0.8rem;
+        color: v.$text-primary;
+        border: 1px solid v.$divider;
+        border-radius: v.$radius-sm;
+        background: v.$surface;
+    }
+}
+
+.velaris-profile-pin-form button {
+    align-self: end;
+    min-height: 2.8rem;
+}
+
+.velaris-kids-mode {
+    .velaris-user-menu__advanced,
+    .velaris-franchise-studio-entry {
+        display: none !important;
+    }
+}
+
+@media (max-width: 720px) {
+    .velaris-profile-2-settings__grid,
+    .velaris-profile-playback-grid,
+    .velaris-profile-pin-form {
+        grid-template-columns: 1fr;
+    }
+
+    .velaris-profile-gate {
+        align-items: start;
+
+        &__grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+}
