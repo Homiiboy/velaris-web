@@ -16,14 +16,14 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.3.0 — Franchise Studio & Watch Orders is in active development.**
+**V0.3.0 — Franchise Studio & Watch Orders is complete and validated.**
 
-The V0.2.0 Smart Home & Personalization milestone is complete and validated. V0.3.0 is now extending the existing Dynamic Franchise Hubs into an editable Velaris feature layer.
+V0.3.0 turns the existing Dynamic Franchise Hubs into an editable Velaris feature layer. The milestone passed the complete Velaris validation pipeline in CI Run #81.
 
-The first V0.3.0 implementation pass includes:
+V0.3.0 includes:
 
 - dedicated Franchise Studio management route
-- profile-scoped Franchise Studio configuration
+- profile-scoped, versioned Franchise Studio configuration
 - manual include/exclude rules without editing server metadata tags
 - manual group assignment layered over automatic franchise detection
 - custom groups for phases, eras, timelines and sub-universes
@@ -36,8 +36,11 @@ The first V0.3.0 implementation pass includes:
 - curated reusable MCU, Star Wars and Arrowverse order definitions
 - filtering so missing library titles never appear in viewer Watch Orders
 - automated regression tests for Studio configuration, overrides and Watch Orders
+- hardened TypeScript, lint, Stylelint, unit-test, production-build and ES-compatibility validation
 
-Detailed active-development notes are available in [`docs/V0.3.0.md`](docs/V0.3.0.md).
+Detailed milestone notes are available in [`docs/V0.3.0.md`](docs/V0.3.0.md).
+
+The next planned feature phase is **V0.4.0 — Discovery, Watchlists & Smart Lists**.
 
 ## Roadmap to V1.0.0
 
@@ -50,7 +53,7 @@ The full roadmap, including every completed milestone and all planned feature ph
 | V0.0.1–V0.0.9 | Visual/product foundation | ✅ Complete |
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
-| V0.3.0 | Franchise Studio & Watch Orders | 🚧 In progress |
+| V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ⏳ Planned |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |
@@ -61,7 +64,7 @@ The full roadmap, including every completed milestone and all planned feature ph
 
 ## What is already in Velaris
 
-The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, profile/login/account surfaces, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, and the V0.2.0 Smart Home personalization layer.
+The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, profile/login/account surfaces, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, Smart Home personalization, and the V0.3.0 Franchise Studio with editable universes and Watch Orders.
 
 The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise and Smart Home surfaces are data-driven and disappear cleanly when no relevant media is available.
 

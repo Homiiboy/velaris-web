@@ -19,7 +19,7 @@ Velaris Web is being developed in feature phases from the current pre-1.0 founda
 | V0.0.9 | Player Experience | ✅ Complete |
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
-| V0.3.0 | Franchise Studio & Watch Orders | 🚧 In progress |
+| V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ⏳ Planned |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |
@@ -28,7 +28,7 @@ Velaris Web is being developed in feature phases from the current pre-1.0 founda
 | V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
 | V1.0.0 | First Stable Release | 🎯 Target |
 
-## Completed foundation
+## Completed foundation and feature phases
 
 ### V0.0.1 — Branding Foundation
 
@@ -130,33 +130,29 @@ Velaris Web is being developed in feature phases from the current pre-1.0 founda
 - configurable row priority used by the recommendation engine
 - tests for preferences, runtime classification, personalization and deduplication
 
-## Active feature phase
-
 ### V0.3.0 — Franchise Studio & Watch Orders
 
-Turn the existing automatic franchise layer into a full Velaris management feature.
+- Franchise Studio management UI and dedicated `/franchise-studio` route
+- custom universes/franchises and sub-groups
+- groups usable as phases, eras, timelines or other structures
+- drag-and-drop title assignment and ordering
+- editable automatic matches without manually rewriting server metadata tags
+- explicit manual include/exclude rules
+- group reordering
+- library search and accessible non-drag controls
+- release-order views
+- chronological-order views where explicitly curated
+- custom Watch Orders
+- curated MCU, Star Wars and Arrowverse definitions
+- viewer-facing Watch Order switcher on franchise pages
+- missing-media filtering and empty-hub suppression
+- profile-scoped, versioned Studio preferences with defensive sanitization
+- regression tests for configuration repair, overrides, custom hubs and Watch Orders
+- complete validation through Velaris CI Run #81
 
-Current implementation scope:
+Detailed release notes are maintained in [`docs/V0.3.0.md`](docs/V0.3.0.md).
 
-- ✅ Franchise Studio management UI and dedicated route
-- ✅ create custom universes/franchises and sub-groups
-- ✅ custom groups usable as phases, eras, timelines or other structures
-- ✅ drag-and-drop title assignment and ordering
-- ✅ edit automatic matches without manually editing metadata tags
-- ✅ explicit manual include/exclude rules
-- ✅ group reordering
-- ✅ release-order views
-- ✅ chronological-order views where explicitly curated
-- ✅ custom Watch Orders
-- ✅ reusable curated definitions for MCU, Star Wars and Arrowverse
-- ✅ viewer-facing Watch Order switcher on franchise pages
-- ✅ only media actually present in the library is resolved into viewer hubs/orders
-- ✅ profile-scoped, versioned Studio preferences with defensive sanitization
-- 🚧 CI hardening and practical edge-case validation before V0.3.0 completion
-
-Detailed active notes are maintained in [`docs/V0.3.0.md`](docs/V0.3.0.md).
-
-## Planned feature phases
+## Next feature phase
 
 ### V0.4.0 — Discovery, Watchlists & Smart Lists
 
@@ -173,6 +169,8 @@ Planned scope:
 - automatically maintained Smart Lists
 - list sharing/visibility behavior where supported safely by the existing user model
 - deeper Continue Watching management where useful
+
+## Later planned feature phases
 
 ### V0.5.0 — Profiles 2.0
 
@@ -295,4 +293,5 @@ Only after these targets are met should Velaris be labeled **V1.0.0 Stable**.
 - Empty or unavailable features should fail gracefully instead of showing broken surfaces.
 - Every feature phase must pass TypeScript, ESLint, Velaris strict lint, Stylelint, unit tests, production build and ES compatibility checks before completion.
 - New critical logic should receive regression tests before the milestone is finalized.
+- Roadmap, README, changelog and milestone notes are updated when a feature phase is completed.
 - V1.0.0 stability takes priority over adding late feature scope.

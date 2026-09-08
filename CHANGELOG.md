@@ -2,6 +2,63 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V0.3.0 — 2026-09-08 — Franchise Studio & Watch Orders
+
+### Added
+
+- dedicated `/franchise-studio` management route
+- profile-scoped, versioned Franchise Studio configuration
+- manual include/exclude rules layered over automatic franchise detection
+- manual title assignment to franchise groups without rewriting server metadata tags
+- custom groups for phases, eras, timelines and other structures
+- custom universes/franchises built from media already present in the library
+- drag-and-drop title assignment between groups
+- drag-and-drop title ordering inside groups
+- explicit group reordering
+- library search and accessible non-drag assignment controls
+- custom Watch Orders with add/remove and drag-and-drop ordering
+- viewer-facing Watch Order tabs on franchise pages
+- generic release-order views from available release metadata
+- curated MCU release and chronological definitions
+- curated Star Wars release and chronological definitions
+- curated Arrowverse series-order definition
+- automatic filtering of missing library media from Watch Orders
+- automated regression coverage for configuration repair, manual assignment, exclusion, custom hubs and Watch Orders
+
+### Changed
+
+- Dynamic Franchise Hubs can now be corrected and extended per profile through the Franchise Studio while retaining automatic matching as the default
+- custom hubs remain hidden from normal viewer surfaces until they contain real media
+- profile Studio data is sanitized defensively and stale values are repaired instead of breaking franchise rendering
+- drag-and-drop interaction handling was hardened to avoid unintended parent reorder behavior
+- Franchise Studio styling was normalized to satisfy repository Stylelint specificity rules
+
+### Fixed during validation
+
+- Watch Order tab handlers violating strict React lint rules
+- a Franchise Studio ID-sanitizing regex flagged as potentially inefficient by static analysis
+- nested route-state ternaries that violated repository lint rules
+- missing source-file end-of-line formatting
+- selector-specificity conflicts in the Franchise Studio stylesheet
+
+### Validation
+
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- code-complete implementation validated by Velaris CI Run #81
+
+### Compatibility
+
+- automatic franchise detection remains available when no Studio override exists
+- existing `velaris:franchise:*` and `velaris:group:*` metadata overrides remain supported
+- Franchise Studio preferences do not rewrite Jellyfin metadata or media files
+- playback, authentication, permissions, transcoding and media storage remain unchanged
+
 ## V0.2.0 — 2026-09-08 — Smart Home & Personalization
 
 ### Added
