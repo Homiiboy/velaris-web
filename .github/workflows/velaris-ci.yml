@@ -41,9 +41,12 @@ jobs:
         run: >-
           npx eslint
           src/apps/legacy/controllers/session/login/index.js
+          src/apps/legacy/routes/user/userprofile.tsx
+          src/apps/modern/AppLayout.tsx
           src/apps/modern/features/discovery
           src/apps/modern/features/franchises
           src/apps/modern/features/home
+          src/apps/modern/features/profiles
           src/apps/modern/utils/velarisNavigation.ts
           src/apps/modern/utils/velarisNavigation.test.ts
           src/apps/modern/utils/velarisRouting.ts
