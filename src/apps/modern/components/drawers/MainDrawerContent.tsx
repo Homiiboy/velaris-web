@@ -1,3 +1,4 @@
+import Explore from '@mui/icons-material/Explore';
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
 import Divider from '@mui/material/Divider';
@@ -33,10 +34,10 @@ const MainDrawerContent = () => {
 
     const isFavoritesSelected = location.pathname === '/home' && searchParams.get('tab') === '1';
     const isHomeSelected = location.pathname === '/home' && !isFavoritesSelected;
+    const isDiscoverySelected = location.pathname === '/discovery';
 
     return (
         <div className='velaris-drawer-content'>
-            {/* MAIN LINKS */}
             <List sx={{ paddingTop: 0 }}>
                 <ListItem disablePadding>
                     <DrawerHeaderLink />
@@ -50,6 +51,14 @@ const MainDrawerContent = () => {
                     </ListItemLink>
                 </ListItem>
                 <ListItem disablePadding>
+                    <ListItemLink to='/discovery' selected={isDiscoverySelected}>
+                        <ListItemIcon>
+                            <Explore />
+                        </ListItemIcon>
+                        <ListItemText primary='Entdecken' />
+                    </ListItemLink>
+                </ListItem>
+                <ListItem disablePadding>
                     <ListItemLink to='/home?tab=1' selected={isFavoritesSelected}>
                         <ListItemIcon>
                             <Favorite />
@@ -59,7 +68,6 @@ const MainDrawerContent = () => {
                 </ListItem>
             </List>
 
-            {/* LIBRARY LINKS */}
             {userViews.length > 0 && (
                 <>
                     <Divider />
@@ -87,7 +95,6 @@ const MainDrawerContent = () => {
                 </>
             )}
 
-            {/* CUSTOM LINKS */}
             {(!!webConfig.menuLinks && webConfig.menuLinks.length > 0) && (
                 <>
                     <Divider />

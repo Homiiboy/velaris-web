@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
-<p align="center">Current development version: <strong>V0.3.0</strong></p>
+<p align="center">Current development version: <strong>V0.4.0</strong></p>
 
 ---
 
@@ -16,37 +16,32 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.3.0 — Franchise Studio & Watch Orders is complete and validated.**
+**V0.4.0 — Discovery, Watchlists & Smart Lists is in active development.**
 
-V0.3.0 turns the existing Dynamic Franchise Hubs into an editable Velaris feature layer. The milestone passed the complete Velaris validation pipeline in CI Run #81.
+V0.3.0 — Franchise Studio & Watch Orders is complete and validated. V0.4.0 now adds the next product layer: a dedicated Discovery Center plus profile-scoped lists that help users decide what to watch instead of only browsing libraries manually.
 
-V0.3.0 includes:
+The first V0.4.0 implementation pass includes:
 
-- dedicated Franchise Studio management route
-- profile-scoped, versioned Franchise Studio configuration
-- manual include/exclude rules without editing server metadata tags
-- manual group assignment layered over automatic franchise detection
-- custom groups for phases, eras, timelines and sub-universes
-- custom universes/franchises built from real library media
-- drag-and-drop title assignment and ordering
-- explicit group reordering
-- library search and accessible non-drag assignment controls
-- custom Watch Orders
-- viewer-facing release, chronological and custom Watch Order views
-- curated reusable MCU, Star Wars and Arrowverse order definitions
-- filtering so missing library titles never appear in viewer Watch Orders
-- automated regression tests for Studio configuration, overrides and Watch Orders
-- hardened TypeScript, lint, Stylelint, unit-test, production-build and ES-compatibility validation
+- dedicated `/discovery` route and first-class desktop/mobile navigation entry
+- mixed Movie and Series discovery backed by the connected media library
+- title/genre search
+- filters for content type, genre, watched state, runtime, production year and community rating
+- “Surprise me” action that selects from the currently filtered result set
+- automatically maintained Smart Lists for unseen media, short movies, highly rated titles and recently added media
+- profile-scoped Watchlist
+- profile-scoped custom named lists
+- add/remove controls directly on Discovery cards
+- defensive versioned browser-storage persistence and cross-tab synchronization
+- responsive Discovery layout with Velaris styling, focus states and reduced-motion support
+- automated regression tests for list persistence, filtering, Smart Lists and Surprise Me
 
-Detailed milestone notes are available in [`docs/V0.3.0.md`](docs/V0.3.0.md).
-
-The next planned feature phase is **V0.4.0 — Discovery, Watchlists & Smart Lists**.
+Detailed active-development notes are available in [`docs/V0.4.0.md`](docs/V0.4.0.md).
 
 ## Roadmap to V1.0.0
 
 Velaris is being developed through feature phases. **V1.0.0 will be the first officially stable release.** V0.x builds remain development milestones until the feature-complete and stabilization phases are finished.
 
-The full roadmap, including every completed milestone and all planned feature phases, lives in [`ROADMAP.md`](ROADMAP.md).
+The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 
 | Version | Phase | Status |
 | --- | --- | --- |
@@ -54,7 +49,7 @@ The full roadmap, including every completed milestone and all planned feature ph
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
 | V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
-| V0.4.0 | Discovery, Watchlists & Smart Lists | ⏳ Planned |
+| V0.4.0 | Discovery, Watchlists & Smart Lists | 🚧 In progress |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |
 | V0.7.0 | TV Mode & App Experience | ⏳ Planned |
@@ -66,13 +61,11 @@ The full roadmap, including every completed milestone and all planned feature ph
 
 The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, profile/login/account surfaces, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, Smart Home personalization, and the V0.3.0 Franchise Studio with editable universes and Watch Orders.
 
-The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise and Smart Home surfaces are data-driven and disappear cleanly when no relevant media is available.
+The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise, Smart Home and Discovery surfaces are data-driven and avoid fake promotional media.
 
 ## Product direction
 
 Velaris is designed as a standalone modern streaming experience, not as a visible Jellyfin skin. Jellyfin remains the technical foundation for server APIs, authentication, playback, transcoding and media management, while the normal viewer-facing interface is progressively replaced by Velaris-specific branding, navigation, layouts and interaction patterns.
-
-The design language combines useful ideas found across modern streaming services — content-first navigation, cinematic artwork, restrained chrome and responsive horizontal discovery — while keeping the resulting interface original to Velaris.
 
 ## Branch strategy
 
@@ -109,13 +102,7 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
    npm start
    ```
 
-4. Create a development build.
-
-   ```sh
-   npm run build:development
-   ```
-
-5. Create a production build.
+4. Create a production build.
 
    ```sh
    npm run build:production
@@ -123,15 +110,7 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
 
 ## Validation
 
-The `velaris` branch includes a dedicated Velaris CI workflow that runs:
-
-- TypeScript checks
-- repository ESLint
-- strict zero-warning lint over critical Velaris paths
-- Stylelint
-- unit tests
-- production build
-- ES compatibility scan of the generated bundle
+The `velaris` branch includes a dedicated Velaris CI workflow that runs TypeScript, repository ESLint, strict zero-warning lint over Velaris-owned paths, Stylelint, unit tests, the production build and an ES compatibility scan of the generated bundle.
 
 A feature phase is not considered complete until the complete validation pipeline passes.
 
@@ -146,5 +125,3 @@ Velaris uses its own release line, stored in `VELARIS_VERSION`, while the Jellyf
 ## License and upstream attribution
 
 Velaris Web is derived from Jellyfin Web and remains licensed under the terms of the repository's [GPL-2.0-or-later license](LICENSE). Jellyfin and Jellyfin Web remain the work of the Jellyfin project and its contributors.
-
-The Velaris-specific branding and modifications are maintained in this fork.

@@ -1,6 +1,6 @@
 # Velaris Web Roadmap
 
-Velaris Web is being developed in feature phases from the current pre-1.0 foundation to the first stable release. The goal is to make Velaris feel like its own streaming product while continuing to use the proven Jellyfin-compatible server, playback and media stack underneath.
+Velaris Web is being developed in feature phases toward the first stable release. The viewer-facing product should feel native to Velaris while the proven Jellyfin-compatible server, authentication and playback stack remain underneath.
 
 > **Release policy:** all V0.x releases are development milestones. **V1.0.0 will be the first officially stable Velaris release.**
 
@@ -20,7 +20,7 @@ Velaris Web is being developed in feature phases from the current pre-1.0 founda
 | V0.1.0 | Foundation Hardening | ✅ Complete |
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
 | V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
-| V0.4.0 | Discovery, Watchlists & Smart Lists | ⏳ Planned |
+| V0.4.0 | Discovery, Watchlists & Smart Lists | 🚧 In progress |
 | V0.5.0 | Profiles 2.0 | ⏳ Planned |
 | V0.6.0 | Advanced Player | ⏳ Planned |
 | V0.7.0 | TV Mode & App Experience | ⏳ Planned |
@@ -28,270 +28,141 @@ Velaris Web is being developed in feature phases from the current pre-1.0 founda
 | V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
 | V1.0.0 | First Stable Release | 🎯 Target |
 
-## Completed foundation and feature phases
+## Completed phases
 
-### V0.0.1 — Branding Foundation
+### V0.0.1–V0.0.9 — Product foundation
 
-- Velaris logo and favicon
-- PWA/browser branding
-- Velaris splash and header identity
-- `Velaris Web` client identity
-- dedicated `VELARIS_VERSION`
-
-### V0.0.2 — Design System
-
-- native Velaris theme
-- centralized design tokens
-- near-black cinematic surfaces
-- cyan/blue/violet/magenta accent system
-- shared buttons, forms, dialogs and surfaces
-- focus, reduced-motion and accessibility foundations
-
-### V0.0.3 — Navigation & App Shell
-
-- Velaris desktop navigation
-- mobile drawer
-- content-first application shell
-- first-class Movies, Series, Anime, Anime Movies and Collections ordering
-- Velaris brand-first toolbar hierarchy
-
-### V0.0.4 — Dynamic Franchise Hubs
-
-- data-driven franchise detection
-- dynamic universe/sub-universe pages
-- empty-hub suppression
-- curated ordering for supported franchises and timelines
-- manual metadata overrides
-- Marvel, DC, Star Wars and many additional franchise catalogs
-- library-sourced franchise artwork
-
-### V0.0.5 — Home & Discovery
-
-- cinematic rotating Spotlight hero
-- dynamic core-library destinations
-- redesigned Home rails
-- integrated franchise discovery
-- responsive desktop/mobile/TV Home presentation
-
-### V0.0.6 — Login, Profiles & Account Experience
-
-- Velaris authentication shell
-- profile picker
-- manual login, Quick Connect and server screens
-- redesigned account menu
-- redesigned profile page and avatar controls
-
-### V0.0.7 — Cinematic Details
-
-- cinematic Movie, Series, Anime and Anime Movie details
-- full-bleed backdrops and title-logo support
-- stronger Play/Resume/Trailer hierarchy
-- seasons, episodes, cast, recommendations and media selectors
-
-### V0.0.8 — Libraries, Collections & Search
-
-- Velaris library browsing
-- redesigned catalog toolbar
-- premium Collections presentation
-- dedicated Velaris Search experience
-- responsive card/list treatments
-
-### V0.0.9 — Player Experience
-
-- Velaris full-screen player shell
-- redesigned timeline and controls
-- Up Next and SyncPlay presentation
-- desktop/mobile/TV focus behavior
-- existing playback, transcoding and media pipeline retained
+- Velaris branding, favicon, theme and design system
+- dedicated application shell and streaming navigation
+- Dynamic Franchise Hubs
+- cinematic Home, Spotlight, details and player
+- login/profile/account redesign
+- Libraries, Collections and Search redesign
 
 ### V0.1.0 — Foundation Hardening
 
-- Home loading/error/empty-state fixes
-- route and tab validation
+- route/tab validation and Home failure handling
 - franchise matching hardening
 - safer login/profile edge cases
-- regression tests for navigation and library classification
-- strict zero-warning Velaris lint pass
-- production bundle ES compatibility validation
+- regression tests for core navigation and classification
+- strict zero-warning Velaris lint and generated-bundle ES validation
 
 ### V0.2.0 — Smart Home & Personalization
 
-- profile-scoped Smart Home settings
-- configurable Smart Home row order and visibility
-- Velaris-native Continue Watching with Resume
-- reset/remove progress and mark-as-watched actions
-- recent-viewing genre signals
-- “Because you watched …” recommendations
-- “For tonight” movie suggestions
-- “Short & good” short-movie discovery
-- unseen-media recommendations
-- empty-row suppression
-- cross-row recommendation deduplication
-- configurable row priority used by the recommendation engine
-- tests for preferences, runtime classification, personalization and deduplication
+- profile-scoped Smart Home preferences
+- native Continue Watching actions
+- personalized genre signals and recommendation rows
+- configurable row order/visibility and recommendation priority
+- empty-row suppression and cross-row deduplication
 
 ### V0.3.0 — Franchise Studio & Watch Orders
 
-- Franchise Studio management UI and dedicated `/franchise-studio` route
-- custom universes/franchises and sub-groups
-- groups usable as phases, eras, timelines or other structures
-- drag-and-drop title assignment and ordering
-- editable automatic matches without manually rewriting server metadata tags
-- explicit manual include/exclude rules
-- group reordering
-- library search and accessible non-drag controls
-- release-order views
-- chronological-order views where explicitly curated
-- custom Watch Orders
+- editable Franchise Studio route
+- manual include/exclude and group assignment
+- custom universes, groups, phases and eras
+- drag-and-drop ordering
+- release, chronological and custom Watch Orders
 - curated MCU, Star Wars and Arrowverse definitions
-- viewer-facing Watch Order switcher on franchise pages
-- missing-media filtering and empty-hub suppression
-- profile-scoped, versioned Studio preferences with defensive sanitization
-- regression tests for configuration repair, overrides, custom hubs and Watch Orders
-- complete validation through Velaris CI Run #81
+- defensive profile-scoped persistence and regression coverage
+- completed full validation in Velaris CI Run #81 and final documentation CI Run #82
 
-Detailed release notes are maintained in [`docs/V0.3.0.md`](docs/V0.3.0.md).
-
-## Next feature phase
+## Active feature phase
 
 ### V0.4.0 — Discovery, Watchlists & Smart Lists
 
-Build a dedicated discovery layer beyond normal library browsing.
+Goal: make Velaris useful for deciding what to watch, not only browsing known libraries.
 
-Planned scope:
+Current implementation scope:
 
-- full Discovery Center
-- filters for genre, year, runtime, rating and watched/unwatched state
-- mixed Movies/Series/Anime discovery
-- “Surprise me” discovery action
-- personal Watchlist
-- custom named lists such as “This Weekend”, “Halloween” or “Family Night”
-- automatically maintained Smart Lists
-- list sharing/visibility behavior where supported safely by the existing user model
-- deeper Continue Watching management where useful
+- ✅ dedicated Discovery Center route
+- ✅ desktop and mobile navigation entry
+- ✅ mixed Movie/Series discovery from real server library data
+- ✅ free-text title/genre search
+- ✅ filters for content type, genre, watched/unwatched state, runtime, production year and rating
+- ✅ “Surprise me” action using the active result set
+- ✅ Smart Lists for unseen titles, short movies, highly rated titles and recently added media
+- ✅ profile-scoped Watchlist
+- ✅ custom named lists
+- ✅ add/remove list actions directly on media cards
+- ✅ versioned defensive local persistence and cross-tab synchronization
+- ✅ initial regression tests for filters, list storage, Smart Lists and Surprise Me
+- 🚧 CI hardening, performance/large-library checks and practical edge-case validation
+- ⏳ deeper Continue Watching management if it adds value beyond V0.2.0
+- ⏳ list sharing/visibility only where it can be implemented safely with the existing user/server model
 
-## Later planned feature phases
+Detailed active notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
+
+## Planned phases
 
 ### V0.5.0 — Profiles 2.0
 
-Make profiles a true household streaming feature.
-
-Planned scope:
-
-- dedicated “Who’s watching?” startup flow
+- “Who’s watching?” startup flow
 - PIN-protected profiles
 - Kids Mode
-- profile-specific Home configuration
-- profile-specific recommendations
-- avatar selection
-- profile accent colors
-- saved language, audio and subtitle preferences
-- safer profile switching and session state handling
+- profile-specific Home/recommendation configuration
+- avatars and profile accent colors
+- saved language/audio/subtitle preferences
+- safer profile switching and session state
 
 ### V0.6.0 — Advanced Player
 
-Expand the V0.0.9 visual player into a richer playback experience.
-
-Planned scope:
-
 - stronger Next Episode flow
-- improved intro/credits transitions using available segment data
-- chapter navigation and previews where server metadata supports them
+- intro/credits transitions from available segment data
+- chapter navigation/previews where metadata supports them
 - faster audio/subtitle switching
-- persisted profile playback preferences
-- quality presets
+- persisted playback preferences and quality presets
 - episode queue
-- optional technical playback overlay
-- Direct Play / Remux / Transcoding status
-- codec, bitrate, resolution and network information
-- clear reason display when transcoding information is available
+- optional Direct Play / Remux / Transcoding technical overlay
 
 ### V0.7.0 — TV Mode & App Experience
 
-Create dedicated interaction modes for living-room and installed-app use.
-
-Planned scope:
-
 - full 10-foot TV layout
-- remote-control-first navigation
-- gamepad-friendly focus behavior
-- larger TV cards and controls
+- remote/gamepad-first focus behavior
 - TV-optimized player navigation
-- improved PWA install experience
-- dedicated app startup/splash behavior
-- better tablet and mobile layouts
-- graceful offline and server-unreachable states
-- recovery actions after connection loss
+- improved PWA/app startup experience
+- better tablet/mobile layouts
+- graceful offline/server-unreachable states and recovery actions
 
 ### V0.8.0 — Control Center & Customization
 
-Give Velaris its own settings and personalization layer.
-
-Planned scope:
-
 - Velaris Control Center
-- Home layout settings
-- Hero behavior and rotation settings
-- card size and density controls
-- animation controls
-- navigation configuration
-- franchise detection controls
-- player preferences
+- Home, Hero, navigation, density and animation controls
+- franchise/player feature settings
 - feature toggles
-- Theme Customizer
-- Velaris Default theme
-- OLED Black theme
-- Midnight theme
-- Aurora theme
-- custom accent colors
+- Theme Customizer with Velaris Default, OLED Black, Midnight, Aurora and custom accents
 
 ### V0.9.0 — Release Hub, Insights & Feature Complete
 
-Finish the planned feature set and prepare the product for stabilization.
+- new-this-week and new-episode/season surfaces
+- Series/Anime release hub and reliable calendar views
+- personal Velaris Insights and watch statistics
+- remaining small cross-feature improvements
+- final consistency pass
 
-Planned scope:
-
-- “New this week” hub
-- new episodes and season premieres
-- Series/Anime release hub
-- calendar-style views where reliable server metadata exists
-- personal Velaris Insights
-- watch-time statistics
-- most-watched genres
-- yearly Movie/Series activity
-- episode and completion statistics
-- remaining small product features discovered during V0.3–V0.8 development
-- final cross-feature consistency pass
-
-**V0.9.0 is the Feature Complete milestone.** No major new feature family should be introduced after this release until V1.0.0 is stable.
+**V0.9.0 is the Feature Complete milestone.** No major new feature family should be introduced after it until V1.0.0 is stable.
 
 ## V1.0.0 — First Stable Release
 
-V1.0.0 is reserved for stabilization, not another major feature phase.
+V1.0.0 is reserved for stabilization rather than another feature family:
 
-Release targets:
-
-- complete regression pass across Login → Profiles → Home → Libraries → Search → Discovery → Franchise Studio → Details → Player → Settings
-- desktop, mobile, tablet and TV validation
+- complete cross-feature regression pass
+- desktop/mobile/tablet/TV validation
 - keyboard, remote and accessibility validation
 - performance profiling and optimization
-- error-state and connection-loss testing
-- user-permission edge cases
-- migration and backward-compatibility checks for existing Velaris preferences
-- robust upgrade path from V0.x
+- error/connection-loss and permission edge cases
+- migration/backward-compatibility checks for Velaris preferences
+- robust V0.x upgrade path
 - broader automated regression coverage
-- production-build and ES compatibility validation
+- production build and ES compatibility validation
 - no known release-blocking defects
 
-Only after these targets are met should Velaris be labeled **V1.0.0 Stable**.
-
-## Principles that apply to every phase
+## Principles for every phase
 
 - Viewer-facing UX should feel native to Velaris; Jellyfin remains the technical foundation where appropriate.
-- Existing playback, authentication and server behavior should be reused rather than rewritten without a strong reason.
-- New features should use actual library/server data and avoid fake or bundled copyrighted media artwork.
-- Empty or unavailable features should fail gracefully instead of showing broken surfaces.
-- Every feature phase must pass TypeScript, ESLint, Velaris strict lint, Stylelint, unit tests, production build and ES compatibility checks before completion.
-- New critical logic should receive regression tests before the milestone is finalized.
-- Roadmap, README, changelog and milestone notes are updated when a feature phase is completed.
-- V1.0.0 stability takes priority over adding late feature scope.
+- Reuse existing playback, authentication and server behavior rather than rewriting proven systems without a strong reason.
+- Use actual library/server data and avoid fake or bundled copyrighted media artwork.
+- Empty/unavailable features must fail gracefully.
+- Every phase must pass TypeScript, ESLint, Velaris strict lint, Stylelint, unit tests, production build and ES compatibility checks before completion.
+- Critical new logic receives regression tests before a milestone is finalized.
+- Roadmap, README, changelog and milestone notes are updated when each feature phase is completed.
+- V1.0.0 stability takes priority over late scope additions.

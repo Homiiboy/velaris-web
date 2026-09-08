@@ -1,6 +1,8 @@
+import Explore from '@mui/icons-material/Explore';
+import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import React, { type FC } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { appRouter, PUBLIC_PATHS } from 'components/router/appRouter';
 import BaseToolbar from 'components/toolbar/AppToolbar';
@@ -24,14 +26,11 @@ const AppToolbar: FC<AppToolbarProps> = ({
 }) => {
     const location = useLocation();
 
-    // The video osd does not show the standard toolbar
     if (location.pathname === '/video') return null;
 
-    // Only show the back button in apps when appropriate
     const isBackButtonAvailable = window.NativeShell && appRouter.canGoBack(location.pathname);
-
-    // Check if the current path is a public path to hide user content
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
+    const isDiscoverySelected = location.pathname === '/discovery';
 
     return (
         <BaseToolbar
@@ -58,7 +57,18 @@ const AppToolbar: FC<AppToolbarProps> = ({
                     <ServerButton />
 
                     {!isPublicPath && (
-                        <UserViewNav />
+                        <>
+                            <Button
+                                variant='text'
+                                color={isDiscoverySelected ? 'primary' : 'inherit'}
+                                startIcon={<Explore />}
+                                component={Link}
+                                to='/discovery'
+                            >
+                                Entdecken
+                            </Button>
+                            <UserViewNav />
+                        </>
                     )}
                 </Stack>
             )}
