@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { matchPath } from 'react-router-dom';
 
 import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
 
@@ -16,9 +17,14 @@ const MAIN_DRAWER_ROUTES = [
     ...LEGACY_USER_ROUTES
 ].filter(route => !DRAWERLESS_ROUTES.includes(route.path));
 
+const normalizeRoutePath = (path: string) => path.startsWith('/') ? path : `/${path}`;
+
 /** Utility function to check if a path has a drawer. */
 export const isDrawerPath = (path: string) => (
-    MAIN_DRAWER_ROUTES.some(route => route.path === path || `/${route.path}` === path)
+    MAIN_DRAWER_ROUTES.some(route => Boolean(matchPath({
+        path: normalizeRoutePath(route.path),
+        end: true
+    }, path)))
 );
 
 const AppDrawer: FC<ResponsiveDrawerProps> = ({
