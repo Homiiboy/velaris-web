@@ -1,21 +1,30 @@
 import { describe, expect, it } from 'vitest';
 
-import { isDrawerPath } from './AppDrawer';
+import { matchesVelarisDrawerRoute } from './appDrawerRouting';
+
+const ROUTES = [
+    'home',
+    'discovery',
+    'releases',
+    'insights',
+    'franchise/:hubId'
+];
 
 describe('Velaris app drawer routing', () => {
     it('supports dynamic Velaris routes', () => {
-        expect(isDrawerPath('/franchise/mcu')).toBe(true);
-        expect(isDrawerPath('/franchise/star-wars')).toBe(true);
+        expect(matchesVelarisDrawerRoute('/franchise/mcu', ROUTES)).toBe(true);
+        expect(matchesVelarisDrawerRoute('/franchise/star-wars', ROUTES)).toBe(true);
     });
 
-    it('keeps standard user routes drawer-enabled', () => {
-        expect(isDrawerPath('/home')).toBe(true);
-        expect(isDrawerPath('/discovery')).toBe(true);
-        expect(isDrawerPath('/releases')).toBe(true);
-        expect(isDrawerPath('/insights')).toBe(true);
+    it('supports standard user routes', () => {
+        expect(matchesVelarisDrawerRoute('/home', ROUTES)).toBe(true);
+        expect(matchesVelarisDrawerRoute('/discovery', ROUTES)).toBe(true);
+        expect(matchesVelarisDrawerRoute('/releases', ROUTES)).toBe(true);
+        expect(matchesVelarisDrawerRoute('/insights', ROUTES)).toBe(true);
     });
 
-    it('keeps the video player drawerless', () => {
-        expect(isDrawerPath('/video')).toBe(false);
+    it('does not match drawerless or unrelated routes', () => {
+        expect(matchesVelarisDrawerRoute('/video', ROUTES)).toBe(false);
+        expect(matchesVelarisDrawerRoute('/unknown', ROUTES)).toBe(false);
     });
 });
