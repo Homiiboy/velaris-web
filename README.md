@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
-<p align="center">Release baseline: <strong>V0.9.0</strong> · Active stabilization: <strong>V1.0.0</strong></p>
+<p align="center">Current stable release: <strong>V1.0.0</strong></p>
 
 ---
 
@@ -16,26 +16,28 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V1.0.0 — First Stable Release stabilization is now in progress.**
+**V1.0.0 — First Stable Release is complete.**
 
-V0.9.0 remains the current validated release baseline and closed the planned V0.x feature roadmap. V1.0.0 does not introduce another major feature family; it is dedicated to regression coverage, device compatibility, accessibility, performance, error handling, preference migration and release-blocking defect removal.
+V0.9.0 closed the planned feature roadmap; V1.0.0 completed the dedicated stabilization phase without introducing another major feature family. The stable release focuses on cross-feature reliability, V0.x upgrade compatibility, keyboard/remote/accessibility behavior, connection recovery, browser/WebView compatibility, performance hardening and release validation.
 
-The first V1 stabilization batch starts with persisted client-state reliability:
+Stable-release hardening includes:
 
-- Discovery Watchlist/custom-list storage is now scoped by Jellyfin server and active user instead of user ID alone
-- existing V0.x Discovery data remains readable and migrates automatically into the new server+user-scoped key
-- already migrated server-scoped data takes precedence over the legacy fallback
-- unavailable Local Storage / Session Storage now degrades safely across Discovery, Profiles and Control Center paths instead of being allowed to break those surfaces
-- regression coverage verifies the Discovery migration/scoping path and unavailable-storage fallbacks
-- the shared Velaris browser-storage compatibility helper is included in strict zero-warning lint
+- Discovery, Smart Home and Franchise Studio client state migrated from legacy user-only storage to server+user scoping with backward-compatible V0.x fallbacks
+- safe Local Storage / Session Storage access across Velaris preferences and Advanced Player paths
+- deterministic mobile drawer open/close behavior and dynamic-route drawer matching
+- modal-aware TV focus restoration and hardened TV player focus fallback
+- keyboard-accessible profile dialog focus trapping and credential focus behavior
+- improved recovery-page control semantics and offline live-region behavior
+- `aria-current` state across primary viewer navigation
+- Release Hub query parallelization without relaxing paging or server-load bounds
+- isolated regression helpers for profile focus, drawer routing and TV player focus
+- a production dependency audit gate that blocks Critical findings in shipped non-dev/non-optional dependencies
 
-Detailed V1 work-in-progress notes are available in [`docs/V1.0.0.md`](docs/V1.0.0.md).
+The final hardening snapshot passed the complete validation matrix in **Velaris CI Run #230** before the release metadata was finalized. The release snapshot re-runs the same stable gates.
 
-`VELARIS_VERSION` intentionally remains `0.9.0` while stabilization is underway. It will move to `1.0.0` only when the stable release has passed its complete final gate.
+Detailed V1 release notes are available in [`docs/V1.0.0.md`](docs/V1.0.0.md).
 
-## Roadmap to V1.0.0
-
-Velaris is being developed through feature phases. **V1.0.0 will be the first officially stable release.** V0.9.0 marks Feature Complete; the remaining work is the dedicated stabilization phase.
+## Release roadmap
 
 The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 
@@ -51,24 +53,24 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ✅ Complete |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ✅ Complete |
-| V1.0.0 | First Stable Release | 🚧 In Progress |
+| V1.0.0 | First Stable Release | ✅ Complete |
 
-## What is already in Velaris
+## What is in Velaris V1.0.0
 
-The completed V0.x product includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, the Discovery Center with Watchlists and Smart Lists, Profiles 2.0 with safer profile switching, the Advanced Player with queue, chapters, rapid stream switching, quality presets and technical playback insight, TV/App Experience with living-room focus behavior and connection recovery, the Control Center with profile-scoped themes/layout controls/enforced feature gates, and V0.9 Release Hub plus personal Insights.
+Velaris V1.0.0 includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, Smart Home personalization, Franchise Studio with editable universes and Watch Orders, Discovery with Watchlists and Smart Lists, Profiles 2.0, the Advanced Player, TV/App Experience, Control Center customization, Release Hub and personal Insights.
 
-The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise, Smart Home, Discovery, Release Hub and Insights surfaces are data-driven and avoid fake promotional media or invented viewing history.
+Movies, Series, Anime, Anime Movies and Collections are treated as first-class destinations when matching libraries exist. Franchise, Smart Home, Discovery, Release Hub and Insights surfaces are data-driven and avoid fake promotional media or invented viewing history.
 
 ## Product direction
 
 Velaris is designed as a standalone modern streaming experience, not as a visible Jellyfin skin. Jellyfin remains the technical foundation for server APIs, authentication, playback, transcoding and media management, while the normal viewer-facing interface is progressively replaced by Velaris-specific branding, navigation, layouts and interaction patterns.
 
-With V0.9.0 Feature Complete, product scope is intentionally frozen for V1.0 stabilization. Major new feature families should wait until the first stable release is complete.
+V1.0.0 freezes the first stable product baseline. Future work should prioritize maintenance, upstream compatibility, dependency updates and narrowly scoped improvements before introducing another major feature family.
 
 ## Branch strategy
 
 - `master` — kept as close as practical to upstream Jellyfin Web for easier syncing
-- `velaris` — active Velaris Web development branch
+- `velaris` — active Velaris Web development and release branch
 
 Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-web)
 
@@ -81,7 +83,7 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
 
 ### Getting started
 
-1. Clone the Velaris development branch.
+1. Clone the Velaris branch.
 
    ```sh
    git clone -b velaris https://github.com/Homiiboy/velaris-web.git
@@ -108,17 +110,19 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
 
 ## Validation
 
-The `velaris` branch includes a dedicated Velaris CI workflow that runs TypeScript, repository ESLint, strict zero-warning lint over Velaris-owned paths, Stylelint, unit tests, the production build and an ES compatibility scan of the generated bundle.
+The `velaris` branch includes a dedicated Velaris CI workflow that runs a shipped-production Critical dependency audit, TypeScript, repository ESLint, strict zero-warning lint over Velaris-owned paths, Stylelint, unit tests, the production build and an ES compatibility scan of the generated bundle.
 
-V1.0.0 will not be considered stable until the complete final validation matrix passes and no known release-blocking defects remain.
+The V1 hardening snapshot passed all of these gates in Velaris CI Run #230.
+
+The general `npm ci` audit still reports upstream/transitive non-Critical findings. Several currently require dependency-range or breaking upgrades (including EPUB/PDF/sanitizer paths), so they are tracked as dependency-maintenance work rather than being force-upgraded inside the V1.0 release commit. The release gate blocks Critical findings in shipped production dependencies and deliberately excludes dev-only and optional-native packages from that shipped-runtime decision.
 
 ## Versioning and release policy
 
 Velaris uses its own release line, stored in `VELARIS_VERSION`, while the Jellyfin Web package version can remain aligned with the upstream codebase for easier compatibility tracking.
 
 - `V0.x` — feature development and pre-stable milestones
-- `V0.9.0` — Feature Complete milestone and current release baseline
-- `V1.0.0` — first Stable release after the dedicated final hardening phase
+- `V0.9.0` — Feature Complete milestone
+- `V1.0.0` — first Stable release
 
 ## License and upstream attribution
 
