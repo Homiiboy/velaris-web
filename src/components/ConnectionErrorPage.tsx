@@ -35,6 +35,10 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
         }
     }, []);
 
+    const onRetryConnection = useCallback(() => {
+        window.location.reload();
+    }, []);
+
     useEffect(() => {
         switch (state) {
             case ConnectionState.ServerMismatch:
@@ -62,11 +66,12 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
     return (
         <Page
             id='connectionErrorPage'
-            className='mainAnimatedPage standalonePage'
+            className='mainAnimatedPage standalonePage velaris-connection-error-page'
             isBackButtonEnabled={false}
             shouldAutoFocus
         >
-            <div className='padded-left padded-right'>
+            <div className='velaris-connection-error padded-left padded-right'>
+                <span className='velaris-connection-error__icon material-icons cloud_off' aria-hidden='true' />
                 <h1>{title}</h1>
                 {htmlMessage && (
                     <p
@@ -80,23 +85,34 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                     </p>
                 )}
 
-                {appHost.supports(AppFeature.MultiServer) && (
-                    <LinkButton
-                        className='raised'
-                        href='/selectserver'
-                    >
-                        {globalize.translate('ButtonChangeServer')}
-                    </LinkButton>
-                )}
+                <div className='velaris-connection-error__actions'>
+                    {state === ConnectionState.Unavailable && (
+                        <LinkButton
+                            className='raised'
+                            onClick={onRetryConnection}
+                        >
+                            Erneut versuchen
+                        </LinkButton>
+                    )}
 
-                {state === ConnectionState.ServerMismatch && (
-                    <LinkButton
-                        onClick={onForceConnect}
-                        style={ isConnectDisabled ? { pointerEvents: 'none' } : undefined }
-                    >
-                        {globalize.translate('ConnectAnyway')}
-                    </LinkButton>
-                )}
+                    {appHost.supports(AppFeature.MultiServer) && (
+                        <LinkButton
+                            className='raised'
+                            href='/selectserver'
+                        >
+                            {globalize.translate('ButtonChangeServer')}
+                        </LinkButton>
+                    )}
+
+                    {state === ConnectionState.ServerMismatch && (
+                        <LinkButton
+                            onClick={onForceConnect}
+                            style={ isConnectDisabled ? { pointerEvents: 'none' } : undefined }
+                        >
+                            {globalize.translate('ConnectAnyway')}
+                        </LinkButton>
+                    )}
+                </div>
             </div>
         </Page>
     );
