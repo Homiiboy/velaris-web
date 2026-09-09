@@ -7,23 +7,9 @@ import { EventType } from 'constants/eventType';
 import Events, { type Event } from 'utils/events';
 
 import type { PlaybackManager } from './playbackmanager';
+import { findVelarisTvPlayerFocusTarget } from './velarisTvPlayerFocus';
 
 const TV_PLAYER_FOCUS_DELAY_MS = 60;
-const TV_PLAYER_FOCUS_SELECTOR = [
-    '.velaris-player-primary-action',
-    '.btnPause',
-    '.btnPlayPause',
-    '.btnVelarisAdvanced',
-    '.btnVideoOsdSettings'
-].join(',');
-
-export const findVelarisTvPlayerFocusTarget = (
-    root: ParentNode,
-    isFocusable: (element: HTMLElement) => boolean
-) => (
-    Array.from(root.querySelectorAll<HTMLElement>(TV_PLAYER_FOCUS_SELECTOR))
-        .find(isFocusable) || null
-);
 
 class VelarisTvPlayerController extends PlaybackSubscriber {
     private focusTimer: ReturnType<typeof setTimeout> | null = null;
