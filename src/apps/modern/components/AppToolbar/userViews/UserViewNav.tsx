@@ -128,6 +128,7 @@ const UserViewNav = () => {
     ), [ activeTab, collectionType, libraryId, ancestorLibraryId, location.pathname, sortedUserViews ]);
 
     const isHomeSelected = location.pathname === HOME_PATH && activeTab === 0;
+    const isFavoritesSelected = currentUserView?.Id === MetaView.Favorites.Id;
 
     if (isPending) return null;
 
@@ -139,16 +140,18 @@ const UserViewNav = () => {
                 startIcon={<Home />}
                 component={Link}
                 to='/home'
+                aria-current={isHomeSelected ? 'page' : undefined}
             >
                 {globalize.translate('Home')}
             </Button>
 
             <Button
                 variant='text'
-                color={(currentUserView?.Id === MetaView.Favorites.Id) ? 'primary' : 'inherit'}
+                color={isFavoritesSelected ? 'primary' : 'inherit'}
                 startIcon={<Favorite />}
                 component={Link}
                 to='/home?tab=1'
+                aria-current={isFavoritesSelected ? 'page' : undefined}
             >
                 {globalize.translate(MetaView.Favorites.Name)}
             </Button>
@@ -171,14 +174,16 @@ const UserViewNav = () => {
                     );
                 }
 
+                const isSelected = navItem.Id === currentUserView?.Id;
                 return (
                     <Button
                         key={navItem.Id}
                         variant='text'
-                        color={(navItem.Id === currentUserView?.Id) ? 'primary' : 'inherit'}
+                        color={isSelected ? 'primary' : 'inherit'}
                         startIcon={<LibraryIcon item={navItem} />}
                         component={Link}
                         to={toReactRoute(appRouter.getRouteUrl(navItem, { context: navItem.CollectionType }))}
+                        aria-current={isSelected ? 'page' : undefined}
                     >
                         {navItem.Name}
                     </Button>
@@ -193,6 +198,7 @@ const UserViewNav = () => {
                         endIcon={<ArrowDropDown />}
                         aria-controls={OVERFLOW_MENU_ID}
                         aria-haspopup='true'
+                        aria-expanded={isOverflowMenuOpen}
                         onClick={onOverflowButtonClick}
                     >
                         {globalize.translate('ButtonMore')}
