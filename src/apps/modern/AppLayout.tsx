@@ -2,7 +2,7 @@ import React, { StrictMode, useCallback, useState } from 'react';
 import Box from '@mui/material/Box';
 import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import AppBody from 'components/AppBody';
 import CustomCss from 'components/CustomCss';
@@ -12,6 +12,7 @@ import { useApi } from 'hooks/useApi';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
+import { isVelarisControlCenterRouteEnabled } from './features/controlCenter/controlCenter';
 import { useVelarisControlCenterPreferences } from './features/controlCenter/useVelarisControlCenterPreferences';
 import VelarisProfileGate from './features/profiles/VelarisProfileGate';
 import { useVelarisProfilePreferences } from './features/profiles/useVelarisProfilePreferences';
@@ -27,7 +28,7 @@ export const Component = () => {
     const { user } = useApi();
     const location = useLocation();
     useVelarisProfilePreferences();
-    useVelarisControlCenterPreferences();
+    const { preferences: controlCenterPreferences } = useVelarisControlCenterPreferences();
 
     const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
     const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user) && !isMediumScreen;
@@ -36,6 +37,10 @@ export const Component = () => {
     const onToggleDrawer = useCallback(() => {
         setIsDrawerActive(!isDrawerActive);
     }, [ isDrawerActive, setIsDrawerActive ]);
+
+    if (!isVelarisControlCenterRouteEnabled(location.pathname, controlCenterPreferences)) {
+        return <Navigate to='/home' replace />;
+    }
 
     return (
         <LibraryProvider>
