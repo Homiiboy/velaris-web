@@ -1,4 +1,4 @@
-import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useState } from 'react';
 
 import viewContainer from 'components/viewContainer';
 import { useApi } from 'hooks/useApi';
@@ -42,10 +42,9 @@ const VelarisProfileGate: FC = () => {
         };
     }, [ __legacyApiClient__, currentUserId, serverId ]);
 
-    const chosenProfileId = useMemo(() => {
-        if (!serverId) return null;
-        return getChosenVelarisProfileId(window.sessionStorage, serverId);
-    }, [ serverId ]);
+    const chosenProfileId = serverId ?
+        getChosenVelarisProfileId(window.sessionStorage, serverId) :
+        null;
 
     const isOpen = Boolean(
         !dismissed
