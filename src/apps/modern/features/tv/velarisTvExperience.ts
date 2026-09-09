@@ -10,12 +10,40 @@ const FALLBACK_FOCUS_SELECTOR = [
     '.focusable'
 ].join(',');
 
+const hasUnavailableAncestor = (element: HTMLElement) => {
+    let current: HTMLElement | null = element;
+
+    while (current) {
+        if (current.hidden
+            || current.getAttribute('aria-hidden') === 'true'
+            || current.classList.contains('hide')
+        ) {
+            return true;
+        }
+        current = current.parentElement;
+    }
+
+    return false;
+};
+
+const hasDialogAncestor = (element: Element) => {
+    let current: Element | null = element;
+
+    while (current) {
+        const isOpenDialog = current.tagName === 'DIALOG' && current.hasAttribute('open');
+        if (isOpenDialog || current.getAttribute('role') === 'dialog') return true;
+        current = current.parentElement;
+    }
+
+    return false;
+};
+
 const isUnavailable = (element: HTMLElement) => {
     if (element.hasAttribute('disabled') || element.getAttribute('aria-disabled') === 'true') {
         return true;
     }
 
-    return Boolean(element.closest('[hidden], [aria-hidden="true"], .hide'));
+    return hasUnavailableAncestor(element);
 };
 
 const findFirstAvailable = (root: ParentNode, selector: string) => {
@@ -36,7 +64,7 @@ export const shouldRestoreVelarisTvFocus = (
     main: HTMLElement
 ) => {
     if (!activeElement || activeElement === document.body) return true;
-    if (activeElement.closest('dialog[open], [role="dialog"]')) return false;
+    if (hasDialogAncestor(activeElement)) return false;
     if (main.contains(activeElement)) return false;
     return true;
 };
