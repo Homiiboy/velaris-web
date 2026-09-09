@@ -1,8 +1,8 @@
 # Velaris Web Roadmap
 
-Velaris Web is being developed in feature phases toward the first stable release. The viewer-facing product should feel native to Velaris while the proven Jellyfin-compatible server, authentication and playback stack remain underneath.
+Velaris Web was developed in feature phases toward the first stable release. The viewer-facing product is designed to feel native to Velaris while the proven Jellyfin-compatible server, authentication and playback stack remains underneath.
 
-> **Release policy:** all V0.x releases are development milestones. **V1.0.0 will be the first officially stable Velaris release.**
+> **Release policy:** V0.x releases are development milestones. **V1.0.0 is the first officially stable Velaris release.**
 
 ## Status overview
 
@@ -26,7 +26,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ✅ Complete |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ✅ Complete |
-| V1.0.0 | First Stable Release | 🚧 In Progress |
+| V1.0.0 | First Stable Release | ✅ Complete |
 
 ## Completed phases
 
@@ -62,170 +62,121 @@ Velaris Web is being developed in feature phases toward the first stable release
 - custom universes, groups, phases and eras
 - drag-and-drop ordering
 - release, chronological and custom Watch Orders
-- curated MCU, Star Wars and Arrowverse definitions
 - defensive profile-scoped persistence and regression coverage
-- completed full validation in Velaris CI Run #81 and final documentation CI Run #82
+
+Detailed release notes: [`docs/V0.3.0.md`](docs/V0.3.0.md).
 
 ### V0.4.0 — Discovery, Watchlists & Smart Lists
 
-- dedicated Discovery Center with first-class desktop/mobile navigation
-- mixed Movie/Series discovery from real server library data
-- free-text title/genre search and filters for type, genre, watched state, runtime, year and rating
-- reliable Anime and Anime Movie classification derived from library context and actual media type
-- “Surprise me” action based on the complete active result set
-- Smart Lists for unseen titles, short movies, highly rated titles and recently added media
-- profile-scoped Watchlist and custom named lists
-- direct list add/remove controls on media cards
-- full Watchlist/custom-list browsing in the Discovery result area
-- versioned defensive local persistence and cross-tab synchronization
-- paged server loading per library instead of a fixed 500-title ceiling
-- deterministic cross-library deduplication and newest-first ordering
-- bounded incremental rendering for large result sets
-- partial-library failure/truncation warnings while keeping already loaded media usable
-- defensive handling for missing runtime/year/rating/date metadata
-- expanded regression coverage for Anime classification, paging, metadata edge cases, persistence and bounded Surprise Me behavior
-- Continue Watching mutations intentionally remain owned by the V0.2.0 Smart Home flow instead of being duplicated in Discovery
-- cross-user list sharing intentionally remains out of scope until it can be mapped to a safe server-backed permission model
-- complete implementation validation in Velaris CI Run #88
+- dedicated Discovery Center with desktop/mobile navigation
+- mixed Movie/Series/Anime discovery from real server library data
+- filtering, Surprise Me and Smart Lists
+- Watchlist and custom named lists
+- paged server loading, deduplication and bounded rendering
+- partial-library failure/truncation handling
+- defensive persistence and regression coverage
 
 Detailed release notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
 
 ### V0.5.0 — Profiles 2.0
 
-- global “Who’s watching?” startup flow across the modern Velaris app shell
-- PIN/password-protected profile switching through the Jellyfin-compatible authentication stack
-- profile accents and Jellyfin-backed avatars in the profile chooser
-- profile-scoped Kids Mode UI simplification without weakening server-side media permissions
-- profile-scoped Velaris preference persistence by server and user
-- server-backed audio-language, subtitle-language and subtitle-mode preferences
-- safer profile switching with query/view cache reset and session-scoped profile-choice state
-- explicit profile-switch action from the profile settings surface
-- cleanup of profile UI state when the active user changes or logs out
-- regression coverage for preference repair, profile-picker state and PIN validation
-- complete implementation validation in Velaris CI Run #113
+- global “Who’s watching?” startup flow
+- PIN/password-protected profile switching through Jellyfin authentication
+- profile accents and Jellyfin-backed avatars
+- profile-scoped Kids Mode and Velaris preferences
+- server-backed audio/subtitle preferences
+- safer cache/session handling during profile switching
 
 Detailed release notes: [`docs/V0.5.0.md`](docs/V0.5.0.md).
 
 ### V0.6.0 — Advanced Player
 
-- dedicated Advanced Player quick panel inside the existing cinematic video OSD
-- stronger Next Episode flow based on the real playback queue
-- intro/credits and other segment transitions driven by available media-segment data
-- chapter navigation with optional server-backed chapter preview images
-- direct one-click audio and subtitle switching from active media streams
-- profile-scoped Automatic, High, Balanced and Data Saver quality presets
-- quality presets implemented through the existing Jellyfin `SetMaxStreamingBitrate` command
-- upcoming episode queue preview from the active playlist
-- optional Direct Play / Remux / Transcoding technical overlay with stream/container information
-- profile-scoped persistence for quality, technical-overlay and segment-transition preferences
-- responsive desktop/mobile/TV styling and reduced-motion handling
-- regression coverage for preference repair, quality mapping, playback-method labels, chapter times and queue behavior
-- complete implementation validation in Velaris CI Run #125
+- Advanced Player quick panel in the existing video OSD
+- Next Episode, chapters, queue and stream switching
+- segment-driven intro/credits transitions
+- profile-scoped quality presets
+- Direct Play / Remux / Transcoding technical overlay
+- responsive desktop/mobile/TV behavior
 
 Detailed release notes: [`docs/V0.6.0.md`](docs/V0.6.0.md).
 
 ### V0.7.0 — TV Mode & App Experience
 
-- global TV/App Experience controller layered onto the modern Velaris app shell
-- 10-foot TV presentation with larger navigation, controls, overscan-safe spacing and strong focus states
-- route-aware focus restoration using the existing Jellyfin spatial focus manager
-- remote/gamepad/Tizen/WebOS input handling retained through the established Jellyfin navigation stack
-- TV-optimized video OSD focus with immediate registration for an already active player
-- larger Advanced Player targets and controls in TV layout
-- compact, tablet and desktop viewport classification for responsive app behavior
-- improved app startup transition with reduced-motion handling
-- non-blocking offline connectivity feedback with a retry/check action
-- redesigned server-unreachable recovery surface with explicit retry, server switching and existing mismatch recovery
-- compatibility-safe ancestor traversal for older TV/WebView targets
-- regression coverage for focus priority, dialog/content focus preservation and viewport classification
-- complete implementation validation in Velaris CI Run #138
+- 10-foot TV presentation
+- remote/gamepad-first focus behavior
+- TV-optimized player focus
+- responsive app/viewport classification
+- startup, offline and server-recovery improvements
 
 Detailed release notes: [`docs/V0.7.0.md`](docs/V0.7.0.md).
 
 ### V0.8.0 — Control Center & Customization
 
-- dedicated Velaris Control Center route linked from the profile/user menu
-- versioned profile/server-scoped preferences with defensive repair and cross-tab synchronization
-- Theme Customizer with Velaris Default, OLED Black, Midnight, Aurora and Custom Accent
-- custom accent propagated across major Home, Smart Home, Discovery, Franchise and Advanced Player interaction states
-- Cinematic, Compact and Hidden Hero modes
-- Full and Compact navigation modes across desktop and mobile navigation
-- Comfortable, Compact and Spacious density modes across major rails, grids and cards
-- Full, Reduced and Off animation modes
-- Smart Home toggle with Jellyfin Continue Watching fallback
-- Discovery toggle with desktop/mobile navigation removal and direct route blocking
-- Franchise toggle with Home/menu removal and direct hub/Studio route blocking
-- Advanced Player toggle that suppresses OSD surfaces and neutralizes advanced runtime behavior without deleting stored player preferences
-- regression coverage for preference repair/scoping, disabled routes and Advanced Player disable behavior
-- complete implementation validation in Velaris CI Run #155
+- dedicated Control Center
+- profile/server-scoped themes and custom accent
+- Hero, navigation, density and animation controls
+- enforced Smart Home, Discovery, Franchise and Advanced Player feature gates
+- cross-tab synchronization and defensive preference repair
 
 Detailed release notes: [`docs/V0.8.0.md`](docs/V0.8.0.md).
 
 ### V0.9.0 — Release Hub, Insights & Feature Complete
 
-- dedicated Release Hub with first-class desktop/mobile navigation
-- “Neu diese Woche” surfaces for Series and Anime using real connected-library data
-- separate counts and presentation for new episodes and detected season premieres
-- Series/Anime filtering without introducing a parallel media catalog
-- timezone-stable 28-day calendar based on actual server `PremiereDate` metadata
-- bounded, paged Release Hub loading with cross-library deduplication
-- explicit empty, complete-failure and partial/truncation states that preserve already loaded entries
-- dedicated personal Insights route with desktop/mobile navigation
-- profile-scoped statistics derived from Jellyfin user data rather than a separate tracking database
-- known PlayCount/rewatch totals, completed movies and episodes, estimated watch time, recent activity, Top Genres and Top Series
-- server-backed “Zuletzt gesehen” artwork and detail navigation
-- paged played-item loading with deterministic deduplication and a bounded partial state for unusually large histories
-- clear labeling of estimated watch time so incomplete historical event data is not presented as exact telemetry
-- regression coverage for Release Hub date windows, season premieres, paging/load states and Insights aggregation
-- final V0.x feature-scope audit: no additional major feature family is required before stabilization
-- Release Hub code-complete validation in Velaris CI Run #183
-- Insights code-complete validation in Velaris CI Run #186
-- integrated V0.9 scope validation in Velaris CI Run #187
+- Release Hub with “Neu diese Woche”, new episodes and detected season starts
+- Series/Anime filtering and timezone-stable 28-day calendar
+- personal Insights derived from Jellyfin user data
+- known plays/rewatches, completed titles, estimated watch time, Top Genres/Series and recent activity
+- bounded paging and explicit partial/error states
+- final V0.x scope audit
 
 Detailed release notes: [`docs/V0.9.0.md`](docs/V0.9.0.md).
 
-**V0.9.0 is the Feature Complete milestone.** No major new feature family should be introduced before V1.0.0; remaining work is stabilization, compatibility validation, performance work and defect removal.
-
-## Active release phase
+**V0.9.0 is the Feature Complete milestone.** V1.0.0 deliberately added no new major feature family.
 
 ### V1.0.0 — First Stable Release
 
-V1.0.0 is reserved for stabilization rather than another feature family:
+V1.0.0 completed the dedicated stabilization phase:
 
-- complete cross-feature regression pass
-- desktop/mobile/tablet/TV validation
-- keyboard, remote and accessibility validation
-- performance profiling and optimization
-- error/connection-loss and permission edge cases
-- migration/backward-compatibility checks for Velaris preferences
-- robust V0.x upgrade path
-- broader automated regression coverage
-- production build and ES compatibility validation
-- no known release-blocking defects
+- complete cross-feature regression and interaction pass
+- V0.x client-state migration audit and backward-compatible upgrade paths
+- Discovery, Smart Home and Franchise Studio state migrated to server+user scoping
+- safe Local Storage / Session Storage handling across Velaris preferences and Advanced Player paths
+- deterministic mobile drawer open/close behavior
+- dynamic route matching for drawer availability
+- modal-aware TV focus restoration
+- TV player focus fallback to the first actually focusable OSD control
+- keyboard-accessible profile-dialog focus trapping and credential focus behavior
+- recovery-page semantic controls and offline live-region behavior
+- semantic `aria-current` navigation state
+- Release Hub query parallelization while preserving bounded paging/load behavior
+- regression tests isolated from full Jellyfin app bootstrap where possible
+- production dependency gate for Critical findings in shipped non-dev/non-optional dependencies
+- TypeScript, repository ESLint, Velaris strict lint, Stylelint, unit tests, production build and generated-bundle ES compatibility validation
+- no known release-blocking Velaris defect at finalization
 
-Current stabilization progress:
+The final hardening snapshot was completely green in **Velaris CI Run #230**. The release metadata snapshot re-runs the same stable validation matrix.
 
-- ✅ V0.x Discovery Watchlist/custom-list persistence migrated from user-only storage to server+user scoping with a backward-compatible legacy fallback
-- ✅ browser Local Storage / Session Storage access hardened for Discovery, Profiles and Control Center so unavailable storage degrades safely
-- ✅ regression coverage added for Discovery migration/scoping and unavailable-storage preference fallbacks
-- 🚧 cross-feature regression and interaction audit
-- 🚧 TV/remote/keyboard/accessibility validation
-- 🚧 remaining preference migration audit, including Advanced Player and Franchise Studio state
-- 🚧 performance profiling and optimization
-- 🚧 connection-loss, permission and recovery edge cases
-- 🚧 final device/layout matrix and stable-release validation
+Detailed release notes: [`docs/V1.0.0.md`](docs/V1.0.0.md).
 
-Work-in-progress notes: [`docs/V1.0.0.md`](docs/V1.0.0.md).
+## Stable maintenance direction
 
-`VELARIS_VERSION` remains `0.9.0` until V1.0.0 has passed the full stabilization gate and is ready to be finalized as Stable.
+V1.0.0 establishes the first stable baseline. Future work should prioritize:
 
-## Principles for every phase
+- upstream Jellyfin Web compatibility and controlled merges
+- dependency/security maintenance, especially upgrades that currently require range or breaking changes
+- bug fixes and regression coverage
+- performance and device compatibility improvements
+- narrowly scoped UX improvements that do not destabilize the stable baseline
+
+No V1.1 feature scope is committed by this roadmap yet.
+
+## Principles for stable maintenance
 
 - Viewer-facing UX should feel native to Velaris; Jellyfin remains the technical foundation where appropriate.
 - Reuse existing playback, authentication and server behavior rather than rewriting proven systems without a strong reason.
 - Use actual library/server data and avoid fake or bundled copyrighted media artwork.
 - Empty/unavailable features must fail gracefully.
-- Every phase must pass TypeScript, ESLint, Velaris strict lint, Stylelint, unit tests, production build and ES compatibility checks before completion.
-- Critical new logic receives regression tests before a milestone is finalized.
-- Roadmap, README, changelog and milestone notes are updated when each feature phase is completed.
-- V1.0.0 stability takes priority over late scope additions.
+- Release candidates must pass the production dependency Critical gate, TypeScript, repository ESLint, Velaris strict lint, Stylelint, unit tests, production build and ES compatibility checks.
+- Critical new logic receives regression tests.
+- README, changelog, roadmap and release notes stay synchronized with stable releases.
+- Stability takes priority over late scope additions.
