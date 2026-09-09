@@ -71,6 +71,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                                 startIcon={<Event />}
                                 component={Link}
                                 to='/releases'
+                                aria-current={isReleaseHubSelected ? 'page' : undefined}
                             >
                                 Releases
                             </Button>
@@ -81,6 +82,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                                 startIcon={<Insights />}
                                 component={Link}
                                 to='/insights'
+                                aria-current={isInsightsSelected ? 'page' : undefined}
                             >
                                 Insights
                             </Button>
@@ -92,6 +94,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
                                     startIcon={<Explore />}
                                     component={Link}
                                     to='/discovery'
+                                    aria-current={isDiscoverySelected ? 'page' : undefined}
                                 >
                                     Entdecken
                                 </Button>
