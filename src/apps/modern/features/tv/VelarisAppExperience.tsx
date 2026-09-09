@@ -8,6 +8,7 @@ import Events from 'utils/events';
 import {
     findVelarisTvFocusTarget,
     getVelarisViewportClass,
+    hasVelarisBlockingOverlay,
     shouldRestoreVelarisTvFocus
 } from './velarisTvExperience';
 
@@ -85,7 +86,12 @@ const VelarisAppExperience = () => {
 
         const focusTimer = window.setTimeout(() => {
             const main = document.querySelector<HTMLElement>('.velaris-app-main');
-            if (!main || !shouldRestoreVelarisTvFocus(document.activeElement, main)) return;
+            if (!main
+                || hasVelarisBlockingOverlay(document)
+                || !shouldRestoreVelarisTvFocus(document.activeElement, main)
+            ) {
+                return;
+            }
 
             const target = findVelarisTvFocusTarget(main);
             if (target) focusManager.focus(target);
@@ -99,12 +105,16 @@ const VelarisAppExperience = () => {
     return (
         <aside
             className='velaris-connectivity-banner'
-            role='status'
-            aria-live='polite'
+            role='region'
+            aria-labelledby='velaris-connectivity-title'
         >
             <span className='material-icons wifi_off' aria-hidden='true' />
-            <span className='velaris-connectivity-banner__copy'>
-                <strong>Keine Netzwerkverbindung</strong>
+            <span
+                className='velaris-connectivity-banner__copy'
+                role='status'
+                aria-live='polite'
+            >
+                <strong id='velaris-connectivity-title'>Keine Netzwerkverbindung</strong>
                 <span>Velaris verbindet sich automatisch wieder, sobald das Gerät online ist.</span>
             </span>
             <button
