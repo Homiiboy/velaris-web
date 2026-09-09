@@ -48,7 +48,6 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
     const [ pinConfirmation, setPinConfirmation ] = useState('');
     const [ savingPlayback, setSavingPlayback ] = useState(false);
     const [ savingPin, setSavingPin ] = useState(false);
-    const hasPassword = Boolean(user.HasPassword);
 
     useEffect(() => {
         setAudioLanguage(user.Configuration?.AudioLanguagePreference || '');
@@ -142,7 +141,7 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
             toast('Profil-PIN gespeichert.');
         } catch (error) {
             console.error('[VelarisProfiles] unable to save profile PIN', error);
-            toast('Profil-PIN konnte nicht gespeichert werden. Prüfe dein aktuelles Passwort.');
+            toast('Profil-PIN konnte nicht gespeichert werden. Prüfe dein aktuelles Passwort oder deinen aktuellen PIN.');
         } finally {
             setSavingPin(false);
         }
@@ -231,17 +230,15 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                         und wird bei einem Profilwechsel vom Server geprüft.
                     </p>
                     <form className='velaris-profile-pin-form' onSubmit={savePin}>
-                        {hasPassword && (
-                            <label>
-                                <span>Aktuelles Passwort / aktueller PIN</span>
-                                <input
-                                    type='password'
-                                    value={currentCredential}
-                                    onChange={onCurrentCredentialChange}
-                                    autoComplete='current-password'
-                                />
-                            </label>
-                        )}
+                        <label>
+                            <span>Aktuelles Passwort / aktueller PIN (falls vorhanden)</span>
+                            <input
+                                type='password'
+                                value={currentCredential}
+                                onChange={onCurrentCredentialChange}
+                                autoComplete='current-password'
+                            />
+                        </label>
                         <label>
                             <span>Neuer PIN (4–8 Ziffern)</span>
                             <input
