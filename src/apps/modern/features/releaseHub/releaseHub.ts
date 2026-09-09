@@ -150,9 +150,9 @@ export const shouldFetchNextVelarisReleasePage = (
     if (items.length === 0 || items.length < pageSize) return false;
     if (totalRecordCount != null && startIndex >= totalRecordCount) return false;
 
-    const parsePagingDate = dateField === 'PremiereDate'
-        ? parsePremiereDateMs
-        : parseDateMs;
+    const parsePagingDate = dateField === 'PremiereDate' ?
+        parsePremiereDateMs :
+        parseDateMs;
     const validDates = items
         .map(item => parsePagingDate(item[dateField]))
         .filter((value): value is number => value != null);
