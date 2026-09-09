@@ -72,6 +72,11 @@ interface LoadReleaseItemsResult {
     truncated: boolean
 }
 
+interface LoadReleaseSliceResult {
+    result: LoadReleaseItemsResult
+    failed: boolean
+}
+
 interface LoadReleaseLibraryOptions {
     libraryApi: ReturnType<typeof getLibraryApi>
     userId: string
@@ -88,6 +93,11 @@ interface LoadReleaseLibraryResult {
     recentTruncated: boolean
     calendarTruncated: boolean
 }
+
+const EMPTY_LOAD_RESULT: LoadReleaseItemsResult = {
+    sources: [],
+    truncated: false
+};
 
 const getReleaseLibraryCategory = (item: Parameters<typeof getVelarisLibraryCategory>[0]) => {
     const category = getVelarisLibraryCategory(item);
@@ -157,6 +167,26 @@ const loadReleaseItems = async ({
     };
 };
 
+const loadReleaseSlice = async (
+    load: () => Promise<LoadReleaseItemsResult>,
+    signal: AbortSignal,
+    warning: string
+): Promise<LoadReleaseSliceResult> => {
+    try {
+        return {
+            result: await load(),
+            failed: false
+        };
+    } catch (error) {
+        if (signal.aborted) throw error;
+        console.warn(warning, error);
+        return {
+            result: EMPTY_LOAD_RESULT,
+            failed: true
+        };
+    }
+};
+
 const loadReleaseLibrary = async ({
     libraryApi,
     userId,
@@ -164,13 +194,8 @@ const loadReleaseLibrary = async ({
     window,
     signal
 }: LoadReleaseLibraryOptions): Promise<LoadReleaseLibraryResult> => {
-    let recent: LoadReleaseItemsResult = { sources: [], truncated: false };
-    let calendar: LoadReleaseItemsResult = { sources: [], truncated: false };
-    let recentFailed = false;
-    let calendarFailed = false;
-
-    try {
-        recent = await loadReleaseItems({
+    const [ recent, calendar ] = await Promise.all([
+        loadReleaseSlice(() => loadReleaseItems({
             libraryApi,
             userId,
             library,
@@ -179,15 +204,8 @@ const loadReleaseLibrary = async ({
             dateField: 'DateCreated',
             lowerBoundMs: window.weekStartMs,
             signal
-        });
-    } catch (error) {
-        if (signal.aborted) throw error;
-        console.warn(`[VelarisReleaseHub] unable to load recent items from ${library.id}`, error);
-        recentFailed = true;
-    }
-
-    try {
-        calendar = await loadReleaseItems({
+        }), signal, `[VelarisReleaseHub] unable to load recent items from ${library.id}`),
+        loadReleaseSlice(() => loadReleaseItems({
             libraryApi,
             userId,
             library,
@@ -198,20 +216,16 @@ const loadReleaseLibrary = async ({
             signal,
             minPremiereDate: new Date(window.todayStartMs).toISOString(),
             maxPremiereDate: new Date(window.calendarEndMs - 1).toISOString()
-        });
-    } catch (error) {
-        if (signal.aborted) throw error;
-        console.warn(`[VelarisReleaseHub] unable to load release calendar from ${library.id}`, error);
-        calendarFailed = true;
-    }
+        }), signal, `[VelarisReleaseHub] unable to load release calendar from ${library.id}`)
+    ]);
 
     return {
-        recentSources: recent.sources,
-        calendarSources: calendar.sources,
-        recentFailed,
-        calendarFailed,
-        recentTruncated: recent.truncated,
-        calendarTruncated: calendar.truncated
+        recentSources: recent.result.sources,
+        calendarSources: calendar.result.sources,
+        recentFailed: recent.failed,
+        calendarFailed: calendar.failed,
+        recentTruncated: recent.result.truncated,
+        calendarTruncated: calendar.result.truncated
     };
 };
 
