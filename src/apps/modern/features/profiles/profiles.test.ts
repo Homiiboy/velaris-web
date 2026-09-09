@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+    clearVelarisProfileChoice,
     DEFAULT_VELARIS_PROFILE_PREFERENCES,
+    getChosenVelarisProfileId,
     getVelarisProfileStorageKey,
     isValidVelarisProfilePin,
     markVelarisProfileChosen,
@@ -79,6 +81,18 @@ describe('Velaris profile startup flow', () => {
         markVelarisProfileChosen(storage, 'server-a', 'one');
         expect(shouldShowVelarisProfilePicker(profiles, 'one', storage.getItem('velaris:profiles:startup:v1:server-a'))).toBe(false);
         expect(shouldShowVelarisProfilePicker(profiles, 'one', storage.getItem('velaris:profiles:startup:v1:server-b'))).toBe(true);
+    });
+
+    it('reopens the chooser after the active server profile choice is cleared', () => {
+        const storage = new MemoryStorage();
+        markVelarisProfileChosen(storage, 'server-a', 'one');
+        expect(getChosenVelarisProfileId(storage, 'server-a')).toBe('one');
+
+        clearVelarisProfileChoice(storage, 'server-a');
+
+        const chosenProfileId = getChosenVelarisProfileId(storage, 'server-a');
+        expect(chosenProfileId).toBeNull();
+        expect(shouldShowVelarisProfilePicker(profiles, 'one', chosenProfileId)).toBe(true);
     });
 });
 
