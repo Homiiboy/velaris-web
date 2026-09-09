@@ -72,15 +72,6 @@
     box-shadow: 0 0 16px var(--velaris-theme-accent-soft);
 }
 
-:root[data-velaris-theme] .velaris-app-toolbar .MuiIconButton-root:focus-visible,
-:root[data-velaris-theme] .velaris-primary-nav .MuiButton-root:focus-visible,
-:root[data-velaris-theme] .velaris-control-center-page button:focus-visible,
-:root[data-velaris-theme] .velaris-control-center-page select:focus-visible,
-:root[data-velaris-theme] .velaris-control-center-page input:focus-visible {
-    outline: 3px solid var(--velaris-theme-accent);
-    outline-offset: 3px;
-}
-
 :root[data-velaris-hero='compact'] .velaris-home-hero {
     min-height: clamp(24rem, 52vh, 36rem);
     padding-top: clamp(6rem, 11vh, 8rem);
@@ -325,7 +316,6 @@
     border: 1px solid rgba(145, 170, 210, 0.12);
     border-radius: tokens.$radius-sm;
     background: rgba(255, 255, 255, 0.025);
-    cursor: pointer;
 }
 
 .velaris-control-center__toggle input {
@@ -334,6 +324,7 @@
     flex: 0 0 auto;
     margin-top: 0.15rem;
     accent-color: var(--velaris-theme-accent);
+    cursor: pointer;
 }
 
 .velaris-control-center__toggle span {
@@ -389,6 +380,15 @@
 .velaris-control-center__theme-preview > span:last-child {
     color: tokens.$text-muted;
     font-size: 0.78rem;
+}
+
+:root[data-velaris-theme] .velaris-app-toolbar .MuiIconButton-root:focus-visible,
+:root[data-velaris-theme] .velaris-primary-nav .MuiButton-root:focus-visible,
+:root[data-velaris-theme] .velaris-control-center-page button:focus-visible,
+:root[data-velaris-theme] .velaris-control-center-page select:focus-visible,
+:root[data-velaris-theme] .velaris-control-center-page input:focus-visible {
+    outline: 3px solid var(--velaris-theme-accent);
+    outline-offset: 3px;
 }
 
 @media (hover: hover) and (pointer: fine) {
