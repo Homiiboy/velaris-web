@@ -1,5 +1,6 @@
 import Event from '@mui/icons-material/Event';
 import Explore from '@mui/icons-material/Explore';
+import Insights from '@mui/icons-material/Insights';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import React, { type FC } from 'react';
@@ -35,6 +36,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
     const isDiscoverySelected = location.pathname === '/discovery';
     const isReleaseHubSelected = location.pathname === '/releases';
+    const isInsightsSelected = location.pathname === '/insights';
 
     return (
         <BaseToolbar
@@ -71,6 +73,16 @@ const AppToolbar: FC<AppToolbarProps> = ({
                                 to='/releases'
                             >
                                 Releases
+                            </Button>
+                            <Button
+                                className='velaris-insights-entry'
+                                variant='text'
+                                color={isInsightsSelected ? 'primary' : 'inherit'}
+                                startIcon={<Insights />}
+                                component={Link}
+                                to='/insights'
+                            >
+                                Insights
                             </Button>
                             {preferences.showDiscovery && (
                                 <Button

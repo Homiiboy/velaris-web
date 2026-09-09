@@ -1,0 +1,336 @@
+@use './tokens' as tokens;
+
+.velaris-insights-page {
+    min-height: 100%;
+    padding-bottom: 5rem;
+    background:
+        radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--velaris-theme-accent, #45f3ff) 12%, transparent), transparent 30rem),
+        radial-gradient(circle at 88% 4%, rgba(138, 54, 255, 0.11), transparent 32rem),
+        tokens.$background;
+}
+
+.velaris-insights-hero {
+    max-width: 72rem;
+    padding: clamp(6.5rem, 12vw, 10rem) clamp(1rem, 5vw, 5rem) 2.5rem;
+}
+
+.velaris-insights-hero__eyebrow,
+.velaris-insights-panel__heading > span,
+.velaris-insights-recent__heading > span,
+.velaris-insights-stat > span {
+    color: var(--velaris-theme-accent, #45f3ff);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+}
+
+.velaris-insights-hero h1 {
+    max-width: 56rem;
+    margin: 0.45rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(2.8rem, 6vw, 5.6rem);
+    font-weight: 840;
+    letter-spacing: -0.06em;
+    line-height: 0.96;
+}
+
+.velaris-insights-hero p {
+    max-width: 50rem;
+    margin: 1rem 0 0;
+    color: tokens.$text-secondary;
+    font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+    line-height: 1.6;
+}
+
+.velaris-insights-warning {
+    margin: 0 clamp(1rem, 3vw, 3rem) 1rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(255, 193, 92, 0.24);
+    border-radius: tokens.$radius-sm;
+    background: rgba(255, 167, 38, 0.07);
+    color: tokens.$text-secondary;
+    font-size: 0.78rem;
+}
+
+.velaris-insights-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0 clamp(1rem, 3vw, 3rem);
+}
+
+.velaris-insights-stat,
+.velaris-insights-panel {
+    border: 1px solid rgba(145, 170, 210, 0.13);
+    background: rgba(9, 12, 20, 0.78);
+    box-shadow: tokens.$shadow-soft;
+    backdrop-filter: blur(16px);
+}
+
+.velaris-insights-stat {
+    display: grid;
+    align-content: start;
+    gap: 0.4rem;
+    min-height: 9rem;
+    padding: 1rem;
+    border-radius: tokens.$radius-md;
+}
+
+.velaris-insights-stat > strong {
+    color: tokens.$text-primary;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    font-weight: 820;
+    letter-spacing: -0.04em;
+}
+
+.velaris-insights-stat > small {
+    color: tokens.$text-muted;
+    font-size: 0.7rem;
+    line-height: 1.45;
+}
+
+.velaris-insights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-top: 1rem;
+    padding: 0 clamp(1rem, 3vw, 3rem);
+}
+
+.velaris-insights-panel {
+    min-width: 0;
+    padding: 1rem;
+    border-radius: tokens.$radius-lg;
+}
+
+.velaris-insights-panel__heading,
+.velaris-insights-recent__heading {
+    margin-bottom: 0.9rem;
+}
+
+.velaris-insights-panel__heading h2,
+.velaris-insights-recent__heading h2 {
+    margin: 0.25rem 0 0;
+    color: tokens.$text-primary;
+    font-size: 1.45rem;
+    font-weight: 780;
+    letter-spacing: -0.03em;
+}
+
+.velaris-insights-bars,
+.velaris-insights-series-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.velaris-insights-bar {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.velaris-insights-bar__heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.velaris-insights-bar__heading > strong {
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 0.82rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-insights-bar__heading > span {
+    flex: 0 0 auto;
+    color: tokens.$text-muted;
+    font-size: 0.68rem;
+}
+
+.velaris-insights-bar__track {
+    height: 0.45rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.velaris-insights-bar__fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--velaris-theme-accent, #45f3ff), rgba(138, 54, 255, 0.9));
+}
+
+.velaris-insights-series {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.7rem;
+    border: 1px solid rgba(145, 170, 210, 0.1);
+    border-radius: tokens.$radius-sm;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.velaris-insights-series__rank {
+    color: var(--velaris-theme-accent, #45f3ff);
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.velaris-insights-series__copy {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.velaris-insights-series__copy > strong {
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 0.84rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-insights-series__copy > span,
+.velaris-insights-panel__empty {
+    margin: 0;
+    color: tokens.$text-muted;
+    font-size: 0.7rem;
+    line-height: 1.45;
+}
+
+.velaris-insights-recent {
+    margin-top: 2rem;
+}
+
+.velaris-insights-recent__heading {
+    padding-inline: clamp(1rem, 3vw, 3rem);
+}
+
+.velaris-insights-recent__rail {
+    display: grid;
+    grid-auto-columns: clamp(13rem, 20vw, 19rem);
+    grid-auto-flow: column;
+    gap: 0.75rem;
+    padding: 0.3rem clamp(1rem, 3vw, 3rem) 0.8rem;
+    overflow-x: auto;
+    scroll-padding-inline: clamp(1rem, 3vw, 3rem);
+    scrollbar-width: thin;
+}
+
+.velaris-insights-recent-card {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    transition: transform tokens.$transition-standard;
+}
+
+.velaris-insights-recent-card__artwork {
+    position: relative;
+    display: grid;
+    aspect-ratio: 16 / 9;
+    place-items: center;
+    overflow: hidden;
+    margin-bottom: 0.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: tokens.$radius-md;
+    background-color: tokens.$surface-strong;
+    background-position: center;
+    background-size: cover;
+    box-shadow: tokens.$shadow-soft;
+}
+
+.velaris-insights-recent-card__artwork > .material-icons {
+    color: tokens.$text-muted;
+    font-size: 2rem;
+}
+
+.velaris-insights-recent-card__title {
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 0.86rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-insights-recent-card__subtitle,
+.velaris-insights-recent-card__date {
+    overflow: hidden;
+    color: tokens.$text-muted;
+    font-size: 0.68rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-insights-empty {
+    display: grid;
+    justify-items: center;
+    gap: 0.45rem;
+    margin: 1rem clamp(1rem, 3vw, 3rem) 0;
+    padding: 3rem 1rem;
+    border: 1px dashed rgba(145, 170, 210, 0.16);
+    border-radius: tokens.$radius-lg;
+    color: tokens.$text-muted;
+    text-align: center;
+}
+
+.velaris-insights-empty > .material-icons {
+    color: var(--velaris-theme-accent, #45f3ff);
+    font-size: 2.2rem;
+}
+
+.velaris-insights-empty > h2 {
+    margin: 0;
+    color: tokens.$text-primary;
+}
+
+.velaris-insights-empty > p {
+    max-width: 40rem;
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+
+.velaris-insights-recent-card:hover,
+.velaris-insights-recent-card:focus-visible {
+    transform: translateY(-2px);
+}
+
+.velaris-insights-recent-card:focus-visible {
+    border-radius: tokens.$radius-md;
+    outline: 2px solid var(--velaris-theme-accent, #45f3ff);
+    outline-offset: 3px;
+}
+
+@media (max-width: 1100px) {
+    .velaris-insights-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    .velaris-insights-stats,
+    .velaris-insights-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .velaris-insights-stat {
+        min-height: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-insights-recent-card {
+        transition: none;
+    }
+
+    .velaris-insights-recent-card:hover,
+    .velaris-insights-recent-card:focus-visible {
+        transform: none;
+    }
+}

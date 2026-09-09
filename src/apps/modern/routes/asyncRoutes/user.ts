@@ -5,6 +5,7 @@ export const ASYNC_USER_ROUTES: AsyncRoute[] = [
     { path: 'home', type: AppType.Modern },
     { path: 'discovery', page: 'discovery', type: AppType.Modern },
     { path: 'releases', page: 'releaseHub', type: AppType.Modern },
+    { path: 'insights', page: 'insights', type: AppType.Modern },
     { path: 'control-center', page: 'controlCenter', type: AppType.Modern },
     { path: 'homevideos', type: AppType.Modern },
     { path: 'livetv', type: AppType.Modern },

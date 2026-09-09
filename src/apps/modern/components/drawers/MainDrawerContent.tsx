@@ -2,6 +2,7 @@ import Event from '@mui/icons-material/Event';
 import Explore from '@mui/icons-material/Explore';
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
+import Insights from '@mui/icons-material/Insights';
 import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
@@ -39,6 +40,7 @@ const MainDrawerContent = () => {
     const isHomeSelected = location.pathname === '/home' && !isFavoritesSelected;
     const isDiscoverySelected = location.pathname === '/discovery';
     const isReleaseHubSelected = location.pathname === '/releases';
+    const isInsightsSelected = location.pathname === '/insights';
 
     return (
         <div className='velaris-drawer-content'>
@@ -60,6 +62,14 @@ const MainDrawerContent = () => {
                             <Event />
                         </ListItemIcon>
                         <ListItemText primary='Releases' />
+                    </ListItemLink>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemLink to='/insights' selected={isInsightsSelected}>
+                        <ListItemIcon>
+                            <Insights />
+                        </ListItemIcon>
+                        <ListItemText primary='Insights' />
                     </ListItemLink>
                 </ListItem>
                 {preferences.showDiscovery && (
