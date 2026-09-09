@@ -51,7 +51,7 @@ class SkipSegment extends PlaybackSubscriber {
         if (!this.skipElement && this.currentSegment) {
             let buttonHtml = '';
 
-            // FIXME: Move skip button to the video OSD
+            // The legacy skip prompt remains body-mounted while Velaris adds complementary OSD segment transitions.
             buttonHtml += '<div class="skip-button-container"><button is="emby-button" class="skip-button hide skip-button-hidden"></button></div>';
 
             document.body.insertAdjacentHTML('beforeend', buttonHtml);
