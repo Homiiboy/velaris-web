@@ -2,6 +2,59 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V0.6.0 — 2026-09-09 — Advanced Player
+
+### Added
+
+- dedicated Advanced Player quick panel inside the existing video OSD
+- stronger Next Episode action backed by the real active playback queue
+- media-segment transition hints for intro, credits/outro, recap, preview and other available segment types
+- chapter navigation using real chapter timestamps
+- optional server-backed chapter image previews when chapter image tags are available
+- direct audio-track switching from active playback media streams
+- direct subtitle switching including an explicit Off state
+- profile-scoped Automatic, High, Balanced and Data Saver quality presets
+- upcoming episode/playlist queue preview
+- optional technical overlay showing Direct Play, Remux or Transcoding plus active media details
+- profile-scoped Advanced Player preference persistence by server and user
+- regression coverage for preference sanitization, storage scoping, quality presets, playback-method labels, chapter timestamps and queue windows
+
+### Changed
+
+- quality presets reuse the existing `SetMaxStreamingBitrate` playback command instead of introducing a parallel quality/transcoding path
+- Advanced Player UI is injected into the existing Velaris/Jellyfin video OSD while leaving the proven playback manager in control
+- intro/credits presentation now complements the existing skip-segment and Up Next behavior with Velaris-native transition feedback
+- chapter, track, queue and technical surfaces hide automatically when the current playback session does not expose the required data
+- player preferences are defensively repaired when browser storage contains stale or malformed values
+- the existing skip-segment path is now included in Velaris strict zero-warning lint because V0.6 integrates with its real segment events
+
+### Fixed during validation
+
+- missing defensive API-client guard for chapter image preview URLs
+- unsupported `queueMicrotask` usage for older target browsers
+- unsupported `replaceChildren` DOM calls in Advanced Player rendering
+- redundant explicit `undefined` argument in playback-method regression coverage
+- legacy FIXME warning in the now strict-linted segment integration path
+
+### Validation
+
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- code-complete implementation validated by Velaris CI Run #125
+
+### Compatibility
+
+- playback, seeking, queue state, media streams and media segments continue to use the existing Jellyfin-compatible playback stack
+- quality presets only set the existing maximum streaming bitrate/automatic detection control; they do not replace server transcoding decisions
+- Direct Play, Remux and Transcoding status is read from the current player state rather than inferred from file names
+- chapter previews are shown only when real server chapter image metadata is available
+- no new media files, metadata records or server-side playback databases are introduced
+
 ## V0.5.0 — 2026-09-09 — Profiles 2.0
 
 ### Added

@@ -22,7 +22,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ✅ Complete |
 | V0.5.0 | Profiles 2.0 | ✅ Complete |
-| V0.6.0 | Advanced Player | ⏳ Planned |
+| V0.6.0 | Advanced Player | ✅ Complete |
 | V0.7.0 | TV Mode & App Experience | ⏳ Planned |
 | V0.8.0 | Control Center & Customization | ⏳ Planned |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
@@ -106,19 +106,25 @@ Detailed release notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
 
 Detailed release notes: [`docs/V0.5.0.md`](docs/V0.5.0.md).
 
-## Next planned feature phase
-
 ### V0.6.0 — Advanced Player
 
-- stronger Next Episode flow
-- intro/credits transitions from available segment data
-- chapter navigation/previews where metadata supports them
-- faster audio/subtitle switching
-- persisted playback preferences and quality presets
-- episode queue
-- optional Direct Play / Remux / Transcoding technical overlay
+- dedicated Advanced Player quick panel inside the existing cinematic video OSD
+- stronger Next Episode flow based on the real playback queue
+- intro/credits and other segment transitions driven by available media-segment data
+- chapter navigation with optional server-backed chapter preview images
+- direct one-click audio and subtitle switching from active media streams
+- profile-scoped Automatic, High, Balanced and Data Saver quality presets
+- quality presets implemented through the existing Jellyfin `SetMaxStreamingBitrate` command
+- upcoming episode queue preview from the active playlist
+- optional Direct Play / Remux / Transcoding technical overlay with stream/container information
+- profile-scoped persistence for quality, technical-overlay and segment-transition preferences
+- responsive desktop/mobile/TV styling and reduced-motion handling
+- regression coverage for preference repair, quality mapping, playback-method labels, chapter times and queue behavior
+- complete implementation validation in Velaris CI Run #125
 
-## Later planned phases
+Detailed release notes: [`docs/V0.6.0.md`](docs/V0.6.0.md).
+
+## Next planned feature phase
 
 ### V0.7.0 — TV Mode & App Experience
 
@@ -128,6 +134,8 @@ Detailed release notes: [`docs/V0.5.0.md`](docs/V0.5.0.md).
 - improved PWA/app startup experience
 - better tablet/mobile layouts
 - graceful offline/server-unreachable states and recovery actions
+
+## Later planned phases
 
 ### V0.8.0 — Control Center & Customization
 
