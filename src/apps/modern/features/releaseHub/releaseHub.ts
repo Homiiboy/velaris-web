@@ -3,6 +3,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import type { ItemDto } from 'types/base/models/item-dto';
 
 export type VelarisReleaseCategory = 'series' | 'anime';
+export type VelarisReleasePagingDateField = 'DateCreated' | 'PremiereDate';
 
 export interface VelarisReleaseSourceItem {
     item: ItemDto
@@ -28,8 +29,15 @@ export interface VelarisReleaseHubModel {
     calendarDays: VelarisReleaseDay[]
 }
 
+export interface VelarisReleaseWindow {
+    todayStartMs: number
+    weekStartMs: number
+    nextWeekStartMs: number
+    calendarEndMs: number
+}
+
 const DAY_MS = 24 * 60 * 60 * 1000;
-const CALENDAR_DAYS_AHEAD = 28;
+export const VELARIS_RELEASE_CALENDAR_DAYS_AHEAD = 28;
 
 const parseDateMs = (value: string | null | undefined) => {
     if (!value) return undefined;
@@ -52,6 +60,40 @@ export const getVelarisReleaseWeekStartMs = (value: Date | number) => {
     const day = date.getUTCDay();
     const daysSinceMonday = day === 0 ? 6 : day - 1;
     return date.getTime() - daysSinceMonday * DAY_MS;
+};
+
+export const getVelarisReleaseWindow = (
+    value: Date | number = new Date()
+): VelarisReleaseWindow => {
+    const nowMs = typeof value === 'number' ? value : value.getTime();
+    const todayStartMs = getUtcDayStartMs(nowMs);
+    const weekStartMs = getVelarisReleaseWeekStartMs(nowMs);
+
+    return {
+        todayStartMs,
+        weekStartMs,
+        nextWeekStartMs: weekStartMs + 7 * DAY_MS,
+        calendarEndMs: todayStartMs + VELARIS_RELEASE_CALENDAR_DAYS_AHEAD * DAY_MS
+    };
+};
+
+export const shouldFetchNextVelarisReleasePage = (
+    items: ItemDto[],
+    dateField: VelarisReleasePagingDateField,
+    lowerBoundMs: number,
+    startIndex: number,
+    totalRecordCount: number | null | undefined,
+    pageSize: number
+) => {
+    if (items.length === 0 || items.length < pageSize) return false;
+    if (totalRecordCount != null && startIndex >= totalRecordCount) return false;
+
+    const validDates = items
+        .map(item => parseDateMs(item[dateField]))
+        .filter((value): value is number => value != null);
+
+    if (validDates.length === 0) return true;
+    return Math.min(...validDates) >= lowerBoundMs;
 };
 
 export const isVelarisSeasonPremiere = (item: ItemDto) => (
@@ -104,17 +146,18 @@ export const buildVelarisReleaseHubModel = (
     calendarSources: VelarisReleaseSourceItem[],
     now: Date | number = new Date()
 ): VelarisReleaseHubModel => {
-    const nowMs = typeof now === 'number' ? now : now.getTime();
-    const todayStartMs = getUtcDayStartMs(nowMs);
-    const weekStartMs = getVelarisReleaseWeekStartMs(nowMs);
-    const nextWeekStartMs = weekStartMs + 7 * DAY_MS;
-    const calendarEndMs = todayStartMs + CALENDAR_DAYS_AHEAD * DAY_MS;
+    const {
+        todayStartMs,
+        weekStartMs,
+        nextWeekStartMs,
+        calendarEndMs
+    } = getVelarisReleaseWindow(now);
 
     const newThisWeek = dedupeSources(recentSources)
         .filter(source => {
-            if (![ BaseItemKind.Series, BaseItemKind.Episode ].includes(source.item.Type as BaseItemKind)) {
-                return false;
-            }
+            const isSupportedType = source.item.Type === BaseItemKind.Series
+                || source.item.Type === BaseItemKind.Episode;
+            if (!isSupportedType) return false;
 
             const createdMs = parseDateMs(source.item.DateCreated);
             return createdMs != null && createdMs >= weekStartMs && createdMs < nextWeekStartMs;
