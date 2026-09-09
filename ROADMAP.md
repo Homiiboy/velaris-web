@@ -25,7 +25,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.6.0 | Advanced Player | ✅ Complete |
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ✅ Complete |
-| V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
+| V0.9.0 | Release Hub, Insights & Feature Complete | 🚧 In Progress |
 | V1.0.0 | First Stable Release | 🎯 Target |
 
 ## Completed phases
@@ -161,15 +161,17 @@ Detailed release notes: [`docs/V0.7.0.md`](docs/V0.7.0.md).
 
 Detailed release notes: [`docs/V0.8.0.md`](docs/V0.8.0.md).
 
-## Next planned feature phase
+## Current feature phase
 
 ### V0.9.0 — Release Hub, Insights & Feature Complete
 
-- new-this-week and new-episode/season surfaces
-- Series/Anime release hub and reliable calendar views
-- personal Velaris Insights and watch statistics
-- remaining small cross-feature improvements
-- final consistency pass
+- ✅ new-this-week and new-episode/season surfaces
+- ✅ Series/Anime release hub and reliable 28-day calendar views
+- ✅ personal Velaris Insights and profile-scoped watch statistics
+- 🚧 remaining small cross-feature improvements
+- 🚧 final consistency pass
+
+Release Hub implementation and review were validated in Velaris CI Runs #183. The initial Insights dashboard was validated in Velaris CI Run #186.
 
 **V0.9.0 is the Feature Complete milestone.** No major new feature family should be introduced after it until V1.0.0 is stable.
 
