@@ -33,9 +33,10 @@ const ListItemLink: FC<ListItemLinkProps> = ({
     const toSearchParams = new URLSearchParams(`?${toParams}`);
     const selectedPaths = [ toPath, ...includePaths ];
 
-    const selected = selectedPaths.includes(location.pathname)
+    const routeSelected = selectedPaths.includes(location.pathname)
         && !excludePaths.includes(location.pathname + location.search)
         && (!toParams || isMatchingParams(toSearchParams, searchParams));
+    const selected = params.selected ?? routeSelected;
 
     return (
         <ListItemButton
@@ -43,6 +44,7 @@ const ListItemLink: FC<ListItemLinkProps> = ({
             to={to}
             selected={selected}
             {...params}
+            aria-current={selected ? 'page' : undefined}
         >
             {children}
         </ListItemButton>
