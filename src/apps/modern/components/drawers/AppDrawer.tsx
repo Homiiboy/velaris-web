@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { matchPath } from 'react-router-dom';
 
 import ResponsiveDrawer, { ResponsiveDrawerProps } from 'components/ResponsiveDrawer';
 
 import { ASYNC_USER_ROUTES } from '../../routes/asyncRoutes';
 import { LEGACY_USER_ROUTES } from '../../routes/legacyRoutes';
 
+import { matchesVelarisDrawerRoute } from './appDrawerRouting';
 import MainDrawerContent from './MainDrawerContent';
 
 const DRAWERLESS_ROUTES = [
@@ -17,14 +17,10 @@ const MAIN_DRAWER_ROUTES = [
     ...LEGACY_USER_ROUTES
 ].filter(route => !DRAWERLESS_ROUTES.includes(route.path));
 
-const normalizeRoutePath = (path: string) => path.startsWith('/') ? path : `/${path}`;
-
 /** Utility function to check if a path has a drawer. */
-export const isDrawerPath = (path: string) => (
-    MAIN_DRAWER_ROUTES.some(route => Boolean(matchPath({
-        path: normalizeRoutePath(route.path),
-        end: true
-    }, path)))
+export const isDrawerPath = (path: string) => matchesVelarisDrawerRoute(
+    path,
+    MAIN_DRAWER_ROUTES.map(route => route.path)
 );
 
 const AppDrawer: FC<ResponsiveDrawerProps> = ({
