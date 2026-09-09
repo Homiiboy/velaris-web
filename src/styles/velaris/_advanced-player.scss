@@ -1,0 +1,382 @@
+@use './tokens' as tokens;
+
+#videoOsdPage .velaris-advanced-player-panel {
+    max-height: min(45vh, 32rem);
+    margin: 0 0 1rem;
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 1.2rem;
+    background: rgba(5, 8, 14, 0.92);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    scrollbar-width: thin;
+}
+
+#videoOsdPage .velaris-advanced-player-panel__header {
+    position: sticky;
+    z-index: 2;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    background: rgba(7, 10, 17, 0.96);
+    backdrop-filter: blur(18px);
+}
+
+#videoOsdPage .velaris-advanced-player-panel__header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.12rem;
+}
+
+#videoOsdPage .velaris-advanced-player-panel__eyebrow {
+    color: tokens.$cyan;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+}
+
+#videoOsdPage .velaris-advanced-player-panel__title {
+    color: tokens.$text-primary;
+    font-size: 1rem;
+}
+
+#videoOsdPage .velaris-advanced-player-panel__close {
+    display: grid;
+    width: 2.35rem;
+    height: 2.35rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    color: tokens.$text-primary;
+    cursor: pointer;
+    place-items: center;
+}
+
+#videoOsdPage .velaris-advanced-player-panel__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0.8rem;
+}
+
+#videoOsdPage .velaris-advanced-player-section {
+    min-width: 0;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.065);
+    border-radius: 0.95rem;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+#videoOsdPage .velaris-advanced-player-section--next,
+#videoOsdPage .velaris-advanced-player-section--chapters,
+#videoOsdPage .velaris-advanced-player-section--queue,
+#videoOsdPage .velaris-advanced-player-section--technical {
+    grid-column: 1 / -1;
+}
+
+#videoOsdPage .velaris-advanced-player-section__title {
+    display: block;
+    margin: 0 0 0.55rem;
+    color: tokens.$text-muted;
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+#videoOsdPage .velaris-advanced-player-section__content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+#videoOsdPage .velaris-advanced-player-chip {
+    min-height: 2.25rem;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.045);
+    color: tokens.$text-secondary;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.76rem;
+    transition:
+        border-color tokens.$transition-fast,
+        background tokens.$transition-fast,
+        color tokens.$transition-fast,
+        transform tokens.$transition-fast;
+}
+
+#videoOsdPage .velaris-advanced-player-chip:hover,
+#videoOsdPage .velaris-advanced-player-chip:focus-visible,
+#videoOsdPage .velaris-advanced-player-chip.is-selected {
+    border-color: rgba(69, 243, 255, 0.35);
+    background: rgba(69, 243, 255, 0.11);
+    color: tokens.$text-primary;
+}
+
+#videoOsdPage .velaris-advanced-player-chip:focus-visible,
+#videoOsdPage .velaris-advanced-player-panel__close:focus-visible {
+    outline: 2px solid tokens.$cyan;
+    outline-offset: 2px;
+}
+
+#videoOsdPage .velaris-advanced-player-next {
+    width: 100%;
+    justify-content: flex-start;
+    border-radius: 0.8rem;
+    text-align: left;
+}
+
+#videoOsdPage .velaris-advanced-player-section--chapters .velaris-advanced-player-section__content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+#videoOsdPage .velaris-advanced-player-chapter {
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.035);
+    color: tokens.$text-primary;
+    cursor: pointer;
+    text-align: left;
+}
+
+#videoOsdPage .velaris-advanced-player-chapter:hover,
+#videoOsdPage .velaris-advanced-player-chapter:focus-visible {
+    border-color: rgba(69, 243, 255, 0.34);
+    background: rgba(69, 243, 255, 0.07);
+}
+
+#videoOsdPage .velaris-advanced-player-chapter:focus-visible {
+    outline: 2px solid tokens.$cyan;
+    outline-offset: 2px;
+}
+
+#videoOsdPage .velaris-advanced-player-chapter__preview {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: rgba(0, 0, 0, 0.25);
+    background-position: center;
+    background-size: cover;
+}
+
+#videoOsdPage .velaris-advanced-player-chapter__text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.58rem 0.65rem;
+    font-size: 0.72rem;
+}
+
+#videoOsdPage .velaris-advanced-player-chapter__text strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#videoOsdPage .velaris-advanced-player-chapter__text span {
+    flex: 0 0 auto;
+    color: tokens.$text-muted;
+    font-variant-numeric: tabular-nums;
+}
+
+#videoOsdPage .velaris-advanced-player-section--queue .velaris-advanced-player-section__content {
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+#videoOsdPage .velaris-advanced-player-queue-item {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.42rem 0.15rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+}
+
+#videoOsdPage .velaris-advanced-player-queue-item:last-child {
+    border-bottom: 0;
+}
+
+#videoOsdPage .velaris-advanced-player-queue-item__index {
+    color: tokens.$cyan;
+    font-size: 0.68rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 800;
+}
+
+#videoOsdPage .velaris-advanced-player-queue-item__title {
+    overflow: hidden;
+    color: tokens.$text-secondary;
+    font-size: 0.76rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#videoOsdPage .velaris-player-technical-overlay {
+    position: absolute;
+    z-index: 5;
+    top: max(4.8rem, calc(env(safe-area-inset-top) + 4rem));
+    right: max(1.4rem, env(safe-area-inset-right));
+    width: min(19rem, calc(100vw - 2.8rem));
+    padding: 0.8rem 0.9rem;
+    border: 1px solid rgba(69, 243, 255, 0.17);
+    border-radius: 0.95rem;
+    background: rgba(4, 7, 12, 0.82);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(18px) saturate(125%);
+    color: tokens.$text-secondary;
+    pointer-events: none;
+}
+
+#videoOsdPage .velaris-player-technical-overlay__method {
+    display: block;
+    margin: 0 0 0.45rem;
+    color: tokens.$cyan;
+    font-size: 0.83rem;
+    letter-spacing: 0.04em;
+}
+
+#videoOsdPage .velaris-player-technical-overlay__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.16rem 0;
+    font-size: 0.68rem;
+}
+
+#videoOsdPage .velaris-player-technical-overlay__row span {
+    color: tokens.$text-muted;
+}
+
+#videoOsdPage .velaris-player-technical-overlay__row strong {
+    overflow: hidden;
+    color: tokens.$text-secondary;
+    font-weight: 600;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#videoOsdPage .velaris-player-segment-transition {
+    position: absolute;
+    z-index: 6;
+    right: max(1.4rem, env(safe-area-inset-right));
+    bottom: clamp(11.5rem, 25vh, 16rem);
+    display: flex;
+    max-width: min(28rem, calc(100vw - 2.8rem));
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(5, 8, 14, 0.9);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.38);
+    backdrop-filter: blur(20px);
+    color: tokens.$text-secondary;
+    font-size: 0.74rem;
+}
+
+#videoOsdPage .velaris-player-segment-transition > strong {
+    color: tokens.$text-primary;
+}
+
+#videoOsdPage .velaris-player-segment-transition > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#videoOsdPage .velaris-player-segment-transition .velaris-advanced-player-chip {
+    flex: 0 0 auto;
+    border-color: rgba(69, 243, 255, 0.25);
+    background: rgba(69, 243, 255, 0.1);
+}
+
+.skip-button-container .skip-button {
+    border: 1px solid rgba(69, 243, 255, 0.24);
+    border-radius: 999px;
+    background: rgba(5, 8, 14, 0.88);
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.36);
+    backdrop-filter: blur(18px);
+}
+
+.layout-tv #videoOsdPage .velaris-advanced-player-panel {
+    max-height: 48vh;
+}
+
+.layout-tv #videoOsdPage .velaris-advanced-player-chip,
+.layout-tv #videoOsdPage .velaris-advanced-player-chapter,
+.layout-tv #videoOsdPage .velaris-advanced-player-panel__close {
+    min-height: 3rem;
+}
+
+@media (max-width: 48rem) {
+    #videoOsdPage .velaris-advanced-player-panel {
+        max-height: 50vh;
+        margin-bottom: 0.6rem;
+    }
+
+    #videoOsdPage .velaris-advanced-player-panel__grid {
+        grid-template-columns: 1fr;
+        gap: 0.55rem;
+        padding: 0.6rem;
+    }
+
+    #videoOsdPage .velaris-advanced-player-section--next,
+    #videoOsdPage .velaris-advanced-player-section--chapters,
+    #videoOsdPage .velaris-advanced-player-section--queue,
+    #videoOsdPage .velaris-advanced-player-section--technical {
+        grid-column: auto;
+    }
+
+    #videoOsdPage .velaris-advanced-player-section--chapters .velaris-advanced-player-section__content {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    #videoOsdPage .velaris-advanced-player-chapter {
+        flex: 0 0 9.5rem;
+    }
+
+    #videoOsdPage .velaris-player-technical-overlay {
+        top: max(3.7rem, calc(env(safe-area-inset-top) + 3rem));
+        right: 0.8rem;
+        width: min(17rem, calc(100vw - 1.6rem));
+    }
+
+    #videoOsdPage .velaris-player-segment-transition {
+        right: 0.8rem;
+        bottom: 10rem;
+        max-width: calc(100vw - 1.6rem);
+    }
+}
+
+@media (max-width: 34rem) {
+    #videoOsdPage .velaris-player-technical-overlay {
+        font-size: 0.66rem;
+    }
+
+    #videoOsdPage .velaris-player-segment-transition > span {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #videoOsdPage .velaris-advanced-player-chip {
+        transition: none;
+    }
+}
