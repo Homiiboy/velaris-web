@@ -36,6 +36,11 @@ export interface VelarisReleaseWindow {
     calendarEndMs: number
 }
 
+export interface VelarisReleaseLoadState {
+    isReleaseQueryError: boolean
+    isPartial: boolean
+}
+
 const DAY_MS = 24 * 60 * 60 * 1000;
 const ISO_DATE_PREFIX = /^(\d{4})-(\d{2})-(\d{2})/;
 export const VELARIS_RELEASE_CALENDAR_DAYS_AHEAD = 28;
@@ -111,6 +116,26 @@ export const getVelarisReleaseWindow = (
         weekStartMs,
         nextWeekStartMs: nextWeek.getTime(),
         calendarEndMs: todayStartMs + VELARIS_RELEASE_CALENDAR_DAYS_AHEAD * DAY_MS
+    };
+};
+
+export const getVelarisReleaseLoadState = (
+    libraryCount: number,
+    recentFailedCount: number,
+    calendarFailedCount: number,
+    truncatedCount: number
+): VelarisReleaseLoadState => {
+    const isReleaseQueryError = libraryCount > 0
+        && recentFailedCount >= libraryCount
+        && calendarFailedCount >= libraryCount;
+
+    return {
+        isReleaseQueryError,
+        isPartial: !isReleaseQueryError && Boolean(
+            recentFailedCount
+            || calendarFailedCount
+            || truncatedCount
+        )
     };
 };
 
