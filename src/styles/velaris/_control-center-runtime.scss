@@ -26,3 +26,139 @@
     --velaris-theme-accent: var(--velaris-custom-accent, #45f3ff);
     --velaris-theme-accent-soft: color-mix(in srgb, var(--velaris-custom-accent, #45f3ff) 18%, transparent);
 }
+
+:root[data-velaris-theme] :where(
+    .velaris-home-hero__eyebrow,
+    .velaris-home-destinations__eyebrow,
+    .velaris-smart-home__eyebrow,
+    .velaris-franchise-discovery__eyebrow,
+    .velaris-franchise-hero__eyebrow,
+    .velaris-franchise-empty__eyebrow,
+    .velaris-discovery-hero > span,
+    .velaris-discovery-smart > div > span,
+    .velaris-discovery-section-heading > div > span,
+    .velaris-discovery-lists__heading > span
+) {
+    color: var(--velaris-theme-accent);
+}
+
+:root[data-velaris-theme] .velaris-home-hero__indicator--active {
+    background: var(--velaris-theme-accent);
+    box-shadow: 0 0 18px var(--velaris-theme-accent-soft);
+}
+
+:root[data-velaris-theme] .velaris-franchise-card::after,
+:root[data-velaris-theme] .velaris-franchise-hero__action--primary {
+    background: var(--velaris-theme-accent);
+}
+
+:root[data-velaris-theme] .velaris-discovery-hero button,
+:root[data-velaris-theme] .velaris-discovery-controls button,
+:root[data-velaris-theme] .velaris-discovery-list-create button {
+    border-color: color-mix(in srgb, var(--velaris-theme-accent) 38%, transparent);
+    background: var(--velaris-theme-accent-soft);
+}
+
+:root[data-velaris-theme] .velaris-discovery-smart__chips button[aria-pressed='true'] {
+    border-color: color-mix(in srgb, var(--velaris-theme-accent) 52%, transparent);
+    background: var(--velaris-theme-accent-soft);
+    box-shadow: 0 10px 30px var(--velaris-theme-accent-soft);
+}
+
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-panel__eyebrow {
+    color: var(--velaris-theme-accent);
+}
+
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-chip:hover,
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-chip:focus-visible,
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-chip.is-selected,
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-chapter:hover,
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-chapter:focus-visible {
+    border-color: color-mix(in srgb, var(--velaris-theme-accent) 42%, transparent);
+    background: var(--velaris-theme-accent-soft);
+}
+
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-chip:focus-visible,
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-panel__close:focus-visible,
+:root[data-velaris-theme] #videoOsdPage .velaris-advanced-player-chapter:focus-visible {
+    outline-color: var(--velaris-theme-accent);
+}
+
+:root[data-velaris-density='compact'] .velaris-home-destinations__rail {
+    grid-auto-columns: clamp(11.5rem, 16vw, 15.5rem);
+    gap: 0.55rem;
+}
+
+:root[data-velaris-density='compact'] .velaris-smart-row__rail {
+    grid-auto-columns: minmax(10.5rem, 16vw);
+    gap: 0.6rem;
+}
+
+:root[data-velaris-density='compact'] .velaris-franchise-discovery__rail {
+    grid-auto-columns: clamp(15rem, 23vw, 21rem);
+    gap: 0.65rem;
+}
+
+:root[data-velaris-density='compact'] .velaris-discovery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+    gap: 0.65rem;
+}
+
+:root[data-velaris-density='compact'] .velaris-control-center__grid {
+    gap: 0.7rem;
+}
+
+:root[data-velaris-density='compact'] .velaris-control-center__card {
+    gap: 0.75rem;
+    padding: 1rem;
+}
+
+:root[data-velaris-density='spacious'] .velaris-home-destinations__rail {
+    grid-auto-columns: clamp(15.5rem, 22vw, 21rem);
+    gap: 1rem;
+}
+
+:root[data-velaris-density='spacious'] .velaris-smart-row__rail {
+    grid-auto-columns: minmax(14.5rem, 22vw);
+    gap: 1.1rem;
+}
+
+:root[data-velaris-density='spacious'] .velaris-franchise-discovery__rail {
+    grid-auto-columns: clamp(20rem, 31vw, 29rem);
+    gap: 1.1rem;
+}
+
+:root[data-velaris-density='spacious'] .velaris-discovery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1.1rem;
+}
+
+:root[data-velaris-density='spacious'] .velaris-control-center__grid {
+    gap: 1.35rem;
+}
+
+:root[data-velaris-density='spacious'] .velaris-control-center__card {
+    gap: 1.25rem;
+    padding: 1.7rem;
+}
+
+:root[data-velaris-navigation='compact'] .velaris-drawer-content .MuiListItemButton-root {
+    min-height: 2.7rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+:root[data-velaris-navigation='compact'] .velaris-drawer-content .MuiListItemIcon-root {
+    min-width: 2.1rem;
+}
+
+:root[data-velaris-navigation='compact'] .velaris-drawer-content .MuiListItemText-primary {
+    font-size: 0.86rem;
+}
+
+.velaris-feature-advanced-player-disabled #videoOsdPage .btnVelarisAdvanced,
+.velaris-feature-advanced-player-disabled #videoOsdPage .velaris-advanced-player-panel,
+.velaris-feature-advanced-player-disabled #videoOsdPage .velaris-player-technical-overlay,
+.velaris-feature-advanced-player-disabled #videoOsdPage .velaris-player-segment-transition {
+    display: none !important;
+}
