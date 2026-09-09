@@ -38,6 +38,7 @@ const DISABLED_VELARIS_ADVANCED_PLAYER_PREFERENCES: VelarisAdvancedPlayerPrefere
 const STORAGE_PREFIX = `velaris:advanced-player:v${VELARIS_ADVANCED_PLAYER_VERSION}`;
 
 const encodeScope = (value: string) => encodeURIComponent(value.trim() || 'unknown');
+const padTwoDigits = (value: number) => value < 10 ? `0${value}` : String(value);
 
 export const getVelarisAdvancedPlayerStorageKey = (serverId: string, userId: string) => (
     `${STORAGE_PREFIX}:${encodeScope(serverId)}:${encodeScope(userId)}`
@@ -66,7 +67,7 @@ export const sanitizeVelarisAdvancedPlayerPreferences = (
 };
 
 export const readVelarisAdvancedPlayerPreferences = (
-    storage: StorageLike,
+    storage: StorageLike | undefined,
     serverId: string,
     userId: string
 ): VelarisAdvancedPlayerPreferences => {
@@ -74,6 +75,7 @@ export const readVelarisAdvancedPlayerPreferences = (
     if (!controlCenterPreferences.advancedPlayerEnabled) {
         return { ...DISABLED_VELARIS_ADVANCED_PLAYER_PREFERENCES };
     }
+    if (!storage) return { ...DEFAULT_VELARIS_ADVANCED_PLAYER_PREFERENCES };
 
     try {
         const rawValue = storage.getItem(getVelarisAdvancedPlayerStorageKey(serverId, userId));
@@ -87,15 +89,18 @@ export const readVelarisAdvancedPlayerPreferences = (
 };
 
 export const saveVelarisAdvancedPlayerPreferences = (
-    storage: StorageLike,
+    storage: StorageLike | undefined,
     serverId: string,
     userId: string,
     preferences: VelarisAdvancedPlayerPreferences
 ) => {
+    if (!storage) return false;
+
     storage.setItem(
         getVelarisAdvancedPlayerStorageKey(serverId, userId),
         JSON.stringify(sanitizeVelarisAdvancedPlayerPreferences(preferences))
     );
+    return true;
 };
 
 export const getVelarisQualityPreset = (id: VelarisQualityPreset) => (
@@ -122,10 +127,10 @@ export const formatVelarisChapterTime = (ticks?: number | null) => {
     const remainingSeconds = seconds % 60;
 
     if (hours > 0) {
-        return `${hours}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        return `${hours}:${padTwoDigits(minutes)}:${padTwoDigits(remainingSeconds)}`;
     }
 
-    return `${minutes}:${String(remainingSeconds).padStart(2, '0')}`;
+    return `${minutes}:${padTwoDigits(remainingSeconds)}`;
 };
 
 export const getVelarisQueueWindow = <T>(items: T[], currentIndex: number, limit = 5) => {
