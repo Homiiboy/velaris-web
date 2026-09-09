@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import {
     DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES,
     getVelarisControlCenterStorageKey,
@@ -6,27 +8,11 @@ import {
     saveVelarisControlCenterPreferences
 } from './controlCenter';
 
-class MemoryStorage implements Storage {
+class MemoryStorage {
     private readonly values = new Map<string, string>();
-
-    get length() {
-        return this.values.size;
-    }
-
-    clear() {
-        this.values.clear();
-    }
 
     getItem(key: string) {
         return this.values.get(key) ?? null;
-    }
-
-    key(index: number) {
-        return Array.from(this.values.keys())[index] ?? null;
-    }
-
-    removeItem(key: string) {
-        this.values.delete(key);
     }
 
     setItem(key: string, value: string) {
@@ -35,7 +21,7 @@ class MemoryStorage implements Storage {
 }
 
 describe('Velaris Control Center preferences', () => {
-    test('repairs malformed values to supported defaults', () => {
+    it('repairs malformed values to supported defaults', () => {
         expect(sanitizeVelarisControlCenterPreferences({
             themePreset: 'unknown',
             customAccent: 'cyan',
@@ -50,7 +36,7 @@ describe('Velaris Control Center preferences', () => {
         })).toEqual(DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES);
     });
 
-    test('accepts supported theme and experience choices', () => {
+    it('accepts supported theme and experience choices', () => {
         expect(sanitizeVelarisControlCenterPreferences({
             version: 99,
             themePreset: 'custom',
@@ -78,7 +64,7 @@ describe('Velaris Control Center preferences', () => {
         });
     });
 
-    test('scopes persisted preferences by server and user', () => {
+    it('scopes persisted preferences by server and user', () => {
         const storage = new MemoryStorage();
         saveVelarisControlCenterPreferences(storage, 'server-a', 'user-a', {
             ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES,
@@ -90,13 +76,13 @@ describe('Velaris Control Center preferences', () => {
         expect(readVelarisControlCenterPreferences(storage, 'server-b', 'user-a').themePreset).toBe('default');
     });
 
-    test('uses encoded stable storage keys', () => {
+    it('uses encoded stable storage keys', () => {
         expect(getVelarisControlCenterStorageKey('server/a', 'user b')).toBe(
             'velaris:control-center:v1:server%2Fa:user%20b'
         );
     });
 
-    test('falls back safely when stored JSON is invalid', () => {
+    it('falls back safely when stored JSON is invalid', () => {
         const storage = new MemoryStorage();
         storage.setItem(getVelarisControlCenterStorageKey('server', 'user'), '{broken');
 
