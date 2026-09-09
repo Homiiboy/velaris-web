@@ -34,13 +34,19 @@ export const useVelarisProfilePreferences = () => {
     }, [ serverId, userId ]);
 
     useEffect(() => {
-        if (!userId || !serverId) return;
+        const root = document.documentElement;
 
-        document.documentElement.dataset.velarisProfileAccent = preferences.accent;
-        document.documentElement.classList.toggle('velaris-kids-mode', preferences.kidsMode);
+        if (!userId || !serverId) {
+            root.dataset.velarisProfileAccent = DEFAULT_VELARIS_PROFILE_PREFERENCES.accent;
+            root.classList.remove('velaris-kids-mode');
+            return;
+        }
+
+        root.dataset.velarisProfileAccent = preferences.accent;
+        root.classList.toggle('velaris-kids-mode', preferences.kidsMode);
 
         return () => {
-            document.documentElement.classList.remove('velaris-kids-mode');
+            root.classList.remove('velaris-kids-mode');
         };
     }, [ preferences, serverId, userId ]);
 
