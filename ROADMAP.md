@@ -26,7 +26,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ✅ Complete |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ✅ Complete |
-| V1.0.0 | First Stable Release | 🎯 Target |
+| V1.0.0 | First Stable Release | 🚧 In Progress |
 
 ## Completed phases
 
@@ -186,7 +186,7 @@ Detailed release notes: [`docs/V0.9.0.md`](docs/V0.9.0.md).
 
 **V0.9.0 is the Feature Complete milestone.** No major new feature family should be introduced before V1.0.0; remaining work is stabilization, compatibility validation, performance work and defect removal.
 
-## Next release phase
+## Active release phase
 
 ### V1.0.0 — First Stable Release
 
@@ -202,6 +202,22 @@ V1.0.0 is reserved for stabilization rather than another feature family:
 - broader automated regression coverage
 - production build and ES compatibility validation
 - no known release-blocking defects
+
+Current stabilization progress:
+
+- ✅ V0.x Discovery Watchlist/custom-list persistence migrated from user-only storage to server+user scoping with a backward-compatible legacy fallback
+- ✅ browser Local Storage / Session Storage access hardened for Discovery, Profiles and Control Center so unavailable storage degrades safely
+- ✅ regression coverage added for Discovery migration/scoping and unavailable-storage preference fallbacks
+- 🚧 cross-feature regression and interaction audit
+- 🚧 TV/remote/keyboard/accessibility validation
+- 🚧 remaining preference migration audit, including Advanced Player and Franchise Studio state
+- 🚧 performance profiling and optimization
+- 🚧 connection-loss, permission and recovery edge cases
+- 🚧 final device/layout matrix and stable-release validation
+
+Work-in-progress notes: [`docs/V1.0.0.md`](docs/V1.0.0.md).
+
+`VELARIS_VERSION` remains `0.9.0` until V1.0.0 has passed the full stabilization gate and is ready to be finalized as Stable.
 
 ## Principles for every phase
 

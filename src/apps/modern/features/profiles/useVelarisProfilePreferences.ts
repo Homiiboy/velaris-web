@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { getVelarisLocalStorage } from 'apps/modern/utils/velarisStorage';
 import { useApi } from 'hooks/useApi';
 
 import {
@@ -30,7 +31,7 @@ export const useVelarisProfilePreferences = () => {
             return;
         }
 
-        setPreferences(readVelarisProfilePreferences(window.localStorage, serverId, userId));
+        setPreferences(readVelarisProfilePreferences(getVelarisLocalStorage(), serverId, userId));
     }, [ serverId, userId ]);
 
     useEffect(() => {
@@ -55,11 +56,11 @@ export const useVelarisProfilePreferences = () => {
 
         const onStorage = (event: StorageEvent) => {
             if (event.key === storageKey) {
-                setPreferences(readVelarisProfilePreferences(window.localStorage, serverId, userId));
+                setPreferences(readVelarisProfilePreferences(getVelarisLocalStorage(), serverId, userId));
             }
         };
         const onProfilePreferencesChanged = () => {
-            setPreferences(readVelarisProfilePreferences(window.localStorage, serverId, userId));
+            setPreferences(readVelarisProfilePreferences(getVelarisLocalStorage(), serverId, userId));
         };
 
         window.addEventListener('storage', onStorage);
@@ -76,8 +77,13 @@ export const useVelarisProfilePreferences = () => {
         const sanitized = sanitizeVelarisProfilePreferences(next);
         setPreferences(sanitized);
         try {
-            saveVelarisProfilePreferences(window.localStorage, serverId, userId, sanitized);
-            window.dispatchEvent(new Event(PROFILE_PREFERENCES_EVENT));
+            const saved = saveVelarisProfilePreferences(
+                getVelarisLocalStorage(),
+                serverId,
+                userId,
+                sanitized
+            );
+            if (saved) window.dispatchEvent(new Event(PROFILE_PREFERENCES_EVENT));
         } catch (error) {
             console.warn('[VelarisProfiles] unable to save profile preferences', error);
         }

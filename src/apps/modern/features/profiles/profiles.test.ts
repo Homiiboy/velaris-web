@@ -9,6 +9,7 @@ import {
     markVelarisProfileChosen,
     readVelarisProfilePreferences,
     sanitizeVelarisProfilePreferences,
+    saveVelarisProfilePreferences,
     shouldShowVelarisProfilePicker
 } from './profiles';
 
@@ -58,6 +59,18 @@ describe('Velaris profile preferences', () => {
             kidsMode: true
         });
     });
+
+    it('falls back safely when browser storage is unavailable', () => {
+        expect(readVelarisProfilePreferences(undefined, 'server', 'user')).toEqual(
+            DEFAULT_VELARIS_PROFILE_PREFERENCES
+        );
+        expect(saveVelarisProfilePreferences(
+            undefined,
+            'server',
+            'user',
+            DEFAULT_VELARIS_PROFILE_PREFERENCES
+        )).toBe(false);
+    });
 });
 
 describe('Velaris profile startup flow', () => {
@@ -93,6 +106,13 @@ describe('Velaris profile startup flow', () => {
         const chosenProfileId = getChosenVelarisProfileId(storage, 'server-a');
         expect(chosenProfileId).toBeNull();
         expect(shouldShowVelarisProfilePicker(profiles, 'one', chosenProfileId)).toBe(true);
+    });
+
+    it('treats unavailable session storage as an unacknowledged profile safely', () => {
+        expect(getChosenVelarisProfileId(undefined, 'server-a')).toBeNull();
+        expect(shouldShowVelarisProfilePicker(profiles, 'one', null)).toBe(true);
+        expect(() => markVelarisProfileChosen(undefined, 'server-a', 'one')).not.toThrow();
+        expect(() => clearVelarisProfileChoice(undefined, 'server-a')).not.toThrow();
     });
 });
 

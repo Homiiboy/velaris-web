@@ -66,10 +66,12 @@ export const sanitizeVelarisProfilePreferences = (value: unknown): VelarisProfil
 };
 
 export const readVelarisProfilePreferences = (
-    storage: StorageLike,
+    storage: StorageLike | undefined,
     serverId: string,
     userId: string
 ): VelarisProfilePreferences => {
+    if (!storage) return { ...DEFAULT_VELARIS_PROFILE_PREFERENCES };
+
     try {
         const rawValue = storage.getItem(getVelarisProfileStorageKey(serverId, userId));
         return rawValue ? sanitizeVelarisProfilePreferences(JSON.parse(rawValue)) :
@@ -81,19 +83,24 @@ export const readVelarisProfilePreferences = (
 };
 
 export const saveVelarisProfilePreferences = (
-    storage: StorageLike,
+    storage: StorageLike | undefined,
     serverId: string,
     userId: string,
     preferences: VelarisProfilePreferences
 ) => {
+    if (!storage) return false;
+
     const sanitizedPreferences = sanitizeVelarisProfilePreferences(preferences);
     storage.setItem(
         getVelarisProfileStorageKey(serverId, userId),
         JSON.stringify(sanitizedPreferences)
     );
+    return true;
 };
 
-export const getChosenVelarisProfileId = (storage: StorageLike, serverId: string) => {
+export const getChosenVelarisProfileId = (storage: StorageLike | undefined, serverId: string) => {
+    if (!storage) return null;
+
     try {
         return storage.getItem(getVelarisProfileSessionKey(serverId));
     } catch {
@@ -102,10 +109,12 @@ export const getChosenVelarisProfileId = (storage: StorageLike, serverId: string
 };
 
 export const markVelarisProfileChosen = (
-    storage: StorageLike,
+    storage: StorageLike | undefined,
     serverId: string,
     userId: string
 ) => {
+    if (!storage) return;
+
     try {
         storage.setItem(getVelarisProfileSessionKey(serverId), userId);
     } catch (error) {
@@ -113,7 +122,9 @@ export const markVelarisProfileChosen = (
     }
 };
 
-export const clearVelarisProfileChoice = (storage: StorageLike, serverId: string) => {
+export const clearVelarisProfileChoice = (storage: StorageLike | undefined, serverId: string) => {
+    if (!storage) return;
+
     try {
         storage.removeItem?.(getVelarisProfileSessionKey(serverId));
     } catch (error) {

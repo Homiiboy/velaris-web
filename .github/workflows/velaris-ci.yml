@@ -55,6 +55,7 @@ jobs:
           src/apps/modern/utils/velarisNavigation.test.ts
           src/apps/modern/utils/velarisRouting.ts
           src/apps/modern/utils/velarisRouting.test.ts
+          src/apps/modern/utils/velarisStorage.ts
           src/apps/modern/routes/asyncRoutes/user.ts
           src/apps/modern/routes/controlCenter.tsx
           src/apps/modern/routes/discovery.tsx

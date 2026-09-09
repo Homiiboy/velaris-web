@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { getVelarisLocalStorage } from 'apps/modern/utils/velarisStorage';
 import { useApi } from 'hooks/useApi';
 
 import {
@@ -7,52 +8,48 @@ import {
     sanitizeDiscoveryStore,
     type VelarisDiscoveryStore
 } from './discovery';
+import {
+    getVelarisDiscoveryChangeEventName,
+    getVelarisDiscoveryStorageKey,
+    readVelarisDiscoveryStore,
+    saveVelarisDiscoveryStore
+} from './discoveryStorePersistence';
 
-const STORAGE_PREFIX = 'velaris:discovery:v1:';
-const CHANGE_EVENT_PREFIX = 'velaris:discovery:change:';
+const getEmptyStore = () => sanitizeDiscoveryStore(EMPTY_DISCOVERY_STORE);
 
-const getStorageKey = (userId: string) => `${STORAGE_PREFIX}${userId}`;
-const getChangeEventName = (userId: string) => `${CHANGE_EVENT_PREFIX}${userId}`;
+const readStore = (serverId: string, userId: string) => (
+    readVelarisDiscoveryStore(getVelarisLocalStorage(), serverId, userId)
+);
 
-const readStore = (userId: string): VelarisDiscoveryStore => {
-    try {
-        const stored = window.localStorage.getItem(getStorageKey(userId));
-        return stored ? sanitizeDiscoveryStore(JSON.parse(stored)) : sanitizeDiscoveryStore(EMPTY_DISCOVERY_STORE);
-    } catch (error) {
-        console.warn('[VelarisDiscovery] unable to read list data', error);
-        return sanitizeDiscoveryStore(EMPTY_DISCOVERY_STORE);
-    }
-};
+const persistStore = (serverId: string, userId: string, store: VelarisDiscoveryStore) => {
+    const saved = saveVelarisDiscoveryStore(getVelarisLocalStorage(), serverId, userId, store);
+    if (!saved) return;
 
-const persistStore = (userId: string, store: VelarisDiscoveryStore) => {
-    try {
-        window.localStorage.setItem(getStorageKey(userId), JSON.stringify(store));
-        window.setTimeout(() => {
-            window.dispatchEvent(new Event(getChangeEventName(userId)));
-        }, 0);
-    } catch (error) {
-        console.warn('[VelarisDiscovery] unable to save list data', error);
-    }
+    window.setTimeout(() => {
+        window.dispatchEvent(new Event(getVelarisDiscoveryChangeEventName(serverId, userId)));
+    }, 0);
 };
 
 export const useVelarisDiscoveryStore = () => {
-    const { user } = useApi();
+    const { user, __legacyApiClient__ } = useApi();
     const userId = user?.Id;
+    const serverId = __legacyApiClient__?.serverId();
     const [ store, setStoreState ] = useState<VelarisDiscoveryStore>(() => (
-        userId ? readStore(userId) : sanitizeDiscoveryStore(EMPTY_DISCOVERY_STORE)
+        userId && serverId ? readStore(serverId, userId) : getEmptyStore()
     ));
 
     useEffect(() => {
-        setStoreState(userId ? readStore(userId) : sanitizeDiscoveryStore(EMPTY_DISCOVERY_STORE));
-    }, [ userId ]);
+        setStoreState(userId && serverId ? readStore(serverId, userId) : getEmptyStore());
+    }, [ serverId, userId ]);
 
     useEffect(() => {
-        if (!userId) return undefined;
+        if (!userId || !serverId) return undefined;
 
-        const eventName = getChangeEventName(userId);
-        const onChange = () => setStoreState(readStore(userId));
+        const eventName = getVelarisDiscoveryChangeEventName(serverId, userId);
+        const storageKey = getVelarisDiscoveryStorageKey(serverId, userId);
+        const onChange = () => setStoreState(readStore(serverId, userId));
         const onStorage = (event: StorageEvent) => {
-            if (event.key === getStorageKey(userId)) onChange();
+            if (event.key === storageKey) onChange();
         };
 
         window.addEventListener(eventName, onChange);
@@ -61,7 +58,7 @@ export const useVelarisDiscoveryStore = () => {
             window.removeEventListener(eventName, onChange);
             window.removeEventListener('storage', onStorage);
         };
-    }, [ userId ]);
+    }, [ serverId, userId ]);
 
     const setStore = useCallback((
         updater: VelarisDiscoveryStore | ((current: VelarisDiscoveryStore) => VelarisDiscoveryStore)
@@ -69,10 +66,10 @@ export const useVelarisDiscoveryStore = () => {
         setStoreState(current => {
             const candidate = typeof updater === 'function' ? updater(current) : updater;
             const next = sanitizeDiscoveryStore(candidate);
-            if (userId) persistStore(userId, next);
+            if (userId && serverId) persistStore(serverId, userId, next);
             return next;
         });
-    }, [ userId ]);
+    }, [ serverId, userId ]);
 
     return { store, setStore };
 };

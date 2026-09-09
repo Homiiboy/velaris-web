@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { getVelarisLocalStorage } from 'apps/modern/utils/velarisStorage';
 import { useApi } from 'hooks/useApi';
 
 import {
@@ -35,7 +36,7 @@ export const useVelarisControlCenterPreferences = () => {
     ), [ serverId, userId ]);
     const [ preferences, setPreferences ] = useState<VelarisControlCenterPreferences>(() => (
         userId && serverId ?
-            readVelarisControlCenterPreferences(window.localStorage, serverId, userId) :
+            readVelarisControlCenterPreferences(getVelarisLocalStorage(), serverId, userId) :
             { ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES }
     ));
 
@@ -45,7 +46,7 @@ export const useVelarisControlCenterPreferences = () => {
             return;
         }
 
-        setPreferences(readVelarisControlCenterPreferences(window.localStorage, serverId, userId));
+        setPreferences(readVelarisControlCenterPreferences(getVelarisLocalStorage(), serverId, userId));
     }, [ serverId, userId ]);
 
     useEffect(() => {
@@ -57,11 +58,11 @@ export const useVelarisControlCenterPreferences = () => {
 
         const onStorage = (event: StorageEvent) => {
             if (event.key === storageKey) {
-                setPreferences(readVelarisControlCenterPreferences(window.localStorage, serverId, userId));
+                setPreferences(readVelarisControlCenterPreferences(getVelarisLocalStorage(), serverId, userId));
             }
         };
         const onPreferencesChanged = () => {
-            setPreferences(readVelarisControlCenterPreferences(window.localStorage, serverId, userId));
+            setPreferences(readVelarisControlCenterPreferences(getVelarisLocalStorage(), serverId, userId));
         };
 
         window.addEventListener('storage', onStorage);
@@ -78,8 +79,13 @@ export const useVelarisControlCenterPreferences = () => {
         const sanitized = sanitizeVelarisControlCenterPreferences(next);
         setPreferences(sanitized);
         try {
-            saveVelarisControlCenterPreferences(window.localStorage, serverId, userId, sanitized);
-            window.dispatchEvent(new Event(VELARIS_CONTROL_CENTER_EVENT));
+            const saved = saveVelarisControlCenterPreferences(
+                getVelarisLocalStorage(),
+                serverId,
+                userId,
+                sanitized
+            );
+            if (saved) window.dispatchEvent(new Event(VELARIS_CONTROL_CENTER_EVENT));
         } catch (error) {
             console.warn('[VelarisControlCenter] unable to save preferences', error);
         }

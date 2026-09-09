@@ -92,6 +92,18 @@ describe('Velaris Control Center preferences', () => {
         );
     });
 
+    it('keeps defaults when browser storage is unavailable', () => {
+        expect(readVelarisControlCenterPreferences(undefined, 'server', 'user')).toEqual(
+            DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES
+        );
+        expect(saveVelarisControlCenterPreferences(
+            undefined,
+            'server',
+            'user',
+            DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES
+        )).toBe(false);
+    });
+
     it('blocks Discovery routes when Discovery is disabled', () => {
         const preferences = {
             ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES,

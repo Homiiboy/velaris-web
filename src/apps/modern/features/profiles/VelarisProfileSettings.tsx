@@ -1,6 +1,7 @@
 import type { UserDto } from '@jellyfin/sdk/lib/generated-client';
 import React, { type FC, useCallback, useEffect, useState } from 'react';
 
+import { getVelarisSessionStorage } from 'apps/modern/utils/velarisStorage';
 import toast from 'components/toast/toast';
 import globalize from 'lib/globalize';
 import Dashboard from 'utils/dashboard';
@@ -67,7 +68,7 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
     const onSwitchProfile = useCallback(() => {
         if (!serverId) return;
 
-        clearVelarisProfileChoice(window.sessionStorage, serverId);
+        clearVelarisProfileChoice(getVelarisSessionStorage(), serverId);
         void Dashboard.navigate('home');
     }, [ serverId ]);
 

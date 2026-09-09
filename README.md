@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
-<p align="center">Current development version: <strong>V0.9.0</strong></p>
+<p align="center">Release baseline: <strong>V0.9.0</strong> · Active stabilization: <strong>V1.0.0</strong></p>
 
 ---
 
@@ -16,29 +16,22 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.9.0 — Release Hub, Insights & Feature Complete is complete and validated.**
+**V1.0.0 — First Stable Release stabilization is now in progress.**
 
-V0.9.0 closes the planned V0.x feature roadmap. It adds server-backed release discovery and personal viewing insights while keeping Jellyfin metadata, user data, permissions and playback behavior authoritative.
+V0.9.0 remains the current validated release baseline and closed the planned V0.x feature roadmap. V1.0.0 does not introduce another major feature family; it is dedicated to regression coverage, device compatibility, accessibility, performance, error handling, preference migration and release-blocking defect removal.
 
-The completed V0.9.0 scope includes:
+The first V1 stabilization batch starts with persisted client-state reliability:
 
-- dedicated Release Hub with first-class desktop and mobile navigation
-- “Neu diese Woche” surfaces for Series and Anime from real connected-library data
-- separate new-episode counts and detected season-premiere presentation
-- Series/Anime Release Hub filters
-- timezone-stable 28-day episode calendar based on real Jellyfin `PremiereDate` metadata
-- paged and bounded Release Hub loading with deduplication and explicit partial/error states
-- dedicated personal Insights route with desktop/mobile navigation
-- profile-scoped Jellyfin-backed statistics for known plays, rewatches, watched films and episodes
-- estimated watch time derived from known runtime × PlayCount rather than presented as an exact event history
-- activity from the last 30 days, Top Genres, Top Series and server-backed “Zuletzt gesehen” artwork
-- bounded paged Insights loading and deterministic item deduplication
-- regression coverage for Release Hub date/paging/load-state logic and Insights aggregation
-- final cross-feature consistency and scope audit for the Feature Complete milestone
+- Discovery Watchlist/custom-list storage is now scoped by Jellyfin server and active user instead of user ID alone
+- existing V0.x Discovery data remains readable and migrates automatically into the new server+user-scoped key
+- already migrated server-scoped data takes precedence over the legacy fallback
+- unavailable Local Storage / Session Storage now degrades safely across Discovery, Profiles and Control Center paths instead of being allowed to break those surfaces
+- regression coverage verifies the Discovery migration/scoping path and unavailable-storage fallbacks
+- the shared Velaris browser-storage compatibility helper is included in strict zero-warning lint
 
-Release Hub code-complete behavior passed Velaris CI Run #183, Insights passed Run #186, and the integrated V0.9 scope passed the complete pipeline in Run #187. Detailed release notes are available in [`docs/V0.9.0.md`](docs/V0.9.0.md).
+Detailed V1 work-in-progress notes are available in [`docs/V1.0.0.md`](docs/V1.0.0.md).
 
-**Velaris is now Feature Complete for the planned V0.x roadmap.** V1.0.0 is the next phase and is dedicated to stabilization, compatibility, performance, accessibility and release-blocking defect removal rather than another major feature family.
+`VELARIS_VERSION` intentionally remains `0.9.0` while stabilization is underway. It will move to `1.0.0` only when the stable release has passed its complete final gate.
 
 ## Roadmap to V1.0.0
 
@@ -58,7 +51,7 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ✅ Complete |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ✅ Complete |
-| V1.0.0 | First Stable Release | 🎯 Target |
+| V1.0.0 | First Stable Release | 🚧 In Progress |
 
 ## What is already in Velaris
 
@@ -117,14 +110,14 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
 
 The `velaris` branch includes a dedicated Velaris CI workflow that runs TypeScript, repository ESLint, strict zero-warning lint over Velaris-owned paths, Stylelint, unit tests, the production build and an ES compatibility scan of the generated bundle.
 
-A feature phase is not considered complete until the complete validation pipeline passes.
+V1.0.0 will not be considered stable until the complete final validation matrix passes and no known release-blocking defects remain.
 
 ## Versioning and release policy
 
 Velaris uses its own release line, stored in `VELARIS_VERSION`, while the Jellyfin Web package version can remain aligned with the upstream codebase for easier compatibility tracking.
 
 - `V0.x` — feature development and pre-stable milestones
-- `V0.9.0` — Feature Complete milestone
+- `V0.9.0` — Feature Complete milestone and current release baseline
 - `V1.0.0` — first Stable release after the dedicated final hardening phase
 
 ## License and upstream attribution

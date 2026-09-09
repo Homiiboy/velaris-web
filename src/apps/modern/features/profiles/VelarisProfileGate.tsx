@@ -1,6 +1,7 @@
 import React, { type FC, useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+import { getVelarisLocalStorage, getVelarisSessionStorage } from 'apps/modern/utils/velarisStorage';
 import viewContainer from 'components/viewContainer';
 import { useApi } from 'hooks/useApi';
 import Dashboard from 'utils/dashboard';
@@ -45,7 +46,7 @@ const VelarisProfileGate: FC = () => {
     }, [ __legacyApiClient__, currentUserId, serverId ]);
 
     const chosenProfileId = serverId ?
-        getChosenVelarisProfileId(window.sessionStorage, serverId) :
+        getChosenVelarisProfileId(getVelarisSessionStorage(), serverId) :
         null;
     const currentScope = currentUserId && serverId ?
         `${serverId}:${currentUserId}:${location.key}` :
@@ -76,7 +77,7 @@ const VelarisProfileGate: FC = () => {
             queryClient.clear();
             viewContainer.reset();
             Dashboard.onServerChanged(result.User.Id, result.AccessToken, __legacyApiClient__);
-            markVelarisProfileChosen(window.sessionStorage, serverId, result.User.Id);
+            markVelarisProfileChosen(getVelarisSessionStorage(), serverId, result.User.Id);
             setPendingProfile(null);
             setCredential('');
             setDismissedScope(currentScope);
@@ -95,7 +96,7 @@ const VelarisProfileGate: FC = () => {
         if (!serverId || !currentUserId || !profile.Id) return;
 
         if (profile.Id === currentUserId) {
-            markVelarisProfileChosen(window.sessionStorage, serverId, currentUserId);
+            markVelarisProfileChosen(getVelarisSessionStorage(), serverId, currentUserId);
             setDismissedScope(currentScope);
             return;
         }
@@ -144,7 +145,11 @@ const VelarisProfileGate: FC = () => {
                 <div className='velaris-profile-gate__grid'>
                     {profiles.filter(profile => profile.Id && profile.Name).map(profile => {
                         const profileId = profile.Id as string;
-                        const preferences = readVelarisProfilePreferences(window.localStorage, serverId, profileId);
+                        const preferences = readVelarisProfilePreferences(
+                            getVelarisLocalStorage(),
+                            serverId,
+                            profileId
+                        );
                         const imageUrl = profile.PrimaryImageTag ? __legacyApiClient__.getUserImageUrl(profileId, {
                             width: 360,
                             tag: profile.PrimaryImageTag,

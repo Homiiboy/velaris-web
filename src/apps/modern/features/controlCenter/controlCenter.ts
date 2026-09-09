@@ -142,10 +142,12 @@ export const sanitizeVelarisControlCenterPreferences = (
 };
 
 export const readVelarisControlCenterPreferences = (
-    storage: Pick<Storage, 'getItem'>,
+    storage: Pick<Storage, 'getItem'> | undefined,
     serverId: string,
     userId: string
 ): VelarisControlCenterPreferences => {
+    if (!storage) return { ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES };
+
     try {
         const value = storage.getItem(getVelarisControlCenterStorageKey(serverId, userId));
         if (!value) return { ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES };
@@ -157,13 +159,16 @@ export const readVelarisControlCenterPreferences = (
 };
 
 export const saveVelarisControlCenterPreferences = (
-    storage: Pick<Storage, 'setItem'>,
+    storage: Pick<Storage, 'setItem'> | undefined,
     serverId: string,
     userId: string,
     preferences: VelarisControlCenterPreferences
 ) => {
+    if (!storage) return false;
+
     storage.setItem(
         getVelarisControlCenterStorageKey(serverId, userId),
         JSON.stringify(sanitizeVelarisControlCenterPreferences(preferences))
     );
+    return true;
 };
