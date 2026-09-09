@@ -2,6 +2,56 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V0.7.0 — 2026-09-09 — TV Mode & App Experience
+
+### Added
+
+- global TV/App Experience controller in the modern Velaris application shell
+- 10-foot TV presentation with larger toolbar, navigation, actions and overscan-safe spacing
+- route-aware focus restoration using the existing Jellyfin spatial focus manager
+- deterministic TV focus priority for explicit, current-page, selected and fallback focusable controls
+- compact, tablet and desktop viewport classification at the application root
+- lightweight app-startup entrance transition with reduced-motion support
+- non-blocking offline connectivity banner with a connection-check action
+- explicit retry action for server-unavailable connection failures
+- TV-optimized video OSD focus controller
+- larger Advanced Player action targets in TV layout
+- regression coverage for TV focus priority, hidden controls, dialog/content focus preservation and viewport classification
+
+### Changed
+
+- Velaris now reacts directly to existing `layoutManager` TV mode changes instead of relying only on static TV styles
+- remote/gamepad/Tizen/WebOS command handling continues to use Jellyfin's existing keyboard/navigation stack while Velaris supplies TV-focused surfaces and focus restoration
+- route changes in TV mode restore focus only when the current focus is outside active content and dialogs
+- TV player focus is registered immediately even when playback is already active when the controller binds
+- responsive shell behavior now distinguishes compact, tablet and desktop viewports
+- the server connection error page uses a Velaris recovery surface while retaining existing server switching and mismatch recovery
+- TV and app experience sources are included in Velaris strict zero-warning lint
+
+### Fixed during validation
+
+- `Element.closest()` usage rejected by the oldest configured Chrome/WebView compatibility target
+- TV OSD focus listener not registering immediately when a player was already active at bind time
+
+### Validation
+
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- code-complete implementation validated by Velaris CI Run #138
+
+### Compatibility
+
+- TV-mode detection remains owned by the existing Jellyfin-compatible `layoutManager`
+- directional navigation, remote/gamepad mappings and spatial focus movement remain based on the existing Jellyfin input/focus stack
+- playback and OSD behavior remain controlled by the existing Jellyfin-compatible playback stack
+- offline feedback uses browser connectivity state and does not introduce a separate network service
+- server retry, server switching and mismatch recovery continue through the existing connection layer
+
 ## V0.6.0 — 2026-09-09 — Advanced Player
 
 ### Added
@@ -204,7 +254,7 @@ This changelog tracks Velaris-specific milestones. Detailed implementation notes
 
 - Watch Order tab handlers violating strict React lint rules
 - a Franchise Studio ID-sanitizing regex flagged as potentially inefficient by static analysis
-- nested route-state ternaries that violated repository lint rules
+- nested route-state ternary expressions that violated repository lint rules
 - missing source-file end-of-line formatting
 - selector-specificity conflicts in the Franchise Studio stylesheet
 

@@ -23,7 +23,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ✅ Complete |
 | V0.5.0 | Profiles 2.0 | ✅ Complete |
 | V0.6.0 | Advanced Player | ✅ Complete |
-| V0.7.0 | TV Mode & App Experience | ⏳ Planned |
+| V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ⏳ Planned |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
 | V1.0.0 | First Stable Release | 🎯 Target |
@@ -124,18 +124,25 @@ Detailed release notes: [`docs/V0.5.0.md`](docs/V0.5.0.md).
 
 Detailed release notes: [`docs/V0.6.0.md`](docs/V0.6.0.md).
 
-## Next planned feature phase
-
 ### V0.7.0 — TV Mode & App Experience
 
-- full 10-foot TV layout
-- remote/gamepad-first focus behavior
-- TV-optimized player navigation
-- improved PWA/app startup experience
-- better tablet/mobile layouts
-- graceful offline/server-unreachable states and recovery actions
+- global TV/App Experience controller layered onto the modern Velaris app shell
+- 10-foot TV presentation with larger navigation, controls, overscan-safe spacing and strong focus states
+- route-aware focus restoration using the existing Jellyfin spatial focus manager
+- remote/gamepad/Tizen/WebOS input handling retained through the established Jellyfin navigation stack
+- TV-optimized video OSD focus with immediate registration for an already active player
+- larger Advanced Player targets and controls in TV layout
+- compact, tablet and desktop viewport classification for responsive app behavior
+- improved app startup transition with reduced-motion handling
+- non-blocking offline connectivity feedback with a retry/check action
+- redesigned server-unreachable recovery surface with explicit retry, server switching and existing mismatch recovery
+- compatibility-safe ancestor traversal for older TV/WebView targets
+- regression coverage for focus priority, dialog/content focus preservation and viewport classification
+- complete implementation validation in Velaris CI Run #138
 
-## Later planned phases
+Detailed release notes: [`docs/V0.7.0.md`](docs/V0.7.0.md).
+
+## Next planned feature phase
 
 ### V0.8.0 — Control Center & Customization
 
@@ -144,6 +151,8 @@ Detailed release notes: [`docs/V0.6.0.md`](docs/V0.6.0.md).
 - franchise/player feature settings
 - feature toggles
 - Theme Customizer with Velaris Default, OLED Black, Midnight, Aurora and custom accents
+
+## Later planned phases
 
 ### V0.9.0 — Release Hub, Insights & Feature Complete
 

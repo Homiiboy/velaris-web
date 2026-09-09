@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
-<p align="center">Current development version: <strong>V0.6.0</strong></p>
+<p align="center">Current development version: <strong>V0.7.0</strong></p>
 
 ---
 
@@ -16,30 +16,28 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.6.0 — Advanced Player is complete and validated.**
+**V0.7.0 — TV Mode & App Experience is complete and validated.**
 
-V0.6.0 turns the existing cinematic player into a faster Velaris playback control surface while continuing to use Jellyfin's proven playback manager, media streams, queue, chapters, segment data and transcoding controls underneath.
+V0.7.0 turns the existing responsive Velaris interface into a stronger living-room and app experience while reusing Jellyfin's established layout detection, spatial focus engine, keyboard/remote commands and playback stack.
 
-The completed V0.6.0 scope includes:
+The completed V0.7.0 scope includes:
 
-- dedicated Advanced Player quick panel inside the existing video OSD
-- stronger Next Episode action using the real playback queue
-- intro/credits/recap/preview transition hints driven by available Jellyfin media-segment data
-- chapter navigation using real chapter timestamps
-- optional chapter image previews when the server exposes chapter image tags
-- one-click audio-track switching from the active media streams
-- one-click subtitle switching including an explicit Off state
-- profile-scoped quality presets: Automatic, High, Balanced and Data Saver
-- quality presets applied through the existing `SetMaxStreamingBitrate` playback command
-- episode queue preview showing upcoming playlist entries
-- optional technical overlay for Direct Play, Remux or Transcoding plus current stream/container details
-- profile-scoped persistence for quality preset, technical overlay and segment-transition preference
-- responsive desktop/mobile/TV presentation with keyboard focus and reduced-motion handling
-- regression coverage for preference repair, profile scoping, quality mapping, playback-method labels, chapter timestamps and queue windows
+- global TV/App Experience controller in the modern Velaris shell
+- full 10-foot presentation rules for toolbar, navigation, spacing, focus states and overscan-safe padding
+- route-aware TV focus restoration built on the existing Jellyfin `focusManager`
+- existing remote/gamepad/Tizen/WebOS navigation mapping retained as the input foundation
+- TV-optimized video OSD focus that prioritizes the main playback control when the OSD opens
+- larger Advanced Player controls and focus targets in TV layout
+- compact, tablet and desktop viewport classification for app-wide responsive behavior
+- improved startup transition with reduced-motion support
+- non-blocking offline banner with connection check action
+- redesigned server-unreachable surface with an explicit retry action while retaining server switching and mismatch recovery
+- compatibility-safe focus traversal for older TV/WebView targets
+- regression coverage for focus priority, dialog/content focus preservation and viewport classification
 
-The code-complete V0.6.0 implementation passed the full Velaris CI pipeline in Run #125. Detailed release notes are available in [`docs/V0.6.0.md`](docs/V0.6.0.md).
+The code-complete V0.7.0 implementation passed the full Velaris CI pipeline in Run #138. Detailed release notes are available in [`docs/V0.7.0.md`](docs/V0.7.0.md).
 
-V0.7.0 — TV Mode & App Experience is the next planned feature phase.
+V0.8.0 — Control Center & Customization is the next planned feature phase.
 
 ## Roadmap to V1.0.0
 
@@ -56,14 +54,14 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ✅ Complete |
 | V0.5.0 | Profiles 2.0 | ✅ Complete |
 | V0.6.0 | Advanced Player | ✅ Complete |
-| V0.7.0 | TV Mode & App Experience | ⏳ Planned |
+| V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ⏳ Planned |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
 | V1.0.0 | First Stable Release | 🎯 Target |
 
 ## What is already in Velaris
 
-The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, the Discovery Center with Watchlists and Smart Lists, Profiles 2.0 with safer profile switching, and the V0.6 Advanced Player with queue, chapters, rapid stream switching, quality presets and technical playback insight.
+The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, the Discovery Center with Watchlists and Smart Lists, Profiles 2.0 with safer profile switching, the V0.6 Advanced Player with queue, chapters, rapid stream switching, quality presets and technical playback insight, and V0.7 TV/App Experience with living-room focus behavior, TV-optimized controls and connection recovery.
 
 The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise, Smart Home and Discovery surfaces are data-driven and avoid fake promotional media.
 
