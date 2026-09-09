@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import React, { type FC, type PropsWithChildren } from 'react';
+import React, { type FC, type KeyboardEvent, type PropsWithChildren, useCallback } from 'react';
 
 import browser from 'scripts/browser';
 
@@ -22,6 +22,9 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
     onOpen
 }) => {
     const isMediumScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
+    const onDrawerKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Escape') onClose();
+    }, [ onClose ]);
 
     return ( isMediumScreen ? (
         /* DESKTOP DRAWER */
@@ -61,9 +64,9 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
         >
             <Box
                 role='presentation'
-                // Close the drawer when the content is clicked
+                // Close after activating drawer content, but keep keyboard navigation usable.
                 onClick={onClose}
-                onKeyDown={onClose}
+                onKeyDown={onDrawerKeyDown}
             >
                 {children}
             </Box>
