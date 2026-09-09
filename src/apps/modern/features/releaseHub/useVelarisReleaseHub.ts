@@ -133,7 +133,8 @@ const loadReleaseItems = async ({
 
 export const useVelarisReleaseHub = () => {
     const { api, user } = useApi();
-    const userViewsQuery = useUserViews({ userId: user?.Id });
+    const userId = user?.Id;
+    const userViewsQuery = useUserViews({ userId });
     const nowMs = Date.now();
     const todayKey = getVelarisReleaseDateKey(nowMs);
     const window = getVelarisReleaseWindow(nowMs);
@@ -159,9 +160,11 @@ export const useVelarisReleaseHub = () => {
     );
 
     const query = useQuery<ReleaseQueryResult>({
-        queryKey: [ 'VelarisReleaseHub', user?.Id, libraryKey, todayKey ],
-        enabled: !!api && !!user?.Id && !userViewsQuery.isPending,
+        queryKey: [ 'VelarisReleaseHub', userId, libraryKey, todayKey ],
+        enabled: !!api && !!userId && !userViewsQuery.isPending,
         queryFn: async ({ signal }) => {
+            if (!userId) throw new Error('[VelarisReleaseHub] missing active user');
+
             const recentSources: VelarisReleaseSourceItem[] = [];
             const calendarSources: VelarisReleaseSourceItem[] = [];
             const failedLibraryIds: string[] = [];
@@ -172,7 +175,7 @@ export const useVelarisReleaseHub = () => {
                 try {
                     const recent = await loadReleaseItems({
                         libraryApi,
-                        userId: user!.Id,
+                        userId,
                         library,
                         includeItemTypes: [ BaseItemKind.Series, BaseItemKind.Episode ],
                         sortBy: ItemSortBy.DateCreated,
@@ -191,7 +194,7 @@ export const useVelarisReleaseHub = () => {
                 try {
                     const calendar = await loadReleaseItems({
                         libraryApi,
-                        userId: user!.Id,
+                        userId,
                         library,
                         includeItemTypes: [ BaseItemKind.Episode ],
                         sortBy: ItemSortBy.PremiereDate,
