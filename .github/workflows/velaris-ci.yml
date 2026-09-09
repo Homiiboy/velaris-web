@@ -72,6 +72,7 @@ jobs:
           src/apps/modern/components/AppToolbar/userViews/UserViewsMenu.tsx
           src/apps/modern/components/drawers/AppDrawer.tsx
           src/apps/modern/components/drawers/AppDrawer.test.ts
+          src/apps/modern/components/drawers/appDrawerRouting.ts
           src/apps/modern/components/drawers/MainDrawerContent.tsx
           src/components/ConnectionErrorPage.tsx
           src/components/ListItemLink.tsx
@@ -83,6 +84,7 @@ jobs:
           src/components/playback/velarisAdvancedPlayerController.ts
           src/components/playback/velarisTvPlayerController.ts
           src/components/playback/velarisTvPlayerController.test.ts
+          src/components/playback/velarisTvPlayerFocus.ts
           src/components/toolbar/AppUserMenu.tsx
           --max-warnings=0
 
