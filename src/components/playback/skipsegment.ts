@@ -12,6 +12,7 @@ import globalize from 'lib/globalize';
 import * as userSettings from 'scripts/settings/userSettings';
 import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
+import { bindVelarisAdvancedPlayer } from './velarisAdvancedPlayerController';
 
 interface ShowOptions {
     animate?: boolean;
@@ -198,4 +199,7 @@ class SkipSegment extends PlaybackSubscriber {
     }
 }
 
-export const bindSkipSegment = (playbackManager: PlaybackManager) => new SkipSegment(playbackManager);
+export const bindSkipSegment = (playbackManager: PlaybackManager) => {
+    bindVelarisAdvancedPlayer(playbackManager);
+    return new SkipSegment(playbackManager);
+};
