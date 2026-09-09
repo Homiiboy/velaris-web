@@ -23,6 +23,7 @@ class VelarisTvPlayerController extends PlaybackSubscriber {
     constructor(playbackManager: PlaybackManager) {
         super(playbackManager);
         this.onOsdChanged = this.onOsdChanged.bind(this);
+        this.onPlayerChange();
     }
 
     private clearFocusTimer() {
