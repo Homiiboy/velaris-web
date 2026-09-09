@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
     DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES,
     getVelarisControlCenterStorageKey,
+    isVelarisControlCenterRouteEnabled,
     readVelarisControlCenterPreferences,
     sanitizeVelarisControlCenterPreferences,
     saveVelarisControlCenterPreferences
@@ -89,5 +90,27 @@ describe('Velaris Control Center preferences', () => {
         expect(readVelarisControlCenterPreferences(storage, 'server', 'user')).toEqual(
             DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES
         );
+    });
+
+    it('blocks Discovery routes when Discovery is disabled', () => {
+        const preferences = {
+            ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES,
+            showDiscovery: false
+        };
+
+        expect(isVelarisControlCenterRouteEnabled('/discovery', preferences)).toBe(false);
+        expect(isVelarisControlCenterRouteEnabled('/discovery/list/watchlist', preferences)).toBe(false);
+        expect(isVelarisControlCenterRouteEnabled('/home', preferences)).toBe(true);
+    });
+
+    it('blocks franchise routes when franchises are disabled', () => {
+        const preferences = {
+            ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES,
+            showFranchises: false
+        };
+
+        expect(isVelarisControlCenterRouteEnabled('/franchise-studio', preferences)).toBe(false);
+        expect(isVelarisControlCenterRouteEnabled('/franchise/mcu', preferences)).toBe(false);
+        expect(isVelarisControlCenterRouteEnabled('/home', preferences)).toBe(true);
     });
 });
