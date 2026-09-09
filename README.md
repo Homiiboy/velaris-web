@@ -108,11 +108,41 @@ Upstream project: [jellyfin/jellyfin-web](https://github.com/jellyfin/jellyfin-w
    npm run build:production
    ```
 
+## Docker / Container image
+
+Velaris V1.0.0 is distributed through GitHub Container Registry for Docker Desktop, Docker Engine and Compose deployments.
+
+Stable image:
+
+```text
+ghcr.io/homiiboy/velaris-web:1.0.0
+```
+
+Pull it directly:
+
+```sh
+docker pull ghcr.io/homiiboy/velaris-web:1.0.0
+```
+
+Run it on host port `8097`:
+
+```sh
+docker run -d --name velaris --restart unless-stopped -p 8097:8080 ghcr.io/homiiboy/velaris-web:1.0.0
+```
+
+The default `docker-compose.yml` also uses the published GHCR image. A separate `docker-compose.build.yml` is available when a local source build is desired.
+
+Published images target `linux/amd64` and `linux/arm64`. `latest` follows the most recent green `velaris` commit; fixed semantic-version tags are emitted only from explicit Velaris release commits.
+
+Full Docker/Desktop, security-hardening, healthcheck, local-build and GHCR visibility instructions are in [`docs/DOCKER.md`](docs/DOCKER.md).
+
 ## Validation
 
-The `velaris` branch includes a dedicated Velaris CI workflow that runs a shipped-production Critical dependency audit, TypeScript, repository ESLint, strict zero-warning lint over Velaris-owned paths, Stylelint, unit tests, the production build and an ES compatibility scan of the generated bundle.
+The `velaris` branch includes a dedicated Velaris CI workflow that runs a shipped-production Critical dependency audit, TypeScript, repository ESLint, strict zero-warning lint over Velaris-owned paths, Stylelint, unit tests, the production build, an ES compatibility scan, Docker Compose validation, a Docker image build and a hardened runtime smoke test.
 
-The V1 hardening snapshot passed all of these gates in Velaris CI Run #230.
+After all validation gates pass on a `velaris` push, CI publishes the container to GHCR. Failed validation never reaches the publishing job.
+
+The V1 hardening snapshot passed all stable application gates in Velaris CI Run #230, and the production Docker deployment passed the extended Docker validation in Run #236.
 
 The general `npm ci` audit still reports upstream/transitive non-Critical findings. Several currently require dependency-range or breaking upgrades (including EPUB/PDF/sanitizer paths), so they are tracked as dependency-maintenance work rather than being force-upgraded inside the V1.0 release commit. The release gate blocks Critical findings in shipped production dependencies and deliberately excludes dev-only and optional-native packages from that shipped-runtime decision.
 

@@ -1,0 +1,9 @@
+services:
+  velaris:
+    image: velaris-web:${VELARIS_VERSION:-1.0.0}-local
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VELARIS_VERSION: ${VELARIS_VERSION:-1.0.0}
+        VELARIS_COMMIT: ${VELARIS_COMMIT:-local}

@@ -1,53 +1,91 @@
 # Velaris Web — Docker deployment
 
-Velaris V1.0.0 can run as a standalone production container next to Jellyfin. The container serves only the Velaris web client; authentication, users, libraries, playback and transcoding remain on the Jellyfin server.
+Velaris V1.0.0 is distributed as a production container through GitHub Container Registry (GHCR). The container serves only the Velaris web client; authentication, users, libraries, playback and transcoding remain on the Jellyfin server.
 
-## Requirements
+## Published image
 
-- Docker Engine
-- Docker Compose v2 (`docker compose`)
+Stable release:
 
-## Quick start
-
-```sh
-git clone -b velaris https://github.com/Homiiboy/velaris-web.git
-cd velaris-web
-docker compose up -d --build
+```text
+ghcr.io/homiiboy/velaris-web:1.0.0
 ```
 
-Open Velaris in a browser:
+Additional tags:
+
+```text
+ghcr.io/homiiboy/velaris-web:1.0
+ghcr.io/homiiboy/velaris-web:latest
+ghcr.io/homiiboy/velaris-web:sha-<commit>
+```
+
+`latest` tracks the latest successfully validated `velaris` branch commit. Semantic version tags are only published from explicit `release(velaris): ...` commits, so normal maintenance pushes do not overwrite an existing release tag.
+
+Images are built for:
+
+- `linux/amd64`
+- `linux/arm64`
+
+## Docker Desktop
+
+Open **Images** in Docker Desktop and pull:
+
+```text
+ghcr.io/homiiboy/velaris-web:1.0.0
+```
+
+Then create a container from that image and map:
+
+```text
+Host port:      8097
+Container port: 8080
+```
+
+No persistent volume is required. Velaris-specific browser preferences stay in the browser; users, media libraries, watch state and playback data remain in Jellyfin.
+
+Recommended container settings:
+
+- name: `velaris`
+- restart policy: `unless-stopped`
+- read-only root filesystem when supported
+- temporary writable `/tmp`
+- no additional Linux capabilities
+- no-new-privileges enabled
+
+After startup open:
 
 ```text
 http://SERVER-IP:8097
 ```
 
-On first launch, enter the address of your Jellyfin server, for example:
+On first launch, enter the address of the Jellyfin server, for example:
 
 ```text
 http://JELLYFIN-IP:8096
 ```
 
-Velaris does not require a persistent Docker volume. Viewer state stays in Jellyfin or in the browser's Velaris preferences.
+## Docker Compose — registry image
 
-## Container layout
+The repository's default `docker-compose.yml` uses the published GHCR image instead of building locally.
 
-- Host port: `8097` by default
-- Container port: `8080`
-- Runtime: unprivileged Nginx
-- Restart policy: `unless-stopped`
-- Health endpoint: `/healthz`
-- Root filesystem: read-only
-- Writable temporary path: `/tmp`
-- Linux capabilities: dropped
-- `no-new-privileges`: enabled
+```sh
+git clone -b velaris https://github.com/Homiiboy/velaris-web.git
+cd velaris-web
+docker compose pull
+docker compose up -d
+```
 
-## Check status
+Default image and port:
+
+```text
+ghcr.io/homiiboy/velaris-web:1.0.0
+8097 -> 8080
+```
+
+Check status:
 
 ```sh
 docker compose ps
 ```
-
-A healthy container should show `healthy` after startup.
 
 Logs:
 
@@ -67,64 +105,55 @@ Expected response:
 ok
 ```
 
-## Stop and start
+## Update the container
+
+For the pinned stable tag, change `VELARIS_VERSION` when a newer stable version is released.
+
+For `latest`, use:
 
 ```sh
-docker compose stop
-docker compose start
+docker compose pull
+docker compose up -d
 ```
 
-Remove the running container while keeping the locally built image:
+## Environment settings
 
-```sh
-docker compose down
-```
-
-## Update Velaris
-
-```sh
-git switch velaris
-git pull
-docker compose up -d --build
-```
-
-Docker Compose will rebuild the production bundle and recreate the container when necessary.
-
-## Change the port
-
-Copy the example environment file:
+Copy the example environment file when you want to override defaults:
 
 ```sh
 cp .env.example .env
 ```
 
-Then change:
+Available values:
 
 ```text
+VELARIS_IMAGE=ghcr.io/homiiboy/velaris-web
+VELARIS_VERSION=1.0.0
 VELARIS_PORT=8097
+VELARIS_COMMIT=local
 ```
 
-For example, to use port 8088:
+`VELARIS_COMMIT` is only used by the optional local-build override.
 
-```text
-VELARIS_PORT=8088
-```
+## Local build fallback
 
-Then recreate the container:
+The normal Compose file pulls GHCR. To build from source locally instead:
 
 ```sh
-docker compose up -d
+docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.build.yml \
+  up -d --build
 ```
 
-## Run without Compose
+This keeps local development separate from the normal registry-based deployment path.
 
-Build the image:
+## Run directly with Docker
+
+Pull the stable image:
 
 ```sh
-docker build \
-  --build-arg VELARIS_VERSION=1.0.0 \
-  --build-arg VELARIS_COMMIT=local \
-  -t velaris-web:1.0.0 .
+docker pull ghcr.io/homiiboy/velaris-web:1.0.0
 ```
 
 Run it:
@@ -138,8 +167,31 @@ docker run -d \
   --tmpfs /tmp:size=64m,mode=1777 \
   --security-opt no-new-privileges:true \
   --cap-drop ALL \
-  velaris-web:1.0.0
+  ghcr.io/homiiboy/velaris-web:1.0.0
 ```
+
+## GHCR visibility
+
+The first GHCR publication can initially inherit a private package visibility depending on GitHub account/package settings. For one-click pulls from Docker Desktop without authentication, set the Velaris container package to **Public** once in GitHub:
+
+1. Open the Velaris package under the GitHub account's **Packages** section.
+2. Open **Package settings**.
+3. Use **Change visibility** and select **Public**.
+
+If the package remains private, authenticate Docker/Desktop to GHCR with a GitHub token that has package read permission before pulling.
+
+## Automated publishing
+
+The Velaris CI validates the application and local Docker runtime first. Only after the `validate` job succeeds does the GHCR publishing job run on pushes to `velaris`.
+
+The publish job:
+
+- logs in to `ghcr.io` using GitHub Actions' repository token
+- builds `linux/amd64` and `linux/arm64`
+- pushes `latest` and a commit-specific SHA tag for every green `velaris` push
+- adds semantic version tags only for explicit `release(velaris): ...` commits
+
+This prevents a failed CI state from becoming the registry's `latest` image.
 
 ## Reverse proxy / HTTPS
 
@@ -149,17 +201,15 @@ A reverse proxy such as Caddy, Nginx Proxy Manager or Traefik can point to:
 http://VELARIS-SERVER-IP:8097
 ```
 
-The Velaris container itself does not terminate TLS. This keeps certificates and public routing in the same reverse-proxy layer as the rest of the homelab.
+The Velaris container itself does not terminate TLS. If Velaris is exposed over HTTPS, use an HTTPS-reachable Jellyfin address as well to avoid browser mixed-content blocking.
 
 ## Jellyfin connectivity
 
 The Docker container does not proxy Jellyfin API traffic. The browser connects directly to the Jellyfin server selected in Velaris. Make sure the device opening Velaris can reach that Jellyfin URL.
 
-For LAN use, a typical pair is:
+Typical LAN setup:
 
 ```text
 Velaris:  http://192.168.1.50:8097
 Jellyfin: http://192.168.1.50:8096
 ```
-
-If Velaris is exposed over HTTPS, use an HTTPS-reachable Jellyfin address as well to avoid browser mixed-content blocking.
