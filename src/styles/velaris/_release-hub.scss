@@ -21,7 +21,7 @@
 }
 
 .velaris-release-hero__eyebrow,
-.velaris-release-section__heading > div > span {
+.velaris-release-section__eyebrow {
     color: var(--velaris-theme-accent, #45f3ff);
     font-size: 0.7rem;
     font-weight: 800;
@@ -55,7 +55,7 @@
     margin-top: 1.5rem;
 }
 
-.velaris-release-hero__stats span {
+.velaris-release-hero__stat {
     display: inline-flex;
     align-items: baseline;
     gap: 0.35rem;
@@ -68,7 +68,7 @@
     backdrop-filter: blur(14px);
 }
 
-.velaris-release-hero__stats strong {
+.velaris-release-hero__stat strong {
     color: tokens.$text-primary;
     font-size: 1rem;
 }
@@ -113,7 +113,7 @@
     color: tokens.$text-primary;
 }
 
-.velaris-release-toolbar > span {
+.velaris-release-toolbar__count {
     color: tokens.$text-muted;
     font-size: 0.72rem;
 }
@@ -148,7 +148,7 @@
     letter-spacing: -0.03em;
 }
 
-.velaris-release-section__heading > strong {
+.velaris-release-section__count {
     color: tokens.$text-muted;
     font-size: 0.74rem;
 }
@@ -242,7 +242,7 @@
     padding: 0.65rem 0.15rem 0;
 }
 
-.velaris-release-card__copy strong {
+.velaris-release-card__title {
     overflow: hidden;
     color: tokens.$text-primary;
     font-size: 0.9rem;
@@ -250,7 +250,7 @@
     white-space: nowrap;
 }
 
-.velaris-release-card__copy > span {
+.velaris-release-card__subtitle {
     overflow: hidden;
     color: tokens.$text-muted;
     font-size: 0.72rem;
@@ -275,20 +275,20 @@
     background: rgba(9, 12, 20, 0.7);
 }
 
-.velaris-release-day > header {
+.velaris-release-day__date {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
     padding: 0.4rem 0.3rem;
 }
 
-.velaris-release-day > header strong {
+.velaris-release-day__weekday {
     color: tokens.$text-primary;
     font-size: 0.9rem;
     text-transform: capitalize;
 }
 
-.velaris-release-day > header span {
+.velaris-release-day__calendar-date {
     color: var(--velaris-theme-accent, #45f3ff);
     font-size: 0.72rem;
 }
@@ -322,13 +322,13 @@
     font-size: 2rem;
 }
 
-.velaris-release-calendar__empty strong,
+.velaris-release-calendar__empty-title,
 .velaris-release-empty h2 {
     margin: 0;
     color: tokens.$text-primary;
 }
 
-.velaris-release-calendar__empty > span:last-child,
+.velaris-release-calendar__empty-copy,
 .velaris-release-empty p {
     max-width: 40rem;
     margin: 0;
@@ -363,7 +363,7 @@
         grid-template-columns: 1fr;
     }
 
-    .velaris-release-day > header {
+    .velaris-release-day__date {
         flex-direction: row;
         align-items: baseline;
         justify-content: space-between;
