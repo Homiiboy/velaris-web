@@ -1,0 +1,386 @@
+@use './tokens' as tokens;
+
+.velaris-release-hub-page {
+    min-height: 100%;
+    padding-bottom: 5rem;
+    background:
+        radial-gradient(circle at 14% 0%, rgba(69, 243, 255, 0.09), transparent 30rem),
+        radial-gradient(circle at 86% 8%, rgba(138, 54, 255, 0.11), transparent 34rem),
+        tokens.$background;
+}
+
+.velaris-release-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(6.5rem, 12vw, 10rem) clamp(1rem, 5vw, 5rem) 2.7rem;
+    border-bottom: 1px solid tokens.$divider;
+}
+
+.velaris-release-hero__content {
+    max-width: 64rem;
+}
+
+.velaris-release-hero__eyebrow,
+.velaris-release-section__heading > div > span {
+    color: var(--velaris-theme-accent, #45f3ff);
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.velaris-release-hero h1 {
+    max-width: 58rem;
+    margin: 0.45rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(2.8rem, 6vw, 5.9rem);
+    font-weight: 840;
+    letter-spacing: -0.06em;
+    line-height: 0.95;
+    text-wrap: balance;
+}
+
+.velaris-release-hero p {
+    max-width: 50rem;
+    margin: 1rem 0 0;
+    color: tokens.$text-secondary;
+    font-size: clamp(0.96rem, 1.45vw, 1.1rem);
+    line-height: 1.6;
+}
+
+.velaris-release-hero__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+}
+
+.velaris-release-hero__stats span {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid rgba(145, 170, 210, 0.13);
+    border-radius: tokens.$radius-sm;
+    background: rgba(9, 12, 20, 0.66);
+    color: tokens.$text-muted;
+    font-size: 0.76rem;
+    backdrop-filter: blur(14px);
+}
+
+.velaris-release-hero__stats strong {
+    color: tokens.$text-primary;
+    font-size: 1rem;
+}
+
+.velaris-release-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.2rem clamp(1rem, 3vw, 3rem) 0;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid rgba(145, 170, 210, 0.13);
+    border-radius: tokens.$radius-md;
+    background: rgba(9, 12, 20, 0.8);
+    box-shadow: tokens.$shadow-soft;
+    backdrop-filter: blur(16px);
+}
+
+.velaris-release-toolbar > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.velaris-release-toolbar button {
+    min-height: 2.35rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: tokens.$radius-xs;
+    background: rgba(255, 255, 255, 0.045);
+    color: tokens.$text-secondary;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 720;
+    cursor: pointer;
+    transition: border-color tokens.$transition-fast, background-color tokens.$transition-fast, color tokens.$transition-fast;
+}
+
+.velaris-release-toolbar button[aria-pressed='true'] {
+    border-color: color-mix(in srgb, var(--velaris-theme-accent, #45f3ff) 42%, transparent);
+    background: color-mix(in srgb, var(--velaris-theme-accent, #45f3ff) 12%, transparent);
+    color: tokens.$text-primary;
+}
+
+.velaris-release-toolbar > span {
+    color: tokens.$text-muted;
+    font-size: 0.72rem;
+}
+
+.velaris-release-warning {
+    margin: 0.8rem clamp(1rem, 3vw, 3rem) 0;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid rgba(255, 193, 92, 0.24);
+    border-radius: tokens.$radius-sm;
+    background: rgba(255, 167, 38, 0.07);
+    color: tokens.$text-secondary;
+    font-size: 0.78rem;
+}
+
+.velaris-release-section {
+    margin-top: 2.4rem;
+}
+
+.velaris-release-section__heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-inline: clamp(1rem, 3vw, 3rem);
+}
+
+.velaris-release-section__heading h2 {
+    margin: 0.25rem 0 0;
+    color: tokens.$text-primary;
+    font-size: clamp(1.4rem, 2vw, 2rem);
+    font-weight: 780;
+    letter-spacing: -0.03em;
+}
+
+.velaris-release-section__heading > strong {
+    color: tokens.$text-muted;
+    font-size: 0.74rem;
+}
+
+.velaris-release-rail {
+    display: grid;
+    grid-auto-columns: clamp(14rem, 21vw, 20rem);
+    grid-auto-flow: column;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    padding: 0.35rem clamp(1rem, 3vw, 3rem) 0.9rem;
+    overflow-x: auto;
+    scroll-padding-inline: clamp(1rem, 3vw, 3rem);
+    scrollbar-width: thin;
+}
+
+.velaris-release-rail--season {
+    grid-auto-columns: clamp(16rem, 24vw, 22rem);
+}
+
+.velaris-release-card {
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    transition: transform tokens.$transition-standard;
+}
+
+.velaris-release-card__artwork {
+    position: relative;
+    display: grid;
+    aspect-ratio: 16 / 9;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: tokens.$radius-md;
+    background-color: tokens.$surface-strong;
+    background-position: center;
+    background-size: cover;
+    box-shadow: tokens.$shadow-soft;
+    transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast;
+}
+
+.velaris-release-card__artwork::after {
+    position: absolute;
+    inset: 0;
+    content: '';
+    background: linear-gradient(180deg, transparent 52%, rgba(3, 5, 9, 0.74));
+    pointer-events: none;
+}
+
+.velaris-release-card__artwork > .material-icons {
+    color: tokens.$text-muted;
+    font-size: 2.2rem;
+}
+
+.velaris-release-card__category,
+.velaris-release-card__badge {
+    position: absolute;
+    z-index: 1;
+    top: 0.6rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    backdrop-filter: blur(12px);
+}
+
+.velaris-release-card__category {
+    left: 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(4, 7, 12, 0.76);
+    color: tokens.$text-secondary;
+}
+
+.velaris-release-card__category--anime {
+    border-color: color-mix(in srgb, var(--velaris-theme-accent, #45f3ff) 32%, transparent);
+    color: var(--velaris-theme-accent, #45f3ff);
+}
+
+.velaris-release-card__badge {
+    right: 0.6rem;
+    background: rgba(247, 251, 255, 0.9);
+    color: #04060a;
+}
+
+.velaris-release-card__copy {
+    display: grid;
+    gap: 0.2rem;
+    padding: 0.65rem 0.15rem 0;
+}
+
+.velaris-release-card__copy strong {
+    overflow: hidden;
+    color: tokens.$text-primary;
+    font-size: 0.9rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-release-card__copy > span {
+    overflow: hidden;
+    color: tokens.$text-muted;
+    font-size: 0.72rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.velaris-release-calendar__days {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 1rem;
+    padding-inline: clamp(1rem, 3vw, 3rem);
+}
+
+.velaris-release-day {
+    display: grid;
+    grid-template-columns: minmax(8rem, 11rem) minmax(0, 1fr);
+    gap: 1rem;
+    padding: 0.9rem;
+    border: 1px solid rgba(145, 170, 210, 0.12);
+    border-radius: tokens.$radius-md;
+    background: rgba(9, 12, 20, 0.7);
+}
+
+.velaris-release-day > header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.4rem 0.3rem;
+}
+
+.velaris-release-day > header strong {
+    color: tokens.$text-primary;
+    font-size: 0.9rem;
+    text-transform: capitalize;
+}
+
+.velaris-release-day > header span {
+    color: var(--velaris-theme-accent, #45f3ff);
+    font-size: 0.72rem;
+}
+
+.velaris-release-day__entries {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: 0.75rem;
+}
+
+.velaris-release-calendar__empty,
+.velaris-release-empty {
+    display: grid;
+    justify-items: center;
+    gap: 0.45rem;
+    margin: 1rem clamp(1rem, 3vw, 3rem) 0;
+    padding: 2.5rem 1rem;
+    border: 1px dashed rgba(145, 170, 210, 0.16);
+    border-radius: tokens.$radius-lg;
+    color: tokens.$text-muted;
+    text-align: center;
+}
+
+.velaris-release-empty {
+    margin-top: 2rem;
+}
+
+.velaris-release-calendar__empty .material-icons,
+.velaris-release-empty .material-icons {
+    color: var(--velaris-theme-accent, #45f3ff);
+    font-size: 2rem;
+}
+
+.velaris-release-calendar__empty strong,
+.velaris-release-empty h2 {
+    margin: 0;
+    color: tokens.$text-primary;
+}
+
+.velaris-release-calendar__empty > span:last-child,
+.velaris-release-empty p {
+    max-width: 40rem;
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.55;
+}
+
+.velaris-release-card:hover,
+.velaris-release-card:focus-visible {
+    transform: translateY(-2px);
+}
+
+.velaris-release-card:hover .velaris-release-card__artwork,
+.velaris-release-card:focus-visible .velaris-release-card__artwork {
+    border-color: color-mix(in srgb, var(--velaris-theme-accent, #45f3ff) 38%, transparent);
+    box-shadow: 0 12px 32px color-mix(in srgb, var(--velaris-theme-accent, #45f3ff) 10%, transparent);
+}
+
+.velaris-release-card:focus-visible {
+    border-radius: tokens.$radius-md;
+    outline: 2px solid var(--velaris-theme-accent, #45f3ff);
+    outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+    .velaris-release-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .velaris-release-day {
+        grid-template-columns: 1fr;
+    }
+
+    .velaris-release-day > header {
+        flex-direction: row;
+        align-items: baseline;
+        justify-content: space-between;
+    }
+
+    .velaris-release-day__entries {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-release-card {
+        transition: none;
+    }
+
+    .velaris-release-card:hover,
+    .velaris-release-card:focus-visible {
+        transform: none;
+    }
+}
