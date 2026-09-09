@@ -3,6 +3,7 @@ export type VelarisViewportClass = 'compact' | 'tablet' | 'desktop';
 const PRIMARY_FOCUS_SELECTOR = '[data-velaris-tv-focus="primary"]';
 const CURRENT_PAGE_SELECTOR = '[aria-current="page"]';
 const SELECTED_SELECTOR = '.Mui-selected';
+const BLOCKING_OVERLAY_SELECTOR = 'dialog[open], [role="dialog"][aria-modal="true"]';
 const FALLBACK_FOCUS_SELECTOR = [
     'button:not(:disabled):not([tabindex="-1"])',
     'a[href]:not([tabindex="-1"])',
@@ -15,6 +16,7 @@ const hasUnavailableAncestor = (element: HTMLElement) => {
 
     while (current) {
         if (current.hidden
+            || current.hasAttribute('inert')
             || current.getAttribute('aria-hidden') === 'true'
             || current.classList.contains('hide')
         ) {
@@ -57,6 +59,10 @@ export const findVelarisTvFocusTarget = (root: ParentNode) => (
     || findFirstAvailable(root, SELECTED_SELECTOR)
     || findFirstAvailable(root, FALLBACK_FOCUS_SELECTOR)
     || null
+);
+
+export const hasVelarisBlockingOverlay = (root: ParentNode) => (
+    Boolean(root.querySelector(BLOCKING_OVERLAY_SELECTOR))
 );
 
 export const shouldRestoreVelarisTvFocus = (
