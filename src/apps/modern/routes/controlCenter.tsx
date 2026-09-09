@@ -169,22 +169,20 @@ const ControlCenter = () => {
                                 </select>
                             </label>
 
-                            <label
-                                className='velaris-control-center__toggle'
-                                htmlFor='velaris-control-center-smart-home'
-                            >
+                            <div className='velaris-control-center__toggle'>
                                 <input
                                     id='velaris-control-center-smart-home'
                                     type='checkbox'
                                     name='showSmartHome'
                                     checked={preferences.showSmartHome}
                                     onChange={onToggleChange}
+                                    aria-label='Smart Home anzeigen'
                                 />
                                 <span>
                                     <strong>Smart Home</strong>
                                     <small>Persönliche Reihen und Weiterschauen auf Home anzeigen.</small>
                                 </span>
-                            </label>
+                            </div>
                         </section>
 
                         <section className='velaris-control-center__card'>
@@ -244,56 +242,50 @@ const ControlCenter = () => {
                                 </div>
                             </div>
 
-                            <label
-                                className='velaris-control-center__toggle'
-                                htmlFor='velaris-control-center-discovery'
-                            >
+                            <div className='velaris-control-center__toggle'>
                                 <input
                                     id='velaris-control-center-discovery'
                                     type='checkbox'
                                     name='showDiscovery'
                                     checked={preferences.showDiscovery}
                                     onChange={onToggleChange}
+                                    aria-label='Discovery anzeigen'
                                 />
                                 <span>
                                     <strong>Discovery</strong>
                                     <small>Entdecken in Desktop- und Mobile-Navigation anzeigen.</small>
                                 </span>
-                            </label>
+                            </div>
 
-                            <label
-                                className='velaris-control-center__toggle'
-                                htmlFor='velaris-control-center-franchises'
-                            >
+                            <div className='velaris-control-center__toggle'>
                                 <input
                                     id='velaris-control-center-franchises'
                                     type='checkbox'
                                     name='showFranchises'
                                     checked={preferences.showFranchises}
                                     onChange={onToggleChange}
+                                    aria-label='Franchises und Studio anzeigen'
                                 />
                                 <span>
                                     <strong>Franchises & Studio</strong>
                                     <small>Franchise-Shelf und Franchise-Studio-Einstieg anzeigen.</small>
                                 </span>
-                            </label>
+                            </div>
 
-                            <label
-                                className='velaris-control-center__toggle'
-                                htmlFor='velaris-control-center-advanced-player'
-                            >
+                            <div className='velaris-control-center__toggle'>
                                 <input
                                     id='velaris-control-center-advanced-player'
                                     type='checkbox'
                                     name='advancedPlayerEnabled'
                                     checked={preferences.advancedPlayerEnabled}
                                     onChange={onToggleChange}
+                                    aria-label='Advanced Player anzeigen'
                                 />
                                 <span>
                                     <strong>Advanced Player</strong>
                                     <small>Den Velaris-Advanced-Player-Zugang im Video-OSD anzeigen.</small>
                                 </span>
-                            </label>
+                            </div>
                         </section>
                     </div>
                 )}
