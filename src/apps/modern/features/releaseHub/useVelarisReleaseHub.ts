@@ -60,9 +60,9 @@ const getReleaseLibraryCategory = (item: Parameters<typeof getVelarisLibraryCate
 export const useVelarisReleaseHub = () => {
     const { api, user } = useApi();
     const userViewsQuery = useUserViews({ userId: user?.Id });
-    const now = new Date();
-    const todayKey = getVelarisReleaseDateKey(now);
-    const window = getVelarisReleaseWindow(now);
+    const nowMs = Date.now();
+    const todayKey = getVelarisReleaseDateKey(nowMs);
+    const window = getVelarisReleaseWindow(nowMs);
 
     const libraries = useMemo<ReleaseLibrarySource[]>(() => (
         (userViewsQuery.data?.Items || [])
@@ -201,11 +201,11 @@ export const useVelarisReleaseHub = () => {
         }
     });
 
-    const model = useMemo(() => buildVelarisReleaseHubModel(
+    const model = buildVelarisReleaseHubModel(
         query.data?.recentSources || [],
         query.data?.calendarSources || [],
-        now
-    ), [ now, query.data?.calendarSources, query.data?.recentSources ]);
+        nowMs
+    );
 
     return {
         ...model,
