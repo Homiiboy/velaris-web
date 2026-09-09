@@ -58,6 +58,10 @@ const createTextElement = (tagName: string, className: string, text: string) => 
     return element;
 };
 
+const clearElement = (element: HTMLElement) => {
+    element.textContent = '';
+};
+
 const getTrackLabel = (track: PlaybackTrack, fallback: string) => (
     track.DisplayTitle || track.Title || track.Language || track.Codec || fallback
 );
@@ -92,10 +96,10 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
 
     constructor(playbackManager: PlaybackManager) {
         super(playbackManager);
-        queueMicrotask(() => {
+        setTimeout(() => {
             this.refreshPreferences();
             this.ensureUi();
-        });
+        }, 0);
     }
 
     private getCurrentItem() {
@@ -312,7 +316,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
     private renderNextEpisode() {
         const container = this.getSectionContent('next');
         if (!container) return;
-        container.replaceChildren();
+        clearElement(container);
 
         const nextItem = this.playbackManager.getNextItem() as BaseItemDto | null | undefined;
         const section = container.closest<HTMLElement>('.velaris-advanced-player-section');
@@ -327,7 +331,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
     private renderQuality() {
         const container = this.getSectionContent('quality');
         if (!container || !this.player) return;
-        container.replaceChildren();
+        clearElement(container);
 
         const supportedCommands = this.playbackManager.getSupportedCommands(this.player) as string[];
         const section = container.closest<HTMLElement>('.velaris-advanced-player-section');
@@ -348,7 +352,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
     private renderAudio() {
         const container = this.getSectionContent('audio');
         if (!container || !this.player) return;
-        container.replaceChildren();
+        clearElement(container);
 
         const tracks = this.playbackManager.audioTracks(this.player) as PlaybackTrack[];
         const currentIndex = this.playbackManager.getAudioStreamIndex(this.player) as number;
@@ -370,7 +374,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
     private renderSubtitles() {
         const container = this.getSectionContent('subtitles');
         if (!container || !this.player) return;
-        container.replaceChildren();
+        clearElement(container);
 
         const tracks = this.playbackManager.subtitleTracks(this.player) as PlaybackTrack[];
         const currentIndex = this.playbackManager.getSubtitleStreamIndex(this.player) as number;
@@ -394,7 +398,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
         const container = this.getSectionContent('chapters');
         const item = this.getCurrentItem();
         if (!container) return;
-        container.replaceChildren();
+        clearElement(container);
 
         const chapters = item?.Chapters || [];
         const section = container.closest<HTMLElement>('.velaris-advanced-player-section');
@@ -434,7 +438,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
     private async renderQueue() {
         const container = this.getSectionContent('queue');
         if (!container || !this.player) return;
-        container.replaceChildren();
+        clearElement(container);
 
         try {
             const playlist = await this.playbackManager.getPlaylist(this.player) as BaseItemDto[];
@@ -461,7 +465,8 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
     private renderTechnicalControls() {
         const container = this.getSectionContent('technical');
         if (!container) return;
-        container.replaceChildren(
+        clearElement(container);
+        container.append(
             this.createActionButton(
                 this.preferences.technicalOverlay ? 'Technik-Overlay: An' : 'Technik-Overlay: Aus',
                 'technical-overlay',
@@ -556,7 +561,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
     private updateTechnicalOverlay() {
         const overlay = document.querySelector<HTMLElement>(`#videoOsdPage ${TECH_SELECTOR}`);
         if (!overlay) return;
-        overlay.replaceChildren();
+        clearElement(overlay);
 
         if (!this.preferences.technicalOverlay || !this.player) {
             overlay.classList.add('hide');
@@ -601,7 +606,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
         if (!transition || !this.preferences.segmentTransitions) return;
 
         if (this.transitionTimeout) clearTimeout(this.transitionTimeout);
-        transition.replaceChildren();
+        clearElement(transition);
         transition.append(createTextElement('strong', '', getSegmentLabel(segment)));
 
         const type = String(segment.Type || '').toLowerCase();
