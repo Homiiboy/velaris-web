@@ -21,7 +21,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
 | V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ✅ Complete |
-| V0.5.0 | Profiles 2.0 | ⏳ Planned |
+| V0.5.0 | Profiles 2.0 | ✅ Complete |
 | V0.6.0 | Advanced Player | ⏳ Planned |
 | V0.7.0 | TV Mode & App Experience | ⏳ Planned |
 | V0.8.0 | Control Center & Customization | ⏳ Planned |
@@ -90,19 +90,23 @@ Velaris Web is being developed in feature phases toward the first stable release
 
 Detailed release notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
 
-## Next planned feature phase
-
 ### V0.5.0 — Profiles 2.0
 
-- “Who’s watching?” startup flow
-- PIN-protected profiles
-- Kids Mode
-- profile-specific Home/recommendation configuration
-- avatars and profile accent colors
-- saved language/audio/subtitle preferences
-- safer profile switching and session state
+- global “Who’s watching?” startup flow across the modern Velaris app shell
+- PIN/password-protected profile switching through the Jellyfin-compatible authentication stack
+- profile accents and Jellyfin-backed avatars in the profile chooser
+- profile-scoped Kids Mode UI simplification without weakening server-side media permissions
+- profile-scoped Velaris preference persistence by server and user
+- server-backed audio-language, subtitle-language and subtitle-mode preferences
+- safer profile switching with query/view cache reset and session-scoped profile-choice state
+- explicit profile-switch action from the profile settings surface
+- cleanup of profile UI state when the active user changes or logs out
+- regression coverage for preference repair, profile-picker state and PIN validation
+- complete implementation validation in Velaris CI Run #113
 
-## Later planned phases
+Detailed release notes: [`docs/V0.5.0.md`](docs/V0.5.0.md).
+
+## Next planned feature phase
 
 ### V0.6.0 — Advanced Player
 
@@ -113,6 +117,8 @@ Detailed release notes: [`docs/V0.4.0.md`](docs/V0.4.0.md).
 - persisted playback preferences and quality presets
 - episode queue
 - optional Direct Play / Remux / Transcoding technical overlay
+
+## Later planned phases
 
 ### V0.7.0 — TV Mode & App Experience
 

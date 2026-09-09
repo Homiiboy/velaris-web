@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
-<p align="center">Current development version: <strong>V0.4.0</strong></p>
+<p align="center">Current development version: <strong>V0.5.0</strong></p>
 
 ---
 
@@ -16,33 +16,30 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.4.0 — Discovery, Watchlists & Smart Lists is complete and validated.**
+**V0.5.0 — Profiles 2.0 is complete and validated.**
 
-V0.4.0 adds a dedicated decision-making layer to Velaris: users can discover media across their libraries, filter it deeply, maintain personal lists and use automatically generated Smart Lists without changing server metadata or the existing playback stack.
+V0.5.0 turns the existing account experience into a stronger multi-profile flow. Velaris now has a global “Who’s watching?” startup gate, safer server-authenticated profile switching, per-profile Velaris preferences and server-backed playback-language preferences while continuing to rely on Jellyfin permissions for actual media access.
 
-The completed V0.4.0 scope includes:
+The completed V0.5.0 scope includes:
 
-- dedicated `/discovery` route and first-class desktop/mobile navigation entry
-- mixed Movie and Series discovery backed by the connected media libraries
-- reliable Anime and Anime Movie filtering derived from library context and media type
-- title/original-title/genre search
-- filters for content type, genre, watched state, runtime, production year and community rating
-- “Surprise me” action using the complete active result set
-- Smart Lists for unseen media, short movies, highly rated titles and recently added media
-- profile-scoped Watchlist and custom named lists
-- add/remove controls directly on Discovery cards
-- full Watchlist/custom-list browsing in the main result area
-- defensive versioned browser-storage persistence and cross-tab synchronization
-- paged per-library loading instead of a fixed 500-title ceiling
-- deterministic cross-library deduplication and newest-first ordering
-- incremental 60-title rendering batches for large result sets
-- graceful partial-library warnings that preserve already loaded media
-- defensive handling for missing or invalid runtime/year/rating/date metadata
-- expanded regression tests for paging, Anime classification, metadata edge cases, list storage, Smart Lists and Surprise Me
+- global “Who’s watching?” startup flow across the modern app shell
+- Jellyfin-authenticated profile switching with PIN/password support
+- session-scoped startup profile acknowledgement to avoid duplicate chooser prompts
+- explicit “Who’s watching?” action for switching profiles again
+- query/view cache reset before activating a different profile
+- Jellyfin user avatars in the profile chooser
+- profile accent colors stored per server and user
+- Kids Mode as a profile-scoped Velaris UI simplification layer
+- Jellyfin permissions retained as the authority for which media a profile can actually access
+- server-backed preferred audio language, subtitle language and subtitle mode
+- server-backed 4–8 digit profile PIN updates without locally storing the PIN
+- defensive profile-preference sanitization and cross-tab synchronization
+- cleanup of Kids Mode/accent state when the active user changes or signs out
+- regression coverage for preference repair, startup/profile-switch state and PIN validation
 
-The code-complete V0.4.0 implementation passed the full Velaris CI pipeline in Run #88. Detailed release notes are available in [`docs/V0.4.0.md`](docs/V0.4.0.md).
+The code-complete V0.5.0 implementation passed the full Velaris CI pipeline in Run #113. Detailed release notes are available in [`docs/V0.5.0.md`](docs/V0.5.0.md).
 
-V0.5.0 — Profiles 2.0 is the next planned feature phase.
+V0.6.0 — Advanced Player is the next planned feature phase.
 
 ## Roadmap to V1.0.0
 
@@ -57,7 +54,7 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 | V0.2.0 | Smart Home & Personalization | ✅ Complete |
 | V0.3.0 | Franchise Studio & Watch Orders | ✅ Complete |
 | V0.4.0 | Discovery, Watchlists & Smart Lists | ✅ Complete |
-| V0.5.0 | Profiles 2.0 | ⏳ Planned |
+| V0.5.0 | Profiles 2.0 | ✅ Complete |
 | V0.6.0 | Advanced Player | ⏳ Planned |
 | V0.7.0 | TV Mode & App Experience | ⏳ Planned |
 | V0.8.0 | Control Center & Customization | ⏳ Planned |
@@ -66,7 +63,7 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 
 ## What is already in Velaris
 
-The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, profile/login/account surfaces, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, and the V0.4.0 Discovery Center with Watchlists and Smart Lists.
+The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, a Velaris player experience, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, the Discovery Center with Watchlists and Smart Lists, and Profiles 2.0 with startup profile selection, per-profile presentation settings and safer profile switching.
 
 The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise, Smart Home and Discovery surfaces are data-driven and avoid fake promotional media.
 

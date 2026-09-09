@@ -2,6 +2,62 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V0.5.0 — 2026-09-09 — Profiles 2.0
+
+### Added
+
+- global “Who’s watching?” startup flow in the modern Velaris app shell
+- profile chooser using Jellyfin public users and existing Jellyfin user avatars
+- server-authenticated switching between profiles with PIN/password prompts for protected profiles
+- profile-scoped accent colors
+- profile-scoped Kids Mode UI simplification
+- explicit profile-switch action from the Velaris profile page
+- server-backed preferred audio language, subtitle language and subtitle mode controls
+- server-backed 4–8 digit profile PIN updates without storing the PIN in Velaris browser preferences
+- versioned profile preferences scoped by server and user
+- same-session and cross-tab profile-preference synchronization
+- regression coverage for preference sanitization, startup-picker behavior, reopening the picker and PIN validation
+
+### Changed
+
+- profile selection is now a global startup concern instead of being tied only to Home
+- an explicit login selection marks the active profile for the current session so Home does not immediately ask again
+- profile switching clears query/view caches before activating another authenticated user
+- profile chooser state is re-evaluated after navigation so manually reopening “Who’s watching?” works reliably
+- Kids Mode now actually simplifies advanced account/admin/client entries while leaving server-side media permissions unchanged
+- profile accent and Kids Mode DOM state is cleaned up when no active user is present
+- audio/subtitle preferences continue to use the Jellyfin-compatible server user configuration rather than a parallel local playback model
+
+### Fixed during validation
+
+- duplicate profile chooser after an explicit login
+- Home-only startup gate that could be bypassed when entering another route directly
+- stale session-choice caching that could prevent reopening the profile chooser
+- stale local dismissal state that could block later profile switching in the same app session
+- profile UI state leaking after logout/user changes
+- deprecated `DOMException.code`, `HasConfiguredPassword` and `HasPassword` usage in Velaris-owned validation paths
+- profile settings handler/style issues rejected by repository lint rules
+- missing end-of-file newline after removing the old Home-only gate
+
+### Validation
+
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- code-complete implementation validated by Velaris CI Run #113
+
+### Compatibility
+
+- authentication and profile switching continue to use the existing Jellyfin-compatible server/authentication stack
+- profile PINs are server credentials and are not stored in Velaris local profile preferences
+- Kids Mode is a presentation simplification only; Jellyfin user policy remains authoritative for media access
+- existing Smart Home preferences remain scoped to the active Jellyfin user
+- playback, transcoding, media storage and server permissions remain unchanged
+
 ## V0.4.0 — 2026-09-08 — Discovery, Watchlists & Smart Lists
 
 ### Added
