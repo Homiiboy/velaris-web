@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { findVelarisTvPlayerFocusTarget } from './velarisTvPlayerController';
+import { findVelarisTvPlayerFocusTarget } from './velarisTvPlayerFocus';
 
 describe('Velaris TV player focus', () => {
     it('skips unavailable earlier controls and falls through to a usable action', () => {
