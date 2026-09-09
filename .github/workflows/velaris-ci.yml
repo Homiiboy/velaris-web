@@ -59,6 +59,10 @@ jobs:
           src/apps/modern/components/AppToolbar/userViews/UserViewNav.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewsMenu.tsx
           src/apps/modern/components/drawers/MainDrawerContent.tsx
+          src/components/playback/skipsegment.ts
+          src/components/playback/velarisAdvancedPlayer.ts
+          src/components/playback/velarisAdvancedPlayer.test.ts
+          src/components/playback/velarisAdvancedPlayerController.ts
           src/components/toolbar/AppUserMenu.tsx
           --max-warnings=0
 
