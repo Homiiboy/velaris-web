@@ -1,3 +1,4 @@
+import Event from '@mui/icons-material/Event';
 import Explore from '@mui/icons-material/Explore';
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
@@ -37,6 +38,7 @@ const MainDrawerContent = () => {
     const isFavoritesSelected = location.pathname === '/home' && searchParams.get('tab') === '1';
     const isHomeSelected = location.pathname === '/home' && !isFavoritesSelected;
     const isDiscoverySelected = location.pathname === '/discovery';
+    const isReleaseHubSelected = location.pathname === '/releases';
 
     return (
         <div className='velaris-drawer-content'>
@@ -50,6 +52,14 @@ const MainDrawerContent = () => {
                             <Home />
                         </ListItemIcon>
                         <ListItemText primary={globalize.translate('Home')} />
+                    </ListItemLink>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemLink to='/releases' selected={isReleaseHubSelected}>
+                        <ListItemIcon>
+                            <Event />
+                        </ListItemIcon>
+                        <ListItemText primary='Releases' />
                     </ListItemLink>
                 </ListItem>
                 {preferences.showDiscovery && (
