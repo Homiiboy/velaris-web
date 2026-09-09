@@ -23,6 +23,7 @@ const VelarisProfileGate: FC = () => {
     const { user, __legacyApiClient__ } = useApi();
     const location = useLocation();
     const dialogRef = useRef<HTMLDivElement>(null);
+    const credentialRef = useRef<HTMLInputElement>(null);
     const currentUserId = user?.Id;
     const serverId = __legacyApiClient__?.serverId();
     const [ profiles, setProfiles ] = useState<VelarisPublicProfile[] | null>(null);
@@ -137,30 +138,43 @@ const VelarisProfileGate: FC = () => {
         setErrorMessage('');
     }, []);
 
-    const onDialogKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === 'Escape' && pendingProfile) {
+    useEffect(() => {
+        const dialog = dialogRef.current;
+        if (!isOpen || !dialog) return;
+
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape' && pendingProfile) {
+                event.preventDefault();
+                onCredentialCancel();
+                return;
+            }
+            if (event.key !== 'Tab') return;
+
+            const focusableElements = getVelarisDialogFocusableElements(dialog);
+            const wrapTarget = getVelarisDialogFocusWrapTarget(
+                document.activeElement,
+                focusableElements,
+                event.shiftKey
+            );
+            if (!wrapTarget) return;
+
             event.preventDefault();
-            onCredentialCancel();
-            return;
-        }
-        if (event.key !== 'Tab' || !dialogRef.current) return;
+            wrapTarget.focus();
+        };
 
-        const focusableElements = getVelarisDialogFocusableElements(dialogRef.current);
-        const wrapTarget = getVelarisDialogFocusWrapTarget(
-            document.activeElement,
-            focusableElements,
-            event.shiftKey
-        );
-        if (!wrapTarget) return;
-
-        event.preventDefault();
-        wrapTarget.focus();
-    }, [ onCredentialCancel, pendingProfile ]);
+        dialog.addEventListener('keydown', onKeyDown);
+        return () => dialog.removeEventListener('keydown', onKeyDown);
+    }, [ isOpen, onCredentialCancel, pendingProfile ]);
 
     useEffect(() => {
-        if (!isOpen || pendingProfile) return;
+        if (!isOpen) return;
 
         const focusTimer = window.setTimeout(() => {
+            if (pendingProfile && credentialRef.current) {
+                credentialRef.current.focus();
+                return;
+            }
+
             const firstTarget = dialogRef.current ?
                 getVelarisDialogFocusableElements(dialogRef.current)[0] :
                 undefined;
@@ -182,7 +196,6 @@ const VelarisProfileGate: FC = () => {
             aria-describedby='velaris-profile-gate-description'
             aria-busy={isSwitching}
             tabIndex={-1}
-            onKeyDown={onDialogKeyDown}
         >
             <div className='velaris-profile-gate__ambient' aria-hidden='true' />
             <div className='velaris-profile-gate__panel'>
@@ -240,12 +253,12 @@ const VelarisProfileGate: FC = () => {
                         <strong>{pendingProfile.Name} entsperren</strong>
                         <span>Gib den Profil-PIN oder das Jellyfin-Passwort ein.</span>
                         <input
+                            ref={credentialRef}
                             type='password'
                             value={credential}
                             onChange={onCredentialChange}
                             autoComplete='current-password'
                             aria-label={`PIN oder Passwort für ${pendingProfile.Name}`}
-                            autoFocus
                         />
                         {errorMessage && <span className='velaris-profile-gate__error' role='alert'>{errorMessage}</span>}
                         <div>
