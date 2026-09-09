@@ -2,27 +2,27 @@
     display: block;
 }
 
-:root[data-velaris-theme='default'] .velaris-control-center {
+:root[data-velaris-theme='default'] {
     --velaris-theme-accent: #45f3ff;
     --velaris-theme-accent-soft: rgba(69, 243, 255, 0.14);
 }
 
-:root[data-velaris-theme='oled'] .velaris-control-center {
+:root[data-velaris-theme='oled'] {
     --velaris-theme-accent: #7cf7ff;
     --velaris-theme-accent-soft: rgba(124, 247, 255, 0.16);
 }
 
-:root[data-velaris-theme='midnight'] .velaris-control-center {
+:root[data-velaris-theme='midnight'] {
     --velaris-theme-accent: #62a8ff;
     --velaris-theme-accent-soft: rgba(98, 168, 255, 0.16);
 }
 
-:root[data-velaris-theme='aurora'] .velaris-control-center {
+:root[data-velaris-theme='aurora'] {
     --velaris-theme-accent: #b47cff;
     --velaris-theme-accent-soft: rgba(180, 124, 255, 0.18);
 }
 
-:root[data-velaris-theme='custom'] .velaris-control-center {
+:root[data-velaris-theme='custom'] {
     --velaris-theme-accent: var(--velaris-custom-accent, #45f3ff);
     --velaris-theme-accent-soft: color-mix(in srgb, var(--velaris-custom-accent, #45f3ff) 18%, transparent);
 }
