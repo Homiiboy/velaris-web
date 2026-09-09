@@ -70,7 +70,7 @@ describe('Velaris advanced player presentation helpers', () => {
         expect(getVelarisPlayMethodLabel('DirectPlay')).toBe('Direct Play');
         expect(getVelarisPlayMethodLabel('DirectStream')).toBe('Remux');
         expect(getVelarisPlayMethodLabel('Transcode')).toBe('Transcoding');
-        expect(getVelarisPlayMethodLabel(undefined)).toBe('Unbekannt');
+        expect(getVelarisPlayMethodLabel()).toBe('Unbekannt');
     });
 
     it('formats chapter timestamps with and without hours', () => {
