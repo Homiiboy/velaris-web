@@ -1,3 +1,4 @@
+import Event from '@mui/icons-material/Event';
 import Explore from '@mui/icons-material/Explore';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -33,6 +34,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
     const isBackButtonAvailable = window.NativeShell && appRouter.canGoBack(location.pathname);
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
     const isDiscoverySelected = location.pathname === '/discovery';
+    const isReleaseHubSelected = location.pathname === '/releases';
 
     return (
         <BaseToolbar
@@ -60,6 +62,16 @@ const AppToolbar: FC<AppToolbarProps> = ({
 
                     {!isPublicPath && (
                         <>
+                            <Button
+                                className='velaris-release-hub-entry'
+                                variant='text'
+                                color={isReleaseHubSelected ? 'primary' : 'inherit'}
+                                startIcon={<Event />}
+                                component={Link}
+                                to='/releases'
+                            >
+                                Releases
+                            </Button>
                             {preferences.showDiscovery && (
                                 <Button
                                     className='velaris-discovery-entry'
