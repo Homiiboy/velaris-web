@@ -15,6 +15,8 @@ export interface ResponsiveDrawerProps {
     onOpen: () => void
 }
 
+export const shouldCloseResponsiveDrawerOnKey = (key: string) => key === 'Escape';
+
 const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
     children,
     open = false,
@@ -23,7 +25,7 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
 }) => {
     const isMediumScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('md'));
     const onDrawerKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === 'Escape') onClose();
+        if (shouldCloseResponsiveDrawerOnKey(event.key)) onClose();
     }, [ onClose ]);
 
     return ( isMediumScreen ? (
