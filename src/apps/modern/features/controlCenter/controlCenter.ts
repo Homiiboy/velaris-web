@@ -77,6 +77,25 @@ export const getVelarisControlCenterStorageKey = (serverId: string, userId: stri
     `${STORAGE_PREFIX}:${encodeURIComponent(serverId)}:${encodeURIComponent(userId)}`
 );
 
+export const isVelarisControlCenterRouteEnabled = (
+    pathname: string,
+    preferences: VelarisControlCenterPreferences
+) => {
+    if (!preferences.showDiscovery && (
+        pathname === '/discovery' || pathname.startsWith('/discovery/')
+    )) {
+        return false;
+    }
+
+    if (!preferences.showFranchises && (
+        pathname === '/franchise-studio' || pathname.startsWith('/franchise/')
+    )) {
+        return false;
+    }
+
+    return true;
+};
+
 export const sanitizeVelarisControlCenterPreferences = (
     value: unknown
 ): VelarisControlCenterPreferences => {
