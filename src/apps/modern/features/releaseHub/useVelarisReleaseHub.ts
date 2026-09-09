@@ -15,6 +15,7 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import {
     buildVelarisReleaseHubModel,
     getVelarisReleaseDateKey,
+    getVelarisReleaseLoadState,
     getVelarisReleaseWindow,
     shouldFetchNextVelarisReleasePage,
     type VelarisReleaseCategory,
@@ -48,7 +49,8 @@ interface ReleaseLibrarySource {
 interface ReleaseQueryResult {
     recentSources: VelarisReleaseSourceItem[]
     calendarSources: VelarisReleaseSourceItem[]
-    failedLibraryIds: string[]
+    recentFailedLibraryIds: string[]
+    calendarFailedLibraryIds: string[]
     truncatedLibraryIds: string[]
 }
 
@@ -81,7 +83,8 @@ interface LoadReleaseLibraryOptions {
 interface LoadReleaseLibraryResult {
     recentSources: VelarisReleaseSourceItem[]
     calendarSources: VelarisReleaseSourceItem[]
-    failed: boolean
+    recentFailed: boolean
+    calendarFailed: boolean
     recentTruncated: boolean
     calendarTruncated: boolean
 }
@@ -163,7 +166,8 @@ const loadReleaseLibrary = async ({
 }: LoadReleaseLibraryOptions): Promise<LoadReleaseLibraryResult> => {
     let recent: LoadReleaseItemsResult = { sources: [], truncated: false };
     let calendar: LoadReleaseItemsResult = { sources: [], truncated: false };
-    let failed = false;
+    let recentFailed = false;
+    let calendarFailed = false;
 
     try {
         recent = await loadReleaseItems({
@@ -179,7 +183,7 @@ const loadReleaseLibrary = async ({
     } catch (error) {
         if (signal.aborted) throw error;
         console.warn(`[VelarisReleaseHub] unable to load recent items from ${library.id}`, error);
-        failed = true;
+        recentFailed = true;
     }
 
     try {
@@ -198,13 +202,14 @@ const loadReleaseLibrary = async ({
     } catch (error) {
         if (signal.aborted) throw error;
         console.warn(`[VelarisReleaseHub] unable to load release calendar from ${library.id}`, error);
-        failed = true;
+        calendarFailed = true;
     }
 
     return {
         recentSources: recent.sources,
         calendarSources: calendar.sources,
-        failed,
+        recentFailed,
+        calendarFailed,
         recentTruncated: recent.truncated,
         calendarTruncated: calendar.truncated
     };
@@ -246,7 +251,8 @@ export const useVelarisReleaseHub = () => {
 
             const recentSources: VelarisReleaseSourceItem[] = [];
             const calendarSources: VelarisReleaseSourceItem[] = [];
-            const failedLibraryIds: string[] = [];
+            const recentFailedLibraryIds: string[] = [];
+            const calendarFailedLibraryIds: string[] = [];
             const truncatedLibraryIds: string[] = [];
             const libraryApi = getLibraryApi(api!);
 
@@ -261,7 +267,8 @@ export const useVelarisReleaseHub = () => {
 
                 recentSources.push(...result.recentSources);
                 calendarSources.push(...result.calendarSources);
-                if (result.failed) failedLibraryIds.push(library.id);
+                if (result.recentFailed) recentFailedLibraryIds.push(library.id);
+                if (result.calendarFailed) calendarFailedLibraryIds.push(library.id);
                 if (result.recentTruncated) truncatedLibraryIds.push(`${library.id}:recent`);
                 if (result.calendarTruncated) truncatedLibraryIds.push(`${library.id}:calendar`);
             }
@@ -269,7 +276,8 @@ export const useVelarisReleaseHub = () => {
             return {
                 recentSources,
                 calendarSources,
-                failedLibraryIds,
+                recentFailedLibraryIds,
+                calendarFailedLibraryIds,
                 truncatedLibraryIds
             };
         }
@@ -280,15 +288,18 @@ export const useVelarisReleaseHub = () => {
         query.data?.calendarSources || [],
         nowMs
     );
+    const releaseLoadState = getVelarisReleaseLoadState(
+        libraries.length,
+        query.data?.recentFailedLibraryIds.length || 0,
+        query.data?.calendarFailedLibraryIds.length || 0,
+        query.data?.truncatedLibraryIds.length || 0
+    );
 
     return {
         ...model,
         libraryCount: libraries.length,
         isPending: userViewsQuery.isPending || query.isPending,
-        isError: userViewsQuery.isError || query.isError,
-        isPartial: Boolean(
-            query.data?.failedLibraryIds.length
-            || query.data?.truncatedLibraryIds.length
-        )
+        isError: userViewsQuery.isError || query.isError || releaseLoadState.isReleaseQueryError,
+        isPartial: releaseLoadState.isPartial
     };
 };
