@@ -1,0 +1,234 @@
+@use './tokens' as tokens;
+
+@keyframes velaris-app-enter {
+    from {
+        opacity: 0.7;
+        transform: translateY(0.35rem);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.velaris-app-ready .velaris-app-shell {
+    animation: velaris-app-enter 280ms ease-out both;
+}
+
+.velaris-connectivity-banner {
+    position: fixed;
+    z-index: 1400;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: max(1rem, env(safe-area-inset-left));
+    display: flex;
+    max-width: 52rem;
+    align-items: center;
+    gap: 0.9rem;
+    margin-inline: auto;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1rem;
+    background: rgba(7, 9, 15, 0.94);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.44);
+    color: tokens.$text-primary;
+    backdrop-filter: blur(20px) saturate(125%);
+}
+
+.velaris-connectivity-banner > .material-icons {
+    flex: 0 0 auto;
+    color: tokens.$cyan;
+}
+
+.velaris-connectivity-banner__copy {
+    display: grid;
+    flex: 1 1 auto;
+    gap: 0.12rem;
+    min-width: 0;
+}
+
+.velaris-connectivity-banner__copy span {
+    color: tokens.$text-secondary;
+    font-size: 0.82rem;
+}
+
+.velaris-connectivity-banner__action {
+    flex: 0 0 auto;
+    min-height: 2.7rem;
+    padding: 0.45rem 0.85rem;
+    border: 1px solid rgba(69, 243, 255, 0.2);
+    border-radius: 999px;
+    background: rgba(69, 243, 255, 0.08);
+    color: tokens.$text-primary;
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+.layout-tv .velaris-app-toolbar {
+    min-height: 5.2rem !important;
+    gap: 0.8rem;
+    padding-inline: max(3rem, 4vw) !important;
+}
+
+.layout-tv .velaris-primary-nav {
+    gap: 0.35rem;
+}
+
+.layout-tv .velaris-primary-nav .MuiButton-root {
+    min-height: 3.5rem;
+    padding-inline: 1.15rem;
+    border-radius: 0.8rem;
+    font-size: 1.05rem;
+}
+
+.layout-tv .velaris-primary-nav .MuiButton-root .MuiButton-startIcon {
+    display: inline-flex;
+}
+
+.layout-tv .velaris-app-toolbar .MuiIconButton-root {
+    width: 3.5rem;
+    height: 3.5rem;
+}
+
+.layout-tv .velaris-app-toolbar .MuiAvatar-root {
+    width: 2.7rem;
+    height: 2.7rem;
+}
+
+.layout-tv .velaris-app-main {
+    padding-bottom: max(3rem, env(safe-area-inset-bottom));
+}
+
+.layout-tv .padded-left {
+    padding-left: max(3.5rem, 4vw) !important;
+}
+
+.layout-tv .padded-right {
+    padding-right: max(3.5rem, 4vw) !important;
+}
+
+.layout-tv button:focus-visible,
+.layout-tv a:focus-visible,
+.layout-tv [tabindex]:not([tabindex='-1']):focus-visible {
+    outline: 3px solid tokens.$cyan;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 7px rgba(69, 243, 255, 0.14);
+}
+
+.layout-tv .card:focus-visible,
+.layout-tv .MuiCardActionArea-root:focus-visible,
+.layout-tv .MuiListItemButton-root:focus-visible {
+    transform: scale(1.035);
+}
+
+.layout-tv .velaris-connectivity-banner {
+    bottom: max(2.5rem, env(safe-area-inset-bottom));
+    max-width: 64rem;
+    padding: 1.15rem 1.3rem;
+    font-size: 1.05rem;
+}
+
+.layout-tv .velaris-connectivity-banner__action {
+    min-height: 3.4rem;
+    padding-inline: 1.2rem;
+}
+
+.layout-tv #videoOsdPage .velaris-advanced-player-panel {
+    max-height: min(72vh, 48rem);
+    padding: 1.4rem;
+}
+
+.layout-tv #videoOsdPage .velaris-advanced-player-chip,
+.layout-tv #videoOsdPage .velaris-advanced-player-chapter,
+.layout-tv #videoOsdPage .velaris-advanced-player-panel__close {
+    min-height: 3.6rem;
+    font-size: 1rem;
+}
+
+#connectionErrorPage.velaris-connection-error-page {
+    display: grid;
+    place-items: center;
+    min-height: 100%;
+    background:
+        radial-gradient(circle at 50% 18%, rgba(69, 243, 255, 0.09), transparent 30rem),
+        tokens.$background;
+}
+
+.velaris-connection-error {
+    width: min(44rem, calc(100% - 2rem));
+    box-sizing: border-box;
+    padding: clamp(1.4rem, 4vw, 2.6rem);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.4rem;
+    background: rgba(8, 10, 17, 0.86);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+    text-align: center;
+    backdrop-filter: blur(22px);
+}
+
+.velaris-connection-error__icon {
+    display: inline-grid;
+    width: 4.2rem;
+    height: 4.2rem;
+    place-items: center;
+    margin-bottom: 0.6rem;
+    border: 1px solid rgba(69, 243, 255, 0.2);
+    border-radius: 50%;
+    background: rgba(69, 243, 255, 0.08);
+    color: tokens.$cyan;
+    font-size: 2rem;
+}
+
+.velaris-connection-error__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-top: 1.4rem;
+}
+
+@media (max-width: 74.99rem) {
+    .velaris-app-toolbar {
+        min-height: 4.1rem !important;
+    }
+
+    .velaris-app-main {
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+}
+
+@media (max-width: 37.49rem) {
+    .velaris-connectivity-banner {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        padding: 0.8rem;
+    }
+
+    .velaris-connectivity-banner__copy {
+        flex-basis: calc(100% - 2.5rem);
+    }
+
+    .velaris-connectivity-banner__action {
+        width: 100%;
+    }
+
+    .velaris-connection-error {
+        width: min(100% - 1rem, 40rem);
+        border-radius: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .velaris-app-ready .velaris-app-shell {
+        animation: none;
+    }
+
+    .layout-tv .card:focus-visible,
+    .layout-tv .MuiCardActionArea-root:focus-visible,
+    .layout-tv .MuiListItemButton-root:focus-visible {
+        transform: none;
+    }
+}
