@@ -47,6 +47,7 @@ jobs:
           src/apps/modern/features/franchises
           src/apps/modern/features/home
           src/apps/modern/features/profiles
+          src/apps/modern/features/tv
           src/apps/modern/utils/velarisNavigation.ts
           src/apps/modern/utils/velarisNavigation.test.ts
           src/apps/modern/utils/velarisRouting.ts
@@ -59,10 +60,12 @@ jobs:
           src/apps/modern/components/AppToolbar/userViews/UserViewNav.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewsMenu.tsx
           src/apps/modern/components/drawers/MainDrawerContent.tsx
+          src/components/ConnectionErrorPage.tsx
           src/components/playback/skipsegment.ts
           src/components/playback/velarisAdvancedPlayer.ts
           src/components/playback/velarisAdvancedPlayer.test.ts
           src/components/playback/velarisAdvancedPlayerController.ts
+          src/components/playback/velarisTvPlayerController.ts
           src/components/toolbar/AppUserMenu.tsx
           --max-warnings=0
 
