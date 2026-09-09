@@ -2,6 +2,7 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+import { useVelarisControlCenterPreferences } from 'apps/modern/features/controlCenter/useVelarisControlCenterPreferences';
 import VelarisFranchiseShelf from 'apps/modern/features/franchises/VelarisFranchiseShelf';
 import VelarisHomeDestinations from 'apps/modern/features/home/VelarisHomeDestinations';
 import VelarisHomeHero from 'apps/modern/features/home/VelarisHomeHero';
@@ -38,6 +39,7 @@ type ControllerProps = {
 
 const Home = () => {
     const [ searchParams ] = useSearchParams();
+    const { preferences: controlCenterPreferences } = useVelarisControlCenterPreferences();
     const initialTabIndex = parseVelarisHomeTabIndex(searchParams.get('tab'));
 
     const libraryMenu = useMemo(async () => ((await import('../../../scripts/libraryMenu')).default), []);
@@ -191,13 +193,13 @@ const Home = () => {
                     id='homeTab'
                     data-index='0'
                 >
-                    <VelarisHomeHero />
+                    {controlCenterPreferences.heroMode !== 'hidden' && <VelarisHomeHero />}
                     <VelarisHomeDestinations />
 
                     <div className='velaris-home-rows'>
-                        <VelarisSmartHome />
+                        {controlCenterPreferences.showSmartHome && <VelarisSmartHome />}
                         <div className='sections velaris-home__legacy'></div>
-                        <VelarisFranchiseShelf />
+                        {controlCenterPreferences.showFranchises && <VelarisFranchiseShelf />}
                     </div>
                 </div>
 

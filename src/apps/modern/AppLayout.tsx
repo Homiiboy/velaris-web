@@ -12,6 +12,7 @@ import { useApi } from 'hooks/useApi';
 
 import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
+import { useVelarisControlCenterPreferences } from './features/controlCenter/useVelarisControlCenterPreferences';
 import VelarisProfileGate from './features/profiles/VelarisProfileGate';
 import { useVelarisProfilePreferences } from './features/profiles/useVelarisProfilePreferences';
 import VelarisAppExperience from './features/tv/VelarisAppExperience';
@@ -26,6 +27,7 @@ export const Component = () => {
     const { user } = useApi();
     const location = useLocation();
     useVelarisProfilePreferences();
+    useVelarisControlCenterPreferences();
 
     const isMediumScreen = useMediaQuery((t: Theme) => t.breakpoints.up('md'));
     const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user) && !isMediumScreen;

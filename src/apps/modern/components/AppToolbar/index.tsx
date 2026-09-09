@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import React, { type FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { useVelarisControlCenterPreferences } from 'apps/modern/features/controlCenter/useVelarisControlCenterPreferences';
 import { appRouter, PUBLIC_PATHS } from 'components/router/appRouter';
 import BaseToolbar from 'components/toolbar/AppToolbar';
 import ServerButton from 'components/toolbar/ServerButton';
@@ -25,6 +26,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
     onDrawerButtonClick
 }) => {
     const location = useLocation();
+    const { preferences } = useVelarisControlCenterPreferences();
 
     if (location.pathname === '/video') return null;
 
@@ -58,15 +60,18 @@ const AppToolbar: FC<AppToolbarProps> = ({
 
                     {!isPublicPath && (
                         <>
-                            <Button
-                                variant='text'
-                                color={isDiscoverySelected ? 'primary' : 'inherit'}
-                                startIcon={<Explore />}
-                                component={Link}
-                                to='/discovery'
-                            >
-                                Entdecken
-                            </Button>
+                            {preferences.showDiscovery && (
+                                <Button
+                                    className='velaris-discovery-entry'
+                                    variant='text'
+                                    color={isDiscoverySelected ? 'primary' : 'inherit'}
+                                    startIcon={<Explore />}
+                                    component={Link}
+                                    to='/discovery'
+                                >
+                                    Entdecken
+                                </Button>
+                            )}
                             <UserViewNav />
                         </>
                     )}

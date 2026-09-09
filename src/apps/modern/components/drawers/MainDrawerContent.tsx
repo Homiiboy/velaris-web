@@ -12,6 +12,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import React from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
+import { useVelarisControlCenterPreferences } from 'apps/modern/features/controlCenter/useVelarisControlCenterPreferences';
 import { sortVelarisLibraries } from 'apps/modern/utils/velarisNavigation';
 import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import ListItemLink from 'components/ListItemLink';
@@ -26,6 +27,7 @@ import DrawerHeaderLink from './DrawerHeaderLink';
 
 const MainDrawerContent = () => {
     const { user } = useApi();
+    const { preferences } = useVelarisControlCenterPreferences();
     const location = useLocation();
     const [ searchParams ] = useSearchParams();
     const { data: userViewsData } = useUserViews({ userId: user?.Id });
@@ -50,14 +52,16 @@ const MainDrawerContent = () => {
                         <ListItemText primary={globalize.translate('Home')} />
                     </ListItemLink>
                 </ListItem>
-                <ListItem disablePadding>
-                    <ListItemLink to='/discovery' selected={isDiscoverySelected}>
-                        <ListItemIcon>
-                            <Explore />
-                        </ListItemIcon>
-                        <ListItemText primary='Entdecken' />
-                    </ListItemLink>
-                </ListItem>
+                {preferences.showDiscovery && (
+                    <ListItem disablePadding>
+                        <ListItemLink to='/discovery' selected={isDiscoverySelected}>
+                            <ListItemIcon>
+                                <Explore />
+                            </ListItemIcon>
+                            <ListItemText primary='Entdecken' />
+                        </ListItemLink>
+                    </ListItem>
+                )}
                 <ListItem disablePadding>
                     <ListItemLink to='/home?tab=1' selected={isFavoritesSelected}>
                         <ListItemIcon>

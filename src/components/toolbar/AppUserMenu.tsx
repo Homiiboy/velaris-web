@@ -9,6 +9,7 @@ import Logout from '@mui/icons-material/Logout';
 import PhonelinkLock from '@mui/icons-material/PhonelinkLock';
 import Settings from '@mui/icons-material/Settings';
 import Storage from '@mui/icons-material/Storage';
+import Tune from '@mui/icons-material/Tune';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,6 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import React, { FC, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
+import { useVelarisControlCenterPreferences } from 'apps/modern/features/controlCenter/useVelarisControlCenterPreferences';
 import UserAvatar from 'components/UserAvatar';
 import { appHost } from 'components/apphost';
 import { AppFeature } from 'constants/appFeature';
@@ -39,6 +41,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
     onMenuClose
 }) => {
     const { user } = useApi();
+    const { preferences } = useVelarisControlCenterPreferences();
     const { data: isQuickConnectEnabled } = useQuickConnectEnabled();
 
     const onDownloadManagerClick = useCallback(() => {
@@ -125,18 +128,32 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
             <MenuItem
-                className='velaris-user-menu__advanced velaris-franchise-studio-entry'
                 component={Link}
-                to='/franchise-studio'
+                to='/control-center'
                 onClick={onMenuClose}
             >
                 <ListItemIcon>
-                    <AccountTree />
+                    <Tune />
                 </ListItemIcon>
                 <ListItemText>
-                    Franchise Studio
+                    Velaris Control Center
                 </ListItemText>
             </MenuItem>
+            {preferences.showFranchises && (
+                <MenuItem
+                    className='velaris-user-menu__advanced velaris-franchise-studio-entry'
+                    component={Link}
+                    to='/franchise-studio'
+                    onClick={onMenuClose}
+                >
+                    <ListItemIcon>
+                        <AccountTree />
+                    </ListItemIcon>
+                    <ListItemText>
+                        Franchise Studio
+                    </ListItemText>
+                </MenuItem>
+            )}
 
             {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
                 <Divider className='velaris-user-menu__advanced' />
