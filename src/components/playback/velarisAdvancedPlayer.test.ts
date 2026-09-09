@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { getVelarisControlCenterStorageKey } from 'apps/modern/features/controlCenter/controlCenter';
+
 import {
     DEFAULT_VELARIS_ADVANCED_PLAYER_PREFERENCES,
     formatVelarisChapterTime,
@@ -53,6 +55,26 @@ describe('Velaris advanced player preferences', () => {
             version: 1,
             qualityPreset: 'balanced',
             technicalOverlay: true,
+            segmentTransitions: false
+        });
+    });
+
+    it('neutralizes advanced behavior while the Control Center feature is disabled', () => {
+        const storage = new MemoryStorage();
+        storage.setItem(getVelarisAdvancedPlayerStorageKey('server', 'user'), JSON.stringify({
+            version: 1,
+            qualityPreset: 'data-saver',
+            technicalOverlay: true,
+            segmentTransitions: true
+        }));
+        storage.setItem(getVelarisControlCenterStorageKey('server', 'user'), JSON.stringify({
+            advancedPlayerEnabled: false
+        }));
+
+        expect(readVelarisAdvancedPlayerPreferences(storage, 'server', 'user')).toEqual({
+            version: 1,
+            qualityPreset: 'auto',
+            technicalOverlay: false,
             segmentTransitions: false
         });
     });
