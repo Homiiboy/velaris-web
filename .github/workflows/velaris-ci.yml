@@ -32,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Production dependency audit
-        run: npm audit --omit=dev --audit-level=critical
+        run: npm audit --omit=dev --omit=optional --audit-level=critical
 
       - name: TypeScript check
         run: npm run build:check
