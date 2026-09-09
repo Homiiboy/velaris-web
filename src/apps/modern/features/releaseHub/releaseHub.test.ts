@@ -6,6 +6,7 @@ import type { ItemDto } from 'types/base/models/item-dto';
 import {
     buildVelarisReleaseHubModel,
     getVelarisReleaseDateKey,
+    getVelarisReleaseLoadState,
     getVelarisReleaseWeekStartMs,
     isVelarisSeasonPremiere,
     shouldFetchNextVelarisReleasePage,
@@ -35,6 +36,33 @@ describe('Velaris release calendar dates', () => {
             .toBe('2026-09-07T00:00:00.000Z');
         expect(new Date(getVelarisReleaseWeekStartMs(new Date('2026-09-13T10:00:00Z'))).toISOString())
             .toBe('2026-09-07T00:00:00.000Z');
+    });
+});
+
+describe('Velaris release load state', () => {
+    it('treats complete recent and calendar failure as an error', () => {
+        expect(getVelarisReleaseLoadState(2, 2, 2, 0)).toEqual({
+            isReleaseQueryError: true,
+            isPartial: false
+        });
+    });
+
+    it('keeps one-sided failures and truncation as partial data', () => {
+        expect(getVelarisReleaseLoadState(2, 2, 0, 0)).toEqual({
+            isReleaseQueryError: false,
+            isPartial: true
+        });
+        expect(getVelarisReleaseLoadState(2, 0, 0, 1)).toEqual({
+            isReleaseQueryError: false,
+            isPartial: true
+        });
+    });
+
+    it('does not report an empty library set as a failed release query', () => {
+        expect(getVelarisReleaseLoadState(0, 0, 0, 0)).toEqual({
+            isReleaseQueryError: false,
+            isPartial: false
+        });
     });
 });
 
