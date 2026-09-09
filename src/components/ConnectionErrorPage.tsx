@@ -5,6 +5,7 @@ import { appHost } from 'components/apphost';
 import Page from 'components/Page';
 import toast from 'components/toast/toast';
 import { AppFeature } from 'constants/appFeature';
+import Button from 'elements/emby-button/Button';
 import LinkButton from 'elements/emby-button/LinkButton';
 import globalize from 'lib/globalize';
 import { ConnectionState, ServerConnections } from 'lib/jellyfin-apiclient';
@@ -72,27 +73,29 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
         >
             <div className='velaris-connection-error padded-left padded-right'>
                 <span className='velaris-connection-error__icon material-icons cloud_off' aria-hidden='true' />
-                <h1>{title}</h1>
-                {htmlMessage && (
-                    <p
-                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlMessage) }}
-                        style={{ maxWidth: '80ch' }}
-                    />
-                )}
-                {message && (
-                    <p style={{ maxWidth: '80ch' }}>
-                        {message}
-                    </p>
-                )}
+                <div className='velaris-connection-error__copy' role='alert'>
+                    <h1>{title}</h1>
+                    {htmlMessage && (
+                        <p
+                            dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(htmlMessage) }}
+                            style={{ maxWidth: '80ch' }}
+                        />
+                    )}
+                    {message && (
+                        <p style={{ maxWidth: '80ch' }}>
+                            {message}
+                        </p>
+                    )}
+                </div>
 
-                <div className='velaris-connection-error__actions'>
+                <div className='velaris-connection-error__actions' aria-busy={isConnectDisabled}>
                     {state === ConnectionState.Unavailable && (
-                        <LinkButton
+                        <Button
                             className='raised'
+                            title='Erneut versuchen'
+                            type='button'
                             onClick={onRetryConnection}
-                        >
-                            Erneut versuchen
-                        </LinkButton>
+                        />
                     )}
 
                     {appHost.supports(AppFeature.MultiServer) && (
@@ -105,12 +108,12 @@ const ConnectionErrorPage: FC<ConnectionErrorPageProps> = ({
                     )}
 
                     {state === ConnectionState.ServerMismatch && (
-                        <LinkButton
+                        <Button
+                            title={globalize.translate('ConnectAnyway')}
+                            type='button'
                             onClick={onForceConnect}
-                            style={ isConnectDisabled ? { pointerEvents: 'none' } : undefined }
-                        >
-                            {globalize.translate('ConnectAnyway')}
-                        </LinkButton>
+                            disabled={isConnectDisabled}
+                        />
                     )}
                 </div>
             </div>
