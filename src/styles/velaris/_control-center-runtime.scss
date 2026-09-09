@@ -28,16 +28,16 @@
 }
 
 :root[data-velaris-theme] :where(
-    .velaris-home-hero__eyebrow,
-    .velaris-home-destinations__eyebrow,
-    .velaris-smart-home__eyebrow,
-    .velaris-franchise-discovery__eyebrow,
-    .velaris-franchise-hero__eyebrow,
-    .velaris-franchise-empty__eyebrow,
-    .velaris-discovery-hero > span,
-    .velaris-discovery-smart > div > span,
-    .velaris-discovery-section-heading > div > span,
-    .velaris-discovery-lists__heading > span
+.velaris-home-hero__eyebrow,
+.velaris-home-destinations__eyebrow,
+.velaris-smart-home__eyebrow,
+.velaris-franchise-discovery__eyebrow,
+.velaris-franchise-hero__eyebrow,
+.velaris-franchise-empty__eyebrow,
+.velaris-discovery-hero > span,
+.velaris-discovery-smart > div > span,
+.velaris-discovery-section-heading > div > span,
+.velaris-discovery-lists__heading > span
 ) {
     color: var(--velaris-theme-accent);
 }
