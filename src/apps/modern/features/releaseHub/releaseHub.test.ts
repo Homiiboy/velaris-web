@@ -8,6 +8,7 @@ import {
     getVelarisReleaseDateKey,
     getVelarisReleaseWeekStartMs,
     isVelarisSeasonPremiere,
+    shouldFetchNextVelarisReleasePage,
     type VelarisReleaseSourceItem
 } from './releaseHub';
 
@@ -34,6 +35,63 @@ describe('Velaris release calendar dates', () => {
             .toBe('2026-09-07T00:00:00.000Z');
         expect(new Date(getVelarisReleaseWeekStartMs(new Date('2026-09-13T10:00:00Z'))).toISOString())
             .toBe('2026-09-07T00:00:00.000Z');
+    });
+});
+
+describe('Velaris release paging', () => {
+    it('keeps paging while a full descending page is still inside the requested window', () => {
+        const items = [
+            { DateCreated: '2026-09-09T09:00:00Z' },
+            { DateCreated: '2026-09-08T09:00:00Z' }
+        ] as ItemDto[];
+
+        expect(shouldFetchNextVelarisReleasePage(
+            items,
+            'DateCreated',
+            Date.parse('2026-09-07T00:00:00Z'),
+            2,
+            10,
+            2
+        )).toBe(true);
+    });
+
+    it('stops after a descending page crosses the lower date boundary', () => {
+        const items = [
+            { PremiereDate: '2026-09-10T00:00:00Z' },
+            { PremiereDate: '2026-09-01T00:00:00Z' }
+        ] as ItemDto[];
+
+        expect(shouldFetchNextVelarisReleasePage(
+            items,
+            'PremiereDate',
+            Date.parse('2026-09-09T00:00:00Z'),
+            2,
+            100,
+            2
+        )).toBe(false);
+    });
+
+    it('stops on short pages and known total-count boundaries', () => {
+        expect(shouldFetchNextVelarisReleasePage(
+            [ { DateCreated: '2026-09-09T09:00:00Z' } ] as ItemDto[],
+            'DateCreated',
+            0,
+            1,
+            10,
+            2
+        )).toBe(false);
+
+        expect(shouldFetchNextVelarisReleasePage(
+            [
+                { DateCreated: '2026-09-09T09:00:00Z' },
+                { DateCreated: '2026-09-08T09:00:00Z' }
+            ] as ItemDto[],
+            'DateCreated',
+            0,
+            2,
+            2,
+            2
+        )).toBe(false);
     });
 });
 
