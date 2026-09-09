@@ -71,6 +71,22 @@ describe('Velaris release paging', () => {
         )).toBe(false);
     });
 
+    it('treats premiere dates as calendar dates instead of timezone instants', () => {
+        const items = [
+            { PremiereDate: '2026-09-11T00:00:00+14:00' },
+            { PremiereDate: '2026-09-10T00:00:00+14:00' }
+        ] as ItemDto[];
+
+        expect(shouldFetchNextVelarisReleasePage(
+            items,
+            'PremiereDate',
+            Date.parse('2026-09-10T00:00:00Z'),
+            2,
+            10,
+            2
+        )).toBe(true);
+    });
+
     it('stops on short pages and known total-count boundaries', () => {
         expect(shouldFetchNextVelarisReleasePage(
             [ { DateCreated: '2026-09-09T09:00:00Z' } ] as ItemDto[],
@@ -159,6 +175,20 @@ describe('Velaris release hub model', () => {
         ]);
     });
 
+    it('preserves the premiere calendar date when metadata carries an offset', () => {
+        const model = buildVelarisReleaseHubModel([], [
+            source('offset-release', 'series', {
+                Type: BaseItemKind.Episode,
+                PremiereDate: '2026-09-10T00:00:00+14:00',
+                SeriesName: 'Offset Show',
+                IndexNumber: 2,
+                ParentIndexNumber: 1
+            })
+        ], now);
+
+        expect(model.calendarDays.map(day => day.dateKey)).toEqual([ '2026-09-10' ]);
+    });
+
     it('recognizes normal season premieres but not specials', () => {
         expect(isVelarisSeasonPremiere({
             Type: BaseItemKind.Episode,
@@ -199,6 +229,10 @@ describe('Velaris release hub model', () => {
             source('bad-premiere', 'anime', {
                 Type: BaseItemKind.Episode,
                 PremiereDate: 'not-a-date'
+            }),
+            source('invalid-calendar-date', 'series', {
+                Type: BaseItemKind.Episode,
+                PremiereDate: '2026-02-30T00:00:00Z'
             })
         ], now);
 
