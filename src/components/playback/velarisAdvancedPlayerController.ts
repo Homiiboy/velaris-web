@@ -409,7 +409,7 @@ class VelarisAdvancedPlayerController extends PlaybackSubscriber {
             button.dataset.action = 'chapter';
             button.dataset.value = String(chapter.StartPositionTicks || 0);
 
-            if (chapter.ImageTag) {
+            if (chapter.ImageTag && apiClient) {
                 const preview = document.createElement('span');
                 preview.className = 'velaris-advanced-player-chapter__preview';
                 const imageUrl = apiClient.getUrl(`Items/${item.Id}/Images/Chapter/${index}`, {
