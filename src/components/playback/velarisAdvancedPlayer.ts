@@ -1,3 +1,5 @@
+import { readVelarisControlCenterPreferences } from 'apps/modern/features/controlCenter/controlCenter';
+
 export const VELARIS_ADVANCED_PLAYER_VERSION = 1;
 
 export const VELARIS_QUALITY_PRESETS = [
@@ -26,6 +28,11 @@ export const DEFAULT_VELARIS_ADVANCED_PLAYER_PREFERENCES: VelarisAdvancedPlayerP
     qualityPreset: 'auto',
     technicalOverlay: false,
     segmentTransitions: true
+};
+
+const DISABLED_VELARIS_ADVANCED_PLAYER_PREFERENCES: VelarisAdvancedPlayerPreferences = {
+    ...DEFAULT_VELARIS_ADVANCED_PLAYER_PREFERENCES,
+    segmentTransitions: false
 };
 
 const STORAGE_PREFIX = `velaris:advanced-player:v${VELARIS_ADVANCED_PLAYER_VERSION}`;
@@ -63,6 +70,11 @@ export const readVelarisAdvancedPlayerPreferences = (
     serverId: string,
     userId: string
 ): VelarisAdvancedPlayerPreferences => {
+    const controlCenterPreferences = readVelarisControlCenterPreferences(storage, serverId, userId);
+    if (!controlCenterPreferences.advancedPlayerEnabled) {
+        return { ...DISABLED_VELARIS_ADVANCED_PLAYER_PREFERENCES };
+    }
+
     try {
         const rawValue = storage.getItem(getVelarisAdvancedPlayerStorageKey(serverId, userId));
         return rawValue ?
