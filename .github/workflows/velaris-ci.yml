@@ -67,6 +67,8 @@ jobs:
           src/apps/modern/components/AppToolbar/index.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewNav.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewsMenu.tsx
+          src/apps/modern/components/drawers/AppDrawer.tsx
+          src/apps/modern/components/drawers/AppDrawer.test.ts
           src/apps/modern/components/drawers/MainDrawerContent.tsx
           src/components/ConnectionErrorPage.tsx
           src/components/ResponsiveDrawer.tsx
