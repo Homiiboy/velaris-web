@@ -16,7 +16,7 @@ jobs:
   validate:
     name: Validate and build
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -99,3 +99,39 @@ jobs:
 
       - name: ES compatibility check
         run: npm run escheck
+
+      - name: Docker Compose validation
+        run: docker compose config --quiet
+
+      - name: Docker image build
+        run: >-
+          docker build
+          --build-arg VELARIS_VERSION="$(cat VELARIS_VERSION)"
+          --build-arg VELARIS_COMMIT="${GITHUB_SHA}"
+          --tag velaris-web:ci
+          .
+
+      - name: Docker runtime smoke test
+        run: |
+          set -eu
+          trap 'docker rm -f velaris-ci >/dev/null 2>&1 || true' EXIT
+          docker run -d \
+            --name velaris-ci \
+            --read-only \
+            --tmpfs /tmp:size=64m,mode=1777 \
+            --security-opt no-new-privileges:true \
+            --cap-drop ALL \
+            -p 127.0.0.1:18097:8080 \
+            velaris-web:ci
+
+          attempt=1
+          while [ "$attempt" -le 15 ]; do
+            if curl --fail --silent http://127.0.0.1:18097/healthz >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+            attempt=$((attempt + 1))
+          done
+
+          docker logs velaris-ci
+          exit 1
