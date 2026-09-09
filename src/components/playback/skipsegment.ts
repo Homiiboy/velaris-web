@@ -13,6 +13,7 @@ import * as userSettings from 'scripts/settings/userSettings';
 import focusManager from 'components/focusManager';
 import layoutManager from 'components/layoutManager';
 import { bindVelarisAdvancedPlayer } from './velarisAdvancedPlayerController';
+import { bindVelarisTvPlayer } from './velarisTvPlayerController';
 
 interface ShowOptions {
     animate?: boolean;
@@ -201,5 +202,6 @@ class SkipSegment extends PlaybackSubscriber {
 
 export const bindSkipSegment = (playbackManager: PlaybackManager) => {
     bindVelarisAdvancedPlayer(playbackManager);
+    bindVelarisTvPlayer(playbackManager);
     return new SkipSegment(playbackManager);
 };
