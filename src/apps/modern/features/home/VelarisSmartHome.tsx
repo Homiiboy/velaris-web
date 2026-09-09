@@ -2,6 +2,7 @@ import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react
 import { Link } from 'react-router-dom';
 
 import { toReactRoute } from 'apps/modern/utils/velarisRouting';
+import { getVelarisLocalStorage } from 'apps/modern/utils/velarisStorage';
 import { playbackManager } from 'components/playback/playbackmanager';
 import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
@@ -19,30 +20,11 @@ import {
     type SmartHomeRow,
     type SmartHomeRowId
 } from './smartHome';
+import {
+    readVelarisSmartHomePreferences,
+    saveVelarisSmartHomePreferences
+} from './smartHomePersistence';
 import { useVelarisSmartHome, type SmartHomeContinueAction } from './useVelarisSmartHome';
-
-const STORAGE_PREFIX = 'velaris:smart-home:v1:';
-
-const getPreferenceStorageKey = (userId: string) => `${STORAGE_PREFIX}${userId}`;
-
-const readPreferences = (userId: string): SmartHomePreferences => {
-    try {
-        const value = window.localStorage.getItem(getPreferenceStorageKey(userId));
-        return value ? sanitizeSmartHomePreferences(JSON.parse(value)) :
-            sanitizeSmartHomePreferences(DEFAULT_SMART_HOME_PREFERENCES);
-    } catch (error) {
-        console.warn('[VelarisSmartHome] unable to read preferences', error);
-        return sanitizeSmartHomePreferences(DEFAULT_SMART_HOME_PREFERENCES);
-    }
-};
-
-const savePreferences = (userId: string, preferences: SmartHomePreferences) => {
-    try {
-        window.localStorage.setItem(getPreferenceStorageKey(userId), JSON.stringify(preferences));
-    } catch (error) {
-        console.warn('[VelarisSmartHome] unable to save preferences', error);
-    }
-};
 
 const getDetailsUrl = (item: ItemDto) => toReactRoute(appRouter.getRouteUrl(item));
 
@@ -264,11 +246,14 @@ const SmartHomeSettings: FC<SmartHomeSettingsProps> = ({
 };
 
 interface VelarisSmartHomeForUserProps {
+    serverId: string
     userId: string
 }
 
-const VelarisSmartHomeForUser: FC<VelarisSmartHomeForUserProps> = ({ userId }) => {
-    const [ preferences, setPreferences ] = useState<SmartHomePreferences>(() => readPreferences(userId));
+const VelarisSmartHomeForUser: FC<VelarisSmartHomeForUserProps> = ({ serverId, userId }) => {
+    const [ preferences, setPreferences ] = useState<SmartHomePreferences>(() => (
+        readVelarisSmartHomePreferences(getVelarisLocalStorage(), serverId, userId)
+    ));
     const [ settingsOpen, setSettingsOpen ] = useState(false);
     const {
         unplayedItems,
@@ -280,8 +265,8 @@ const VelarisSmartHomeForUser: FC<VelarisSmartHomeForUserProps> = ({ userId }) =
     } = useVelarisSmartHome();
 
     useEffect(() => {
-        savePreferences(userId, preferences);
-    }, [ preferences, userId ]);
+        saveVelarisSmartHomePreferences(getVelarisLocalStorage(), serverId, userId, preferences);
+    }, [ preferences, serverId, userId ]);
 
     const recommendationRows = useMemo(
         () => buildSmartHomeRows(unplayedItems, recentlyWatchedItems, preferences),
@@ -400,8 +385,17 @@ const VelarisSmartHomeForUser: FC<VelarisSmartHomeForUserProps> = ({ userId }) =
 };
 
 const VelarisSmartHome: FC = () => {
-    const { user } = useApi();
-    return user?.Id ? <VelarisSmartHomeForUser key={user.Id} userId={user.Id} /> : null;
+    const { user, __legacyApiClient__ } = useApi();
+    const serverId = __legacyApiClient__?.serverId();
+    const userId = user?.Id;
+
+    return userId && serverId ? (
+        <VelarisSmartHomeForUser
+            key={`${serverId}:${userId}`}
+            serverId={serverId}
+            userId={userId}
+        />
+    ) : null;
 };
 
 export default VelarisSmartHome;
