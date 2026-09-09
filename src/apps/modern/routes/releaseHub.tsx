@@ -23,6 +23,9 @@ interface ReleaseCardProps {
     badge?: string
 }
 
+const WEEKDAY_FORMATTER = new Intl.DateTimeFormat('de-DE', { weekday: 'long' });
+const DATE_FORMATTER = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: 'long' });
+
 const getDetailsUrl = (item: ItemDto) => toReactRoute(appRouter.getRouteUrl(item));
 
 const getEpisodeLabel = (item: ItemDto) => {
@@ -52,8 +55,8 @@ const ReleaseCard: FC<ReleaseCardProps> = ({ source, badge }) => {
                 {badge && <span className='velaris-release-card__badge'>{badge}</span>}
             </span>
             <span className='velaris-release-card__copy'>
-                <strong>{title}</strong>
-                <span>{subtitle}</span>
+                <strong className='velaris-release-card__title'>{title}</strong>
+                <span className='velaris-release-card__subtitle'>{subtitle}</span>
             </span>
         </Link>
     );
@@ -116,9 +119,9 @@ const ReleaseHub = () => {
                         Neue Serien und Episoden aus deiner Mediathek — plus ein 28-Tage-Kalender aus den Premiere-Daten, die dein Server bereits kennt.
                     </p>
                     <div className='velaris-release-hero__stats'>
-                        <span><strong>{newThisWeek.length}</strong> neu diese Woche</span>
-                        <span><strong>{newEpisodesThisWeek.length}</strong> neue Episoden</span>
-                        <span><strong>{seasonPremieres.length}</strong> Season Starts</span>
+                        <span className='velaris-release-hero__stat'><strong>{newThisWeek.length}</strong> neu diese Woche</span>
+                        <span className='velaris-release-hero__stat'><strong>{newEpisodesThisWeek.length}</strong> neue Episoden</span>
+                        <span className='velaris-release-hero__stat'><strong>{seasonPremieres.length}</strong> Season Starts</span>
                     </div>
                 </div>
             </header>
@@ -129,7 +132,7 @@ const ReleaseHub = () => {
                     <button type='button' data-filter='series' aria-pressed={filter === 'series'} onClick={onFilterClick}>Serien</button>
                     <button type='button' data-filter='anime' aria-pressed={filter === 'anime'} onClick={onFilterClick}>Anime</button>
                 </div>
-                <span>{libraryCount} Release-Bibliothek{libraryCount === 1 ? '' : 'en'}</span>
+                <span className='velaris-release-toolbar__count'>{libraryCount} Release-Bibliothek{libraryCount === 1 ? '' : 'en'}</span>
             </div>
 
             {isPartial && (
@@ -158,10 +161,10 @@ const ReleaseHub = () => {
                 <section className='velaris-release-section'>
                     <div className='velaris-release-section__heading'>
                         <div>
-                            <span>DIESE WOCHE</span>
+                            <span className='velaris-release-section__eyebrow'>DIESE WOCHE</span>
                             <h2>Neu in deiner Mediathek</h2>
                         </div>
-                        <strong>{filteredNewThisWeek.length} Titel</strong>
+                        <strong className='velaris-release-section__count'>{filteredNewThisWeek.length} Titel</strong>
                     </div>
                     <div className='velaris-release-rail'>
                         {filteredNewThisWeek.map(source => (
@@ -179,10 +182,10 @@ const ReleaseHub = () => {
                 <section className='velaris-release-section'>
                     <div className='velaris-release-section__heading'>
                         <div>
-                            <span>SEASON STARTS</span>
+                            <span className='velaris-release-section__eyebrow'>SEASON STARTS</span>
                             <h2>Neue Staffeln im Kalender</h2>
                         </div>
-                        <strong>{filteredSeasonPremieres.length} Starts</strong>
+                        <strong className='velaris-release-section__count'>{filteredSeasonPremieres.length} Starts</strong>
                     </div>
                     <div className='velaris-release-rail velaris-release-rail--season'>
                         {filteredSeasonPremieres.map(entry => (
@@ -199,19 +202,21 @@ const ReleaseHub = () => {
             <section className='velaris-release-section velaris-release-calendar'>
                 <div className='velaris-release-section__heading'>
                     <div>
-                        <span>KALENDER</span>
+                        <span className='velaris-release-section__eyebrow'>KALENDER</span>
                         <h2>Die nächsten 28 Tage</h2>
                     </div>
-                    <strong>{filteredCalendarDays.reduce((count, day) => count + day.entries.length, 0)} Episoden</strong>
+                    <strong className='velaris-release-section__count'>
+                        {filteredCalendarDays.reduce((count, day) => count + day.entries.length, 0)} Episoden
+                    </strong>
                 </div>
 
                 {filteredCalendarDays.length > 0 ? (
                     <div className='velaris-release-calendar__days'>
                         {filteredCalendarDays.map(day => (
                             <article key={day.dateKey} className='velaris-release-day'>
-                                <header>
-                                    <strong>{new Intl.DateTimeFormat('de-DE', { weekday: 'long' }).format(day.releaseDateMs)}</strong>
-                                    <span>{new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: 'long' }).format(day.releaseDateMs)}</span>
+                                <header className='velaris-release-day__date'>
+                                    <strong className='velaris-release-day__weekday'>{WEEKDAY_FORMATTER.format(day.releaseDateMs)}</strong>
+                                    <span className='velaris-release-day__calendar-date'>{DATE_FORMATTER.format(day.releaseDateMs)}</span>
                                 </header>
                                 <div className='velaris-release-day__entries'>
                                     {day.entries.map((entry: VelarisReleaseEntry) => (
@@ -228,8 +233,8 @@ const ReleaseHub = () => {
                 ) : (
                     <div className='velaris-release-calendar__empty'>
                         <span className='material-icons' aria-hidden='true'>event_busy</span>
-                        <strong>Keine kommenden Episoden mit Premiere-Datum gefunden.</strong>
-                        <span>Velaris zeigt hier nur reale Release-Metadaten an, die dein Jellyfin-Server bereits kennt.</span>
+                        <strong className='velaris-release-calendar__empty-title'>Keine kommenden Episoden mit Premiere-Datum gefunden.</strong>
+                        <span className='velaris-release-calendar__empty-copy'>Velaris zeigt hier nur reale Release-Metadaten an, die dein Jellyfin-Server bereits kennt.</span>
                     </div>
                 )}
             </section>
