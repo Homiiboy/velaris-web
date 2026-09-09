@@ -5,6 +5,7 @@ import markdownIt from 'markdown-it';
 import { AppFeature } from 'constants/appFeature';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
+import { markVelarisProfileChosen } from 'apps/modern/features/profiles/profiles';
 import { appHost } from 'components/apphost';
 import appSettings from 'scripts/settings/appSettings';
 import dom from 'utils/dom';
@@ -120,6 +121,11 @@ function authenticateQuickConnect(apiClient, targetUrl) {
 }
 
 function onLoginSuccessful(id, accessToken, apiClient, url) {
+    const serverId = apiClient.serverId();
+    if (serverId && id) {
+        markVelarisProfileChosen(window.sessionStorage, serverId, id);
+    }
+
     Dashboard.onServerChanged(id, accessToken, apiClient);
     Dashboard.navigate(url || 'home');
 }
