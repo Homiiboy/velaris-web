@@ -17,6 +17,14 @@ const TV_PLAYER_FOCUS_SELECTOR = [
     '.btnVideoOsdSettings'
 ].join(',');
 
+export const findVelarisTvPlayerFocusTarget = (
+    root: ParentNode,
+    isFocusable: (element: HTMLElement) => boolean
+) => (
+    Array.from(root.querySelectorAll<HTMLElement>(TV_PLAYER_FOCUS_SELECTOR))
+        .find(isFocusable) || null
+);
+
 class VelarisTvPlayerController extends PlaybackSubscriber {
     private focusTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -40,10 +48,11 @@ class VelarisTvPlayerController extends PlaybackSubscriber {
         if (!page) return;
         if (document.activeElement && page.contains(document.activeElement)) return;
 
-        const target = page.querySelector<HTMLElement>(TV_PLAYER_FOCUS_SELECTOR);
-        if (target && focusManager.isCurrentlyFocusable(target)) {
-            focusManager.focus(target);
-        }
+        const target = findVelarisTvPlayerFocusTarget(
+            page,
+            element => focusManager.isCurrentlyFocusable(element)
+        );
+        if (target) focusManager.focus(target);
     }
 
     onOsdChanged(_event: Event, isOpen: boolean) {
