@@ -68,10 +68,9 @@ describe('Velaris Discovery persistence', () => {
     it('sanitizes data before saving and fails safely without browser storage', () => {
         const storage = new MemoryStorage();
         expect(saveVelarisDiscoveryStore(storage, 'server', 'user', {
-            version: 99,
-            watchlist: [ 'one', 'one' ],
-            customLists: []
-        } as VelarisDiscoveryStore)).toBe(true);
+            ...EMPTY_DISCOVERY_STORE,
+            watchlist: [ 'one', 'one' ]
+        })).toBe(true);
 
         expect(readVelarisDiscoveryStore(storage, 'server', 'user').watchlist).toEqual([ 'one' ]);
         expect(readVelarisDiscoveryStore(undefined, 'server', 'user')).toEqual(EMPTY_DISCOVERY_STORE);
