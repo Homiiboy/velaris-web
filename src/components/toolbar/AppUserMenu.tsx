@@ -112,6 +112,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             )}
             <MenuItem
+                className='velaris-user-menu__advanced'
                 component={Link}
                 to='/mypreferencesmenu'
                 onClick={onMenuClose}
@@ -124,6 +125,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </ListItemText>
             </MenuItem>
             <MenuItem
+                className='velaris-user-menu__advanced velaris-franchise-studio-entry'
                 component={Link}
                 to='/franchise-studio'
                 onClick={onMenuClose}
@@ -137,11 +139,12 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
             </MenuItem>
 
             {(appHost.supports(AppFeature.DownloadManagement) || appHost.supports(AppFeature.ClientSettings)) && (
-                <Divider />
+                <Divider className='velaris-user-menu__advanced' />
             )}
 
             {appHost.supports(AppFeature.DownloadManagement) && (
                 <MenuItem
+                    className='velaris-user-menu__advanced'
                     onClick={onDownloadManagerClick}
                 >
                     <ListItemIcon>
@@ -155,6 +158,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
             {appHost.supports(AppFeature.ClientSettings) && (
                 <MenuItem
+                    className='velaris-user-menu__advanced'
                     onClick={onClientSettingsClick}
                 >
                     <ListItemIcon>
@@ -168,9 +172,10 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
             {/* ADMIN LINKS */}
             {user?.Policy?.IsAdministrator && ([
-                <Divider key='admin-links-divider' />,
+                <Divider key='admin-links-divider' className='velaris-user-menu__advanced' />,
                 <MenuItem
                     key='admin-dashboard-link'
+                    className='velaris-user-menu__advanced'
                     component={Link}
                     to='/dashboard'
                     onClick={onMenuClose}
@@ -183,6 +188,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>,
                 <MenuItem
                     key='admin-metadata-link'
+                    className='velaris-user-menu__advanced'
                     component={Link}
                     to='/metadata'
                     onClick={onMenuClose}
@@ -194,9 +200,10 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
                 </MenuItem>
             ])}
 
-            <Divider />
+            <Divider className='velaris-user-menu__advanced' />
             {isQuickConnectEnabled && (
                 <MenuItem
+                    className='velaris-user-menu__advanced'
                     component={Link}
                     to='/quickconnect'
                     onClick={onMenuClose}
@@ -212,6 +219,7 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
 
             {appHost.supports(AppFeature.MultiServer) && (
                 <MenuItem
+                    className='velaris-user-menu__advanced'
                     onClick={onSelectServerClick}
                 >
                     <ListItemIcon>
