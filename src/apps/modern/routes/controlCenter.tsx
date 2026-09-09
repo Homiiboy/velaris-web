@@ -169,8 +169,12 @@ const ControlCenter = () => {
                                 </select>
                             </label>
 
-                            <label className='velaris-control-center__toggle'>
+                            <label
+                                className='velaris-control-center__toggle'
+                                htmlFor='velaris-control-center-smart-home'
+                            >
                                 <input
+                                    id='velaris-control-center-smart-home'
                                     type='checkbox'
                                     name='showSmartHome'
                                     checked={preferences.showSmartHome}
@@ -240,8 +244,12 @@ const ControlCenter = () => {
                                 </div>
                             </div>
 
-                            <label className='velaris-control-center__toggle'>
+                            <label
+                                className='velaris-control-center__toggle'
+                                htmlFor='velaris-control-center-discovery'
+                            >
                                 <input
+                                    id='velaris-control-center-discovery'
                                     type='checkbox'
                                     name='showDiscovery'
                                     checked={preferences.showDiscovery}
@@ -253,8 +261,12 @@ const ControlCenter = () => {
                                 </span>
                             </label>
 
-                            <label className='velaris-control-center__toggle'>
+                            <label
+                                className='velaris-control-center__toggle'
+                                htmlFor='velaris-control-center-franchises'
+                            >
                                 <input
+                                    id='velaris-control-center-franchises'
                                     type='checkbox'
                                     name='showFranchises'
                                     checked={preferences.showFranchises}
@@ -266,8 +278,12 @@ const ControlCenter = () => {
                                 </span>
                             </label>
 
-                            <label className='velaris-control-center__toggle'>
+                            <label
+                                className='velaris-control-center__toggle'
+                                htmlFor='velaris-control-center-advanced-player'
+                            >
                                 <input
+                                    id='velaris-control-center-advanced-player'
                                     type='checkbox'
                                     name='advancedPlayerEnabled'
                                     checked={preferences.advancedPlayerEnabled}
