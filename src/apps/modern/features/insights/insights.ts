@@ -44,7 +44,7 @@ export const getVelarisKnownPlayCount = (item: ItemDto) => {
     const userData = getUserData(item);
     const playCount = Number(userData?.PlayCount ?? item.PlayCount ?? 0);
     if (Number.isFinite(playCount) && playCount > 0) return Math.floor(playCount);
-    return Boolean(userData?.Played ?? item.Played) ? 1 : 0;
+    return (userData?.Played ?? item.Played) ? 1 : 0;
 };
 
 const getLastPlayedMs = (item: ItemDto) => parseDateMs(

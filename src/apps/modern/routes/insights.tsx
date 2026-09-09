@@ -29,9 +29,20 @@ const formatDuration = (minutes: number) => {
     return `${NUMBER_FORMATTER.format(days)} Tage`;
 };
 
+const formatRank = (index: number) => {
+    const rank = index + 1;
+    return rank < 10 ? `0${rank}` : String(rank);
+};
+
 const getLastPlayedDate = (item: ItemDto) => (
     item.UserData?.LastPlayedDate || item.LastPlayedDate
 );
+
+const getRecentSubtitle = (item: ItemDto) => {
+    if (item.Type === BaseItemKind.Episode && item.SeriesName) return item.Name;
+    if (item.Type === BaseItemKind.Movie) return 'Film';
+    return 'Episode';
+};
 
 interface InsightBarProps {
     entry: VelarisInsightBreakdown
@@ -59,9 +70,7 @@ const RecentCard: FC<{ item: ItemDto }> = ({ item }) => {
     const artworkUrl = getVelarisSmartHomeArtworkUrl(__legacyApiClient__, item, 720);
     const lastPlayedDate = getLastPlayedDate(item);
     const title = item.SeriesName || item.Name || 'Unbekannter Titel';
-    const subtitle = item.Type === BaseItemKind.Episode && item.SeriesName
-        ? item.Name
-        : item.Type === BaseItemKind.Movie ? 'Film' : 'Episode';
+    const subtitle = getRecentSubtitle(item);
 
     return (
         <Link className='velaris-insights-recent-card' to={getDetailsUrl(item)}>
@@ -193,7 +202,7 @@ const Insights = () => {
                             <div className='velaris-insights-series-list'>
                                 {topSeries.map((entry, index) => (
                                     <div key={entry.id} className='velaris-insights-series'>
-                                        <span className='velaris-insights-series__rank'>{String(index + 1).padStart(2, '0')}</span>
+                                        <span className='velaris-insights-series__rank'>{formatRank(index)}</span>
                                         <div className='velaris-insights-series__copy'>
                                             <strong>{entry.name}</strong>
                                             <span>{entry.episodes} Episoden · {entry.plays} Plays · {formatDuration(Math.round(entry.minutes))}</span>
