@@ -24,9 +24,16 @@ const hasUnavailableAncestor = (element: HTMLElement, boundary: HTMLElement) => 
     return false;
 };
 
+const compareDocumentOrder = (left: HTMLElement, right: HTMLElement) => {
+    if (left === right) return 0;
+    const position = left.compareDocumentPosition(right);
+    return position & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+};
+
 export const getVelarisDialogFocusableElements = (dialog: HTMLElement) => (
     Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
         .filter(element => !hasUnavailableAncestor(element, dialog))
+        .sort(compareDocumentOrder)
 );
 
 export const getVelarisDialogFocusWrapTarget = (
