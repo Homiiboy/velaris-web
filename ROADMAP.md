@@ -24,7 +24,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.5.0 | Profiles 2.0 | ✅ Complete |
 | V0.6.0 | Advanced Player | ✅ Complete |
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
-| V0.8.0 | Control Center & Customization | ⏳ Planned |
+| V0.8.0 | Control Center & Customization | ✅ Complete |
 | V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
 | V1.0.0 | First Stable Release | 🎯 Target |
 
@@ -142,17 +142,26 @@ Detailed release notes: [`docs/V0.6.0.md`](docs/V0.6.0.md).
 
 Detailed release notes: [`docs/V0.7.0.md`](docs/V0.7.0.md).
 
-## Next planned feature phase
-
 ### V0.8.0 — Control Center & Customization
 
-- Velaris Control Center
-- Home, Hero, navigation, density and animation controls
-- franchise/player feature settings
-- feature toggles
-- Theme Customizer with Velaris Default, OLED Black, Midnight, Aurora and custom accents
+- dedicated Velaris Control Center route linked from the profile/user menu
+- versioned profile/server-scoped preferences with defensive repair and cross-tab synchronization
+- Theme Customizer with Velaris Default, OLED Black, Midnight, Aurora and Custom Accent
+- custom accent propagated across major Home, Smart Home, Discovery, Franchise and Advanced Player interaction states
+- Cinematic, Compact and Hidden Hero modes
+- Full and Compact navigation modes across desktop and mobile navigation
+- Comfortable, Compact and Spacious density modes across major rails, grids and cards
+- Full, Reduced and Off animation modes
+- Smart Home toggle with Jellyfin Continue Watching fallback
+- Discovery toggle with desktop/mobile navigation removal and direct route blocking
+- Franchise toggle with Home/menu removal and direct hub/Studio route blocking
+- Advanced Player toggle that suppresses OSD surfaces and neutralizes advanced runtime behavior without deleting stored player preferences
+- regression coverage for preference repair/scoping, disabled routes and Advanced Player disable behavior
+- complete implementation validation in Velaris CI Run #155
 
-## Later planned phases
+Detailed release notes: [`docs/V0.8.0.md`](docs/V0.8.0.md).
+
+## Next planned feature phase
 
 ### V0.9.0 — Release Hub, Insights & Feature Complete
 

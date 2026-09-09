@@ -2,6 +2,66 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V0.8.0 — 2026-09-09 — Control Center & Customization
+
+### Added
+
+- dedicated `/control-center` route linked from the Velaris user menu
+- versioned Control Center preferences scoped by Jellyfin server and active user
+- Theme Customizer with Velaris Default, OLED Black, Midnight, Aurora and Custom Accent presets
+- custom accent picker with runtime propagation across major Velaris viewer surfaces
+- Cinematic, Compact and Hidden Hero modes
+- Full and Compact navigation modes
+- Comfortable, Compact and Spacious density modes
+- Full, Reduced and Off animation modes
+- feature toggles for Smart Home, Discovery, Franchises/Studio and Advanced Player
+- direct route guards for disabled Discovery and Franchise surfaces
+- regression coverage for preference sanitization, storage scoping, disabled routes and Advanced Player disable behavior
+
+### Changed
+
+- Control Center preferences load synchronously for the active server/profile to avoid a first-render default-state window
+- custom accents now affect major Home, Smart Home, Discovery, Franchise and Advanced Player emphasis/focus states instead of remaining mostly inside the settings surface
+- Compact and Spacious density now affect rail/card/grid sizing and gaps across Home destinations, Smart Home, Franchise discovery, Discovery and Control Center cards
+- Compact navigation now also affects the mobile drawer in addition to the desktop primary navigation
+- disabling Smart Home restores the existing Jellyfin Continue Watching section instead of removing resume access
+- disabling Discovery removes desktop/mobile entry points and blocks direct Discovery routes before the route outlet mounts
+- disabling Franchises removes Home/menu entry points and blocks direct franchise hub/Studio routes before their components mount
+- disabling Advanced Player hides its OSD entry/panel/technical/segment surfaces and returns neutral advanced runtime settings without deleting the user's saved player preferences
+- Control Center sources and affected routes/player paths are included in Velaris strict zero-warning lint
+
+### Fixed during validation
+
+- missing explicit Vitest imports in the initial Control Center test file
+- Control Center toggle markup rejected by repository accessibility lint
+- Control Center stylesheet selector-order conflicts rejected by Stylelint
+- feature toggles that initially hid navigation entries without preventing direct disabled route access
+- Advanced Player toggle that initially relied primarily on CSS visibility and could still apply stored advanced behavior
+- custom accent propagation that was too narrow for a true Theme Customizer
+- density/navigation controls that initially affected too few viewer surfaces
+- first-render preference timing that could briefly expose default feature state before stored preferences loaded
+- runtime stylesheet indentation rejected by Stylelint during final scope hardening
+
+### Validation
+
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- code-complete implementation validated by Velaris CI Run #155
+
+### Compatibility
+
+- Control Center state is client-side Velaris presentation state scoped by server and profile
+- Jellyfin user policy remains authoritative for media access and administrative permissions
+- playback, transcoding and stream selection remain controlled by the existing Jellyfin-compatible playback stack
+- Advanced Player preferences are preserved while its feature toggle is off and return when re-enabled
+- disabled Velaris features do not delete server media, metadata or user data
+- no new npm dependencies are introduced by V0.8.0
+
 ## V0.7.0 — 2026-09-09 — TV Mode & App Experience
 
 ### Added
