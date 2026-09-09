@@ -76,6 +76,7 @@ jobs:
           src/components/playback/velarisAdvancedPlayer.test.ts
           src/components/playback/velarisAdvancedPlayerController.ts
           src/components/playback/velarisTvPlayerController.ts
+          src/components/playback/velarisTvPlayerController.test.ts
           src/components/toolbar/AppUserMenu.tsx
           --max-warnings=0
 
