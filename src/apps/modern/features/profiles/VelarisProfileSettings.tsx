@@ -20,10 +20,6 @@ interface VelarisProfileSettingsProps {
 
 type SubtitleMode = 'Default' | 'Smart' | 'OnlyForced' | 'Always' | 'None';
 
-type PasswordAwareUser = UserDto & {
-    HasConfiguredPassword?: boolean
-};
-
 const LANGUAGE_OPTIONS = [
     { value: '', label: 'Serverstandard' },
     { value: 'deu', label: 'Deutsch' },
@@ -52,7 +48,7 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
     const [ pinConfirmation, setPinConfirmation ] = useState('');
     const [ savingPlayback, setSavingPlayback ] = useState(false);
     const [ savingPin, setSavingPin ] = useState(false);
-    const hasConfiguredPassword = Boolean((user as PasswordAwareUser).HasConfiguredPassword);
+    const hasPassword = Boolean(user.HasPassword);
 
     useEffect(() => {
         setAudioLanguage(user.Configuration?.AudioLanguagePreference || '');
@@ -235,7 +231,7 @@ const VelarisProfileSettings: FC<VelarisProfileSettingsProps> = ({ user }) => {
                         und wird bei einem Profilwechsel vom Server geprüft.
                     </p>
                     <form className='velaris-profile-pin-form' onSubmit={savePin}>
-                        {hasConfiguredPassword && (
+                        {hasPassword && (
                             <label>
                                 <span>Aktuelles Passwort / aktueller PIN</span>
                                 <input
