@@ -33,9 +33,11 @@ export const useVelarisControlCenterPreferences = () => {
     const storageKey = useMemo(() => (
         userId && serverId ? getVelarisControlCenterStorageKey(serverId, userId) : undefined
     ), [ serverId, userId ]);
-    const [ preferences, setPreferences ] = useState<VelarisControlCenterPreferences>(
-        DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES
-    );
+    const [ preferences, setPreferences ] = useState<VelarisControlCenterPreferences>(() => (
+        userId && serverId ?
+            readVelarisControlCenterPreferences(window.localStorage, serverId, userId) :
+            { ...DEFAULT_VELARIS_CONTROL_CENTER_PREFERENCES }
+    ));
 
     useEffect(() => {
         if (!userId || !serverId) {
