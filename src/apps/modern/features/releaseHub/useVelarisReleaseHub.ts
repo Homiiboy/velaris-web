@@ -61,6 +61,8 @@ interface LoadReleaseItemsOptions {
     dateField: VelarisReleasePagingDateField
     lowerBoundMs: number
     signal: AbortSignal
+    minPremiereDate?: string
+    maxPremiereDate?: string
 }
 
 interface LoadReleaseItemsResult {
@@ -99,7 +101,9 @@ const loadReleaseItems = async ({
     sortBy,
     dateField,
     lowerBoundMs,
-    signal
+    signal,
+    minPremiereDate,
+    maxPremiereDate
 }: LoadReleaseItemsOptions): Promise<LoadReleaseItemsResult> => {
     const sources: VelarisReleaseSourceItem[] = [];
     let startIndex = 0;
@@ -119,7 +123,9 @@ const loadReleaseItems = async ({
             sortOrder: [ SortOrder.Descending ],
             startIndex,
             limit: PAGE_SIZE,
-            enableTotalRecordCount: true
+            enableTotalRecordCount: true,
+            minPremiereDate,
+            maxPremiereDate
         }, { signal });
         const pageItems = (response.data.Items || []) as ItemDto[];
 
@@ -185,7 +191,9 @@ const loadReleaseLibrary = async ({
             sortBy: ItemSortBy.PremiereDate,
             dateField: 'PremiereDate',
             lowerBoundMs: window.todayStartMs,
-            signal
+            signal,
+            minPremiereDate: new Date(window.todayStartMs).toISOString(),
+            maxPremiereDate: new Date(window.calendarEndMs - 1).toISOString()
         });
     } catch (error) {
         if (signal.aborted) throw error;
@@ -207,8 +215,8 @@ export const useVelarisReleaseHub = () => {
     const userId = user?.Id;
     const userViewsQuery = useUserViews({ userId });
     const nowMs = Date.now();
-    const todayKey = getVelarisReleaseDateKey(nowMs);
     const window = getVelarisReleaseWindow(nowMs);
+    const todayKey = getVelarisReleaseDateKey(window.todayStartMs);
 
     const libraries = useMemo<ReleaseLibrarySource[]>(() => (
         (userViewsQuery.data?.Items || [])
