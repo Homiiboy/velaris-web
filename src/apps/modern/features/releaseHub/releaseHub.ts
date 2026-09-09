@@ -37,6 +37,7 @@ export interface VelarisReleaseWindow {
 }
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+const ISO_DATE_PREFIX = /^(\d{4})-(\d{2})-(\d{2})/;
 export const VELARIS_RELEASE_CALENDAR_DAYS_AHEAD = 28;
 
 const parseDateMs = (value: string | null | undefined) => {
@@ -45,9 +46,37 @@ const parseDateMs = (value: string | null | undefined) => {
     return Number.isFinite(valueMs) ? valueMs : undefined;
 };
 
+const parsePremiereDateMs = (value: string | null | undefined) => {
+    if (!value) return undefined;
+
+    const match = ISO_DATE_PREFIX.exec(value);
+    if (!match) return parseDateMs(value);
+
+    const year = Number(match[1]);
+    const month = Number(match[2]);
+    const day = Number(match[3]);
+    const valueMs = Date.UTC(year, month - 1, day);
+    const date = new Date(valueMs);
+
+    if (
+        date.getUTCFullYear() !== year
+        || date.getUTCMonth() !== month - 1
+        || date.getUTCDate() !== day
+    ) {
+        return undefined;
+    }
+
+    return valueMs;
+};
+
 const getUtcDayStartMs = (value: Date | number) => {
     const date = typeof value === 'number' ? new Date(value) : value;
     return Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+};
+
+const getLocalCalendarDayStartMs = (value: Date | number) => {
+    const date = typeof value === 'number' ? new Date(value) : value;
+    return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 };
 
 export const getVelarisReleaseDateKey = (value: Date | number) => {
@@ -56,23 +85,31 @@ export const getVelarisReleaseDateKey = (value: Date | number) => {
 };
 
 export const getVelarisReleaseWeekStartMs = (value: Date | number) => {
-    const date = new Date(getUtcDayStartMs(value));
-    const day = date.getUTCDay();
+    const source = typeof value === 'number' ? new Date(value) : value;
+    const date = new Date(
+        source.getFullYear(),
+        source.getMonth(),
+        source.getDate()
+    );
+    const day = date.getDay();
     const daysSinceMonday = day === 0 ? 6 : day - 1;
-    return date.getTime() - daysSinceMonday * DAY_MS;
+    date.setDate(date.getDate() - daysSinceMonday);
+    return date.getTime();
 };
 
 export const getVelarisReleaseWindow = (
     value: Date | number = new Date()
 ): VelarisReleaseWindow => {
     const nowMs = typeof value === 'number' ? value : value.getTime();
-    const todayStartMs = getUtcDayStartMs(nowMs);
+    const todayStartMs = getLocalCalendarDayStartMs(nowMs);
     const weekStartMs = getVelarisReleaseWeekStartMs(nowMs);
+    const nextWeek = new Date(weekStartMs);
+    nextWeek.setDate(nextWeek.getDate() + 7);
 
     return {
         todayStartMs,
         weekStartMs,
-        nextWeekStartMs: weekStartMs + 7 * DAY_MS,
+        nextWeekStartMs: nextWeek.getTime(),
         calendarEndMs: todayStartMs + VELARIS_RELEASE_CALENDAR_DAYS_AHEAD * DAY_MS
     };
 };
@@ -88,8 +125,11 @@ export const shouldFetchNextVelarisReleasePage = (
     if (items.length === 0 || items.length < pageSize) return false;
     if (totalRecordCount != null && startIndex >= totalRecordCount) return false;
 
+    const parsePagingDate = dateField === 'PremiereDate'
+        ? parsePremiereDateMs
+        : parseDateMs;
     const validDates = items
-        .map(item => parseDateMs(item[dateField]))
+        .map(item => parsePagingDate(item[dateField]))
         .filter((value): value is number => value != null);
 
     if (validDates.length === 0) return true;
@@ -171,10 +211,8 @@ export const buildVelarisReleaseHubModel = (
     const calendarEntries = dedupeSources(calendarSources)
         .filter(source => source.item.Type === BaseItemKind.Episode)
         .map<VelarisReleaseEntry | null>(source => {
-            const premiereDateMs = parseDateMs(source.item.PremiereDate);
-            if (premiereDateMs == null) return null;
-
-            const releaseDateMs = getUtcDayStartMs(premiereDateMs);
+            const releaseDateMs = parsePremiereDateMs(source.item.PremiereDate);
+            if (releaseDateMs == null) return null;
             if (releaseDateMs < todayStartMs || releaseDateMs >= calendarEndMs) return null;
 
             return {
