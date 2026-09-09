@@ -1,4 +1,5 @@
 import React, { type FC, useCallback, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import viewContainer from 'components/viewContainer';
 import { useApi } from 'hooks/useApi';
@@ -15,10 +16,11 @@ import {
 
 const VelarisProfileGate: FC = () => {
     const { user, __legacyApiClient__ } = useApi();
+    const location = useLocation();
     const currentUserId = user?.Id;
     const serverId = __legacyApiClient__?.serverId();
     const [ profiles, setProfiles ] = useState<VelarisPublicProfile[] | null>(null);
-    const [ dismissed, setDismissed ] = useState(false);
+    const [ dismissedScope, setDismissedScope ] = useState<string | null>(null);
     const [ pendingProfile, setPendingProfile ] = useState<VelarisPublicProfile | null>(null);
     const [ credential, setCredential ] = useState('');
     const [ errorMessage, setErrorMessage ] = useState('');
@@ -45,9 +47,13 @@ const VelarisProfileGate: FC = () => {
     const chosenProfileId = serverId ?
         getChosenVelarisProfileId(window.sessionStorage, serverId) :
         null;
+    const currentScope = currentUserId && serverId ?
+        `${serverId}:${currentUserId}:${location.key}` :
+        null;
 
     const isOpen = Boolean(
-        !dismissed
+        currentScope
+        && dismissedScope !== currentScope
         && profiles
         && currentUserId
         && shouldShowVelarisProfilePicker(profiles, currentUserId, chosenProfileId)
@@ -73,7 +79,7 @@ const VelarisProfileGate: FC = () => {
             markVelarisProfileChosen(window.sessionStorage, serverId, result.User.Id);
             setPendingProfile(null);
             setCredential('');
-            setDismissed(true);
+            setDismissedScope(currentScope);
             void Dashboard.navigate('home');
         } catch (error) {
             console.warn('[VelarisProfiles] profile switch authentication failed', error);
@@ -83,14 +89,14 @@ const VelarisProfileGate: FC = () => {
         } finally {
             setIsSwitching(false);
         }
-    }, [ __legacyApiClient__, serverId ]);
+    }, [ __legacyApiClient__, currentScope, serverId ]);
 
     const chooseProfile = useCallback((profile: VelarisPublicProfile) => {
         if (!serverId || !currentUserId || !profile.Id) return;
 
         if (profile.Id === currentUserId) {
             markVelarisProfileChosen(window.sessionStorage, serverId, currentUserId);
-            setDismissed(true);
+            setDismissedScope(currentScope);
             return;
         }
 
@@ -102,7 +108,7 @@ const VelarisProfileGate: FC = () => {
         }
 
         void authenticateProfile(profile, '');
-    }, [ authenticateProfile, currentUserId, serverId ]);
+    }, [ authenticateProfile, currentScope, currentUserId, serverId ]);
 
     const onProfileClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         const profileId = event.currentTarget.dataset.profileId;
