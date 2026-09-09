@@ -1,4 +1,4 @@
-import React, { type FC, useCallback, useEffect, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { getVelarisLocalStorage, getVelarisSessionStorage } from 'apps/modern/utils/velarisStorage';
@@ -7,6 +7,10 @@ import { useApi } from 'hooks/useApi';
 import Dashboard from 'utils/dashboard';
 import { queryClient } from 'utils/query/queryClient';
 
+import {
+    getVelarisDialogFocusableElements,
+    getVelarisDialogFocusWrapTarget
+} from './profileFocus';
 import {
     getChosenVelarisProfileId,
     markVelarisProfileChosen,
@@ -18,6 +22,7 @@ import {
 const VelarisProfileGate: FC = () => {
     const { user, __legacyApiClient__ } = useApi();
     const location = useLocation();
+    const dialogRef = useRef<HTMLDivElement>(null);
     const currentUserId = user?.Id;
     const serverId = __legacyApiClient__?.serverId();
     const [ profiles, setProfiles ] = useState<VelarisPublicProfile[] | null>(null);
@@ -132,15 +137,60 @@ const VelarisProfileGate: FC = () => {
         setErrorMessage('');
     }, []);
 
+    const onDialogKeyDown = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+        if (event.key === 'Escape' && pendingProfile) {
+            event.preventDefault();
+            onCredentialCancel();
+            return;
+        }
+        if (event.key !== 'Tab' || !dialogRef.current) return;
+
+        const focusableElements = getVelarisDialogFocusableElements(dialogRef.current);
+        const wrapTarget = getVelarisDialogFocusWrapTarget(
+            document.activeElement,
+            focusableElements,
+            event.shiftKey
+        );
+        if (!wrapTarget) return;
+
+        event.preventDefault();
+        wrapTarget.focus();
+    }, [ onCredentialCancel, pendingProfile ]);
+
+    useEffect(() => {
+        if (!isOpen || pendingProfile) return;
+
+        const focusTimer = window.setTimeout(() => {
+            const firstTarget = dialogRef.current ?
+                getVelarisDialogFocusableElements(dialogRef.current)[0] :
+                undefined;
+            firstTarget?.focus();
+        }, 0);
+
+        return () => window.clearTimeout(focusTimer);
+    }, [ isOpen, pendingProfile ]);
+
     if (!isOpen || !profiles || !serverId || !__legacyApiClient__) return null;
 
     return (
-        <div className='velaris-profile-gate' role='dialog' aria-modal='true' aria-labelledby='velaris-profile-gate-title'>
+        <div
+            ref={dialogRef}
+            className='velaris-profile-gate'
+            role='dialog'
+            aria-modal='true'
+            aria-labelledby='velaris-profile-gate-title'
+            aria-describedby='velaris-profile-gate-description'
+            aria-busy={isSwitching}
+            tabIndex={-1}
+            onKeyDown={onDialogKeyDown}
+        >
             <div className='velaris-profile-gate__ambient' aria-hidden='true' />
             <div className='velaris-profile-gate__panel'>
                 <span className='velaris-profile-gate__eyebrow'>VELARIS PROFILES</span>
                 <h1 id='velaris-profile-gate-title'>Wer schaut gerade?</h1>
-                <p>Wähle dein Profil. Verlauf, Empfehlungen und Velaris-Einstellungen bleiben voneinander getrennt.</p>
+                <p id='velaris-profile-gate-description'>
+                    Wähle dein Profil. Verlauf, Empfehlungen und Velaris-Einstellungen bleiben voneinander getrennt.
+                </p>
 
                 <div className='velaris-profile-gate__grid'>
                     {profiles.filter(profile => profile.Id && profile.Name).map(profile => {
@@ -195,6 +245,7 @@ const VelarisProfileGate: FC = () => {
                             onChange={onCredentialChange}
                             autoComplete='current-password'
                             aria-label={`PIN oder Passwort für ${pendingProfile.Name}`}
+                            autoFocus
                         />
                         {errorMessage && <span className='velaris-profile-gate__error' role='alert'>{errorMessage}</span>}
                         <div>
