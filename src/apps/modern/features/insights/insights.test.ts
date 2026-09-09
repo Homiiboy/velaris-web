@@ -8,54 +8,57 @@ import {
     getVelarisKnownPlayCount
 } from './insights';
 
-const item = (id: string, values: Partial<ItemDto>): ItemDto => ({
+const source = (id: string, values: Partial<ItemDto>): ItemDto => ({
     Id: id,
     Name: id,
     ...values
 } as ItemDto);
 
+const userData = (
+    played: boolean,
+    playCount: number,
+    lastPlayedDate?: string
+): NonNullable<ItemDto['UserData']> => ({
+    Key: '',
+    Played: played,
+    PlayCount: playCount,
+    LastPlayedDate: lastPlayedDate
+});
+
 describe('Velaris Insights model', () => {
     const now = new Date('2026-09-09T12:00:00Z');
 
     it('uses server play counts with a played fallback', () => {
-        expect(getVelarisKnownPlayCount(item('counted', {
-            UserData: { Played: true, PlayCount: 3 }
+        expect(getVelarisKnownPlayCount(source('counted', {
+            UserData: userData(true, 3)
         }))).toBe(3);
-        expect(getVelarisKnownPlayCount(item('fallback', {
-            UserData: { Played: true, PlayCount: 0 }
+        expect(getVelarisKnownPlayCount(source('fallback', {
+            UserData: userData(true, 0)
         }))).toBe(1);
-        expect(getVelarisKnownPlayCount(item('unplayed', {
-            UserData: { Played: false, PlayCount: 0 }
+        expect(getVelarisKnownPlayCount(source('unplayed', {
+            UserData: userData(false, 0)
         }))).toBe(0);
     });
 
     it('builds personal totals from movies and episodes only', () => {
         const model = buildVelarisInsightsModel([
-            item('movie', {
+            source('movie', {
                 Type: BaseItemKind.Movie,
                 RunTimeTicks: 120 * 600_000_000,
                 Genres: [ 'Drama' ],
-                UserData: {
-                    Played: true,
-                    PlayCount: 2,
-                    LastPlayedDate: '2026-09-08T20:00:00Z'
-                }
+                UserData: userData(true, 2, '2026-09-08T20:00:00Z')
             }),
-            item('episode', {
+            source('episode', {
                 Type: BaseItemKind.Episode,
                 SeriesId: 'series-a',
                 SeriesName: 'Series A',
                 RunTimeTicks: 45 * 600_000_000,
                 Genres: [ 'Drama', 'Sci-Fi' ],
-                UserData: {
-                    Played: true,
-                    PlayCount: 1,
-                    LastPlayedDate: '2026-09-09T09:00:00Z'
-                }
+                UserData: userData(true, 1, '2026-09-09T09:00:00Z')
             }),
-            item('ignored-series', {
+            source('ignored-series', {
                 Type: BaseItemKind.Series,
-                UserData: { Played: true, PlayCount: 4 }
+                UserData: userData(true, 4)
             })
         ], now);
 
@@ -76,29 +79,17 @@ describe('Velaris Insights model', () => {
     });
 
     it('deduplicates repeated items and sorts recent activity', () => {
-        const first = item('same', {
+        const first = source('same', {
             Type: BaseItemKind.Movie,
-            UserData: {
-                Played: true,
-                PlayCount: 1,
-                LastPlayedDate: '2026-09-01T10:00:00Z'
-            }
+            UserData: userData(true, 1, '2026-09-01T10:00:00Z')
         });
-        const replacement = item('same', {
+        const replacement = source('same', {
             Type: BaseItemKind.Movie,
-            UserData: {
-                Played: true,
-                PlayCount: 2,
-                LastPlayedDate: '2026-09-09T10:00:00Z'
-            }
+            UserData: userData(true, 2, '2026-09-09T10:00:00Z')
         });
-        const other = item('other', {
+        const other = source('other', {
             Type: BaseItemKind.Movie,
-            UserData: {
-                Played: true,
-                PlayCount: 1,
-                LastPlayedDate: '2026-09-08T10:00:00Z'
-            }
+            UserData: userData(true, 1, '2026-09-08T10:00:00Z')
         });
 
         const model = buildVelarisInsightsModel([ first, other, replacement ], now);
@@ -109,13 +100,9 @@ describe('Velaris Insights model', () => {
 
     it('keeps old plays out of the 30-day activity count', () => {
         const model = buildVelarisInsightsModel([
-            item('old', {
+            source('old', {
                 Type: BaseItemKind.Movie,
-                UserData: {
-                    Played: true,
-                    PlayCount: 1,
-                    LastPlayedDate: '2026-07-01T10:00:00Z'
-                }
+                UserData: userData(true, 1, '2026-07-01T10:00:00Z')
             })
         ], now);
 
