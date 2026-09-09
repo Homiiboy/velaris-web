@@ -2,6 +2,67 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V1.0.0 — 2026-09-09 — First Stable Release
+
+### Stable hardening
+
+- completed the cross-feature stabilization pass without adding another major feature family
+- migrated Discovery Watchlist/custom-list persistence from legacy user-only keys to server+user scoping with backward-compatible V0.x fallback
+- migrated Smart Home ordering/visibility persistence to server+user scoping with legacy fallback
+- migrated Franchise Studio persistence to server+user scoping with legacy fallback
+- hardened Local Storage / Session Storage access across Discovery, Profiles, Control Center and Advanced Player paths
+- made mobile drawer open/close behavior deterministic and cleaned drawer state on route changes
+- switched drawer availability checks to route-pattern matching so dynamic franchise routes remain supported
+- prevented TV focus restoration from moving behind active modal overlays or into inert/hidden content
+- changed TV player OSD focus selection to fall through to the first actually focusable control
+- added keyboard focus trapping and programmatic credential focus to the profile picker
+- added semantic `aria-current` state to primary navigation
+- hardened server-recovery/offline actions with real button, disabled, alert and live-region semantics
+- parallelized independent Release Hub query families while retaining bounded paging and server query windows
+- isolated drawer, profile-focus and TV-player focus helpers from full app bootstrap for deterministic unit coverage
+
+### Security and compatibility
+
+- added a shipped-production dependency gate: `npm audit --omit=dev --omit=optional --audit-level=critical`
+- verified that the previously observed Critical `tar` path came from optional native tooling rather than the shipped browser-runtime dependency set
+- retained the full general dependency audit visibility instead of claiming a vulnerability-free tree
+- deferred non-Critical dependency findings that require dependency-range/breaking upgrades rather than using `npm audit fix --force` immediately before Stable
+- preserved Jellyfin authentication, playback, transcoding, SyncPlay, permissions and server media handling as the technical foundation
+- retained the configured legacy Chrome/TV WebView compatibility target through generated-bundle ES validation
+
+### Fixed during stabilization
+
+- cross-server collisions in Discovery, Smart Home and Franchise Studio client preferences
+- unavailable browser storage causing Velaris preference surfaces to fail instead of falling back safely
+- mobile drawer state toggling incorrectly under keyboard/route interactions
+- dynamic `/franchise/:hubId` routes failing literal drawer-path comparisons
+- TV focus moving behind modal overlays
+- TV player focus stopping on an unavailable earlier OSD candidate instead of trying later controls
+- profile dialog accessibility lint failures caused by container key handlers and JSX `autoFocus`
+- unstable focusable-element ordering across selector-union DOM queries
+- test suites accidentally booting the full Jellyfin router/app stack and depending on unrelated globals
+- older-WebView convenience API usage in Advanced Player helpers
+
+### Validation
+
+- Production dependency Critical audit ✅
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- final hardening snapshot validated completely by Velaris CI Run #230
+- the V1.0.0 release metadata snapshot re-runs the same complete stable validation matrix
+
+### Release status
+
+- `VELARIS_VERSION` = `1.0.0`
+- V1.0.0 is the first officially stable Velaris Web release
+- V0.9.0 remains the Feature Complete milestone that froze the major product scope before stabilization
+- post-1.0 work should prioritize upstream compatibility, dependency/security maintenance, regressions, performance and device compatibility
+
 ## V0.9.0 — 2026-09-09 — Release Hub, Insights & Feature Complete
 
 ### Added
