@@ -23,8 +23,15 @@ interface ReleaseCardProps {
     badge?: string
 }
 
-const WEEKDAY_FORMATTER = new Intl.DateTimeFormat('de-DE', { weekday: 'long' });
-const DATE_FORMATTER = new Intl.DateTimeFormat('de-DE', { day: '2-digit', month: 'long' });
+const WEEKDAY_FORMATTER = new Intl.DateTimeFormat('de-DE', {
+    weekday: 'long',
+    timeZone: 'UTC'
+});
+const DATE_FORMATTER = new Intl.DateTimeFormat('de-DE', {
+    day: '2-digit',
+    month: 'long',
+    timeZone: 'UTC'
+});
 
 const getDetailsUrl = (item: ItemDto) => toReactRoute(appRouter.getRouteUrl(item));
 
