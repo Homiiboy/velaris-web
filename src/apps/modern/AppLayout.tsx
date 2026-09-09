@@ -1,4 +1,4 @@
-import React, { StrictMode, useCallback, useState } from 'react';
+import React, { StrictMode, useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { type Theme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -34,9 +34,21 @@ export const Component = () => {
     const isDrawerAvailable = isDrawerPath(location.pathname) && Boolean(user) && !isMediumScreen;
     const isDrawerOpen = isDrawerActive && isDrawerAvailable;
 
+    useEffect(() => {
+        setIsDrawerActive(false);
+    }, [ location.pathname, location.search ]);
+
     const onToggleDrawer = useCallback(() => {
-        setIsDrawerActive(!isDrawerActive);
-    }, [ isDrawerActive, setIsDrawerActive ]);
+        setIsDrawerActive(current => !current);
+    }, []);
+
+    const onOpenDrawer = useCallback(() => {
+        setIsDrawerActive(true);
+    }, []);
+
+    const onCloseDrawer = useCallback(() => {
+        setIsDrawerActive(false);
+    }, []);
 
     if (!isVelarisControlCenterRouteEnabled(location.pathname, controlCenterPreferences)) {
         return <Navigate to='/home' replace />;
@@ -69,8 +81,8 @@ export const Component = () => {
                         isDrawerAvailable && (
                             <AppDrawer
                                 open={isDrawerOpen}
-                                onClose={onToggleDrawer}
-                                onOpen={onToggleDrawer}
+                                onClose={onCloseDrawer}
+                                onOpen={onOpenDrawer}
                             />
                         )
                     }
