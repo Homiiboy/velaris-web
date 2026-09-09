@@ -48,6 +48,7 @@ jobs:
           src/apps/modern/features/franchises
           src/apps/modern/features/home
           src/apps/modern/features/profiles
+          src/apps/modern/features/releaseHub
           src/apps/modern/features/tv
           src/apps/modern/utils/velarisNavigation.ts
           src/apps/modern/utils/velarisNavigation.test.ts
@@ -59,6 +60,7 @@ jobs:
           src/apps/modern/routes/franchise.tsx
           src/apps/modern/routes/franchiseStudio.tsx
           src/apps/modern/routes/home.tsx
+          src/apps/modern/routes/releaseHub.tsx
           src/apps/modern/components/AppToolbar/index.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewNav.tsx
           src/apps/modern/components/AppToolbar/userViews/UserViewsMenu.tsx
