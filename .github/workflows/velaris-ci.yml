@@ -31,6 +31,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Production dependency audit
+        run: npm audit --omit=dev --audit-level=critical
+
       - name: TypeScript check
         run: npm run build:check
 
@@ -71,6 +74,7 @@ jobs:
           src/apps/modern/components/drawers/AppDrawer.test.ts
           src/apps/modern/components/drawers/MainDrawerContent.tsx
           src/components/ConnectionErrorPage.tsx
+          src/components/ListItemLink.tsx
           src/components/ResponsiveDrawer.tsx
           src/components/ResponsiveDrawer.test.ts
           src/components/playback/skipsegment.ts
