@@ -19,7 +19,8 @@ import {
     shouldFetchNextVelarisReleasePage,
     type VelarisReleaseCategory,
     type VelarisReleasePagingDateField,
-    type VelarisReleaseSourceItem
+    type VelarisReleaseSourceItem,
+    type VelarisReleaseWindow
 } from './releaseHub';
 
 const RELEASE_FIELDS = [
@@ -65,6 +66,22 @@ interface LoadReleaseItemsOptions {
 interface LoadReleaseItemsResult {
     sources: VelarisReleaseSourceItem[]
     truncated: boolean
+}
+
+interface LoadReleaseLibraryOptions {
+    libraryApi: ReturnType<typeof getLibraryApi>
+    userId: string
+    library: ReleaseLibrarySource
+    window: VelarisReleaseWindow
+    signal: AbortSignal
+}
+
+interface LoadReleaseLibraryResult {
+    recentSources: VelarisReleaseSourceItem[]
+    calendarSources: VelarisReleaseSourceItem[]
+    failed: boolean
+    recentTruncated: boolean
+    calendarTruncated: boolean
 }
 
 const getReleaseLibraryCategory = (item: Parameters<typeof getVelarisLibraryCategory>[0]) => {
@@ -131,6 +148,60 @@ const loadReleaseItems = async ({
     };
 };
 
+const loadReleaseLibrary = async ({
+    libraryApi,
+    userId,
+    library,
+    window,
+    signal
+}: LoadReleaseLibraryOptions): Promise<LoadReleaseLibraryResult> => {
+    let recent: LoadReleaseItemsResult = { sources: [], truncated: false };
+    let calendar: LoadReleaseItemsResult = { sources: [], truncated: false };
+    let failed = false;
+
+    try {
+        recent = await loadReleaseItems({
+            libraryApi,
+            userId,
+            library,
+            includeItemTypes: [ BaseItemKind.Series, BaseItemKind.Episode ],
+            sortBy: ItemSortBy.DateCreated,
+            dateField: 'DateCreated',
+            lowerBoundMs: window.weekStartMs,
+            signal
+        });
+    } catch (error) {
+        if (signal.aborted) throw error;
+        console.warn(`[VelarisReleaseHub] unable to load recent items from ${library.id}`, error);
+        failed = true;
+    }
+
+    try {
+        calendar = await loadReleaseItems({
+            libraryApi,
+            userId,
+            library,
+            includeItemTypes: [ BaseItemKind.Episode ],
+            sortBy: ItemSortBy.PremiereDate,
+            dateField: 'PremiereDate',
+            lowerBoundMs: window.todayStartMs,
+            signal
+        });
+    } catch (error) {
+        if (signal.aborted) throw error;
+        console.warn(`[VelarisReleaseHub] unable to load release calendar from ${library.id}`, error);
+        failed = true;
+    }
+
+    return {
+        recentSources: recent.sources,
+        calendarSources: calendar.sources,
+        failed,
+        recentTruncated: recent.truncated,
+        calendarTruncated: calendar.truncated
+    };
+};
+
 export const useVelarisReleaseHub = () => {
     const { api, user } = useApi();
     const userId = user?.Id;
@@ -172,49 +243,25 @@ export const useVelarisReleaseHub = () => {
             const libraryApi = getLibraryApi(api!);
 
             for (const library of libraries) {
-                try {
-                    const recent = await loadReleaseItems({
-                        libraryApi,
-                        userId,
-                        library,
-                        includeItemTypes: [ BaseItemKind.Series, BaseItemKind.Episode ],
-                        sortBy: ItemSortBy.DateCreated,
-                        dateField: 'DateCreated',
-                        lowerBoundMs: window.weekStartMs,
-                        signal
-                    });
-                    recentSources.push(...recent.sources);
-                    if (recent.truncated) truncatedLibraryIds.push(`${library.id}:recent`);
-                } catch (error) {
-                    if (signal.aborted) throw error;
-                    console.warn(`[VelarisReleaseHub] unable to load recent items from ${library.id}`, error);
-                    failedLibraryIds.push(library.id);
-                }
+                const result = await loadReleaseLibrary({
+                    libraryApi,
+                    userId,
+                    library,
+                    window,
+                    signal
+                });
 
-                try {
-                    const calendar = await loadReleaseItems({
-                        libraryApi,
-                        userId,
-                        library,
-                        includeItemTypes: [ BaseItemKind.Episode ],
-                        sortBy: ItemSortBy.PremiereDate,
-                        dateField: 'PremiereDate',
-                        lowerBoundMs: window.todayStartMs,
-                        signal
-                    });
-                    calendarSources.push(...calendar.sources);
-                    if (calendar.truncated) truncatedLibraryIds.push(`${library.id}:calendar`);
-                } catch (error) {
-                    if (signal.aborted) throw error;
-                    console.warn(`[VelarisReleaseHub] unable to load release calendar from ${library.id}`, error);
-                    failedLibraryIds.push(library.id);
-                }
+                recentSources.push(...result.recentSources);
+                calendarSources.push(...result.calendarSources);
+                if (result.failed) failedLibraryIds.push(library.id);
+                if (result.recentTruncated) truncatedLibraryIds.push(`${library.id}:recent`);
+                if (result.calendarTruncated) truncatedLibraryIds.push(`${library.id}:calendar`);
             }
 
             return {
                 recentSources,
                 calendarSources,
-                failedLibraryIds: [ ...new Set(failedLibraryIds) ],
+                failedLibraryIds,
                 truncatedLibraryIds
             };
         }
