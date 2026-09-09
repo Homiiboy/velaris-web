@@ -14,6 +14,7 @@ import AppToolbar from './components/AppToolbar';
 import AppDrawer, { isDrawerPath } from './components/drawers/AppDrawer';
 import VelarisProfileGate from './features/profiles/VelarisProfileGate';
 import { useVelarisProfilePreferences } from './features/profiles/useVelarisProfilePreferences';
+import VelarisAppExperience from './features/tv/VelarisAppExperience';
 import LibraryToolbar from './features/libraries/components/LibraryToolbar';
 import { LibraryProvider } from './features/libraries/hooks/useLibrary';
 import { isLibraryPath } from './features/libraries/utils/path';
@@ -37,6 +38,7 @@ export const Component = () => {
     return (
         <LibraryProvider>
             <VelarisProfileGate />
+            <VelarisAppExperience />
             <Box
                 className='velaris-app-shell'
                 sx={{
