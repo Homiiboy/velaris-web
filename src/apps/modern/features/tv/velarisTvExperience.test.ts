@@ -3,14 +3,16 @@ import { describe, expect, it } from 'vitest';
 import {
     findVelarisTvFocusTarget,
     getVelarisViewportClass,
+    hasVelarisBlockingOverlay,
     shouldRestoreVelarisTvFocus
 } from './velarisTvExperience';
 
 describe('Velaris TV focus helpers', () => {
-    it('prefers an explicit TV focus target and ignores hidden targets', () => {
+    it('prefers an explicit TV focus target and ignores hidden or inert targets', () => {
         document.body.innerHTML = `
             <main id="main">
                 <button class="hide" data-velaris-tv-focus="primary">Hidden</button>
+                <div inert><button data-velaris-tv-focus="primary">Inert</button></div>
                 <a href="/home" aria-current="page">Current</a>
                 <button data-velaris-tv-focus="primary">Primary</button>
             </main>
@@ -36,6 +38,17 @@ describe('Velaris TV focus helpers', () => {
         expect(shouldRestoreVelarisTvFocus(inside, main)).toBe(false);
         expect(shouldRestoreVelarisTvFocus(dialog, main)).toBe(false);
         expect(shouldRestoreVelarisTvFocus(outside, main)).toBe(true);
+    });
+
+    it('detects blocking modal overlays before restoring TV focus', () => {
+        document.body.innerHTML = `
+            <main id="main"><button>Content</button></main>
+            <div role="dialog" aria-modal="true">Profile chooser</div>
+        `;
+
+        expect(hasVelarisBlockingOverlay(document)).toBe(true);
+        document.querySelector('[role="dialog"]')?.remove();
+        expect(hasVelarisBlockingOverlay(document)).toBe(false);
     });
 
     it('classifies compact, tablet and desktop viewports', () => {
