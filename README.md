@@ -4,7 +4,7 @@
 
 <h1 align="center">Velaris Web</h1>
 <p align="center"><strong>A cinematic streaming frontend based on Jellyfin Web.</strong></p>
-<p align="center">Current development version: <strong>V0.8.0</strong></p>
+<p align="center">Current development version: <strong>V0.9.0</strong></p>
 
 ---
 
@@ -16,32 +16,33 @@ Velaris is an independent fork and is not an official Jellyfin project.
 
 ## Current status
 
-**V0.8.0 — Control Center & Customization is complete and validated.**
+**V0.9.0 — Release Hub, Insights & Feature Complete is complete and validated.**
 
-V0.8.0 centralizes profile-specific Velaris presentation and feature preferences without replacing Jellyfin's server, permissions or playback systems.
+V0.9.0 closes the planned V0.x feature roadmap. It adds server-backed release discovery and personal viewing insights while keeping Jellyfin metadata, user data, permissions and playback behavior authoritative.
 
-The completed V0.8.0 scope includes:
+The completed V0.9.0 scope includes:
 
-- dedicated Velaris Control Center linked from the user menu
-- profile/server-scoped, versioned and defensively sanitized preferences
-- Theme Customizer with Velaris Default, OLED Black, Midnight, Aurora and Custom Accent
-- broader custom-accent propagation across Home, Smart Home, Discovery, Franchises and Advanced Player states
-- Cinematic, Compact and Hidden Hero modes
-- Full/Compact navigation modes covering desktop and mobile navigation surfaces
-- Comfortable, Compact and Spacious density modes across major rails, grids and Control Center cards
-- Full, Reduced and Off animation modes
-- Smart Home toggle with Jellyfin Continue Watching fallback
-- enforced Discovery and Franchise feature gates that also block direct disabled routes
-- Advanced Player toggle that suppresses its OSD surfaces and neutralizes advanced runtime preferences while disabled without deleting saved settings
-- cross-tab preference synchronization and regression coverage for storage repair, route guards and disabled-player behavior
+- dedicated Release Hub with first-class desktop and mobile navigation
+- “Neu diese Woche” surfaces for Series and Anime from real connected-library data
+- separate new-episode counts and detected season-premiere presentation
+- Series/Anime Release Hub filters
+- timezone-stable 28-day episode calendar based on real Jellyfin `PremiereDate` metadata
+- paged and bounded Release Hub loading with deduplication and explicit partial/error states
+- dedicated personal Insights route with desktop/mobile navigation
+- profile-scoped Jellyfin-backed statistics for known plays, rewatches, watched films and episodes
+- estimated watch time derived from known runtime × PlayCount rather than presented as an exact event history
+- activity from the last 30 days, Top Genres, Top Series and server-backed “Zuletzt gesehen” artwork
+- bounded paged Insights loading and deterministic item deduplication
+- regression coverage for Release Hub date/paging/load-state logic and Insights aggregation
+- final cross-feature consistency and scope audit for the Feature Complete milestone
 
-The code-complete V0.8.0 implementation passed the full Velaris CI pipeline in Run #155. Detailed release notes are available in [`docs/V0.8.0.md`](docs/V0.8.0.md).
+Release Hub code-complete behavior passed Velaris CI Run #183, Insights passed Run #186, and the integrated V0.9 scope passed the complete pipeline in Run #187. Detailed release notes are available in [`docs/V0.9.0.md`](docs/V0.9.0.md).
 
-V0.9.0 — Release Hub, Insights & Feature Complete is the next planned feature phase.
+**Velaris is now Feature Complete for the planned V0.x roadmap.** V1.0.0 is the next phase and is dedicated to stabilization, compatibility, performance, accessibility and release-blocking defect removal rather than another major feature family.
 
 ## Roadmap to V1.0.0
 
-Velaris is being developed through feature phases. **V1.0.0 will be the first officially stable release.** V0.x builds remain development milestones until the feature-complete and stabilization phases are finished.
+Velaris is being developed through feature phases. **V1.0.0 will be the first officially stable release.** V0.9.0 marks Feature Complete; the remaining work is the dedicated stabilization phase.
 
 The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 
@@ -56,18 +57,20 @@ The full roadmap lives in [`ROADMAP.md`](ROADMAP.md).
 | V0.6.0 | Advanced Player | ✅ Complete |
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ✅ Complete |
-| V0.9.0 | Release Hub, Insights & Feature Complete | ⏳ Planned |
+| V0.9.0 | Release Hub, Insights & Feature Complete | ✅ Complete |
 | V1.0.0 | First Stable Release | 🎯 Target |
 
 ## What is already in Velaris
 
-The completed foundation includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, the Discovery Center with Watchlists and Smart Lists, Profiles 2.0 with safer profile switching, the V0.6 Advanced Player with queue, chapters, rapid stream switching, quality presets and technical playback insight, V0.7 TV/App Experience with living-room focus behavior, TV-optimized controls and connection recovery, and the V0.8 Control Center with profile-scoped themes, layout controls and enforced feature gates.
+The completed V0.x product includes native Velaris branding and theme, a dedicated app shell and streaming navigation, Dynamic Franchise Hubs, cinematic Home and Spotlight, cinematic Movie/Series/Anime details, redesigned Libraries/Collections/Search, hardened routing and failure handling, Smart Home personalization, the Franchise Studio with editable universes and Watch Orders, the Discovery Center with Watchlists and Smart Lists, Profiles 2.0 with safer profile switching, the Advanced Player with queue, chapters, rapid stream switching, quality presets and technical playback insight, TV/App Experience with living-room focus behavior and connection recovery, the Control Center with profile-scoped themes/layout controls/enforced feature gates, and V0.9 Release Hub plus personal Insights.
 
-The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise, Smart Home and Discovery surfaces are data-driven and avoid fake promotional media.
+The viewer-facing product treats Movies, Series, Anime, Anime Movies and Collections as first-class destinations when those libraries exist. Franchise, Smart Home, Discovery, Release Hub and Insights surfaces are data-driven and avoid fake promotional media or invented viewing history.
 
 ## Product direction
 
 Velaris is designed as a standalone modern streaming experience, not as a visible Jellyfin skin. Jellyfin remains the technical foundation for server APIs, authentication, playback, transcoding and media management, while the normal viewer-facing interface is progressively replaced by Velaris-specific branding, navigation, layouts and interaction patterns.
+
+With V0.9.0 Feature Complete, product scope is intentionally frozen for V1.0 stabilization. Major new feature families should wait until the first stable release is complete.
 
 ## Branch strategy
 
@@ -121,8 +124,8 @@ A feature phase is not considered complete until the complete validation pipelin
 Velaris uses its own release line, stored in `VELARIS_VERSION`, while the Jellyfin Web package version can remain aligned with the upstream codebase for easier compatibility tracking.
 
 - `V0.x` — feature development and pre-stable milestones
-- `V0.9.0` — planned Feature Complete milestone
-- `V1.0.0` — first Stable release after a dedicated final hardening phase
+- `V0.9.0` — Feature Complete milestone
+- `V1.0.0` — first Stable release after the dedicated final hardening phase
 
 ## License and upstream attribution
 

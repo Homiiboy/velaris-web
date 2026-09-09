@@ -25,7 +25,7 @@ Velaris Web is being developed in feature phases toward the first stable release
 | V0.6.0 | Advanced Player | ✅ Complete |
 | V0.7.0 | TV Mode & App Experience | ✅ Complete |
 | V0.8.0 | Control Center & Customization | ✅ Complete |
-| V0.9.0 | Release Hub, Insights & Feature Complete | 🚧 In Progress |
+| V0.9.0 | Release Hub, Insights & Feature Complete | ✅ Complete |
 | V1.0.0 | First Stable Release | 🎯 Target |
 
 ## Completed phases
@@ -161,21 +161,34 @@ Detailed release notes: [`docs/V0.7.0.md`](docs/V0.7.0.md).
 
 Detailed release notes: [`docs/V0.8.0.md`](docs/V0.8.0.md).
 
-## Current feature phase
-
 ### V0.9.0 — Release Hub, Insights & Feature Complete
 
-- ✅ new-this-week and new-episode/season surfaces
-- ✅ Series/Anime release hub and reliable 28-day calendar views
-- ✅ personal Velaris Insights and profile-scoped watch statistics
-- 🚧 remaining small cross-feature improvements
-- 🚧 final consistency pass
+- dedicated Release Hub with first-class desktop/mobile navigation
+- “Neu diese Woche” surfaces for Series and Anime using real connected-library data
+- separate counts and presentation for new episodes and detected season premieres
+- Series/Anime filtering without introducing a parallel media catalog
+- timezone-stable 28-day calendar based on actual server `PremiereDate` metadata
+- bounded, paged Release Hub loading with cross-library deduplication
+- explicit empty, complete-failure and partial/truncation states that preserve already loaded entries
+- dedicated personal Insights route with desktop/mobile navigation
+- profile-scoped statistics derived from Jellyfin user data rather than a separate tracking database
+- known PlayCount/rewatch totals, completed movies and episodes, estimated watch time, recent activity, Top Genres and Top Series
+- server-backed “Zuletzt gesehen” artwork and detail navigation
+- paged played-item loading with deterministic deduplication and a bounded partial state for unusually large histories
+- clear labeling of estimated watch time so incomplete historical event data is not presented as exact telemetry
+- regression coverage for Release Hub date windows, season premieres, paging/load states and Insights aggregation
+- final V0.x feature-scope audit: no additional major feature family is required before stabilization
+- Release Hub code-complete validation in Velaris CI Run #183
+- Insights code-complete validation in Velaris CI Run #186
+- integrated V0.9 scope validation in Velaris CI Run #187
 
-Release Hub implementation and review were validated in Velaris CI Runs #183. The initial Insights dashboard was validated in Velaris CI Run #186.
+Detailed release notes: [`docs/V0.9.0.md`](docs/V0.9.0.md).
 
-**V0.9.0 is the Feature Complete milestone.** No major new feature family should be introduced after it until V1.0.0 is stable.
+**V0.9.0 is the Feature Complete milestone.** No major new feature family should be introduced before V1.0.0; remaining work is stabilization, compatibility validation, performance work and defect removal.
 
-## V1.0.0 — First Stable Release
+## Next release phase
+
+### V1.0.0 — First Stable Release
 
 V1.0.0 is reserved for stabilization rather than another feature family:
 

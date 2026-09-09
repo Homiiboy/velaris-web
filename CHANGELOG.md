@@ -2,6 +2,71 @@
 
 This changelog tracks Velaris-specific milestones. Detailed implementation notes for recent releases are stored in `docs/` and the long-term feature plan is maintained in [`ROADMAP.md`](ROADMAP.md).
 
+## V0.9.0 — 2026-09-09 — Release Hub, Insights & Feature Complete
+
+### Added
+
+- dedicated `/releases` route with first-class desktop and mobile/drawer navigation
+- “Neu diese Woche” surfaces for Series and Anime from real connected-library data
+- separate new-episode count and detected season-premiere presentation
+- All/Series/Anime Release Hub filtering
+- timezone-stable 28-day upcoming-episode calendar based on real server `PremiereDate` metadata
+- paged and bounded Release Hub loading across matching libraries
+- explicit Release Hub empty, partial/truncation and complete-failure states
+- dedicated `/insights` route with desktop and mobile/drawer navigation
+- profile-scoped personal statistics derived from Jellyfin `UserData`
+- completed Movie/Episode totals, known PlayCount totals and rewatches
+- estimated watch time derived from runtime × known PlayCount
+- last-30-days activity, Top Genres, Top Series and “Zuletzt gesehen” surfaces
+- server-backed artwork/detail navigation for recent Insights items
+- bounded paged played-item loading with deterministic item-ID deduplication
+- regression coverage for Release Hub windows, premiere detection, paging/load states and Insights aggregation
+
+### Changed
+
+- Release Hub date-only premiere values are normalized into stable calendar days so viewer timezone does not shift the displayed date
+- upcoming Release Hub queries stop at the relevant bounded date window instead of scanning an unnecessarily broad catalog
+- Release Hub deduplicates overlapping library/query results while preserving Anime classification where appropriate
+- Release Hub surfaces already loaded data when only part of the relevant library/query set fails or reaches its safety bound
+- Insights reads the active Jellyfin profile's played Movie/Episode state instead of creating a separate local history model
+- Watch Time is explicitly presented as an estimate because Jellyfin item user data is not an event-by-event historical playback ledger
+- unusually large Insights histories expose a partial state rather than silently treating a bounded subset as complete
+- V0.x major feature scope is now frozen; post-V0.9 work moves to V1.0.0 stabilization rather than another feature family
+
+### Fixed during validation
+
+- Release Hub date handling that could move date-only premiere metadata to the wrong visible calendar day across timezones
+- Release Hub over-fetching beyond the required calendar window
+- Release Hub load-state handling that initially did not distinguish complete query failure clearly enough from partial/truncated data
+- Release Hub stylesheet selector/order and operator-layout findings from repository linting
+- Insights test fixtures missing the required Jellyfin `UserItemDataDto.Key` field
+- redundant Boolean conversion in Insights aggregation rejected by repository ESLint
+- nested Insights presentation ternaries/operator layout rejected by repository lint rules
+- `padStart` use in Insights ranking removed for the oldest configured browser/WebView compatibility targets
+
+### Validation
+
+- TypeScript ✅
+- repository ESLint ✅
+- Velaris strict zero-warning lint ✅
+- Stylelint ✅
+- unit tests ✅
+- production build ✅
+- generated-bundle ES compatibility check ✅
+- Release Hub code-complete implementation validated by Velaris CI Run #183
+- Insights code-complete implementation validated by Velaris CI Run #186
+- integrated V0.9 scope validated by Velaris CI Run #187
+
+### Compatibility
+
+- Release Hub uses existing Jellyfin-compatible library metadata and does not introduce an external schedule service or second media catalog
+- Insights uses the active Jellyfin user's existing `UserData` and does not introduce a separate viewing-history database or background tracker
+- Watch Time remains explicitly derived/approximate rather than claiming an exact historical event timeline
+- Jellyfin user policy remains authoritative for media access and administrative permissions
+- authentication, playback, seeking, transcoding, media storage and server permissions remain in the existing Jellyfin-compatible stack
+- missing or partial metadata is handled defensively instead of being replaced by fabricated release/history values
+- V0.9.0 is the Feature Complete milestone; V1.0.0 is reserved for stabilization
+
 ## V0.8.0 — 2026-09-09 — Control Center & Customization
 
 ### Added
