@@ -1,0 +1,74 @@
+name: velaris
+
+services:
+  velaris:
+    image: ghcr.io/homiiboy/velaris-web:1.0.0
+    container_name: velaris
+    restart: unless-stopped
+    ports:
+      - target: 8080
+        published: "${WEBUI_PORT:-8097}"
+        protocol: tcp
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -qO-
+        - http://127.0.0.1:8080/healthz
+      interval: 30s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+    stop_grace_period: 10s
+    x-casaos:
+      ports:
+        - container: "8080"
+          description:
+            en_US: Velaris Web UI
+            de_DE: Velaris Weboberfläche
+
+x-casaos:
+  id: com.novarion.velaris
+  main: velaris
+  index: /
+  port_map: "${WEBUI_PORT:-8097}"
+  scheme: http
+  icon: https://raw.githubusercontent.com/Homiiboy/velaris-web/velaris/Apps/Velaris/icon.svg
+  title:
+    en_US: Velaris
+    de_DE: Velaris
+  tagline:
+    en_US: More worlds within.
+    de_DE: Mehr Welten in deinem Zuhause.
+  description:
+    en_US: >-
+      Velaris is a cinematic Jellyfin web client with a dedicated streaming interface,
+      Discovery, Franchise Studio, Release Hub, Insights, Profiles, TV Mode and an
+      advanced player experience. Jellyfin remains the backend for authentication,
+      libraries, playback and transcoding.
+    de_DE: >-
+      Velaris ist ein cineastischer Jellyfin-Webclient mit eigener Streaming-Oberfläche,
+      Discovery, Franchise Studio, Release Hub, Insights, Profilen, TV-Modus und einem
+      erweiterten Player. Jellyfin bleibt das Backend für Anmeldung, Bibliotheken,
+      Wiedergabe und Transcoding.
+  author: Homiiboy
+  developer: Homiiboy / Jellyfin Project
+  category: Media
+  architectures:
+    - amd64
+    - arm64
+  version: "1.0.0"
+  update_at: "2026-09-10"
+  release_notes:
+    en_US: First stable Velaris release with production Docker and ZimaOS packaging.
+    de_DE: Erste stabile Velaris-Version mit Production-Docker- und ZimaOS-Paket.
+  website: https://github.com/Homiiboy/velaris-web/tree/velaris
+  repo: https://github.com/Homiiboy/velaris-web
+  docs: https://github.com/Homiiboy/velaris-web/blob/velaris/docs/ZIMAOS.md
