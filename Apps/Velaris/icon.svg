@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Velaris</title>
+  <desc id="desc">A luminous V-shaped Velaris emblem with a central star on black.</desc>
+  <defs>
+    <linearGradient id="left" x1="90" y1="100" x2="265" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#45f3ff"/>
+      <stop offset="0.45" stop-color="#1687ff"/>
+      <stop offset="1" stop-color="#8a36ff"/>
+    </linearGradient>
+    <linearGradient id="right" x1="420" y1="90" x2="245" y2="405" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffc36b"/>
+      <stop offset="0.18" stop-color="#ff5f9d"/>
+      <stop offset="0.55" stop-color="#d42cff"/>
+      <stop offset="1" stop-color="#6e35ff"/>
+    </linearGradient>
+    <linearGradient id="star" x1="212" y1="180" x2="300" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4ff5ff"/>
+      <stop offset="0.48" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#ff5ad9"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="72" fill="#000000"/>
+  <path d="M118 125 C143 198 179 295 256 386" fill="none" stroke="url(#left)" stroke-width="74" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M394 125 C368 202 333 296 256 386" fill="none" stroke="url(#right)" stroke-width="74" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M256 173 C263 203 273 213 303 220 C273 227 263 237 256 267 C249 237 239 227 209 220 C239 213 249 203 256 173Z" fill="url(#star)" filter="url(#glow)"/>
+</svg>
