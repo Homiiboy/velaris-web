@@ -103,6 +103,16 @@ jobs:
       - name: Docker Compose validation
         run: docker compose config --quiet
 
+      - name: ZimaOS app package validation
+        run: |
+          set -euo pipefail
+          version="$(tr -d '[:space:]' < VELARIS_VERSION)"
+          WEBUI_PORT=8097 docker compose -f Apps/Velaris/docker-compose.yml config --quiet
+          grep -Fq "image: ghcr.io/homiiboy/velaris-web:$version" Apps/Velaris/docker-compose.yml
+          grep -Fq "version: \"$version\"" Apps/Velaris/docker-compose.yml
+          grep -Fq 'id: com.novarion.velaris' Apps/Velaris/docker-compose.yml
+          grep -Fq 'category: Media' Apps/Velaris/docker-compose.yml
+
       - name: Docker image build
         run: >-
           docker build
