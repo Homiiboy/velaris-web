@@ -1,7 +1,6 @@
 .git
 .github
 node_modules
-dist
 coverage
 *.log
 npm-debug.log*
