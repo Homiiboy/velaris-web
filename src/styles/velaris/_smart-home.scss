@@ -167,7 +167,7 @@
 
 .velaris-smart-row__rail {
     display: grid;
-    grid-auto-columns: minmax(12.5rem, 19vw);
+    grid-auto-columns: minmax(9rem, 13vw);
     grid-auto-flow: column;
     gap: 0.85rem;
     padding: 0.45rem clamp(1rem, 4vw, 4rem) 0.8rem;
@@ -200,7 +200,7 @@
 }
 
 .velaris-smart-card__artwork {
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2 / 3;
 }
 
 .velaris-smart-card__artwork::after,
@@ -462,7 +462,7 @@
     }
 
     .velaris-smart-row__rail {
-        grid-auto-columns: minmax(12rem, 68vw);
+        grid-auto-columns: minmax(9.5rem, 38vw);
     }
 
     .velaris-smart-row__rail--continue {
