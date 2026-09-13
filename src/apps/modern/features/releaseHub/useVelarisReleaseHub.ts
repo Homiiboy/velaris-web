@@ -65,6 +65,7 @@ interface LoadReleaseItemsOptions {
     signal: AbortSignal
     minPremiereDate?: string
     maxPremiereDate?: string
+    isUnaired?: boolean
 }
 
 interface LoadReleaseItemsResult {
@@ -116,7 +117,8 @@ const loadReleaseItems = async ({
     lowerBoundMs,
     signal,
     minPremiereDate,
-    maxPremiereDate
+    maxPremiereDate,
+    isUnaired
 }: LoadReleaseItemsOptions): Promise<LoadReleaseItemsResult> => {
     const sources: VelarisReleaseSourceItem[] = [];
     let startIndex = 0;
@@ -138,7 +140,8 @@ const loadReleaseItems = async ({
             limit: PAGE_SIZE,
             enableTotalRecordCount: true,
             minPremiereDate,
-            maxPremiereDate
+            maxPremiereDate,
+            isUnaired
         }, { signal });
         const pageItems = (response.data.Items || []) as ItemDto[];
 
@@ -215,7 +218,8 @@ const loadReleaseLibrary = async ({
             lowerBoundMs: window.todayStartMs,
             signal,
             minPremiereDate: new Date(window.todayStartMs).toISOString(),
-            maxPremiereDate: new Date(window.calendarEndMs - 1).toISOString()
+            maxPremiereDate: new Date(window.calendarEndMs - 1).toISOString(),
+            isUnaired: true
         }), signal, `[VelarisReleaseHub] unable to load release calendar from ${library.id}`)
     ]);
 
