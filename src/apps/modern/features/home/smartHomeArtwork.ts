@@ -39,3 +39,22 @@ export const getVelarisSmartHomeArtworkUrl = (
 
     return undefined;
 };
+
+export const getVelarisSmartHomePosterUrl = (
+    apiClient: ApiClient | undefined,
+    item: ItemDto,
+    maxWidth = 480
+) => {
+    if (!apiClient || !item.Id) return undefined;
+
+    const primaryTag = item.ImageTags?.Primary;
+    if (primaryTag) {
+        return apiClient.getImageUrl(item.Id, {
+            type: ImageType.Primary,
+            tag: primaryTag,
+            maxWidth
+        });
+    }
+
+    return getVelarisSmartHomeArtworkUrl(apiClient, item, maxWidth);
+};
