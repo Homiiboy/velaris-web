@@ -8,7 +8,10 @@ import { appRouter } from 'components/router/appRouter';
 import { useApi } from 'hooks/useApi';
 import type { ItemDto } from 'types/base/models/item-dto';
 
-import { getVelarisSmartHomeArtworkUrl } from './smartHomeArtwork';
+import {
+    getVelarisSmartHomeArtworkUrl,
+    getVelarisSmartHomePosterUrl
+} from './smartHomeArtwork';
 import {
     buildSmartHomeRows,
     DEFAULT_SMART_HOME_PREFERENCES,
@@ -45,7 +48,7 @@ interface SmartHomeCardProps {
 
 const SmartHomeCard: FC<SmartHomeCardProps> = ({ item }) => {
     const { __legacyApiClient__ } = useApi();
-    const artworkUrl = getVelarisSmartHomeArtworkUrl(__legacyApiClient__, item);
+    const artworkUrl = getVelarisSmartHomePosterUrl(__legacyApiClient__, item);
     const runtime = formatRuntime(item);
     const meta = [ item.ProductionYear, runtime, item.Genres?.[0] ].filter(Boolean).join(' · ');
 
