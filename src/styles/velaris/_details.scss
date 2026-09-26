@@ -19,17 +19,7 @@
     background-position: center 18%;
     background-size: cover;
     opacity: 0.98;
-    mask-image: linear-gradient(180deg, #000 0%, #000 52%, rgba(0, 0, 0, 0.82) 68%, transparent 100%);
-}
-
-#itemDetailPage .itemBackdrop::after {
-    position: absolute;
-    inset: 0;
-    content: '';
-    background:
-        linear-gradient(90deg, rgba(3, 4, 8, 0.93) 0%, rgba(3, 4, 8, 0.62) 34%, rgba(3, 4, 8, 0.14) 67%, rgba(3, 4, 8, 0.3) 100%),
-        linear-gradient(180deg, rgba(3, 4, 8, 0.12) 0%, rgba(3, 4, 8, 0.08) 48%, tokens.$background 100%);
-    pointer-events: none;
+    mask-image: none;
 }
 
 #itemDetailPage .detailLogo {

@@ -146,7 +146,7 @@ const VelarisHomeHero: FC = () => {
             className='velaris-home-hero'
             aria-label={`Spotlight: ${activeItem.Name}`}
             style={artworkUrl ? {
-                backgroundImage: `linear-gradient(90deg, rgba(3, 4, 8, 0.98) 0%, rgba(3, 4, 8, 0.82) 34%, rgba(3, 4, 8, 0.28) 66%, rgba(3, 4, 8, 0.08) 100%), linear-gradient(0deg, #05060a 0%, rgba(5, 6, 10, 0.16) 42%, rgba(5, 6, 10, 0.05) 72%), url("${artworkUrl}")`
+                backgroundImage: `url("${artworkUrl}")`
             } : undefined}
         >
             <div key={activeItem.Id} className='velaris-home-hero__content'>

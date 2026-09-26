@@ -203,15 +203,6 @@
     aspect-ratio: 2 / 3;
 }
 
-.velaris-smart-card__artwork::after,
-.velaris-continue-card__artwork::after {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 48%, rgba(2, 4, 8, 0.7) 100%);
-    content: '';
-    pointer-events: none;
-}
-
 .velaris-smart-card__fallback {
     position: absolute;
     top: 50%;

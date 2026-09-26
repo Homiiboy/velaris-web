@@ -103,7 +103,6 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
                     aria-hidden='true'
                 />
             )}
-            <span className='velaris-home-destination__scrim' aria-hidden='true'></span>
             <span className='velaris-home-destination__content'>
                 <span className='velaris-home-destination__label'>{library.Name}</span>
                 <span className='velaris-home-destination__cta'>Entdecken</span>

@@ -191,14 +191,6 @@
     transition: border-color tokens.$transition-fast, box-shadow tokens.$transition-fast;
 }
 
-.velaris-release-card__artwork::after {
-    position: absolute;
-    inset: 0;
-    content: '';
-    background: linear-gradient(180deg, transparent 52%, rgba(3, 5, 9, 0.74));
-    pointer-events: none;
-}
-
 .velaris-release-card__artwork > .material-icons {
     color: tokens.$text-muted;
     font-size: 2.2rem;

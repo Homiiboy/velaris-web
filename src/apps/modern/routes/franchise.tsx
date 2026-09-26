@@ -100,7 +100,7 @@ const Franchise: FC = () => {
             <header
                 className='velaris-franchise-hero'
                 style={artworkUrl ? {
-                    backgroundImage: `linear-gradient(90deg, rgba(3, 4, 8, 0.98) 0%, rgba(3, 4, 8, 0.76) 38%, rgba(3, 4, 8, 0.18) 74%), linear-gradient(0deg, #05060a 0%, rgba(5, 6, 10, 0.08) 42%), url("${artworkUrl}")`
+                    backgroundImage: `url("${artworkUrl}")`
                 } : undefined}
             >
                 <div className='velaris-franchise-hero__content'>
