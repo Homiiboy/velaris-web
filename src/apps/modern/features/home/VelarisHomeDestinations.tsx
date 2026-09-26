@@ -50,7 +50,7 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
     const category = getVelarisLibraryCategory(library);
 
     const artworkQuery = useQuery({
-        queryKey: [ 'VelarisHomeDestinationArtwork', user?.Id, library.Id, category, 'backdrop-v2' ],
+        queryKey: [ 'VelarisHomeDestinationArtwork', user?.Id, library.Id, category, 'backdrop-v3' ],
         enabled: Boolean(api && user?.Id && library.Id),
         staleTime: 10 * 60 * 1000,
         queryFn: async ({ signal }) => {
@@ -61,7 +61,7 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
                 parentId: library.Id,
                 recursive: true,
                 includeItemTypes: getDestinationItemTypes(category),
-                enableImageTypes: [ ImageType.Backdrop ],
+                enableImageTypes: [ ImageType.Backdrop, ImageType.Primary ],
                 imageTypeLimit: 1,
                 sortBy: [ ItemSortBy.DateCreated ],
                 sortOrder: [ SortOrder.Descending ],
@@ -71,7 +71,9 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
             }, { signal });
 
             const items = response.data.Items || [];
-            return items.find(hasOwnBackdrop) || items.find(hasParentBackdrop);
+            return items.find(hasOwnBackdrop)
+                || items.find(hasParentBackdrop)
+                || items.find(item => Boolean(item.ImageTags?.Primary));
         }
     });
 
@@ -82,6 +84,9 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
             1000
         ) :
         undefined;
+    const isPosterFallback = artworkQuery.data
+        && !hasOwnBackdrop(artworkQuery.data)
+        && !hasParentBackdrop(artworkQuery.data);
     const route = toReactRoute(appRouter.getRouteUrl(library, {
         context: library.CollectionType
     }));
@@ -93,7 +98,7 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
         >
             {artworkUrl && (
                 <span
-                    className='velaris-home-destination__artwork'
+                    className={`velaris-home-destination__artwork${isPosterFallback ? ' velaris-home-destination__artwork--poster' : ''}`}
                     style={{ backgroundImage: `url("${artworkUrl}")` }}
                     aria-hidden='true'
                 />

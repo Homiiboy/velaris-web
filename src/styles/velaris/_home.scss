@@ -266,6 +266,10 @@
     transition: transform tokens.$transition-standard;
 }
 
+.velaris-home-destination__artwork--poster {
+    filter: blur(9px) saturate(0.82);
+}
+
 .velaris-home-destination__scrim {
     position: absolute;
     inset: 0;
