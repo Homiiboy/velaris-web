@@ -1,4 +1,5 @@
 import type { BaseItemDto } from '@jellyfin/sdk/lib/generated-client/models/base-item-dto';
+import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-item-kind';
 import { ImageType } from '@jellyfin/sdk/lib/generated-client/models/image-type';
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { SortOrder } from '@jellyfin/sdk/lib/generated-client/models/sort-order';
@@ -9,7 +10,8 @@ import { Link } from 'react-router-dom';
 
 import {
     getVelarisLibraryCategory,
-    sortVelarisLibraries
+    sortVelarisLibraries,
+    type VelarisLibraryCategory
 } from 'apps/modern/utils/velarisNavigation';
 import { toReactRoute } from 'apps/modern/utils/velarisRouting';
 import { appRouter } from 'components/router/appRouter';
@@ -23,10 +25,24 @@ interface VelarisHomeDestinationProps {
     library: BaseItemDto
 }
 
-const hasDestinationArtwork = (item: BaseItemDto) => Boolean(
-    item.BackdropImageTags?.length
-    || (item.ParentBackdropItemId && item.ParentBackdropImageTags?.length)
-    || item.ImageTags?.Primary
+const getDestinationItemTypes = (category: VelarisLibraryCategory): BaseItemKind[] => {
+    switch (category) {
+        case 'movies':
+        case 'anime-movies':
+            return [ BaseItemKind.Movie ];
+        case 'series':
+        case 'anime':
+            return [ BaseItemKind.Series ];
+        case 'collections':
+            return [ BaseItemKind.BoxSet, BaseItemKind.Movie, BaseItemKind.Series ];
+        default:
+            return [ BaseItemKind.Movie, BaseItemKind.Series ];
+    }
+};
+
+const hasOwnBackdrop = (item: BaseItemDto) => Boolean(item.BackdropImageTags?.length);
+const hasParentBackdrop = (item: BaseItemDto) => Boolean(
+    item.ParentBackdropItemId && item.ParentBackdropImageTags?.length
 );
 
 const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) => {
@@ -34,9 +50,9 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
     const category = getVelarisLibraryCategory(library);
 
     const artworkQuery = useQuery({
-        queryKey: [ 'VelarisHomeDestinationArtwork', user?.Id, library.Id ],
+        queryKey: [ 'VelarisHomeDestinationArtwork', user?.Id, library.Id, category, 'backdrop-v2' ],
         enabled: Boolean(api && user?.Id && library.Id),
-        staleTime: 5 * 60 * 1000,
+        staleTime: 10 * 60 * 1000,
         queryFn: async ({ signal }) => {
             if (!api || !user?.Id || !library.Id) return undefined;
 
@@ -44,16 +60,18 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
                 userId: user.Id,
                 parentId: library.Id,
                 recursive: true,
-                enableImageTypes: [ ImageType.Backdrop, ImageType.Primary ],
+                includeItemTypes: getDestinationItemTypes(category),
+                enableImageTypes: [ ImageType.Backdrop ],
                 imageTypeLimit: 1,
                 sortBy: [ ItemSortBy.DateCreated ],
                 sortOrder: [ SortOrder.Descending ],
                 startIndex: 0,
-                limit: 24,
+                limit: 60,
                 enableTotalRecordCount: false
             }, { signal });
 
-            return (response.data.Items || []).find(hasDestinationArtwork);
+            const items = response.data.Items || [];
+            return items.find(hasOwnBackdrop) || items.find(hasParentBackdrop);
         }
     });
 
@@ -72,10 +90,14 @@ const VelarisHomeDestination: FC<VelarisHomeDestinationProps> = ({ library }) =>
         <Link
             to={route}
             className={`velaris-home-destination velaris-home-destination--${category}`}
-            style={artworkUrl ? {
-                backgroundImage: `url("${artworkUrl}")`
-            } : undefined}
         >
+            {artworkUrl && (
+                <span
+                    className='velaris-home-destination__artwork'
+                    style={{ backgroundImage: `url("${artworkUrl}")` }}
+                    aria-hidden='true'
+                />
+            )}
             <span className='velaris-home-destination__scrim' aria-hidden='true'></span>
             <span className='velaris-home-destination__content'>
                 <span className='velaris-home-destination__label'>{library.Name}</span>

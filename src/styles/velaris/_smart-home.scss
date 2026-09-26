@@ -167,7 +167,7 @@
 
 .velaris-smart-row__rail {
     display: grid;
-    grid-auto-columns: minmax(9rem, 13vw);
+    grid-auto-columns: clamp(10rem, 13vw, 12.5rem);
     grid-auto-flow: column;
     gap: 0.85rem;
     padding: 0.45rem clamp(1rem, 4vw, 4rem) 0.8rem;
@@ -241,14 +241,16 @@
 }
 
 .velaris-smart-card__title {
-    display: block;
+    display: -webkit-box;
+    min-height: 2.5em;
     margin-top: 0.62rem;
     overflow: hidden;
     color: tokens.$text-primary;
     font-size: 0.9rem;
     font-weight: 690;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    line-height: 1.25;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .velaris-smart-card__meta {
@@ -462,7 +464,7 @@
     }
 
     .velaris-smart-row__rail {
-        grid-auto-columns: minmax(9.5rem, 38vw);
+        grid-auto-columns: clamp(10rem, 28vw, 12rem);
     }
 
     .velaris-smart-row__rail--continue {

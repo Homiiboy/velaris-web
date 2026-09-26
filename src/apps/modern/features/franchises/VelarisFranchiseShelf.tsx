@@ -1,4 +1,4 @@
-import React, { type FC } from 'react';
+import React, { type FC, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useApi } from 'hooks/useApi';
@@ -9,6 +9,14 @@ import { useVelarisFranchiseHubs } from './useVelarisFranchiseHubs';
 const VelarisFranchiseShelf: FC = () => {
     const { __legacyApiClient__ } = useApi();
     const { hubs, isPending, isError } = useVelarisFranchiseHubs();
+    const railRef = useRef<HTMLDivElement>(null);
+
+    // Re-entering the home screen should show the start of the franchise shelf.
+    useEffect(() => {
+        if (!isPending && hubs.length > 0 && railRef.current) {
+            railRef.current.scrollLeft = 0;
+        }
+    }, [ isPending, hubs.length ]);
 
     if (isPending || isError || hubs.length === 0) return null;
 
@@ -30,7 +38,7 @@ const VelarisFranchiseShelf: FC = () => {
                 </p>
             </div>
 
-            <div className='velaris-franchise-discovery__rail'>
+            <div className='velaris-franchise-discovery__rail' ref={railRef}>
                 {hubs.map(hub => {
                     const artworkUrl = getVelarisFranchiseArtworkUrl(
                         __legacyApiClient__,
@@ -55,7 +63,7 @@ const VelarisFranchiseShelf: FC = () => {
                                     {hub.name}
                                 </strong>
                                 <span className='velaris-franchise-card__meta'>
-                                    {hub.groups.length} Bereiche · {hub.items.length} Titel
+                                    {hub.groups.length} {hub.groups.length === 1 ? 'Bereich' : 'Bereiche'} · {hub.items.length} Titel
                                 </span>
                             </div>
                         </Link>

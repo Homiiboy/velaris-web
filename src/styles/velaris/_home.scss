@@ -254,13 +254,25 @@
     opacity: 0.75;
 }
 
+.velaris-home-destination__artwork {
+    position: absolute;
+    inset: -0.5rem;
+    z-index: -2;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(3px) saturate(0.92);
+    transform: scale(1.025);
+    transition: transform tokens.$transition-standard;
+}
+
 .velaris-home-destination__scrim {
     position: absolute;
     inset: 0;
     z-index: -1;
     background:
-        linear-gradient(90deg, rgba(3, 4, 8, 0.92), rgba(3, 4, 8, 0.5) 60%, rgba(3, 4, 8, 0.16)),
-        linear-gradient(0deg, rgba(3, 4, 8, 0.7), transparent 65%);
+        linear-gradient(90deg, rgba(3, 4, 8, 0.78), rgba(3, 4, 8, 0.32) 65%, rgba(3, 4, 8, 0.12)),
+        linear-gradient(0deg, rgba(3, 4, 8, 0.76), transparent 76%);
 }
 
 .velaris-home-destination__content {
@@ -385,6 +397,10 @@
         transform: translateY(-3px) scale(1.012);
     }
 
+    .velaris-home-destination:hover .velaris-home-destination__artwork {
+        transform: scale(1.07);
+    }
+
     .velaris-home-tab .card:hover {
         filter: brightness(1.04) saturate(1.04);
         transform: translateY(-2px);
@@ -484,6 +500,7 @@
     .velaris-home-hero__button,
     .velaris-home-hero__indicator,
     .velaris-home-destination,
+    .velaris-home-destination__artwork,
     .velaris-home-tab .card {
         transition: none;
     }

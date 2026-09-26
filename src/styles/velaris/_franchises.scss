@@ -43,7 +43,8 @@
     margin-top: 1.15rem;
     padding: 0.4rem clamp(1rem, 3vw, 3rem) 1.1rem;
     overflow-x: auto;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: clamp(1rem, 3vw, 3rem);
     scrollbar-width: thin;
 }
 
@@ -60,6 +61,7 @@
     box-shadow: tokens.$shadow-soft;
     color: tokens.$text-primary;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     text-decoration: none;
     transform: translateZ(0);
     transition: transform tokens.$transition-standard, border-color tokens.$transition-standard, box-shadow tokens.$transition-standard;

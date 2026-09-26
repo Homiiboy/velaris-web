@@ -48,7 +48,11 @@ export const getVelarisSmartHomePosterUrl = (
     if (!apiClient || !item.Id) return undefined;
 
     const primaryTag = item.ImageTags?.Primary;
-    if (primaryTag) {
+    const aspectRatio = item.PrimaryImageAspectRatio;
+
+    // Some Jellyfin libraries use a square logo instead of a portrait poster.
+    // Prefer a cinematic fallback for obviously non-poster primary images.
+    if (primaryTag && (!aspectRatio || (aspectRatio >= 0.48 && aspectRatio <= 0.88))) {
         return apiClient.getImageUrl(item.Id, {
             type: ImageType.Primary,
             tag: primaryTag,
@@ -56,5 +60,27 @@ export const getVelarisSmartHomePosterUrl = (
         });
     }
 
-    return getVelarisSmartHomeArtworkUrl(apiClient, item, maxWidth);
+    const backdropTag = item.BackdropImageTags?.[0];
+    if (backdropTag) {
+        return apiClient.getImageUrl(item.Id, {
+            type: ImageType.Backdrop,
+            tag: backdropTag,
+            maxWidth
+        });
+    }
+
+    const thumbTag = item.ImageTags?.Thumb;
+    if (thumbTag) {
+        return apiClient.getImageUrl(item.Id, {
+            type: ImageType.Thumb,
+            tag: thumbTag,
+            maxWidth
+        });
+    }
+
+    return primaryTag ? apiClient.getImageUrl(item.Id, {
+        type: ImageType.Primary,
+        tag: primaryTag,
+        maxWidth
+    }) : undefined;
 };
