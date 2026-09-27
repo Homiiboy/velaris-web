@@ -262,6 +262,7 @@ const VelarisSmartHomeForUser: FC<VelarisSmartHomeForUserProps> = ({ serverId, u
         unplayedItems,
         recentlyWatchedItems,
         continueItems,
+        genreRows,
         isPending,
         isError,
         continueMutation
@@ -272,8 +273,8 @@ const VelarisSmartHomeForUser: FC<VelarisSmartHomeForUserProps> = ({ serverId, u
     }, [ preferences, serverId, userId ]);
 
     const recommendationRows = useMemo(
-        () => buildSmartHomeRows(unplayedItems, recentlyWatchedItems, preferences),
-        [ preferences, recentlyWatchedItems, unplayedItems ]
+        () => [ ...buildSmartHomeRows(unplayedItems, recentlyWatchedItems, preferences), ...genreRows ],
+        [ genreRows, preferences, recentlyWatchedItems, unplayedItems ]
     );
     const recommendationRowsById = useMemo(
         () => new Map(recommendationRows.map(row => [ row.id, row ])),
@@ -347,8 +348,8 @@ const VelarisSmartHomeForUser: FC<VelarisSmartHomeForUserProps> = ({ serverId, u
                 <div className='velaris-smart-home__empty'>
                     <span className='material-icons' aria-hidden='true'>auto_awesome</span>
                     <div>
-                        <strong>Dein Smart Home lernt noch.</strong>
-                        <span>Mit angesehenen und begonnenen Titeln werden hier persönliche Reihen aufgebaut.</span>
+                        <strong>Hier erscheinen deine Empfehlungen und Genres.</strong>
+                        <span>Sobald passende Filme in deiner Mediathek liegen, werden die Genre-Reihen angezeigt.</span>
                     </div>
                 </div>
             )}

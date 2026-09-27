@@ -4,14 +4,15 @@ import { describe, expect, it } from 'vitest';
 import type { ItemDto } from 'types/base/models/item-dto';
 
 import {
+    buildSmartHomeGenreRows,
     buildSmartHomeRows,
     DEFAULT_SMART_HOME_PREFERENCES,
+    getAvailableSmartHomeGenres,
     moveSmartHomeRow,
     sanitizeSmartHomePreferences,
+    SMART_HOME_ROW_IDS,
     toggleSmartHomeRow
 } from './smartHome';
-
-const TICKS_PER_MINUTE = 600000000;
 
 const createItem = (id: string, overrides: Partial<ItemDto> = {}): ItemDto => ({
     Id: id,
@@ -21,96 +22,96 @@ const createItem = (id: string, overrides: Partial<ItemDto> = {}): ItemDto => ({
 } as ItemDto);
 
 describe('Smart Home preferences', () => {
-    it('repairs missing and unknown row identifiers', () => {
+    it('replaces removed sections with genre shelves for stored preferences', () => {
         const preferences = sanitizeSmartHomePreferences({
-            order: [ 'tonight', 'unknown', 'tonight' ],
-            disabled: [ 'short', 'invalid' ]
+            order: [ 'tonight', 'because', 'genre-horror', 'short', 'unknown', 'genre-horror' ],
+            disabled: [ 'unwatched', 'genre-action', 'invalid' ]
         });
 
         expect(preferences.order).toEqual([
-            'tonight',
-            'continue',
             'because',
-            'short',
-            'unwatched'
+            'genre-horror',
+            ...SMART_HOME_ROW_IDS.filter(id => id !== 'because' && id !== 'genre-horror')
         ]);
-        expect(preferences.disabled).toEqual([ 'short' ]);
+        expect(preferences.disabled).toEqual([ 'genre-action' ]);
     });
 
     it('moves rows without crossing list boundaries', () => {
-        const moved = moveSmartHomeRow(DEFAULT_SMART_HOME_PREFERENCES, 'tonight', -1);
-        expect(moved.order).toEqual([
+        const moved = moveSmartHomeRow(DEFAULT_SMART_HOME_PREFERENCES, 'genre-scifi', -1);
+        expect(moved.order.slice(0, 3)).toEqual([
             'continue',
-            'tonight',
-            'because',
-            'short',
-            'unwatched'
+            'genre-scifi',
+            'because'
         ]);
-
         expect(moveSmartHomeRow(moved, 'continue', -1)).toBe(moved);
     });
 
-    it('toggles row visibility deterministically', () => {
-        const disabled = toggleSmartHomeRow(DEFAULT_SMART_HOME_PREFERENCES, 'short');
-        expect(disabled.disabled).toEqual([ 'short' ]);
-        expect(toggleSmartHomeRow(disabled, 'short').disabled).toEqual([]);
+    it('toggles genre row visibility deterministically', () => {
+        const disabled = toggleSmartHomeRow(DEFAULT_SMART_HOME_PREFERENCES, 'genre-horror');
+        expect(disabled.disabled).toEqual([ 'genre-horror' ]);
+        expect(toggleSmartHomeRow(disabled, 'genre-horror').disabled).toEqual([]);
     });
 });
 
-describe('buildSmartHomeRows', () => {
-    it('prioritizes unwatched titles sharing genres with recent viewing', () => {
+describe('personalized recommendations', () => {
+    it('retains the because-you-watched recommendation', () => {
         const watched = [ createItem('watched', { Name: 'Recent Space Film', Genres: [ 'Science Fiction' ] }) ];
         const candidates = [
-            createItem('drama', { Genres: [ 'Drama' ], RunTimeTicks: 125 * TICKS_PER_MINUTE }),
-            createItem('space', { Genres: [ 'Science Fiction' ], RunTimeTicks: 125 * TICKS_PER_MINUTE })
+            createItem('drama', { Genres: [ 'Drama' ] }),
+            createItem('space', { Genres: [ 'Science Fiction' ] })
         ];
 
         const rows = buildSmartHomeRows(candidates, watched, DEFAULT_SMART_HOME_PREFERENCES);
-        const because = rows.find(row => row.id === 'because');
 
-        expect(because?.title).toContain('Recent Space Film');
-        expect(because?.items[0]?.Id).toBe('space');
+        expect(rows.map(row => row.id)).toEqual([ 'because' ]);
+        expect(rows[0]?.title).toContain('Recent Space Film');
+        expect(rows[0]?.items[0]?.Id).toBe('space');
     });
 
-    it('places short movies in the short row and excludes long movies', () => {
-        const candidates = [
-            createItem('short', { RunTimeTicks: 88 * TICKS_PER_MINUTE }),
-            createItem('long', { RunTimeTicks: 190 * TICKS_PER_MINUTE })
-        ];
-        const preferences = sanitizeSmartHomePreferences({
-            order: [ 'short', 'unwatched', 'continue', 'because', 'tonight' ],
-            disabled: []
-        });
-
-        const rows = buildSmartHomeRows(candidates, [], preferences);
-        const short = rows.find(row => row.id === 'short');
-
-        expect(short?.items.map(item => item.Id)).toEqual([ 'short' ]);
-    });
-
-    it('does not repeat the same media across recommendation rows', () => {
-        const watched = [ createItem('watched', { Genres: [ 'Drama' ] }) ];
-        const candidates = [
-            createItem('one', { Genres: [ 'Drama' ], RunTimeTicks: 90 * TICKS_PER_MINUTE }),
-            createItem('two', { Genres: [ 'Drama' ], RunTimeTicks: 95 * TICKS_PER_MINUTE }),
-            createItem('three', { Genres: [ 'Comedy' ], RunTimeTicks: 180 * TICKS_PER_MINUTE })
-        ];
-
-        const rows = buildSmartHomeRows(candidates, watched, DEFAULT_SMART_HOME_PREFERENCES);
-        const ids = rows.flatMap(row => row.items.map(item => item.Id));
-
-        expect(new Set(ids).size).toBe(ids.length);
-    });
-
-    it('suppresses disabled and empty rows', () => {
-        const preferences = sanitizeSmartHomePreferences({
-            order: DEFAULT_SMART_HOME_PREFERENCES.order,
-            disabled: [ 'unwatched' ]
-        });
+    it('does not display old evening, short, or unwatched shelves', () => {
         const rows = buildSmartHomeRows([
-            createItem('series', { Type: BaseItemKind.Series })
-        ], [], preferences);
+            createItem('one', { Genres: [ 'Action' ] })
+        ], [], DEFAULT_SMART_HOME_PREFERENCES);
 
         expect(rows).toHaveLength(0);
+    });
+});
+
+describe('genre shelves', () => {
+    it('maps actual localized genre names without inventing absent categories', () => {
+        const sources = getAvailableSmartHomeGenres([
+            'Science-Fiction',
+            'Sci Fi',
+            'Horror',
+            'Komödie',
+            'Unknown'
+        ]);
+        expect(sources.filter(source => source.id === 'genre-scifi')).toHaveLength(2);
+        expect(sources.some(source => source.id === 'genre-horror')).toBe(true);
+        expect(sources.some(source => source.id === 'genre-comedy')).toBe(true);
+        expect(sources.some(source => source.id === 'genre-action')).toBe(false);
+    });
+
+    it('hides empty genres and categories containing only series', () => {
+        const rows = buildSmartHomeGenreRows([
+            { id: 'genre-horror', genre: 'Horror', items: [] },
+            { id: 'genre-action', genre: 'Action', items: [
+                createItem('show', { Type: BaseItemKind.Series })
+            ] }
+        ]);
+        expect(rows).toEqual([]);
+    });
+
+    it('merges genre aliases and removes duplicate film IDs within a row', () => {
+        const movie = createItem('space', { DateCreated: '2026-09-01T10:00:00Z' });
+        const rows = buildSmartHomeGenreRows([
+            { id: 'genre-scifi', genre: 'Sci-Fi', items: [ movie ] },
+            { id: 'genre-scifi', genre: 'Science Fiction', items: [
+                movie,
+                createItem('new-space', { DateCreated: '2026-09-02T10:00:00Z' })
+            ] }
+        ]);
+        expect(rows.map(row => row.id)).toEqual([ 'genre-scifi' ]);
+        expect(rows[0].items.map(item => item.Id)).toEqual([ 'new-space', 'space' ]);
     });
 });

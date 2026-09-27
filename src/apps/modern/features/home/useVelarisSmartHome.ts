@@ -9,6 +9,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import { useResumeItems } from 'apps/legacy/features/libraries/api/useResumeItems';
+
+import { useVelarisGenreRows } from './useVelarisGenreRows';
 import { useApi } from 'hooks/useApi';
 import { useGetItems } from 'hooks/useFetchItems';
 import type { ItemDto } from 'types/base/models/item-dto';
@@ -63,6 +65,7 @@ export const useVelarisSmartHome = () => {
         enableTotalRecordCount: false
     }), []);
 
+    const genreRows = useVelarisGenreRows();
     const unplayedQuery = useGetItems(unplayedRequest);
     const watchedQuery = useGetItems(watchedRequest);
     const resumeQuery = useResumeItems({
@@ -109,6 +112,7 @@ export const useVelarisSmartHome = () => {
         unplayedItems: (unplayedQuery.data?.Items || []) as ItemDto[],
         recentlyWatchedItems: (watchedQuery.data?.Items || []) as ItemDto[],
         continueItems: (resumeQuery.data?.Items || []) as ItemDto[],
+        genreRows,
         isPending: unplayedQuery.isPending || watchedQuery.isPending || resumeQuery.isPending,
         isError: unplayedQuery.isError || watchedQuery.isError || resumeQuery.isError,
         continueMutation

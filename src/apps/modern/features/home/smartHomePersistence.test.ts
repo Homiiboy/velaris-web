@@ -40,12 +40,12 @@ describe('Velaris Smart Home persistence', () => {
         const storage = new MemoryStorage();
         storage.setItem(
             getVelarisLegacySmartHomeStorageKey('user'),
-            JSON.stringify(createPreferences([ 'short' ]))
+            JSON.stringify({ order: [ 'continue', 'because', 'tonight', 'short', 'unwatched' ], disabled: [ 'short' ] })
         );
 
         const migrated = readVelarisSmartHomePreferences(storage, 'server', 'user');
 
-        expect(migrated.disabled).toEqual([ 'short' ]);
+        expect(migrated.disabled).toEqual([]);
         expect(storage.getItem(getVelarisSmartHomeStorageKey('server', 'user'))).toBe(
             JSON.stringify(migrated)
         );
@@ -55,7 +55,7 @@ describe('Velaris Smart Home persistence', () => {
         const storage = new MemoryStorage();
         storage.setItem(
             getVelarisLegacySmartHomeStorageKey('user'),
-            JSON.stringify(createPreferences([ 'short' ]))
+            JSON.stringify(createPreferences([ 'genre-horror' ]))
         );
         storage.setItem(
             getVelarisSmartHomeStorageKey('server', 'user'),
@@ -68,13 +68,13 @@ describe('Velaris Smart Home persistence', () => {
     it('sanitizes saves and fails safely without browser storage', () => {
         const storage = new MemoryStorage();
         expect(saveVelarisSmartHomePreferences(storage, 'server', 'user', {
-            order: [ 'continue', 'continue', 'short' ],
-            disabled: [ 'short', 'short' ]
+            order: [ 'continue', 'continue', 'genre-horror' ],
+            disabled: [ 'genre-horror', 'genre-horror' ]
         })).toBe(true);
 
         const restored = readVelarisSmartHomePreferences(storage, 'server', 'user');
-        expect(restored.order).toEqual([ 'continue', 'short', 'because', 'tonight', 'unwatched' ]);
-        expect(restored.disabled).toEqual([ 'short' ]);
+        expect(restored.order).toEqual([ 'continue', 'genre-horror', ...DEFAULT_SMART_HOME_PREFERENCES.order.filter(id => id !== 'continue' && id !== 'genre-horror') ]);
+        expect(restored.disabled).toEqual([ 'genre-horror' ]);
         expect(readVelarisSmartHomePreferences(undefined, 'server', 'user'))
             .toEqual(DEFAULT_SMART_HOME_PREFERENCES);
         expect(saveVelarisSmartHomePreferences(undefined, 'server', 'user', DEFAULT_SMART_HOME_PREFERENCES))

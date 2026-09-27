@@ -2,7 +2,29 @@ import { BaseItemKind } from '@jellyfin/sdk/lib/generated-client/models/base-ite
 
 import type { ItemDto } from 'types/base/models/item-dto';
 
-export type SmartHomeRowId = 'continue' | 'because' | 'tonight' | 'short' | 'unwatched';
+export const SMART_HOME_GENRES = [
+    { id: 'genre-scifi', title: 'Science-Fiction', aliases: [ 'Science Fiction', 'Sci-Fi', 'Sci Fi', 'Sciencefiction', 'SF' ] },
+    { id: 'genre-horror', title: 'Horror', aliases: [ 'Horror' ] },
+    { id: 'genre-action', title: 'Action', aliases: [ 'Action', 'Action & Adventure' ] },
+    { id: 'genre-thriller', title: 'Thriller', aliases: [ 'Thriller', 'Suspense' ] },
+    { id: 'genre-adventure', title: 'Abenteuer', aliases: [ 'Adventure', 'Abenteuer', 'Action & Adventure' ] },
+    { id: 'genre-comedy', title: 'Komödie', aliases: [ 'Comedy', 'Komödie', 'Komodie' ] },
+    { id: 'genre-drama', title: 'Drama', aliases: [ 'Drama' ] },
+    { id: 'genre-fantasy', title: 'Fantasy', aliases: [ 'Fantasy', 'Fantastik' ] },
+    { id: 'genre-animation', title: 'Animation', aliases: [ 'Animation', 'Anime', 'Animated' ] },
+    { id: 'genre-crime', title: 'Krimi', aliases: [ 'Crime', 'Krimi', 'Kriminalfilm' ] },
+    { id: 'genre-mystery', title: 'Mystery', aliases: [ 'Mystery', 'Mysterie' ] },
+    { id: 'genre-romance', title: 'Romantik', aliases: [ 'Romance', 'Romantik', 'Liebesfilm' ] },
+    { id: 'genre-documentary', title: 'Dokumentation', aliases: [ 'Documentary', 'Dokumentation', 'Dokumentarfilm' ] },
+    { id: 'genre-family', title: 'Familie', aliases: [ 'Family', 'Familie', 'Familienfilm' ] },
+    { id: 'genre-western', title: 'Western', aliases: [ 'Western' ] },
+    { id: 'genre-war', title: 'Kriegsfilme', aliases: [ 'War', 'Krieg', 'Kriegsfilm' ] },
+    { id: 'genre-music', title: 'Musik', aliases: [ 'Music', 'Musik', 'Musical' ] },
+    { id: 'genre-history', title: 'Historie', aliases: [ 'History', 'Geschichte', 'Historie' ] }
+] as const;
+
+export type SmartHomeGenreRowId = typeof SMART_HOME_GENRES[number]['id'];
+export type SmartHomeRowId = 'continue' | 'because' | SmartHomeGenreRowId;
 
 export interface SmartHomePreferences {
     order: SmartHomeRowId[]
@@ -19,9 +41,7 @@ export interface SmartHomeRow {
 export const SMART_HOME_ROW_IDS: SmartHomeRowId[] = [
     'continue',
     'because',
-    'tonight',
-    'short',
-    'unwatched'
+    ...SMART_HOME_GENRES.map(genre => genre.id)
 ];
 
 export const DEFAULT_SMART_HOME_PREFERENCES: SmartHomePreferences = {
@@ -29,18 +49,70 @@ export const DEFAULT_SMART_HOME_PREFERENCES: SmartHomePreferences = {
     disabled: []
 };
 
-export const SMART_HOME_ROW_LABELS: Record<SmartHomeRowId, string> = {
+export const SMART_HOME_ROW_LABELS = {
     continue: 'Weiterschauen',
     because: 'Für dich ausgewählt',
-    tonight: 'Für heute Abend',
-    short: 'Kurz & gut',
-    unwatched: 'Noch nicht gesehen'
+    ...Object.fromEntries(SMART_HOME_GENRES.map(genre => [ genre.id, genre.title ]))
+} as Record<SmartHomeRowId, string>;
+
+export const MAX_SMART_HOME_ROW_ITEMS = 12;
+
+type RecommendationRowId = 'because';
+
+export interface SmartHomeGenreSource {
+    id: SmartHomeGenreRowId
+    genre: string
+}
+
+export interface SmartHomeGenreResult extends SmartHomeGenreSource {
+    items: ItemDto[]
+}
+
+/** Resolve real Jellyfin movie genres, including localized names and aliases. */
+export const getAvailableSmartHomeGenres = (names: string[]): SmartHomeGenreSource[] => {
+    const normalize = (value: string) => value.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLocaleLowerCase()
+        .replace(/[^a-z0-9]/g, '');
+    const sources: SmartHomeGenreSource[] = [];
+
+    for (const genre of SMART_HOME_GENRES) {
+        const aliases = genre.aliases.map(normalize);
+        for (const name of new Set(names)) {
+            if (name && aliases.includes(normalize(name))) {
+                sources.push({ id: genre.id, genre: name });
+            }
+        }
+    }
+
+    return sources;
 };
 
-const MAX_ROW_ITEMS = 12;
-const TICKS_PER_MINUTE = 600000000;
+/** A genre only appears once Jellyfin actually returns at least one movie. */
+export const buildSmartHomeGenreRows = (sources: SmartHomeGenreResult[]): SmartHomeRow[] => (
+    SMART_HOME_GENRES.flatMap<SmartHomeRow>(genre => {
+        const seen = new Set<string>();
+        const items = sources
+            .filter(source => source.id === genre.id)
+            .flatMap(source => source.items)
+            .filter(item => {
+                if (item.Type !== BaseItemKind.Movie || !item.Id || !item.Name || seen.has(item.Id)) {
+                    return false;
+                }
+                seen.add(item.Id);
+                return true;
+            })
+            .sort((a, b) => (b.DateCreated || '').localeCompare(a.DateCreated || ''))
+            .slice(0, MAX_SMART_HOME_ROW_ITEMS);
 
-type RecommendationRowId = Exclude<SmartHomeRowId, 'continue'>;
+        return items.length > 0 ? [ {
+            id: genre.id,
+            title: genre.title,
+            subtitle: 'Filme aus deiner Mediathek.',
+            items
+        } ] : [];
+    })
+);
 
 interface SmartHomeRowCandidateSet {
     title: string
@@ -110,10 +182,6 @@ const getGenres = (item: ItemDto) => (
 
 const getItemKey = (item: ItemDto) => item.Id || `${item.Type || 'Item'}:${item.Name || item.OriginalTitle || 'Unknown'}`;
 
-const getRuntimeMinutes = (item: ItemDto) => (
-    item.RunTimeTicks ? Math.round(item.RunTimeTicks / TICKS_PER_MINUTE) : undefined
-);
-
 const getGenreWeights = (watchedItems: ItemDto[]) => {
     const weights = new Map<string, number>();
 
@@ -144,7 +212,7 @@ const compareCandidates = (genreWeights: Map<string, number>) => (a: ItemDto, b:
 const takeUnique = (
     items: ItemDto[],
     used: Set<string>,
-    limit = MAX_ROW_ITEMS
+    limit = MAX_SMART_HOME_ROW_ITEMS
 ) => {
     const selected: ItemDto[] = [];
 
@@ -165,46 +233,16 @@ const buildCandidateSets = (
     recentlyWatchedItems: ItemDto[],
     genreWeights: Map<string, number>
 ) => {
-    const compareByPreference = compareCandidates(genreWeights);
     const referenceTitle = recentlyWatchedItems.find(item => item.Name)?.Name;
     const personalizedCandidates = candidates
         .filter(item => getGenreScore(item, genreWeights) > 0)
-        .sort(compareByPreference);
-    const tonightCandidates = candidates
-        .filter(item => {
-            if (item.Type !== BaseItemKind.Movie) return false;
-            const runtime = getRuntimeMinutes(item);
-            return runtime != null && runtime >= 80 && runtime <= 150;
-        })
-        .sort(compareByPreference);
-    const shortCandidates = candidates
-        .filter(item => {
-            if (item.Type !== BaseItemKind.Movie) return false;
-            const runtime = getRuntimeMinutes(item);
-            return runtime != null && runtime >= 20 && runtime <= 100;
-        })
-        .sort(compareByPreference);
+        .sort(compareCandidates(genreWeights));
 
     return new Map<RecommendationRowId, SmartHomeRowCandidateSet>([
         [ 'because', {
             title: referenceTitle ? `Weil du „${referenceTitle}“ gesehen hast` : 'Für dich ausgewählt',
             subtitle: 'Passend zu deinen zuletzt gesehenen Genres.',
             candidates: personalizedCandidates
-        } ],
-        [ 'tonight', {
-            title: 'Für heute Abend',
-            subtitle: 'Filme mit einer angenehmen Abend-Laufzeit.',
-            candidates: tonightCandidates
-        } ],
-        [ 'short', {
-            title: 'Kurz & gut',
-            subtitle: 'Filme bis ungefähr 100 Minuten.',
-            candidates: shortCandidates
-        } ],
-        [ 'unwatched', {
-            title: 'Noch nicht gesehen',
-            subtitle: 'Ungesehene Titel aus deiner Mediathek.',
-            candidates: [ ...candidates ].sort(compareByPreference)
         } ]
     ]);
 };
@@ -224,7 +262,7 @@ export const buildSmartHomeRows = (
     const rows: SmartHomeRow[] = [];
 
     for (const rowId of sanitizedPreferences.order) {
-        if (rowId === 'continue' || sanitizedPreferences.disabled.includes(rowId)) continue;
+        if (rowId !== 'because' || sanitizedPreferences.disabled.includes(rowId)) continue;
 
         const candidateSet = candidateSets.get(rowId);
         if (!candidateSet) continue;
