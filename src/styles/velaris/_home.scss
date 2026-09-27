@@ -302,6 +302,13 @@
     padding-bottom: 0.4rem;
 }
 
+/* Fallback for sections already rendered before a settings change. */
+.velaris-home__legacy [data-home-section='latestmedia'],
+.velaris-home__legacy [data-home-section='smalllibrarytiles'],
+.velaris-home__legacy [data-home-section='librarybuttons'] {
+    display: none;
+}
+
 .velaris-home__legacy .verticalSection {
     margin-block: 1.4rem 2.2rem;
 }

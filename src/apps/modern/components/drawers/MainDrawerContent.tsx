@@ -3,6 +3,7 @@ import Explore from '@mui/icons-material/Explore';
 import Favorite from '@mui/icons-material/Favorite';
 import Home from '@mui/icons-material/Home';
 import Insights from '@mui/icons-material/Insights';
+import NewReleases from '@mui/icons-material/NewReleases';
 import Divider from '@mui/material/Divider';
 import Icon from '@mui/material/Icon';
 import List from '@mui/material/List';
@@ -40,6 +41,7 @@ const MainDrawerContent = () => {
     const isHomeSelected = location.pathname === '/home' && !isFavoritesSelected;
     const isDiscoverySelected = location.pathname === '/discovery';
     const isReleaseHubSelected = location.pathname === '/releases';
+    const isLatestSelected = location.pathname === '/latest';
     const isInsightsSelected = location.pathname === '/insights';
 
     return (
@@ -62,6 +64,14 @@ const MainDrawerContent = () => {
                             <Event />
                         </ListItemIcon>
                         <ListItemText primary='Releases' />
+                    </ListItemLink>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemLink to='/latest' selected={isLatestSelected}>
+                        <ListItemIcon>
+                            <NewReleases />
+                        </ListItemIcon>
+                        <ListItemText primary='Neu hinzugefügt' />
                     </ListItemLink>
                 </ListItem>
                 <ListItem disablePadding>

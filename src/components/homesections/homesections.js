@@ -65,8 +65,19 @@ export function loadSections(elem, apiClient, user, userSettings) {
             let html = '';
 
             if (userViews.length) {
-                // TV layout can have an extra section to ensure libraries are visible
-                const totalSectionCount = layoutManager.tv ? MAX_SECTIONS_TV : MAX_SECTIONS;
+                // Velaris has a dedicated Latest page and its own library tiles.
+                // Keep these sections available in the regular Jellyfin home layout.
+                const isVelarisHome = Boolean(elem.closest('.velaris-home-page'));
+                const sections = getAllSectionsToShow(userSettings)
+                    .filter(section => !isVelarisHome || ![
+                        HomeSectionType.LatestMedia,
+                        HomeSectionType.SmallLibraryTiles,
+                        HomeSectionType.LibraryButtons,
+                        HomeSectionType.None
+                    ].includes(section));
+                const totalSectionCount = isVelarisHome ?
+                    sections.length :
+                    layoutManager.tv ? MAX_SECTIONS_TV : MAX_SECTIONS;
                 for (let i = 0; i < totalSectionCount; i++) {
                     html += '<div class="verticalSection section' + i + '"></div>';
                 }
@@ -74,7 +85,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
                 elem.innerHTML = html;
                 elem.classList.add('homeSectionsContainer');
 
-                const promises = getAllSectionsToShow(userSettings)
+                const promises = sections
                     .map((section, index) => (
                         loadSection(elem, apiClient, user, userSettings, userViews, section, index)
                     ));

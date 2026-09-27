@@ -1,6 +1,7 @@
 import Event from '@mui/icons-material/Event';
 import Explore from '@mui/icons-material/Explore';
 import Insights from '@mui/icons-material/Insights';
+import NewReleases from '@mui/icons-material/NewReleases';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import React, { type FC } from 'react';
@@ -36,6 +37,7 @@ const AppToolbar: FC<AppToolbarProps> = ({
     const isPublicPath = PUBLIC_PATHS.includes(location.pathname);
     const isDiscoverySelected = location.pathname === '/discovery';
     const isReleaseHubSelected = location.pathname === '/releases';
+    const isLatestSelected = location.pathname === '/latest';
     const isInsightsSelected = location.pathname === '/insights';
 
     return (
@@ -74,6 +76,17 @@ const AppToolbar: FC<AppToolbarProps> = ({
                                 aria-current={isReleaseHubSelected ? 'page' : undefined}
                             >
                                 Releases
+                            </Button>
+                            <Button
+                                className='velaris-latest-entry'
+                                variant='text'
+                                color={isLatestSelected ? 'primary' : 'inherit'}
+                                startIcon={<NewReleases />}
+                                component={Link}
+                                to='/latest'
+                                aria-current={isLatestSelected ? 'page' : undefined}
+                            >
+                                Neu hinzugefügt
                             </Button>
                             <Button
                                 className='velaris-insights-entry'
