@@ -140,6 +140,23 @@ interface LatestSectionProps {
 const LatestSectionRow: FC<LatestSectionProps> = ({ section }) => {
     if (section.libraryCount === 0) return null;
 
+    let content: React.ReactNode;
+    if (section.isPending) {
+        content = <div className='velaris-latest-section__status' role='status'>Inhalte werden geladen …</div>;
+    } else if (section.items.length > 0) {
+        content = (
+            <div className='velaris-latest-section__rail'>
+                {section.items.map(item => <LatestCard key={item.Id} item={item} />)}
+            </div>
+        );
+    } else {
+        content = (
+            <div className='velaris-latest-section__status'>
+                {section.isError ? 'Diese Bibliothek konnte nicht geladen werden.' : 'Noch keine neuen Titel vorhanden.'}
+            </div>
+        );
+    }
+
     return (
         <section className='velaris-latest-section' aria-labelledby={'latest-' + section.category}>
             <div className='velaris-latest-section__heading'>
@@ -151,17 +168,7 @@ const LatestSectionRow: FC<LatestSectionProps> = ({ section }) => {
                     <span className='velaris-latest-section__count'>{section.items.length} Titel</span>
                 )}
             </div>
-            {section.isPending ? (
-                <div className='velaris-latest-section__status' role='status'>Inhalte werden geladen …</div>
-            ) : section.items.length > 0 ? (
-                <div className='velaris-latest-section__rail'>
-                    {section.items.map(item => <LatestCard key={item.Id} item={item} />)}
-                </div>
-            ) : (
-                <div className='velaris-latest-section__status'>
-                    {section.isError ? 'Diese Bibliothek konnte nicht geladen werden.' : 'Noch keine neuen Titel vorhanden.'}
-                </div>
-            )}
+            {content}
         </section>
     );
 };
@@ -215,6 +222,34 @@ const Latest = () => {
 
     const visibleSections = sections.filter(section => filter === 'all' || section.category === filter);
     const hasLibraries = libraries.length > 0;
+    let pageContent: React.ReactNode;
+
+    if (views.isPending) {
+        pageContent = <Loading />;
+    } else if (views.isError) {
+        pageContent = (
+            <div className='velaris-latest-empty' role='status'>
+                Deine Bibliotheken konnten nicht geladen werden.
+            </div>
+        );
+    } else if (!hasLibraries) {
+        pageContent = (
+            <div className='velaris-latest-empty'>
+                Keine Film-, Serien- oder Anime-Bibliothek gefunden.
+            </div>
+        );
+    } else {
+        pageContent = (
+            <div className='velaris-latest-content'>
+                {visibleSections.map(section => (
+                    <LatestSectionRow key={section.category} section={section} />
+                ))}
+                {filter !== 'all' && visibleSections[0]?.libraryCount === 0 && (
+                    <div className='velaris-latest-empty'>Keine Bibliothek in dieser Kategorie vorhanden.</div>
+                )}
+            </div>
+        );
+    }
 
     return (
         <Page id='velarisLatestPage' className='mainAnimatedPage velaris-latest-page' isBackButtonEnabled={false}>
@@ -239,22 +274,7 @@ const Latest = () => {
                 ))}
             </nav>
 
-            {views.isPending ? (
-                <Loading />
-            ) : views.isError ? (
-                <div className='velaris-latest-empty' role='status'>Deine Bibliotheken konnten nicht geladen werden.</div>
-            ) : !hasLibraries ? (
-                <div className='velaris-latest-empty'>Keine Film-, Serien- oder Anime-Bibliothek gefunden.</div>
-            ) : (
-                <>
-                    {visibleSections.map(section => (
-                        <LatestSectionRow key={section.category} section={section} />
-                    ))}
-                    {filter !== 'all' && visibleSections[0]?.libraryCount === 0 && (
-                        <div className='velaris-latest-empty'>Keine Bibliothek in dieser Kategorie vorhanden.</div>
-                    )}
-                </>
-            )}
+            {pageContent}
         </Page>
     );
 };

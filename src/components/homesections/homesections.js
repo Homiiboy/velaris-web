@@ -75,9 +75,8 @@ export function loadSections(elem, apiClient, user, userSettings) {
                         HomeSectionType.LibraryButtons,
                         HomeSectionType.None
                     ].includes(section));
-                const totalSectionCount = isVelarisHome ?
-                    sections.length :
-                    layoutManager.tv ? MAX_SECTIONS_TV : MAX_SECTIONS;
+                let totalSectionCount = layoutManager.tv ? MAX_SECTIONS_TV : MAX_SECTIONS;
+                if (isVelarisHome) totalSectionCount = sections.length;
                 for (let i = 0; i < totalSectionCount; i++) {
                     html += '<div class="verticalSection section' + i + '"></div>';
                 }
