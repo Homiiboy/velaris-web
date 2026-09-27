@@ -302,10 +302,10 @@
     padding-bottom: 0.4rem;
 }
 
-/* Fallback for sections already rendered before a settings change. */
-.velaris-home__legacy [data-home-section='latestmedia'],
-.velaris-home__legacy [data-home-section='smalllibrarytiles'],
-.velaris-home__legacy [data-home-section='librarybuttons'] {
+/* Hide previously rendered duplicates even when Jellyfin restores an old tab. */
+#homeTab .velaris-home__legacy [data-home-section='latestmedia'],
+#homeTab .velaris-home__legacy [data-home-section='smalllibrarytiles'],
+#homeTab .velaris-home__legacy [data-home-section='librarybuttons'] {
     display: none;
 }
 

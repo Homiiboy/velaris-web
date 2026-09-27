@@ -67,7 +67,10 @@ export function loadSections(elem, apiClient, user, userSettings) {
             if (userViews.length) {
                 // Velaris has a dedicated Latest page and its own library tiles.
                 // Keep these sections available in the regular Jellyfin home layout.
-                const isVelarisHome = Boolean(elem.closest('.velaris-home-page'));
+                // Identify the actual legacy container as well as its parent.
+                // In some layouts the Page wrapper is not yet present here.
+                const isVelarisHome = elem.classList.contains('velaris-home__legacy')
+                    || Boolean(elem.closest('#homeTab'));
                 const sections = getAllSectionsToShow(userSettings)
                     .filter(section => !isVelarisHome || ![
                         HomeSectionType.LatestMedia,
@@ -153,6 +156,18 @@ function loadSection(page, apiClient, user, userSettings, userViews, section, in
     const options = { enableOverflow: enableScrollX() };
 
     elem.dataset.homeSection = section;
+
+    // Never render the duplicate "Meine Medien" tiles on Velaris Home.
+    // Velaris already displays these libraries in "Deine Welten" above.
+    // Also guard LatestMedia: it now has its own "Neu hinzugefügt" page.
+    if (page.classList.contains('velaris-home__legacy') && [
+        HomeSectionType.SmallLibraryTiles,
+        HomeSectionType.LibraryButtons,
+        HomeSectionType.LatestMedia
+    ].includes(section)) {
+        elem.innerHTML = '';
+        return Promise.resolve();
+    }
 
     switch (section) {
         case HomeSectionType.ActiveRecordings:
