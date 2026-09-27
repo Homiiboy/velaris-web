@@ -76,6 +76,7 @@ export function loadSections(elem, apiClient, user, userSettings) {
                         HomeSectionType.LatestMedia,
                         HomeSectionType.SmallLibraryTiles,
                         HomeSectionType.LibraryButtons,
+                        HomeSectionType.NextUp,
                         HomeSectionType.None
                     ].includes(section));
                 let totalSectionCount = layoutManager.tv ? MAX_SECTIONS_TV : MAX_SECTIONS;
@@ -159,11 +160,12 @@ function loadSection(page, apiClient, user, userSettings, userViews, section, in
 
     // Never render the duplicate "Meine Medien" tiles on Velaris Home.
     // Velaris already displays these libraries in "Deine Welten" above.
-    // Also guard LatestMedia: it now has its own "Neu hinzugefügt" page.
+    // Also guard LatestMedia and NextUp: those legacy rows are not part of Velaris Home.
     if (page.classList.contains('velaris-home__legacy') && [
         HomeSectionType.SmallLibraryTiles,
         HomeSectionType.LibraryButtons,
-        HomeSectionType.LatestMedia
+        HomeSectionType.LatestMedia,
+        HomeSectionType.NextUp
     ].includes(section)) {
         elem.innerHTML = '';
         return Promise.resolve();

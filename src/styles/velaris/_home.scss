@@ -305,7 +305,8 @@
 /* Hide previously rendered duplicates even when Jellyfin restores an old tab. */
 #homeTab .velaris-home__legacy [data-home-section='latestmedia'],
 #homeTab .velaris-home__legacy [data-home-section='smalllibrarytiles'],
-#homeTab .velaris-home__legacy [data-home-section='librarybuttons'] {
+#homeTab .velaris-home__legacy [data-home-section='librarybuttons'],
+#homeTab .velaris-home__legacy [data-home-section='nextup'] {
     display: none;
 }
 

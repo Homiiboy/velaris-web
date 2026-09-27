@@ -51,10 +51,16 @@ const VelarisFranchiseShelf: FC = () => {
                             key={hub.id}
                             to={`/franchise/${hub.id}`}
                             className='velaris-franchise-card'
-                            style={artworkUrl ? {
-                                backgroundImage: `url("${artworkUrl}")`
-                            } : undefined}
                         >
+                            {artworkUrl && (
+                                <img
+                                    className='velaris-franchise-card__artwork'
+                                    src={artworkUrl}
+                                    alt=''
+                                    loading='lazy'
+                                    aria-hidden='true'
+                                />
+                            )}
                             <div className='velaris-franchise-card__content'>
                                 <span className='velaris-franchise-card__eyebrow'>
                                     {hub.eyebrow}
