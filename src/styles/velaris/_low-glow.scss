@@ -1,5 +1,7 @@
 @use './tokens' as tokens;
 
+/* stylelint-disable no-descending-specificity */
+
 /*
  * Velaris Low-Glow pass.
  * Preserve hierarchy and focus visibility while avoiding diffuse neon bloom.
@@ -112,3 +114,59 @@
         filter: brightness(1.02) saturate(1.01);
     }
 }
+
+/* Remove diffuse neon bloom from legacy and modern interactive states. */
+.emby-tab-button-active,
+.navMenuOption-selected,
+.velaris-primary-nav .MuiButton-colorPrimary::after,
+.button-submit:hover,
+.paper-icon-button-light:hover:not(:disabled),
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable,
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable,
+.velaris-smart-card:hover .velaris-smart-card__artwork,
+.velaris-continue-card__play:hover {
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.card:focus .cardBox.visualCardBox,
+.card:focus .cardBox:not(.visualCardBox) .cardScalable,
+.card.show-focus:not(.show-animation) .cardBox.visualCardBox,
+.card.show-focus:not(.show-animation) .cardBox:not(.visualCardBox) .cardScalable,
+.button-submit:focus,
+.emby-button.show-focus:focus {
+    outline: 2px solid var(--velaris-theme-accent, #8a36ff);
+    outline-offset: 2px;
+}
+
+.velaris-appbar.MuiPaper-elevation1,
+.skinHeader-withBackground,
+.mainDrawer {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24) !important;
+}
+
+.velaris-smart-settings,
+.velaris-control-center__card,
+.velaris-control-center__notice,
+.paperList,
+.visualCardBox {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
+
+.velaris-control-center__theme-preview-glow {
+    display: none;
+}
+
+/* Keep accents crisp instead of luminous. */
+:root[data-velaris-theme] {
+    --velaris-theme-accent-soft: color-mix(in srgb, var(--velaris-theme-accent) 7%, transparent);
+}
+
+.velaris-home-destination::after,
+.velaris-franchise-card::after {
+    opacity: 0.5;
+}
+
+/* stylelint-enable no-descending-specificity */
