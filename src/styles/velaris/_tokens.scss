@@ -33,13 +33,13 @@ $radius-sm: 0.7rem;
 $radius-md: 0.95rem;
 $radius-lg: 1.25rem;
 
-$shadow-surface: 0 18px 60px rgba(0, 0, 0, 0.42);
-$shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.28);
-$shadow-cyan: 0 0 26px rgba(69, 243, 255, 0.2);
+$shadow-surface: 0 12px 32px rgba(0, 0, 0, 0.28);
+$shadow-soft: 0 6px 18px rgba(0, 0, 0, 0.2);
+$shadow-cyan: 0 0 0 1px rgba(69, 243, 255, 0.14);
 
 $transition-fast: 140ms ease;
 $transition-standard: 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 
 $accent-gradient: linear-gradient(105deg, $cyan 0%, $blue 30%, $violet 58%, $magenta 80%, $pink 100%);
-$header-gradient: linear-gradient(110deg, rgba(69, 243, 255, 0.09), rgba(22, 135, 255, 0.03) 35%, rgba(138, 54, 255, 0.08) 67%, rgba(212, 44, 255, 0.08));
-$ambient-gradient: radial-gradient(circle at 12% -8%, rgba(69, 243, 255, 0.14), transparent 34%), radial-gradient(circle at 88% 0%, rgba(212, 44, 255, 0.12), transparent 36%), linear-gradient(180deg, $background-soft 0%, $background 45%, #030408 100%);
+$header-gradient: linear-gradient(110deg, rgba(69, 243, 255, 0.04), rgba(22, 135, 255, 0.015) 35%, rgba(138, 54, 255, 0.035) 67%, rgba(212, 44, 255, 0.035));
+$ambient-gradient: radial-gradient(circle at 12% -8%, rgba(69, 243, 255, 0.045), transparent 34%), radial-gradient(circle at 88% 0%, rgba(212, 44, 255, 0.04), transparent 36%), linear-gradient(180deg, $background-soft 0%, $background 45%, #030408 100%);

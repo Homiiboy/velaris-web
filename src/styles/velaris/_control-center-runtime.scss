@@ -4,27 +4,27 @@
 
 :root[data-velaris-theme='default'] {
     --velaris-theme-accent: #45f3ff;
-    --velaris-theme-accent-soft: rgba(69, 243, 255, 0.14);
+    --velaris-theme-accent-soft: rgba(69, 243, 255, 0.08);
 }
 
 :root[data-velaris-theme='oled'] {
     --velaris-theme-accent: #7cf7ff;
-    --velaris-theme-accent-soft: rgba(124, 247, 255, 0.16);
+    --velaris-theme-accent-soft: rgba(124, 247, 255, 0.09);
 }
 
 :root[data-velaris-theme='midnight'] {
     --velaris-theme-accent: #62a8ff;
-    --velaris-theme-accent-soft: rgba(98, 168, 255, 0.16);
+    --velaris-theme-accent-soft: rgba(98, 168, 255, 0.09);
 }
 
 :root[data-velaris-theme='aurora'] {
     --velaris-theme-accent: #b47cff;
-    --velaris-theme-accent-soft: rgba(180, 124, 255, 0.18);
+    --velaris-theme-accent-soft: rgba(180, 124, 255, 0.1);
 }
 
 :root[data-velaris-theme='custom'] {
     --velaris-theme-accent: var(--velaris-custom-accent, #45f3ff);
-    --velaris-theme-accent-soft: color-mix(in srgb, var(--velaris-custom-accent, #45f3ff) 18%, transparent);
+    --velaris-theme-accent-soft: color-mix(in srgb, var(--velaris-custom-accent, #45f3ff) 10%, transparent);
 }
 
 :root[data-velaris-theme] :where(

@@ -1,0 +1,114 @@
+@use './tokens' as tokens;
+
+/*
+ * Velaris Low-Glow pass.
+ * Preserve hierarchy and focus visibility while avoiding diffuse neon bloom.
+ */
+
+.velaris-app-shell,
+.velaris-home-rows {
+    background: tokens.$background;
+}
+
+.velaris-drawer-content {
+    background: linear-gradient(180deg, #080a11, tokens.$background);
+}
+
+.velaris-library-page,
+#searchPage.velaris-search-page,
+.velaris-discovery-page,
+.velaris-release-hub-page,
+.velaris-insights-page {
+    background: linear-gradient(180deg, #080a11 0%, tokens.$background 20rem);
+}
+
+.velaris-control-center__hero {
+    background: linear-gradient(120deg, rgba(13, 16, 24, 0.96), rgba(6, 8, 14, 0.94));
+}
+
+.velaris-primary-nav .MuiButton-colorPrimary::after,
+.velaris-drawer-content .MuiListItemButton-root.Mui-selected::before,
+.velaris-home-hero__indicator--active,
+.itemProgressBarForeground {
+    box-shadow: none !important;
+}
+
+.velaris-brand-button img,
+.velaris-drawer-content .velaris-drawer-brand img {
+    filter: none !important;
+}
+
+.velaris-control-center__theme-preview-glow {
+    filter: blur(24px);
+    opacity: 0.12;
+}
+
+.velaris-discovery-smart__chips button[aria-pressed='true'],
+:root[data-velaris-theme] .velaris-discovery-smart__chips button[aria-pressed='true'] {
+    box-shadow: none;
+}
+
+.velaris-home-hero__button--primary:hover {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+.velaris-home-destination:hover,
+.velaris-smart-card:hover .velaris-smart-card__artwork,
+.velaris-franchise-card:hover {
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
+}
+
+.velaris-franchise-hero__action--primary,
+.velaris-franchise-hero__action--primary:hover {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+}
+
+.velaris-release-card:hover .velaris-release-card__artwork,
+.velaris-release-card:focus-visible .velaris-release-card__artwork {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.24);
+}
+
+#itemDetailPage .mainDetailButtons .detailButton:hover {
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+#searchPage .searchFieldsInner:hover {
+    box-shadow: tokens.$shadow-soft;
+}
+
+#searchPage .searchFieldsInner:focus-within {
+    box-shadow: 0 0 0 2px rgba(69, 243, 255, 0.2);
+}
+
+.layout-tv #searchPage .searchFieldsInner:focus-within,
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton:focus,
+.layout-tv #itemDetailPage .mainDetailButtons .detailButton.show-focus,
+.layout-tv .velaris-library-toolbar .MuiButton-root:focus,
+.layout-tv .velaris-library-toolbar .MuiButton-root.Mui-focusVisible {
+    box-shadow: 0 0 0 3px rgba(69, 243, 255, 0.22);
+}
+
+#videoOsdPage .velaris-player-actions button:focus-visible,
+.layout-tv #videoOsdPage .velaris-player-actions button:focus-visible {
+    box-shadow: none;
+}
+
+#videoOsdPage .velaris-player-primary-action {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26);
+}
+
+#videoOsdPage .velaris-player-primary-action:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+#videoOsdPage .syncPlayIconCircle {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .velaris-library-page .card:hover,
+    #searchPage .searchResults .card:hover,
+    .velaris-home-tab .card:hover {
+        filter: brightness(1.02) saturate(1.01);
+    }
+}
